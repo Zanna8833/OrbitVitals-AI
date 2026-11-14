@@ -53,7 +53,6 @@ Interactive API documentation is served at `http://localhost:8000/docs`.
 
 ## Documentation
 
-- [AGENTS.md](AGENTS.md): conventions, ownership and architecture rules.
 - [docs/api-contracts.md](docs/api-contracts.md): API contract for frontend development.
 - [schemas/README.md](schemas/README.md): shared data contracts and how to change them.
 - [backend/README.md](backend/README.md): backend setup and commands.
