@@ -1,0 +1,87 @@
+{
+  "format_version": 2,
+  "dataset_id": "nasa-lsda-brsmact-utmb-campaign-1",
+  "dataset_record_id": "e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6",
+  "dataset_catalog": "BRSMACT_Campaign_1_Actigraphy",
+  "title": "UTMB Bedrest Campaign 1 Actigraphy",
+  "catalog_url": "https://nlsp.nasa.gov/search/data/details/e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6?dataType=DATASETS",
+  "metadata_url": "https://nlsp.nasa.gov/api/v1/data/datasets/e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6/full",
+  "experiment_id": "BRSMAct",
+  "experiment_doi": "https://doi.org/10.83263/v7n1-ht75",
+  "archive": "NASA Life Sciences Data Archive (LSDA), NASA Life Sciences Portal (NLSP)",
+  "principal_investigator": "Putcha, Lakshmi",
+  "study_context": "terrestrial_bed_rest_analog",
+  "population": "Human terrestrial bed-rest study volunteers; not in-flight astronauts",
+  "is_synthetic": false,
+  "processing_level": "Processed Data",
+  "time_representation": {
+    "date_format": "M/D/YYYY",
+    "clock_time": null,
+    "time_zone": null,
+    "sleep_interval": null,
+    "rule": "Preserve calendar dates; do not create timestamps or infer intervals."
+  },
+  "license": {
+    "dataset_specific_license": null,
+    "availability_statement": "Data preservation is complete.  All datasets are publicly available.",
+    "policy_url": "https://science.data.nasa.gov/about/license",
+    "interpretation": "Public accessibility and successful local processing do not establish redistribution rights. No dataset-specific license was found in the inspected sources. Do not assume CC0 or apply the software license to separately downloaded scientific files.",
+    "redistribution_status": "unconfirmed",
+    "catalog_license_url": "https://data.nasa.gov/dataset/nasa-life-sciences-portal-nlsp"
+  },
+  "files": [
+    {
+      "path": "raw/dataset.full.json",
+      "role": "catalog_metadata",
+      "url": "https://nlsp.nasa.gov/api/v1/data/datasets/e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6/full",
+      "file_record_id": null,
+      "retrieved_at": "2026-11-14T17:14:20.797504+00:00",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "byte_count": 162543,
+      "sha256": "b419467dbb3a58db8c723c7ff6e64dbb27fefe9d4456f745190a2b25d3a8a9fd",
+      "md5": "61690a809d5b5e61ef595691406deb2a",
+      "nasa_metadata_md5": null
+    },
+    {
+      "path": "raw/BRSMACT_Campagin_1_Actigraphy_Query_Result.csv",
+      "role": "query_export",
+      "url": "https://nlsp.nasa.gov/api/v1/files/e4630225-a050-54fb-be99-795cf1053654/download",
+      "file_record_id": "e4630225-a050-54fb-be99-795cf1053654",
+      "retrieved_at": "2026-11-14T17:14:21.345536+00:00",
+      "http_status": 200,
+      "content_type": "text/csv; charset=utf-8",
+      "byte_count": 10928,
+      "sha256": "d3932c0f1a72b68dc6d0ba01346d3052040b48616b79380e4892cf47dafea5f2",
+      "md5": "50a84a41acc9be8b99eb0d0661b294ed",
+      "nasa_metadata_md5": "50a84a41acc9be8b99eb0d0661b294ed"
+    },
+    {
+      "path": "raw/BRSMACT_Campaign_1_Actigraphy_ReadMe.txt",
+      "role": "readme",
+      "url": "https://nlsp.nasa.gov/api/v1/files/ba27dc5f-962a-5af8-a232-0b8bef1e4748/download",
+      "file_record_id": "ba27dc5f-962a-5af8-a232-0b8bef1e4748",
+      "retrieved_at": "2026-11-14T17:14:21.842213+00:00",
+      "http_status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "byte_count": 467,
+      "sha256": "eae6b6c30671582cb31b50d4b9f3360e2185c4cea2a4ea8264ebfb7b6ee8389e",
+      "md5": "5d28f786df8e34ea99f9267040e501cb",
+      "nasa_metadata_md5": "5d28f786df8e34ea99f9267040e501cb"
+    },
+    {
+      "path": "raw/BRSMACT_Campagin_1_Actigraphy.csv",
+      "role": "primary_table",
+      "url": "https://nlsp.nasa.gov/api/v1/files/972badfb-238d-5dd5-81f2-8efc729a4452/download",
+      "file_record_id": "972badfb-238d-5dd5-81f2-8efc729a4452",
+      "retrieved_at": "2026-11-14T17:14:22.498164+00:00",
+      "http_status": 200,
+      "content_type": "text/csv; charset=utf-8",
+      "byte_count": 11679,
+      "sha256": "2fa3efeb9e6388e8de50f4e2eefc9e6de8740993f1c27ab7ef3282e59398923b",
+      "md5": "761c8d9d31e107186be1b9ca9d2bea79",
+      "nasa_metadata_md5": "761c8d9d31e107186be1b9ca9d2bea79"
+    }
+  ],
+  "source_files_distributed": false
+}
