@@ -1,0 +1,229 @@
+{
+  "api_prefix": "/api/v1",
+  "crews": [
+    {
+      "crew_member_id": "sim-mission-v1-01",
+      "description": "Variable reference history and stable recorded activity/sleep; no health claim.",
+      "display_name": "SIMULATED Vega",
+      "endpoints": {
+        "baselines": "/api/v1/crew-members/sim-mission-v1-01/baselines",
+        "evaluations": "/api/v1/crew-members/sim-mission-v1-01/evaluations",
+        "measurements": "/api/v1/crew-members/sim-mission-v1-01/measurements"
+      },
+      "expected_demonstrations": [
+        {
+          "behavior": "Configured sleep trend screening relative to a prior personal reference.",
+          "checkpoint": "sleep-day-07",
+          "domain": "sleep",
+          "expected_status": "nominal",
+          "window_end": "2026-10-19T12:00:00+00:00"
+        },
+        {
+          "behavior": "Configured sleep trend screening relative to a prior personal reference.",
+          "checkpoint": "sleep-day-14",
+          "domain": "sleep",
+          "expected_status": "nominal",
+          "window_end": "2026-10-26T12:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-07",
+          "domain": "physical_activity",
+          "expected_status": "nominal",
+          "window_end": "2026-10-19T00:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-14",
+          "domain": "physical_activity",
+          "expected_status": "nominal",
+          "window_end": "2026-10-26T00:00:00+00:00"
+        }
+      ],
+      "measurement_count": 188,
+      "reused_fixtures": [
+        "sleep_records",
+        "activity_inputs",
+        "baseline_inputs",
+        "sleep_policy",
+        "baseline_policy"
+      ],
+      "scenario": "stable_monitoring"
+    },
+    {
+      "crew_member_id": "sim-mission-v1-02",
+      "description": "Progressive sleep restriction, declining activity and explicit recording gaps.",
+      "display_name": "SIMULATED Noor",
+      "endpoints": {
+        "baselines": "/api/v1/crew-members/sim-mission-v1-02/baselines",
+        "evaluations": "/api/v1/crew-members/sim-mission-v1-02/evaluations",
+        "measurements": "/api/v1/crew-members/sim-mission-v1-02/measurements"
+      },
+      "expected_demonstrations": [
+        {
+          "behavior": "Configured sleep trend screening relative to a prior personal reference.",
+          "checkpoint": "sleep-day-02",
+          "domain": "sleep",
+          "expected_status": "insufficient_data",
+          "window_end": "2026-10-14T12:00:00+00:00"
+        },
+        {
+          "behavior": "Configured sleep trend screening relative to a prior personal reference.",
+          "checkpoint": "sleep-day-05",
+          "domain": "sleep",
+          "expected_status": "attention",
+          "window_end": "2026-10-17T12:00:00+00:00"
+        },
+        {
+          "behavior": "Configured sleep trend screening relative to a prior personal reference.",
+          "checkpoint": "sleep-day-09",
+          "domain": "sleep",
+          "expected_status": "attention",
+          "window_end": "2026-10-21T12:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-07",
+          "domain": "physical_activity",
+          "expected_status": "attention",
+          "window_end": "2026-10-19T00:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-14",
+          "domain": "physical_activity",
+          "expected_status": "attention",
+          "window_end": "2026-10-26T00:00:00+00:00"
+        }
+      ],
+      "measurement_count": 171,
+      "reused_fixtures": [
+        "sleep_records",
+        "activity_inputs",
+        "baseline_inputs",
+        "sleep_policy",
+        "baseline_policy",
+        "restriction_records"
+      ],
+      "scenario": "declining_sleep_and_activity"
+    },
+    {
+      "crew_member_id": "sim-mission-v1-03",
+      "description": "Corrupt and duplicate sleep records, vital decoder failures, and unconfirmed activity.",
+      "display_name": "SIMULATED Chen",
+      "endpoints": {
+        "baselines": "/api/v1/crew-members/sim-mission-v1-03/baselines",
+        "evaluations": "/api/v1/crew-members/sim-mission-v1-03/evaluations",
+        "measurements": "/api/v1/crew-members/sim-mission-v1-03/measurements"
+      },
+      "expected_demonstrations": [
+        {
+          "behavior": "Quality and missing-night limits remain separate from statistical sleep screening.",
+          "checkpoint": "sleep-day-07",
+          "domain": "sleep",
+          "expected_status": "nominal",
+          "window_end": "2026-10-19T12:00:00+00:00"
+        },
+        {
+          "behavior": "Quality and missing-night limits remain separate from statistical sleep screening.",
+          "checkpoint": "sleep-day-14",
+          "domain": "sleep",
+          "expected_status": "insufficient_data",
+          "window_end": "2026-10-26T12:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-07",
+          "domain": "physical_activity",
+          "expected_status": "insufficient_data",
+          "window_end": "2026-10-19T00:00:00+00:00"
+        },
+        {
+          "behavior": "Explicit rest, targets and coverage; missing records never imply zero activity.",
+          "checkpoint": "activity-day-14",
+          "domain": "physical_activity",
+          "expected_status": "insufficient_data",
+          "window_end": "2026-10-26T00:00:00+00:00"
+        }
+      ],
+      "measurement_count": 139,
+      "reused_fixtures": [
+        "sleep_records",
+        "activity_inputs",
+        "baseline_inputs",
+        "sleep_policy",
+        "baseline_policy",
+        "sensor_failure_records"
+      ],
+      "scenario": "sensor_failures_and_missing_data"
+    }
+  ],
+  "data_kind": "simulated",
+  "dataset_id": "orbitvitals-mission-demo-v1",
+  "endpoints": {
+    "health": "/api/v1/health",
+    "ingestion": "/api/v1/measurements",
+    "metrics": "/api/v1/metrics"
+  },
+  "evaluated_domains": [
+    "sleep",
+    "physical_activity"
+  ],
+  "latest_required_server_time": "2026-10-26T12:00:00+00:00",
+  "notice": "SIMULATED DATA: deterministic research demonstrations, not astronaut records, clinical validation, diagnoses or medical recommendations.",
+  "plan_sha256": "05ee5583a6414b1b0724663e54f0fd751f99dacfd6d8c1f639d62ff960d8b4d9",
+  "policies": {
+    "activity": [
+      {
+        "baseline_absolute_tolerance": null,
+        "baseline_relative_tolerance": null,
+        "daily_target": 40.0,
+        "metric": "exercise_duration",
+        "weekly_target": 240.0
+      },
+      {
+        "baseline_absolute_tolerance": null,
+        "baseline_relative_tolerance": null,
+        "daily_target": 200.0,
+        "metric": "active_energy_expenditure",
+        "weekly_target": 1200.0
+      }
+    ],
+    "activity_reduction_run_length": 3,
+    "baseline": {
+      "established_min_samples": 10,
+      "established_min_span": "P9D",
+      "minimum_samples": 2,
+      "outlier_cutoff": 3.5,
+      "outlier_handling": "report",
+      "policy_source": "SIMULATED app.scenarios.fixtures.baseline_policy; docs/scientific-scenarios.md; not clinical validation"
+    },
+    "sleep": {
+      "duration": {
+        "minimum_observation_deviation": 60,
+        "minimum_slope_per_day": 5,
+        "minimum_total_change": 30
+      },
+      "efficiency": {
+        "minimum_observation_deviation": 5,
+        "minimum_slope_per_day": 0.5,
+        "minimum_total_change": 3
+      },
+      "maximum_consecutive_missing_nights": 2,
+      "minimum_coverage": 0.6,
+      "minimum_decreasing_fraction": 0.75,
+      "minimum_nights": 4,
+      "minimum_span_days": 3,
+      "night_start_hour_utc": 12,
+      "policy_id": "simulated-mission-sleep-v1"
+    }
+  },
+  "reference_computed_at": "2026-10-12T12:00:00+00:00",
+  "reference_start": "2026-09-28T00:00:00+00:00",
+  "vital_evaluations": "Unsupported: measurements, data quality and personal baselines only.",
+  "vital_metrics": [
+    "heart_rate",
+    "respiratory_rate",
+    "blood_oxygen_saturation"
+  ]
+}
