@@ -1,0 +1,950 @@
+{
+  "$defs": {
+    "BackendRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "integer"
+        },
+        "item_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Item Count"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "status",
+        "item_count"
+      ],
+      "title": "BackendRequest",
+      "type": "object"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "description": "A summary, written by the OrbitVitals team, of a paragraph on a public NASA page.\n\nThe summary is not NASA text and not a quotation. `publisher`, `document_title`,\n`section` and `url` identify the source; NASA did not review or endorse the summary.",
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "publisher": {
+          "description": "Publisher of the source page.",
+          "title": "Publisher",
+          "type": "string"
+        },
+        "document_title": {
+          "title": "Document Title",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Summary written by the OrbitVitals team; not NASA text.",
+          "title": "Summary",
+          "type": "string"
+        },
+        "text_kind": {
+          "const": "independent_summary",
+          "default": "independent_summary",
+          "title": "Text Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "description": "SHA-256 digest of `summary`, as stored in the corpus.",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_paragraph_sha256": {
+          "description": "SHA-256 digest of the summarised paragraph on the source page (whitespace collapsed). The paragraph itself is not stored.",
+          "title": "Source Paragraph Sha256",
+          "type": "string"
+        },
+        "source_checked_on": {
+          "description": "Date the source paragraph was last confirmed on its page.",
+          "title": "Source Checked On",
+          "type": "string"
+        },
+        "scope": {
+          "const": "general_evidence",
+          "default": "general_evidence",
+          "title": "Scope",
+          "type": "string"
+        },
+        "relevance_score": {
+          "title": "Relevance Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "publisher",
+        "document_title",
+        "section",
+        "url",
+        "summary",
+        "sha256",
+        "source_paragraph_sha256",
+        "source_checked_on",
+        "relevance_score"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "DataAccess": {
+      "additionalProperties": false,
+      "properties": {
+        "read_only": {
+          "const": true,
+          "default": true,
+          "title": "Read Only",
+          "type": "boolean"
+        },
+        "requests": {
+          "items": {
+            "$ref": "#/$defs/BackendRequest"
+          },
+          "title": "Requests",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requests"
+      ],
+      "title": "DataAccess",
+      "type": "object"
+    },
+    "DataProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "crew_data_kind": {
+          "enum": [
+            "simulated",
+            "mixed",
+            "not_simulated",
+            "no_measurements"
+          ],
+          "title": "Crew Data Kind",
+          "type": "string"
+        },
+        "measurement_sources": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Measurement Sources",
+          "type": "object"
+        },
+        "crew_data_notice": {
+          "title": "Crew Data Notice",
+          "type": "string"
+        },
+        "evidence_notice": {
+          "title": "Evidence Notice",
+          "type": "string"
+        }
+      },
+      "required": [
+        "crew_data_kind",
+        "measurement_sources",
+        "crew_data_notice",
+        "evidence_notice"
+      ],
+      "title": "DataProvenance",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "description": "One piece of information read from the backend, stated without interpretation.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "provenance",
+            "evaluation",
+            "finding",
+            "baseline",
+            "measurement_series",
+            "quality_overview",
+            "measurement_quality_issue"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domain"
+        },
+        "metric": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric"
+        },
+        "statement": {
+          "title": "Statement",
+          "type": "string"
+        },
+        "data": {
+          "additionalProperties": true,
+          "description": "Structured values behind the statement.",
+          "title": "Data",
+          "type": "object"
+        },
+        "source": {
+          "$ref": "#/$defs/FactSource"
+        },
+        "interpretation_role": {
+          "enum": [
+            "screening_signal",
+            "no_physiological_basis",
+            "context",
+            "data_quality"
+          ],
+          "title": "Interpretation Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "statement",
+        "data",
+        "source",
+        "interpretation_role"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "FactSource": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "GET",
+          "default": "GET",
+          "title": "Method",
+          "type": "string"
+        },
+        "path": {
+          "description": "Backend path the fact was read from.",
+          "title": "Path",
+          "type": "string"
+        },
+        "resource_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier of the resource.",
+          "title": "Resource Id"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "FactSource",
+      "type": "object"
+    },
+    "GenerationInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "generative",
+            "deterministic_fallback"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "generative": {
+          "title": "Generative",
+          "type": "boolean"
+        },
+        "fallback_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Reason"
+        },
+        "primary_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Primary Model"
+        },
+        "attempts": {
+          "default": 0,
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "model_runs": {
+          "items": {
+            "$ref": "#/$defs/ModelRun"
+          },
+          "title": "Model Runs",
+          "type": "array"
+        },
+        "specialist": {
+          "$ref": "#/$defs/SpecialistInfo"
+        },
+        "timings_ms": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Timings Ms",
+          "type": "object"
+        }
+      },
+      "required": [
+        "mode",
+        "generative",
+        "specialist"
+      ],
+      "title": "GenerationInfo",
+      "type": "object"
+    },
+    "HumanReview": {
+      "additionalProperties": false,
+      "properties": {
+        "recommended": {
+          "title": "Recommended",
+          "type": "boolean"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "recommended",
+        "reasons",
+        "fact_ids"
+      ],
+      "title": "HumanReview",
+      "type": "object"
+    },
+    "Interpretation": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "origin": {
+          "description": "`model`: drafted by the language model and verified.",
+          "enum": [
+            "model",
+            "rule"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "screening_signal",
+            "data_quality"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "moderate"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "origin",
+        "kind",
+        "confidence"
+      ],
+      "title": "Interpretation",
+      "type": "object"
+    },
+    "ModelRun": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "primary",
+            "specialist"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "accepted": {
+          "title": "Accepted",
+          "type": "boolean"
+        },
+        "duration_ms": {
+          "title": "Duration Ms",
+          "type": "number"
+        },
+        "load_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Ms"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Tokens"
+        },
+        "prompt_eval_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Ms"
+        },
+        "output_eval_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Eval Ms"
+        },
+        "rejected_sentences": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sentences of this draft dropped by the verifier.",
+          "title": "Rejected Sentences"
+        }
+      },
+      "required": [
+        "role",
+        "model",
+        "attempt",
+        "accepted",
+        "duration_ms"
+      ],
+      "title": "ModelRun",
+      "type": "object"
+    },
+    "RejectedStatement": {
+      "additionalProperties": false,
+      "properties": {
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "section",
+        "text",
+        "reasons"
+      ],
+      "title": "RejectedStatement",
+      "type": "object"
+    },
+    "SpecialistFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "statement_id": {
+          "title": "Statement Id",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "supported",
+            "overstated",
+            "unsupported",
+            "no_opinion"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "comment": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Comment"
+        },
+        "applied": {
+          "description": "What the agent did with this verdict.",
+          "title": "Applied",
+          "type": "string"
+        }
+      },
+      "required": [
+        "statement_id",
+        "verdict",
+        "applied"
+      ],
+      "title": "SpecialistFinding",
+      "type": "object"
+    },
+    "SpecialistInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "configured": {
+          "title": "Configured",
+          "type": "string"
+        },
+        "consulted": {
+          "title": "Consulted",
+          "type": "boolean"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/SpecialistFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "configured",
+        "consulted",
+        "reason"
+      ],
+      "title": "SpecialistInfo",
+      "type": "object"
+    },
+    "Statement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "origin": {
+          "description": "`model`: drafted by the language model and verified.",
+          "enum": [
+            "model",
+            "rule"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "origin"
+      ],
+      "title": "Statement",
+      "type": "object"
+    },
+    "SuggestedCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "action_code": {
+          "title": "Action Code",
+          "type": "string"
+        },
+        "text": {
+          "description": "Fixed wording from the action catalogue.",
+          "title": "Text",
+          "type": "string"
+        },
+        "rationale": {
+          "description": "Fixed wording: why the rule selected this check.",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "fact_ids": {
+          "description": "Facts that triggered the check.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "requires_human_review": {
+          "title": "Requires Human Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "action_code",
+        "text",
+        "rationale",
+        "fact_ids",
+        "requires_human_review"
+      ],
+      "title": "SuggestedCheck",
+      "type": "object"
+    },
+    "VerificationCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "passed",
+        "detail"
+      ],
+      "title": "VerificationCheck",
+      "type": "object"
+    },
+    "VerificationReport": {
+      "additionalProperties": false,
+      "properties": {
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/VerificationCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "rejected_statements": {
+          "items": {
+            "$ref": "#/$defs/RejectedStatement"
+          },
+          "title": "Rejected Statements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "passed",
+        "checks"
+      ],
+      "title": "VerificationReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "crew_member_id": {
+      "title": "Crew Member Id",
+      "type": "string"
+    },
+    "domains": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Domains",
+      "type": "array"
+    },
+    "question": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Question"
+    },
+    "status_summary": {
+      "description": "Rule-based line with the latest stored status of each domain.",
+      "title": "Status Summary",
+      "type": "string"
+    },
+    "headline": {
+      "description": "One-sentence answer. Written by the model when it passes verification.",
+      "title": "Headline",
+      "type": "string"
+    },
+    "headline_origin": {
+      "enum": [
+        "model",
+        "rule"
+      ],
+      "title": "Headline Origin",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Statement"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "evidence_context": {
+      "items": {
+        "$ref": "#/$defs/Statement"
+      },
+      "title": "Evidence Context",
+      "type": "array"
+    },
+    "interpretations": {
+      "items": {
+        "$ref": "#/$defs/Interpretation"
+      },
+      "title": "Interpretations",
+      "type": "array"
+    },
+    "uncertainties": {
+      "items": {
+        "$ref": "#/$defs/Statement"
+      },
+      "title": "Uncertainties",
+      "type": "array"
+    },
+    "suggested_checks": {
+      "items": {
+        "$ref": "#/$defs/SuggestedCheck"
+      },
+      "title": "Suggested Checks",
+      "type": "array"
+    },
+    "human_review": {
+      "$ref": "#/$defs/HumanReview"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "citations": {
+      "items": {
+        "$ref": "#/$defs/Citation"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "data_provenance": {
+      "$ref": "#/$defs/DataProvenance"
+    },
+    "data_access": {
+      "$ref": "#/$defs/DataAccess"
+    },
+    "generation": {
+      "$ref": "#/$defs/GenerationInfo"
+    },
+    "verification": {
+      "$ref": "#/$defs/VerificationReport"
+    },
+    "disclaimer": {
+      "default": "Research prototype, not a medical device. This explanation supports a review by a person. It is not a diagnosis and it does not recommend any treatment.",
+      "title": "Disclaimer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "generated_at",
+    "crew_member_id",
+    "domains",
+    "question",
+    "status_summary",
+    "headline",
+    "headline_origin",
+    "observations",
+    "evidence_context",
+    "interpretations",
+    "uncertainties",
+    "suggested_checks",
+    "human_review",
+    "facts",
+    "citations",
+    "data_provenance",
+    "data_access",
+    "generation",
+    "verification"
+  ],
+  "title": "AgentResponse",
+  "type": "object"
+}

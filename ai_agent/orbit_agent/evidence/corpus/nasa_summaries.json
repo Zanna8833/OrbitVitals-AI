@@ -1,0 +1,418 @@
+{
+  "corpus_id": "orbitvitals-nasa-summaries-v1",
+  "description": "Summaries written by the OrbitVitals team of paragraphs on public NASA web pages. They are not NASA text and not quotations. General scientific context only: no entry describes a monitored crew member.",
+  "attribution": "Source pages are published by NASA at the URLs listed for each entry. NASA did not write, review or endorse these summaries or this project.",
+  "allowed_hosts": [
+    "www.nasa.gov"
+  ],
+  "passages": [
+    {
+      "evidence_id": "NASA-SLEEP-RISK-01",
+      "publisher": "NASA",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Heavy workloads, irregular light and dark periods and disrupted sleep patterns are among the stressors of spaceflight. Their combined effect on the body can harm health over short and long periods and can put mission success at risk.",
+      "sha256": "9c2d9424d80f21e493e3f83d824f2784c8284d21852c2a35dd83b924ef5b1cda",
+      "source_paragraph_sha256": "2b1c83ecf5d6cf1525009196fe8f8cfa55ee668ee22ba95f68912ac32e0b34aa",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-02",
+      "publisher": "NASA",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On the International Space Station, LED lighting reproduces the day and night pattern of Earth to support crew sleep. Research examines how light exposure and caffeine influence the body clock and sleep quality, and crew schedules reserve time for rest and self-care to lower the risk of burnout.",
+      "sha256": "264502d81d5d8f97f7e7fff6f38b7e6b268248f6379c5f0d55f35b96fcf9fca3",
+      "source_paragraph_sha256": "ff86f5c4eb18b45030c867cf0a4eba57c3d455a7b1632f013823f356a3c7934c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-03",
+      "publisher": "NASA",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Crews on the space station see 16 sunrises and 16 sunsets each day, a pattern that can upset the sleep-wake cycle.",
+      "sha256": "09588c9b269ba7b53f2c1bc5c1d93e08ab928e4ad6193d689ea7e69f44b8b5c9",
+      "source_paragraph_sha256": "582d8387debdca7a6d73e3c9247a974cace672c24882f13fd272841a04136928",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-04",
+      "publisher": "NASA",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "Formal risk description",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "This formal risk covers reduced performance and harm to health that can follow from lost sleep, from a body clock out of step with the work schedule (circadian desynchronization) and from excessive workload.",
+      "sha256": "c5f85faf5a2c94e39b4c4b94cf28e832ecab14b879826efd7931c43004065da5",
+      "source_paragraph_sha256": "3d80cad85f32dd8ad0325fd0d1b4b218d6085046b6a3c7798134638c7b26378e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-SLEEP-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Good sleep matters because the circadian rhythm can be shifted by unusual light and dark cycles, cramped and noisy living quarters, the strain of long isolation and confinement and, on Mars, a day that is 37 minutes longer than on Earth.",
+      "sha256": "a2f8c6c7c0b9880cf488d442343abbac120d4d58b26002ab0c58b4743e94af54",
+      "source_paragraph_sha256": "48b897cb211a8b79d5563599edfaebe66804bd59ff873d260eed39cd4c27308b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-FATIGUE-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "fatigue",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Fatigue has to be planned for, because spaceflight brings periods of heavy work and changing schedules. For a Mars round trip lasting several years, the activities available to the crew are also planned so as to limit boredom.",
+      "sha256": "89439e60faed32badd782cfa3783c9c47ae8480826908148220acdbafb329bd0",
+      "source_paragraph_sha256": "b86a9df66708bbbc46150ebf535ef0ab7046c7230c8feac85aabf12613f0aa26",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-ACTIGRAPHY-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "monitoring",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Actigraphy devices log body movement and the surrounding light level, and are used to assess sleep and alertness and to help improve them. LED lighting on the space station helps keep crew circadian rhythms aligned and supports sleep, alertness and performance.",
+      "sha256": "fbada50777f9d976f8f4c3738d70a58eda7bd87b6f2d59c5780cc1e0e34d56ce",
+      "source_paragraph_sha256": "ea918f0706093dd7f02e600f51580c4c315afbe11098279100fbbd4a16b1d3ae",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-VIGILANCE-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "fatigue",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "A self-administered test of vigilance and attention lasting 10 minutes measures how fatigue affects performance. Personal journals give crew members a private outlet and give researchers material for studying behavioral concerns that arise in isolation and confinement.",
+      "sha256": "50a528453a31be12614a9673e94d8a60368b29f8ecc69f46a8aa0d109b35875b",
+      "source_paragraph_sha256": "33e73cc6d925c97968cac5bb9ee2ed8fec23c4c99c609a9c0e5adee2738af23d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-DISTANCE-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Mars lies on average 140 million miles away, and the Moon is 1,000 times as distant as the space station, which circles Earth at an altitude of 240 miles. Because a message can need up to 20 minutes to travel one way to Mars, crew members there have to resolve problems among themselves, without support from mission control.",
+      "sha256": "7cb58102a31439dcdadf1f66c8d149663d275a74a860090110aa23f35a9b570f",
+      "source_paragraph_sha256": "b2ebafd2bd3fa3e213d505590fb3115af6e804fc3741c93ee13a27d62f43f84a",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-DECISION-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "autonomy",
+        "decision_support",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Work is under way on a spacecraft medical data architecture to support clinical decision support tools, which might apply artificial intelligence and machine learning to assist in diagnosing and treating illness. Virtual assistants are also being studied as a way to help crews on distant missions recognize and respond quickly to spaceflight anomalies.",
+      "sha256": "c220dfe570bc0d1a36ba71bb57ca6cbe834894b5e3c0d87466634484c4bda550",
+      "source_paragraph_sha256": "fe2568dd0f1de7bcea85ed9af4a33b8a4f2ecd353dff74b29b1f9969aabe6a9e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-EXERCISE-01",
+      "publisher": "NASA",
+      "document_title": "The Human Body in Space",
+      "section": "Gravity Fields",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Aerobic and resistance exercise helps keep the heart healthy and bones and muscles strong, supports alertness and a positive outlook, and may help balance and coordination. Software-based virtual training partners could encourage regular exercise on long missions, and a joint bed rest study on Earth tested whether artificial gravity from a centrifuge could offset the physiological effects of weightlessness.",
+      "sha256": "dd0655a6a08c0825ed16f211c137a23abbf5923dde817db3a6d6505b938c0631",
+      "source_paragraph_sha256": "6f87c2c3ea99c486c969bf67b20c5f08ca42e3f4576d9a1b44775738abc75932",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-01",
+      "publisher": "NASA",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "exercise",
+        "fitness"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Microgravity can weaken bones, muscles, heart and lungs, which makes demanding mission tasks harder and raises the chance of injury. Falls and trips become more likely when crews move between gravity levels, for example on arrival at the Moon or Mars or after coming back to Earth.",
+      "sha256": "a0abb97a2690825d70eb62214f614f1bdf56da64029be34c3d8925613fef24e8",
+      "source_paragraph_sha256": "21ae50bfd7fb721a885eb57b27a447febc529c374d7d8f93927a8a9b9a5345dc",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-02",
+      "publisher": "NASA",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "exercise",
+        "fitness",
+        "countermeasure",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Space station crews exercise six to seven days a week, combining resistance and aerobic training for 1.5 hours a day to preserve fitness and limit loss of muscle and bone. Regular fitness self-assessments let researchers follow crew health and adjust training. Vehicles for Moon and Mars missions are expected to have less room for exercise equipment, so exercise machines and protocols are being refined for deep space missions.",
+      "sha256": "22e536cc43561b38ceadec28efb6eebf1eba13d2f936cbcfa593d627d99cacb6",
+      "source_paragraph_sha256": "db94b7f2e1278ee7acd18594e560a6294f1edbb420e7005d0b541c68611cf6ca",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-03",
+      "publisher": "NASA",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "fitness",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Responses to microgravity differ widely from one astronaut to another. On the space station, strength and aerobic fitness fell on average by 10-12% compared with pre-mission levels, and, depending on the measure, between 12% and 38% of crew members ended up over 20% below their pre-mission fitness. Strength loss is more common than aerobic decline, and losses span strength, endurance, flexibility, aerobic fitness, agility and coordination.",
+      "sha256": "2cbd2d05576b0bb5b5764288ae9b212e87e1e73e54c6e6040551ce2c89fbd561",
+      "source_paragraph_sha256": "e0bb02f5c9b7f3965eb5221e7c89da5634dcb2ef377d41a40fb8d3e8be01db39",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-RISK-01",
+      "publisher": "NASA",
+      "document_title": "Risk of Cardiovascular Adaptations",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/",
+      "topics": [
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reduced gravity and other spaceflight stressors can change the heart and blood vessels, with possible consequences such as blood clots, irregular heart rhythms, cardiovascular disease and low blood pressure that makes fainting at landing more likely. These risks grow with mission length, for example on a Mars mission lasting several years, so research on understanding and treating them is a priority.",
+      "sha256": "13b83808cbc31fb815436710d74d73ac28f6f39642664ee7f54eccbe9f69d513",
+      "source_paragraph_sha256": "b4ea7e7dbcc0661cc0008bfbba9edb41e0f79e5128beb408f70ec52c901d15f6",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-RISK-02",
+      "publisher": "NASA",
+      "document_title": "Risk of Cardiovascular Adaptations",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/",
+      "topics": [
+        "cardiovascular",
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Cardiovascular fitness is maintained through regular exercise and a healthy diet. Lower-body compression garments and extra fluid intake before landing help prevent low blood pressure, and crews for future Mars missions are to receive additional training in handling cardiovascular emergencies.",
+      "sha256": "760c39d295d9c66cfbf3f0ad38c4556d788a48c00f6ba4110b1be6399442d967",
+      "source_paragraph_sha256": "11b87bfac170a2ca09c5a6d1bf689d89bde54c78cc4a6961e57155aa1564be37",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BEHAVIOR-RISK-01",
+      "publisher": "NASA",
+      "document_title": "Risk of Behavioral Changes and Psychiatric Disorders",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-behavioral-changes-and-psychiatric-disorders/",
+      "topics": [
+        "behavioral",
+        "sleep",
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Long stays in isolation and confinement can increase the likelihood of behavioral problems and of psychiatric conditions, for example anxiety or depression, which may then affect sleep, morale and decision making. Space station crews can talk remotely with family and medical professionals, but the long communication delays of a Mars mission will make such support harder.",
+      "sha256": "78fd6463192ba84683528381ce13f91f1edd50199d4a0dab5cbc3763d2c52778",
+      "source_paragraph_sha256": "84a56127e2ad1ef1b4868ef46b1fb52e8a0ab4fcbe432d2dd1c97d49f58f3d3c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-OVERVIEW-01",
+      "publisher": "NASA",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "About the Five Hazards",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Grouping the challenges of human spaceflight into hazard categories helps organize the work on them, but the hazards interact and can amplify one another's effects on the body. They are studied in ground-based analogs, in laboratories and on the International Space Station, which serve as test beds for human performance and for strategies meant to keep crews safe and healthy.",
+      "sha256": "d7d07f69b630884018f33b1d5e1100ea541d2dc8b6132b93e0cea78c8837d3bb",
+      "source_paragraph_sha256": "6194505675878409127c4cf97ce6b27f2fff0997105b4bbbe8c398f8fc76389e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-DISTANCE-01",
+      "publisher": "NASA",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The farther crews travel from Earth, the harder it becomes to receive instructions, supplies and medical care from the ground.",
+      "sha256": "d1197570f182c68d358dc30c483c1193364be80cc0ea4f2e0eeb63a458daf724",
+      "source_paragraph_sha256": "c57885e4f88fecf9d6c97935ad94c9e4c81f8c009cffc91bf5c7f77344661c78",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-DISTANCE-02",
+      "publisher": "NASA",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "Distance From Earth",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On average, Earth and Mars are 140 million miles apart. Instead of the three days needed to reach the Moon, a Mars mission would take a crew away for roughly three years, so careful planning and self-sufficiency become essential.",
+      "sha256": "9aea4e62698f54734f021fed96b69154c28e8de58efe4cec9511985791843a04",
+      "source_paragraph_sha256": "6e8994fbd39f630bcdaf59c3fbbd5d2a944f06d0d6b93dca7aed00ae0788bfb0",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-OVERVIEW-01",
+      "publisher": "NASA",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Executive summary",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "exercise",
+        "fitness",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The heart, blood vessels and skeletal muscles are adapted to standing upright in Earth's gravity. In altered gravity, crews lose aerobic capacity, muscle strength and bone strength and can experience vision changes and altered vascular motility, all of which can reduce performance. Exercise is prescribed as a central countermeasure for crew health and performance, and it also helps against orthostatic intolerance and supports immune and sensorimotor function.",
+      "sha256": "71fdb00ddbd95424391ac0a6dcccd4f99ba33f7fa2740dbfaa0b3dcb8c0369cf",
+      "source_paragraph_sha256": "c4edfbc8262fc5e96a1cc0e459bbf9b2ac262bafefa9ef3b4792414f87a578c3",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-VARIABILITY-01",
+      "publisher": "NASA",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Executive summary",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "How much an astronaut deconditions depends on the individual, including starting fitness, age, mission length and gravity level. Without countermeasures, deconditioning starts as soon as gravity changes, can be measured within a few days and keeps growing as the mission continues. NASA has set standards and thresholds to protect health and support mission tasks.",
+      "sha256": "979ccb6c47736c6957346bba65b9bb85424580f7f50129bafc54249327773831",
+      "source_paragraph_sha256": "7b93fe2d9a7376279fdd9a0bd0f731eebc69a717f903836e122d876fad6f766c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-AEROBIC-01",
+      "publisher": "NASA",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Relevant technical requirements (NASA-STD-3001)",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "NASA-STD-3001 requirement V1 4003 (In-Mission Aerobic Capacity) calls for aerobic capacity during a mission to be kept, through countermeasures or work activity, at no less than 80% of the pre-mission value, measured directly or indirectly.",
+      "sha256": "7a3fe0a77da2d1c5877b542d42ceed36d3fa5731ee072be607505fcbbaa4ff67",
+      "source_paragraph_sha256": "70b5fa46a9cd9a13a60c29f8e08b8fa28c6ba7691dc8061df0f55a13c46f6a8f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-STRENGTH-01",
+      "publisher": "NASA",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Relevant technical requirements (NASA-STD-3001)",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "NASA-STD-3001 requirement V1 4024 (In-Mission Skeletal Muscle Strength) calls for countermeasures that keep skeletal muscle strength during a mission at no less than 80% of baseline values.",
+      "sha256": "dafc0c24d074c3094957ef2d129ac92e3a38511fd7222e72a3dbc74e58d87c3d",
+      "source_paragraph_sha256": "535a2747bf27617cb00855bf58284cc197a6d60e1bedf270d8b3e0a3bef645b4",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-MONITORING-01",
+      "publisher": "NASA",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "In-mission exercise monitoring",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "exercise",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Astronaut Strength, Conditioning, and Rehabilitation Specialists (ACERS) follow crew fitness during flight and tailor exercise prescriptions to each crew member's ability and performance. Ground teams review crew data, including physiological markers and the duration and intensity of exercise sessions, and strength prescriptions depend on the equipment on board.",
+      "sha256": "0a1ea216c02e058c9216122b77ce5b73310f1316c100e0336b758216ba067835",
+      "source_paragraph_sha256": "75ad98e5aafbbb378476e5393c985b8747cd98dd001a65bf4141f8d671dd075d",
+      "source_checked_on": "2026-11-15"
+    }
+  ]
+}

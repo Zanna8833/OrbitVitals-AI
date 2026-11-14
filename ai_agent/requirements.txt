@@ -1,0 +1,6 @@
+# Runtime dependencies of the AI agent proof of concept (Python 3.11).
+# Pins match backend/requirements.txt so both services share one toolchain.
+# HTTP calls to the backend and to Ollama use the standard library only.
+fastapi==0.162.7
+pydantic==2.14.3
+uvicorn[standard]==0.54.0
