@@ -4,6 +4,8 @@ There is no official NASA table of normal in-flight vital signs: each reading is
 astronaut's pre-flight baseline, shifted by the changes published for long-duration ISS flight.
 """
 
+import statistics
+
 # Blood pressure: equal to or up to about 10 mmHg below the pre-flight baseline is expected in flight
 # (Norsk et al. 2015, J Physiol: 24-h BP -8/-9 mmHg; Hughson et al. 2012, J Appl Physiol: no change at rest).
 BP_EXPECTED_DROP = 10  # mmHg
@@ -16,6 +18,13 @@ TEMP_EXPECTED_RISE = 1.0  # degC
 TEMP_RISE_DAYS = 75
 # Day-to-day variability of body temperature in healthy adults: 0.32 degC (PMC7857558).
 TEMP_MARGIN = 0.3  # degC
+
+# Personal in-flight reference: mean of the 30 days before the last week, so that a drift of the last
+# few days does not hide inside the reference.
+PLATEAU_DAYS = 30
+RECENT_DAYS = 7
+# With one reading per day, 2 standard deviations gave a false alarm about every 20 days for healthy crew.
+PLATEAU_SD_LIMIT = 3
 
 BLOOD_PRESSURE_PARAMETERS = ["systolic_bp", "diastolic_bp"]
 TEMPERATURE_PARAMETER = "core_temperature"
@@ -50,14 +59,41 @@ def range_deviation(value: float, minimum: float, maximum: float) -> float:
     return 0.0
 
 
-def check_parameter(parameter: str, value: float, day: int, baseline_value: float) -> dict:
+def plateau_values(registry: dict, astronaut_id: str, parameter: str, day: int) -> list[float]:
+    """Values of the parameter on days day-37 ... day-8 already stored in the registry."""
+    values = []
+    if astronaut_id not in registry:
+        return values
+    days = registry[astronaut_id]
+    first_day = day - RECENT_DAYS - PLATEAU_DAYS
+    for past_day in range(first_day, day - RECENT_DAYS):
+        if past_day in days and parameter in days[past_day]:
+            values.append(days[past_day][parameter]["value"])
+    return values
+
+
+def check_parameter(registry: dict, astronaut_id: str, parameter: str, value: float, day: int,
+                    baseline_value: float) -> dict:
     """Result for one reading, ready to be stored in the registry and saved as JSON."""
     minimum, maximum = expected_range(parameter, baseline_value, day)
     deviation = range_deviation(value, minimum, maximum)
+    ok = deviation == 0
+
+    # Second check, only when there is enough history: distance from the personal in-flight reference
+    plateau = plateau_values(registry, astronaut_id, parameter, day)
+    plateau_mean = None
+    if len(plateau) >= 2:
+        plateau_mean = statistics.mean(plateau)
+        standard_deviation = statistics.stdev(plateau)
+        if standard_deviation > 0 and abs(value - plateau_mean) > PLATEAU_SD_LIMIT * standard_deviation:
+            ok = False
+        plateau_mean = round(plateau_mean, 2)
+
     return {
         "value": value,
         "expected_min": round(minimum, 2),
         "expected_max": round(maximum, 2),
         "deviation": round(deviation, 2),
-        "ok": deviation == 0,
+        "plateau_mean": plateau_mean,
+        "ok": ok,
     }
