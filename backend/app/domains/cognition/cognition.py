@@ -3,8 +3,7 @@ and builds the report for the ground researcher. The astronaut never sees these 
 screens only say that a test is complete.
 
 Input: one session file written by the test frontend (raw trials for each test).
-Output: registry[astronaut_id][mission_day] = session report, saved as JSON (same functions as
-vitals.py).
+Output: registry[astronaut_id][mission_day] = session report, saved as JSON.
 Usage, from backend/:
     python -m app.domains.cognition.cognition session.json [...] --registry cognition_registry.json
 """
@@ -13,8 +12,6 @@ import json
 import os
 import statistics
 import sys
-
-from app.domains.vitals import vitals
 
 # Pre-flight scores of 25 NASA astronauts before 6-month ISS missions: (mean, standard deviation).
 # Dev et al. 2024, Front Physiol 15:1451269, Table 1. Speed = mean response time in ms (lower is
@@ -302,6 +299,23 @@ def text_report(report: dict) -> str:
     return "\n".join(lines)
 
 
+def save_registry(registry: dict, path: str) -> None:
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(registry, file, indent=2)
+
+
+def load_registry(path: str) -> dict:
+    with open(path, encoding="utf-8") as file:
+        loaded = json.load(file)
+    # JSON keys are always strings: mission days go back to int
+    registry = {}
+    for astronaut_id in loaded:
+        registry[astronaut_id] = {}
+        for day in loaded[astronaut_id]:
+            registry[astronaut_id][int(day)] = loaded[astronaut_id][day]
+    return registry
+
+
 def main():
     arguments = sys.argv[1:]
     if "--registry" not in arguments or len(arguments) < 3:
@@ -316,7 +330,7 @@ def main():
 
     registry = {}
     if os.path.exists(registry_path):
-        registry = vitals.load_registry(registry_path)
+        registry = load_registry(registry_path)
     # Sessions in mission-day order, so that pre-flight sessions are there before the in-flight ones
     sessions = []
     for path in session_paths:
@@ -326,7 +340,7 @@ def main():
     for session in sessions:
         report = record_session(registry, session)
         print(text_report(report))
-    vitals.save_registry(registry, registry_path)
+    save_registry(registry, registry_path)
 
 
 def session_day(session: dict) -> int:
