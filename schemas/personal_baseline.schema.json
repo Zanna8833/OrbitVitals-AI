@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Generated from backend/app/models by backend/scripts/export_schemas.py. Do not edit by hand.",
+  "$defs": {
+    "AlgorithmInfo": {
+      "additionalProperties": false,
+      "description": "Identifies the algorithm that produced a result, for traceability.",
+      "properties": {
+        "name": {
+          "description": "Stable algorithm identifier, e.g. 'personal_baseline'.",
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "description": "Algorithm version, e.g. '0.1.0'.",
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "AlgorithmInfo",
+      "type": "object"
+    },
+    "BaselineStatistics": {
+      "additionalProperties": false,
+      "description": "Descriptive statistics of the data a baseline is built from.\n\nEvery field is optional so that the baseline algorithm can choose which\nstatistics it relies on. All values are expressed in the baseline's unit.",
+      "properties": {
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Arithmetic mean.",
+          "title": "Mean"
+        },
+        "standard_deviation": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Standard deviation.",
+          "title": "Standard Deviation"
+        },
+        "median": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Median.",
+          "title": "Median"
+        },
+        "median_absolute_deviation": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Median absolute deviation.",
+          "title": "Median Absolute Deviation"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Smallest value.",
+          "title": "Minimum"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Largest value.",
+          "title": "Maximum"
+        }
+      },
+      "title": "BaselineStatistics",
+      "type": "object"
+    },
+    "BaselineStatus": {
+      "description": "How far a baseline can be relied upon.\n\nThe criteria that separate the statuses belong to the baseline algorithm and\nare not part of this contract.",
+      "enum": [
+        "insufficient_data",
+        "provisional",
+        "established"
+      ],
+      "title": "BaselineStatus",
+      "type": "string"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "description": "Quality assessment of one measurement or of a window of measurements.\n\nData quality describes the data, not the crew member: it says how far the values\ncan be trusted and carries no physiological meaning. The physiological status is\nreported separately, by `EvaluationStatus`.\n\nThe rules that assign `status`, `score` and `flags` belong to the data-quality\nalgorithm and are not part of this contract.",
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/QualityStatus",
+          "description": "Overall usability of the data."
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Overall quality from 0 (worst) to 1 (best). Null when no score is computed.",
+          "title": "Score"
+        },
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Fraction of the expected samples that are present. Null when not applicable.",
+          "title": "Completeness"
+        },
+        "flags": {
+          "description": "Issues found during the assessment.",
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional human-readable remarks.",
+          "title": "Notes"
+        },
+        "algorithm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AlgorithmInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Algorithm that produced the assessment. Null when not assessed."
+        },
+        "assessed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When the assessment was produced (UTC). Null when not assessed.",
+          "title": "Assessed At"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "MetricType": {
+      "description": "Physiological metrics that can be measured, baselined and evaluated.",
+      "enum": [
+        "heart_rate",
+        "heart_rate_variability_rmssd",
+        "respiratory_rate",
+        "blood_oxygen_saturation",
+        "body_temperature",
+        "systolic_blood_pressure",
+        "diastolic_blood_pressure",
+        "sleep_duration",
+        "sleep_efficiency",
+        "exercise_duration",
+        "active_energy_expenditure",
+        "energy_intake",
+        "protein_intake",
+        "fluid_intake",
+        "body_mass"
+      ],
+      "title": "MetricType",
+      "type": "string"
+    },
+    "MissionPhaseType": {
+      "description": "Kinds of mission phase.\n\nThe list is an initial proposal, open to review by the team.",
+      "enum": [
+        "pre_flight",
+        "launch",
+        "in_flight",
+        "return_to_earth",
+        "post_flight"
+      ],
+      "title": "MissionPhaseType",
+      "type": "string"
+    },
+    "QualityFlag": {
+      "description": "Specific issues found while assessing data quality.\n\n`out_of_sensor_range` refers to the measuring range documented for the device.\nIt is a property of the sensor, not a clinical threshold.",
+      "enum": [
+        "missing_data",
+        "out_of_sensor_range",
+        "signal_artifact",
+        "duplicate",
+        "insufficient_samples"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "QualityStatus": {
+      "description": "Overall usability of the assessed data. It is not a health status.\n\n`not_assessed` means no quality algorithm has processed the data yet.",
+      "enum": [
+        "not_assessed",
+        "acceptable",
+        "degraded",
+        "unusable"
+      ],
+      "title": "QualityStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reference description of one metric for one crew member.\n\nA baseline is personal: it is computed from the crew member's own measurements\nover a reference window, not from population values.",
+  "properties": {
+    "baseline_id": {
+      "description": "Unique identifier of the baseline.",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Baseline Id",
+      "type": "string"
+    },
+    "crew_member_id": {
+      "description": "Crew member the baseline belongs to.",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Crew Member Id",
+      "type": "string"
+    },
+    "metric": {
+      "$ref": "#/$defs/MetricType",
+      "description": "Metric the baseline describes."
+    },
+    "unit": {
+      "description": "Unit of the statistics. Must be the canonical unit of `metric`.",
+      "title": "Unit",
+      "type": "string"
+    },
+    "mission_phase": {
+      "$ref": "#/$defs/MissionPhaseType",
+      "description": "Mission phase the reference data was collected in."
+    },
+    "status": {
+      "$ref": "#/$defs/BaselineStatus",
+      "description": "How far the baseline can be relied upon."
+    },
+    "window_start": {
+      "description": "Start of the reference window (UTC).",
+      "format": "date-time",
+      "title": "Window Start",
+      "type": "string"
+    },
+    "window_end": {
+      "description": "End of the reference window (UTC).",
+      "format": "date-time",
+      "title": "Window End",
+      "type": "string"
+    },
+    "sample_count": {
+      "description": "Number of measurements used.",
+      "minimum": 0,
+      "title": "Sample Count",
+      "type": "integer"
+    },
+    "statistics": {
+      "$ref": "#/$defs/BaselineStatistics",
+      "description": "Statistics of the reference data."
+    },
+    "data_quality": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DataQuality"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Quality of the reference data, when assessed."
+    },
+    "algorithm": {
+      "$ref": "#/$defs/AlgorithmInfo",
+      "description": "Algorithm that computed the baseline."
+    },
+    "computed_at": {
+      "description": "When the baseline was computed (UTC).",
+      "format": "date-time",
+      "title": "Computed At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "baseline_id",
+    "crew_member_id",
+    "metric",
+    "unit",
+    "mission_phase",
+    "status",
+    "window_start",
+    "window_end",
+    "sample_count",
+    "statistics",
+    "algorithm",
+    "computed_at"
+  ],
+  "title": "PersonalBaseline",
+  "type": "object"
+}

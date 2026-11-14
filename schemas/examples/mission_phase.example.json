@@ -1,0 +1,8 @@
+{
+  "phase_id": "phase-0003",
+  "mission_id": "mission-001",
+  "phase": "in_flight",
+  "label": "In-flight operations",
+  "start_time": "2026-10-10T12:00:00Z",
+  "end_time": null
+}

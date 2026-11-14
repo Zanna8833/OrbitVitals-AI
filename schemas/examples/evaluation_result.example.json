@@ -1,0 +1,50 @@
+{
+  "evaluation_id": "eval-0001",
+  "crew_member_id": "crew-001",
+  "domain": "sleep",
+  "mission_phase": "in_flight",
+  "window_start": "2026-11-07T00:00:00Z",
+  "window_end": "2026-11-14T00:00:00Z",
+  "status": "nominal",
+  "summary": "Synthetic example for UI development. Statuses were assigned by hand, not by an algorithm: classification rules are not defined yet.",
+  "findings": [
+    {
+      "metric": "sleep_duration",
+      "unit": "min",
+      "status": "nominal",
+      "observed_value": 412.0,
+      "baseline_id": "base-0001",
+      "baseline_value": 431.0,
+      "absolute_deviation": -19.0,
+      "relative_deviation": -0.0441,
+      "explanation": "Synthetic example: the observed value is shown next to the personal baseline. The status was assigned by hand.",
+      "data_quality": null
+    },
+    {
+      "metric": "sleep_efficiency",
+      "unit": "%",
+      "status": "insufficient_data",
+      "observed_value": null,
+      "baseline_id": null,
+      "baseline_value": null,
+      "absolute_deviation": null,
+      "relative_deviation": null,
+      "explanation": "Synthetic example: no baseline is available for this metric, so it cannot be evaluated.",
+      "data_quality": null
+    }
+  ],
+  "data_quality": {
+    "status": "not_assessed",
+    "score": null,
+    "completeness": null,
+    "flags": [],
+    "notes": null,
+    "algorithm": null,
+    "assessed_at": null
+  },
+  "algorithm": {
+    "name": "sleep_evaluation",
+    "version": "0.0.0-example"
+  },
+  "evaluated_at": "2026-11-14T06:00:00Z"
+}

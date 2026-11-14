@@ -1,0 +1,20 @@
+{
+  "measurement_id": "meas-0001",
+  "crew_member_id": "crew-001",
+  "metric": "heart_rate",
+  "unit": "bpm",
+  "value": 58.0,
+  "measured_at": "2026-11-14T08:30:00Z",
+  "interval_end": null,
+  "source": "simulated",
+  "device_id": "sim-wearable-01",
+  "data_quality": {
+    "status": "not_assessed",
+    "score": null,
+    "completeness": null,
+    "flags": [],
+    "notes": null,
+    "algorithm": null,
+    "assessed_at": null
+  }
+}

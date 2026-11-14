@@ -218,3 +218,57 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# OrbitVitals AI additions
+# ---------------------------------------------------------------------------
+
+# Flutter keeps its Dart sources in `lib/`, which the Python template above
+# ignores. Re-include every `lib/` directory under frontend/.
+!frontend/**/lib/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+app.*.symbols
+app.*.map.json
+*.dart.js.map
+frontend/coverage/
+
+# Environment files: commit only the documented template.
+.env.*
+!.env.example
+
+# Secrets and credentials
+secrets/
+.secrets/
+secrets.json
+secrets.yaml
+secrets.yml
+secrets.toml
+credentials.json
+*credentials*.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+
+# Local, per-developer assistant settings
+CLAUDE.local.md
+.claude/settings.local.json
+
+# IDE and OS files
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,95 @@
+{
+  "$comment": "Generated from backend/app/models by backend/scripts/export_schemas.py. Do not edit by hand.",
+  "metrics": [
+    {
+      "metric": "heart_rate",
+      "domain": "vital_signs",
+      "unit": "bpm",
+      "description": "Heart rate."
+    },
+    {
+      "metric": "heart_rate_variability_rmssd",
+      "domain": "vital_signs",
+      "unit": "ms",
+      "description": "Heart rate variability, as the root mean square of successive differences between heartbeats (RMSSD)."
+    },
+    {
+      "metric": "respiratory_rate",
+      "domain": "vital_signs",
+      "unit": "breaths/min",
+      "description": "Respiratory rate."
+    },
+    {
+      "metric": "blood_oxygen_saturation",
+      "domain": "vital_signs",
+      "unit": "%",
+      "description": "Peripheral blood oxygen saturation (SpO2)."
+    },
+    {
+      "metric": "body_temperature",
+      "domain": "vital_signs",
+      "unit": "degC",
+      "description": "Body temperature."
+    },
+    {
+      "metric": "systolic_blood_pressure",
+      "domain": "vital_signs",
+      "unit": "mmHg",
+      "description": "Systolic blood pressure."
+    },
+    {
+      "metric": "diastolic_blood_pressure",
+      "domain": "vital_signs",
+      "unit": "mmHg",
+      "description": "Diastolic blood pressure."
+    },
+    {
+      "metric": "sleep_duration",
+      "domain": "sleep",
+      "unit": "min",
+      "description": "Total sleep time within a sleep period."
+    },
+    {
+      "metric": "sleep_efficiency",
+      "domain": "sleep",
+      "unit": "%",
+      "description": "Share of the time in bed that was spent asleep."
+    },
+    {
+      "metric": "exercise_duration",
+      "domain": "physical_activity",
+      "unit": "min",
+      "description": "Duration of a physical exercise session."
+    },
+    {
+      "metric": "active_energy_expenditure",
+      "domain": "physical_activity",
+      "unit": "kcal",
+      "description": "Energy expended through physical activity."
+    },
+    {
+      "metric": "energy_intake",
+      "domain": "nutrition",
+      "unit": "kcal",
+      "description": "Dietary energy intake."
+    },
+    {
+      "metric": "protein_intake",
+      "domain": "nutrition",
+      "unit": "g",
+      "description": "Dietary protein intake."
+    },
+    {
+      "metric": "fluid_intake",
+      "domain": "nutrition",
+      "unit": "mL",
+      "description": "Fluid intake."
+    },
+    {
+      "metric": "body_mass",
+      "domain": "nutrition",
+      "unit": "kg",
+      "description": "Body mass."
+    }
+  ]
+}

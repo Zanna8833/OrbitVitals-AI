@@ -1,0 +1,25 @@
+{
+  "baseline_id": "base-0001",
+  "crew_member_id": "crew-001",
+  "metric": "sleep_duration",
+  "unit": "min",
+  "mission_phase": "pre_flight",
+  "status": "provisional",
+  "window_start": "2026-09-01T00:00:00Z",
+  "window_end": "2026-10-01T00:00:00Z",
+  "sample_count": 30,
+  "statistics": {
+    "mean": 431.0,
+    "standard_deviation": 24.5,
+    "median": 434.0,
+    "median_absolute_deviation": 18.0,
+    "minimum": 372.0,
+    "maximum": 478.0
+  },
+  "data_quality": null,
+  "algorithm": {
+    "name": "personal_baseline",
+    "version": "0.0.0-example"
+  },
+  "computed_at": "2026-10-01T06:00:00Z"
+}

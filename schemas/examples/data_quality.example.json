@@ -1,0 +1,12 @@
+{
+  "status": "degraded",
+  "score": null,
+  "completeness": 0.85,
+  "flags": ["missing_data"],
+  "notes": "Synthetic example. Scoring and classification rules are not defined yet.",
+  "algorithm": {
+    "name": "data_quality",
+    "version": "0.0.0-example"
+  },
+  "assessed_at": "2026-11-14T09:00:00Z"
+}

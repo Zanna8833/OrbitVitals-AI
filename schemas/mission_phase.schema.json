@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Generated from backend/app/models by backend/scripts/export_schemas.py. Do not edit by hand.",
+  "$defs": {
+    "MissionPhaseType": {
+      "description": "Kinds of mission phase.\n\nThe list is an initial proposal, open to review by the team.",
+      "enum": [
+        "pre_flight",
+        "launch",
+        "in_flight",
+        "return_to_earth",
+        "post_flight"
+      ],
+      "title": "MissionPhaseType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One entry of a mission timeline: a phase and the period it covers.",
+  "properties": {
+    "phase_id": {
+      "description": "Unique identifier of this timeline entry.",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Phase Id",
+      "type": "string"
+    },
+    "mission_id": {
+      "description": "Mission the phase belongs to.",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Mission Id",
+      "type": "string"
+    },
+    "phase": {
+      "$ref": "#/$defs/MissionPhaseType",
+      "description": "Kind of phase."
+    },
+    "label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional display name.",
+      "title": "Label"
+    },
+    "start_time": {
+      "description": "Start of the phase (UTC).",
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "End of the phase (UTC). Null while the phase is ongoing or open-ended.",
+      "title": "End Time"
+    }
+  },
+  "required": [
+    "phase_id",
+    "mission_id",
+    "phase",
+    "start_time"
+  ],
+  "title": "MissionPhase",
+  "type": "object"
+}
