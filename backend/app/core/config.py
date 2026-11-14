@@ -2,7 +2,11 @@
 
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from app.algorithms.data_quality import DataQualityConfig
+from app.domains.sleep import SleepConfig
 
 SERVICE_NAME = "orbitvitals-api"
 API_V1_PREFIX = "/api/v1"
@@ -19,6 +23,11 @@ class Settings(BaseSettings):
     )
 
     environment: str = "development"
+
+    # Device facts and acquisition cadence are explicit configuration, never health norms.
+    data_quality: DataQualityConfig = Field(default_factory=DataQualityConfig)
+    # No demonstration policy is used for operational requests.
+    sleep_config: SleepConfig | None = None
 
     # Browsers enforce CORS, so the Flutter Web client must be allowed explicitly.
     # The default regex accepts any localhost port because `flutter run -d chrome`

@@ -37,13 +37,29 @@ and the OpenAPI document at `/openapi.json`.
 | `app/core/` | Configuration |
 | `app/api/` | HTTP routes. Register new route modules in `app/api/router.py` |
 | `app/models/` | Shared data contracts, the source of truth for `/schemas` |
-| `app/algorithms/` | Cross-domain scientific algorithms. Not implemented yet |
-| `app/domains/` | Scientific domain services; physical activity is implemented, sleep and nutrition are placeholders |
+| `app/algorithms/` | Data Quality and Personal Baseline engines |
+| `app/domains/` | Sleep and physical-activity monitoring; other domain owners' modules |
+| `app/services/` | Application commands and scientific orchestration |
+| `app/repositories/` | Isolated in-memory MVP repository |
 | `scripts/` | Developer scripts |
 | `tests/` | Test suite, mirroring `app/` |
 
 Scientific code must not import FastAPI or `app.api`. See "Architecture rules" in
 [AGENTS.md](../AGENTS.md); `tests/architecture` enforces them.
+
+## Integrated API MVP
+
+The API implements metric discovery, atomic measurement ingestion, filtered retrieval,
+baseline generation/retrieval and sleep/activity evaluation generation/retrieval.
+See [API contracts](../docs/api-contracts.md) and the
+[frontend integration guide](../docs/frontend-integration.md) for complete JSON
+commands, a runnable simulated workflow, scientific policy requirements and CORS setup.
+
+Run `uvicorn app.main:app --host 127.0.0.1 --port 8000` from this directory. Keep a single
+worker: records live only in this app process and disappear on restart or reload.
+Sleep has no default screening policy, baselines have no default establishment
+criteria, and activity completeness must be explicitly confirmed. Missing prerequisites
+produce explained insufficient/provisional outputs rather than assumed results.
 
 ## Physical activity
 

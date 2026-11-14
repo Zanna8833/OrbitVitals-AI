@@ -1,15 +1,17 @@
 # API contracts
 
-Contract between the Flutter Web frontend and the FastAPI backend.
+Framework-independent JSON contract between the frontend and the FastAPI backend.
 
-**Status: proposal, version 0.1.** Only the health check is implemented. Every other
-endpoint describes the intended contract, so that the frontend can be built before the
-backend exists. Each endpoint below is marked *Implemented* or *Proposed*. Proposed
-endpoints may change after team review; see [Open points](#open-points).
+**Status: implemented MVP, version 0.1.** Health, metrics, measurement ingestion and
+retrieval, baseline generation/retrieval, and sleep/activity evaluation generation/retrieval
+are implemented. The mission timeline endpoint remains proposed. The shared resource
+models, field names, metric identifiers and status values are unchanged. Explicit
+computation commands are additive endpoints described below.
 
 OrbitVitals AI is a research prototype, not a medical device. Statuses returned by the
-API are labels produced by algorithms that are not implemented yet, and no clinical
-threshold is part of this contract.
+API are explainable outputs of the identified algorithms, and no clinical threshold
+is part of this contract. See the [frontend integration guide](frontend-integration.md)
+for a runnable simulated workflow, configuration, assumptions and limitations.
 
 ## General conventions
 
@@ -82,12 +84,14 @@ its value `insufficient_data` means that no physiological status could be determ
 | Method | Path | Purpose | Status |
 | --- | --- | --- | --- |
 | `GET` | `/health` | Check that the API is up | Implemented |
-| `GET` | `/metrics` | List the supported metrics | Proposed |
+| `GET` | `/metrics` | List the supported metrics | Implemented |
 | `GET` | `/missions/{mission_id}/phases` | Get the timeline of a mission | Proposed |
-| `POST` | `/measurements` | Send a batch of measurements | Proposed |
-| `GET` | `/crew-members/{crew_member_id}/measurements` | Read measurements of a crew member | Proposed |
-| `GET` | `/crew-members/{crew_member_id}/baselines` | Read personal baselines of a crew member | Proposed |
-| `GET` | `/crew-members/{crew_member_id}/evaluations` | Read evaluation results of a crew member | Proposed |
+| `POST` | `/measurements` | Send a batch of measurements | Implemented |
+| `GET` | `/crew-members/{crew_member_id}/measurements` | Read measurements of a crew member | Implemented |
+| `GET` | `/crew-members/{crew_member_id}/baselines` | Read personal baselines of a crew member | Implemented |
+| `POST` | `/crew-members/{crew_member_id}/baselines` | Build a baseline from stored history and a supplied mission timeline | Implemented, additive command |
+| `GET` | `/crew-members/{crew_member_id}/evaluations` | Read evaluation results of a crew member | Implemented |
+| `POST` | `/crew-members/{crew_member_id}/evaluations` | Run configured sleep or activity monitoring on stored history | Implemented, additive command |
 
 Paths are relative to the base URL.
 
@@ -108,9 +112,8 @@ Response `200`:
 
 ### GET /metrics
 
-*Proposed.* Returns the metric catalog, with the same entries as
-[metric_catalog.json](../schemas/metric_catalog.json). Until the endpoint exists, the
-client can bundle that file.
+*Implemented.* Returns the complete canonical metric catalog, with the same entries as
+[metric_catalog.json](../schemas/metric_catalog.json).
 
 Response `200`:
 
@@ -136,9 +139,10 @@ Response `200`: `{"items": [MissionPhase, ...]}`
 
 ### POST /measurements
 
-*Proposed.* Stores a batch of measurements. The client generates `measurement_id` and
-leaves `data_quality` out; the backend returns the stored measurements with
-`data_quality` filled in.
+*Implemented.* Atomically stores 1 through 1000 measurements. The client generates
+`measurement_id` and leaves `data_quality` out; the backend returns measurements with
+real Data Quality Engine output. Supplied quality is replaced, never trusted as the
+server assessment. UTC normalization preserves timestamp instants and metric values.
 
 Request:
 
@@ -164,22 +168,36 @@ Response `201`: `{"items": [PhysiologicalMeasurement, ...]}`
 A measurement whose `unit` is not the canonical unit of its `metric` is rejected with
 status `422`.
 
+Identical measurement IDs/content are idempotent, including repeats within one batch.
+The response contains one item per distinct submitted ID, in first-occurrence order,
+and uses `201` for retries as well as new records. Content equality excludes
+`data_quality`. IDs are globally unique: conflicting content or reassignment to another
+crew member returns `409` and rejects the entire batch. Distinct IDs representing the
+same observation are retained and assessed by the quality engine.
+
+The engine reassesses affected crew history, including paired readings and duplicate
+observations received in earlier requests. Impossible values can be stored with
+`unusable` quality; ingestion does not turn a quality failure into a physiological
+alert. Records outside configured device ranges have the engine's documented quality
+status. No device range is assumed by default.
+
 ### GET /crew-members/{crew_member_id}/measurements
 
-*Proposed.* Returns measurements ordered by `measured_at`, oldest first.
+*Implemented.* Returns measurements ordered by `measured_at`, oldest first, then by ID.
 
 | Query parameter | Type | Meaning |
 | --- | --- | --- |
 | `metric` | `MetricType`, optional | Return only this metric |
 | `start` | timestamp, optional | Return measurements taken at or after this instant |
 | `end` | timestamp, optional | Return measurements taken before this instant |
-| `limit` | integer, optional | Maximum number of items |
+| `limit` | integer, optional | Maximum number of items, from 1 through 1000 |
 
 Response `200`: `{"items": [PhysiologicalMeasurement, ...]}`
 
 ### GET /crew-members/{crew_member_id}/baselines
 
-*Proposed.* Returns the personal baselines of a crew member.
+*Implemented.* Returns stored personal baselines of a crew member, newest reference
+window first. GET performs no implicit generation. No stored results returns `{"items": []}`.
 
 | Query parameter | Type | Meaning |
 | --- | --- | --- |
@@ -190,19 +208,75 @@ Response `200`: `{"items": [PersonalBaseline, ...]}`
 
 ### GET /crew-members/{crew_member_id}/evaluations
 
-*Proposed.* Returns evaluation results ordered by `window_end`, most recent first.
+*Implemented.* Returns stored evaluation results ordered by `window_end`, most recent
+first, then by evaluation time and ID. GET performs no implicit evaluation.
 
 | Query parameter | Type | Meaning |
 | --- | --- | --- |
 | `domain` | `HealthDomain`, optional | Return only this domain |
 | `start` | timestamp, optional | Return evaluations whose window ends at or after this instant |
 | `end` | timestamp, optional | Return evaluations whose window ends before this instant |
+| `limit` | integer, optional | Maximum number of items, from 1 through 1000 |
 
 Response `200`: `{"items": [EvaluationResult, ...]}`
 
 Each `EvaluationResult` carries an overall `status` and `summary` for the domain, plus
 one entry in `findings` per metric with the observed value, the baseline it was
 compared with, the deviation and a plain-language `explanation`.
+
+### Explicit computation commands
+
+`POST /crew-members/{crew_member_id}/baselines` returns one existing `PersonalBaseline`
+with status `201`. Its body is a `BaselineCommand`: `metric`, `mission_phase`, a
+nonempty `mission_phases` list of existing `MissionPhase` objects, `reference_start`,
+`reference_end`, and optional `computed_at`, `config`, `aggregation`, and `activity`.
+The supplied timeline must describe one mission without overlapping phases. It is
+used for this computation and is not a mission-directory write.
+
+`aggregation` defaults to `measurement`. For activity comparisons use
+`complete_active_day_total`, with explicit per-metric recording `coverage` and mission
+day plans in `activity`. The adapter sums complete usable active-day contributions
+before calling the real baseline engine. Raw session means cannot be selected as daily
+activity references. No derived aggregate is inserted into raw measurement history.
+
+With no establishment criteria, the engine returns provisional or insufficient
+baselines. Optional `config.established_min_samples` and/or `established_min_span`
+require a nonempty `policy_source`; this records the caller's policy, not clinical
+validation. `minimum_samples`, `outlier_cutoff`, and `outlier_handling` use the engine's
+documented meanings. See OpenAPI for exact types and defaults.
+
+`POST /crew-members/{crew_member_id}/evaluations` returns one existing
+`EvaluationResult` with status `201`. Its `EvaluationCommand` body contains `domain`
+(`sleep` or `physical_activity`), `window_start`, `window_end`, optional `evaluated_at`,
+`mission_phase`, `baseline_ids`, `sleep_config`, and `activity`. All measurements come
+from the isolated crew repository; clients cannot inject evaluated values or results.
+
+Sleep uses an explicit request `sleep_config` or configured server policy. Without
+one, it returns an explained `insufficient_data` result and does not run a fictional
+default screen. Activity uses explicit coverage, sessions, plans and policies; no
+coverage is inferred from the number of received records. Baselines are selected
+explicitly by ID, with matching crew, metric/domain, mission phase and aggregation.
+Activity selection also requires `activity.baselines_comparable=true`. Reference
+eligibility and historical cutoff checks remain enforced by the existing modules.
+
+Optional computation times default to UTC server time, must not lie in the future,
+and must follow the requested window end. Fixed inputs, policy, history and explicit
+computation time produce deterministic IDs. Omitted times create current snapshots.
+Neither command automatically runs after ingestion; the frontend controls when its
+required recording and mission context is ready.
+
+### Storage and empty results
+
+Storage is in memory, isolated per app instance and protected for concurrent requests.
+Run one worker. Restarts and development reloads erase all records. This is an MVP
+repository, not a database. Unknown crew collections return `200` with `{"items": []}`.
+Missing or foreign explicitly selected baseline IDs return `404`.
+
+Backfill or changed measurement quality invalidates saved baselines/evaluations whose
+crew/time windows intersect the changes, and evaluations referencing invalidated
+baselines. Invalidation is conservative across metrics. Later data outside a prior
+reference window preserves that baseline. Regenerate affected results explicitly.
+An identical ingestion retry does not invalidate results.
 
 ## Errors
 
@@ -211,12 +285,17 @@ Errors use the standard FastAPI format.
 | Status | Meaning | Body |
 | --- | --- | --- |
 | `404` | The resource does not exist | `{"detail": "..."}` |
+| `409` | A measurement ID has conflicting content | `{"detail": "..."}` |
 | `422` | The request is not valid | `{"detail": [{"type": "...", "loc": ["body", "..."], "msg": "...", "input": ...}]}` |
 
 In a `422` response, `loc` is the path of the invalid field and `msg` describes the
 problem.
 
-## Developing the frontend before the backend
+Computation/context errors use the same `detail` array shape, with `loc` identifying
+the body or query. Invalid non-finite inputs are represented safely in error JSON.
+Timestamp filters require timezone information and `end > start` when both are set.
+
+## Developing the frontend
 
 - Use the files in [schemas/examples/](../schemas/examples/) as fixtures for proposed
   endpoints. They are validated against the contracts by the backend test suite.
@@ -225,6 +304,8 @@ problem.
   instead of hard-coding them.
 - Every value in the examples is synthetic. Statuses in the examples were assigned by
   hand and do not reflect any real classification rule.
+- Use the running API and [frontend integration guide](frontend-integration.md) for
+  computed results. Shared `/schemas/examples` remain contract fixtures, not engine outputs.
 
 ## Open points
 
@@ -233,14 +314,12 @@ are settled.
 
 1. The list of metrics and their canonical units.
 2. The list of mission phases, for example whether `in_flight` should be split.
-3. The evaluation status labels. The rules behind them belong to the scientific
-   algorithms and are not defined yet.
+3. Clinical/flight validation of scientific policies. The implemented module rules
+   and parameter meanings are documented, but are not validated medical thresholds.
 4. Resources to list missions and crew members, which the frontend needs for selection.
-5. How evaluations are triggered: on ingestion, on a schedule or on request.
-6. What happens when a `measurement_id` is sent twice.
-7. Pagination of list endpoints.
-8. Authentication.
-9. Explanations backed by the RAG module. That contract is defined together with the
+5. Durable storage and pagination beyond the implemented optional limits.
+6. Authentication.
+7. Explanations backed by the RAG module. That contract is defined together with the
    RAG owner and is not covered by this version.
 
 ## Changing this contract
