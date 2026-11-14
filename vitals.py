@@ -4,6 +4,7 @@ There is no official NASA table of normal in-flight vital signs: each reading is
 astronaut's pre-flight baseline, shifted by the changes published for long-duration ISS flight.
 """
 
+import json
 import statistics
 
 # Blood pressure: equal to or up to about 10 mmHg below the pre-flight baseline is expected in flight
@@ -97,3 +98,43 @@ def check_parameter(registry: dict, astronaut_id: str, parameter: str, value: fl
         "plateau_mean": plateau_mean,
         "ok": ok,
     }
+
+
+def record_day(registry: dict, astronaut_id: str, day: int, systolic: float, diastolic: float,
+               temperature: float, baseline: dict) -> dict:
+    """Checks one day of readings and stores it in registry[astronaut_id][day].
+    baseline = pre-flight values with the keys systolic_bp, diastolic_bp, core_temperature."""
+    systolic_result = check_parameter(registry, astronaut_id, "systolic_bp", systolic, day,
+                                      baseline["systolic_bp"])
+    diastolic_result = check_parameter(registry, astronaut_id, "diastolic_bp", diastolic, day,
+                                       baseline["diastolic_bp"])
+    temperature_result = check_parameter(registry, astronaut_id, TEMPERATURE_PARAMETER, temperature, day,
+                                         baseline[TEMPERATURE_PARAMETER])
+    day_record = {
+        "systolic_bp": systolic_result,
+        "diastolic_bp": diastolic_result,
+        "core_temperature": temperature_result,
+        "blood_pressure_ok": systolic_result["ok"] and diastolic_result["ok"],
+        "temperature_ok": temperature_result["ok"],
+    }
+    if astronaut_id not in registry:
+        registry[astronaut_id] = {}
+    registry[astronaut_id][day] = day_record
+    return day_record
+
+
+def save_registry(registry: dict, path: str) -> None:
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(registry, file, indent=2)
+
+
+def load_registry(path: str) -> dict:
+    with open(path, encoding="utf-8") as file:
+        loaded = json.load(file)
+    # JSON keys are always strings: mission days go back to int
+    registry = {}
+    for astronaut_id in loaded:
+        registry[astronaut_id] = {}
+        for day in loaded[astronaut_id]:
+            registry[astronaut_id][int(day)] = loaded[astronaut_id][day]
+    return registry
