@@ -1,10 +1,12 @@
-"""Scores the cognitive test battery (emulation of NASA's 'Cognition' battery, Basner et al. 2015) and builds
-the report for the ground researcher. The astronaut never sees these numbers: the test screens only say
-that a test is complete.
+"""Scores the cognitive test battery (emulation of NASA's 'Cognition' battery, Basner et al. 2015)
+and builds the report for the ground researcher. The astronaut never sees these numbers: the test
+screens only say that a test is complete.
 
 Input: one session file written by the test frontend (raw trials for each test).
-Output: registry[astronaut_id][mission_day] = session report, saved as JSON (same functions as vitals.py).
-Usage: python cognition.py session.json [more sessions...] --registry cognition_registry.json
+Output: registry[astronaut_id][mission_day] = session report, saved as JSON (same functions as
+vitals.py).
+Usage, from backend/:
+    python -m app.domains.cognition.cognition session.json [...] --registry cognition_registry.json
 """
 
 import json
@@ -12,11 +14,12 @@ import os
 import statistics
 import sys
 
-import vitals
+from app.domains.vitals import vitals
 
 # Pre-flight scores of 25 NASA astronauts before 6-month ISS missions: (mean, standard deviation).
-# Dev et al. 2024, Front Physiol 15:1451269, Table 1. Speed = mean response time in ms (lower is faster);
-# for the PVT speed = 10 - 1/RT with RT in seconds (lower is faster). BART accuracy = risk score.
+# Dev et al. 2024, Front Physiol 15:1451269, Table 1. Speed = mean response time in ms (lower is
+# faster); for the PVT speed = 10 - 1/RT with RT in seconds (lower is faster). BART accuracy = risk
+# score.
 # Motor Praxis has no accuracy norm in that table.
 NORMS = {
     "MPT": {"speed": (1061.18, 153.53)},
@@ -44,17 +47,20 @@ TEST_NAMES = {
     "PVT": "Psychomotor Vigilance",
 }
 
-# Dev et al. 2024 count a score as low when z <= -1.5 (a cut-off used to detect impairment in clinical groups).
+# Dev et al. 2024 count a score as low when z <= -1.5 (a cut-off used to detect impairment in
+# clinical groups).
 LOW_SCORE_Z = -1.5
 
-# Scoring rules from Basner et al. 2021, Front Physiol 12:643854 (Methods, Cognition outcome variables)
-MPT_ZERO_ACCURACY_PX = 50  # clicking the centre is 100%, 50 px or more away is 0%, linear in between
+# Scoring rules from Basner et al. 2021, Front Physiol 12:643854 (Methods, Cognition outcome
+# variables). Motor Praxis: clicking the centre is 100%, 50 px or more away is 0%, linear
+# in between.
+MPT_ZERO_ACCURACY_PX = 50
 LOT_MAX_CLICKS_OFF = 3  # accuracy = (3 - mean clicks off) / 3, and 0 above 3 clicks
 PVT_FALSE_START_MS = 100
 PVT_LAPSE_MS = 355  # lapse threshold of the 3-minute PVT (500 ms is for the 10-minute version)
 
-# Not applied: the published corrections for practice and stimulus set (Basner et al. 2020) were not verified
-# on the full text, so early sessions may look slightly worse than later ones.
+# Not applied: the published corrections for practice and stimulus set (Basner et al. 2020) were not
+# verified on the full text, so early sessions may look slightly worse than later ones.
 
 
 def mean_response_time(trials: list[dict]) -> float | None:
@@ -78,7 +84,8 @@ def score_motor_praxis(test: dict) -> dict:
 
 
 def score_correct_or_wrong(test: dict) -> dict:
-    """VOLT, AM, ERT, MRT, DSST: accuracy = share of correct answers. Items not reached count as wrong."""
+    """VOLT, AM, ERT, MRT, DSST: accuracy = share of correct answers.
+    Items not reached count as wrong."""
     correct = 0
     for trial in test["trials"]:
         if trial["correct"]:
@@ -87,7 +94,8 @@ def score_correct_or_wrong(test: dict) -> dict:
 
 
 def score_fractal_two_back(test: dict) -> dict:
-    # Accuracy = mean of the % correct on matches and on non-matches, so never pressing does not score well
+    # Accuracy = mean of the % correct on matches and on non-matches, so never pressing does not
+    # score well
     matches = 0
     hits = 0
     non_matches = 0
@@ -135,7 +143,8 @@ def score_balloon(test: dict) -> dict:
 
 
 def score_vigilance(test: dict) -> dict:
-    # Accuracy = 1 - (lapses + false starts) / (stimuli + false starts); speed = 10 - mean(1/RT in seconds)
+    # Accuracy = 1 - (lapses + false starts) / (stimuli + false starts);
+    # speed = 10 - mean(1/RT in seconds)
     false_starts = test["false_starts"]  # presses with no stimulus on screen
     lapses = 0
     reciprocals = []
@@ -180,7 +189,7 @@ def z_score(code: str, metric: str, value: float) -> float:
 
 
 def preflight_summaries(registry: dict, astronaut_id: str) -> list[dict]:
-    """Summaries of the astronaut's sessions before launch (negative mission days, e.g. L-90 = -90)."""
+    """Summaries of the astronaut's sessions before launch (negative mission days, L-90 = -90)."""
     summaries = []
     if astronaut_id not in registry:
         return summaries
@@ -207,7 +216,7 @@ def score_session(registry: dict, session: dict) -> dict:
                 low_scores.append(code + " " + metric)
             if metric == "speed":
                 speed_z.append(z)
-            # BART risk is not an accuracy and stays out of the accuracy summary (Basner et al. 2021)
+            # BART risk is not an accuracy: it stays out of the accuracy summary (Basner 2021)
             if metric == "accuracy":
                 accuracy_z.append(z)
         rounded_metrics = {}
@@ -217,7 +226,8 @@ def score_session(registry: dict, session: dict) -> dict:
                 rounded_metrics[metric] = round(metrics[metric], 3)
         tests[code] = {"name": TEST_NAMES[code], "metrics": rounded_metrics, "z": z_values}
 
-    # Summaries as in Basner et al. 2021: mean z of speed, mean z of accuracy, efficiency = their mean
+    # Summaries as in Basner et al. 2021: mean z of speed, mean z of accuracy, efficiency = their
+    # mean
     summary = {"speed": None, "accuracy": None, "efficiency": None}
     if len(speed_z) > 0:
         summary["speed"] = round(statistics.mean(speed_z), 2)
@@ -265,7 +275,9 @@ def record_session(registry: dict, session: dict) -> dict:
 def text_report(report: dict) -> str:
     """Short text version of a session report for the ground researcher."""
     lines = []
-    lines.append("Astronaut " + report["astronaut_id"] + ", mission day " + str(report["mission_day"]))
+    lines.append(
+        "Astronaut " + report["astronaut_id"] + ", mission day " + str(report["mission_day"])
+    )
     for code in report["tests"]:
         test = report["tests"][code]
         parts = []
@@ -273,8 +285,14 @@ def text_report(report: dict) -> str:
             parts.append(metric + " z " + format(test["z"][metric], "+.2f"))
         lines.append("  " + test["name"] + ": " + ", ".join(parts))
     summary = report["summary"]
-    lines.append("  Summary: speed " + str(summary["speed"]) + ", accuracy " + str(summary["accuracy"])
-                 + ", efficiency " + str(summary["efficiency"]))
+    lines.append(
+        "  Summary: speed "
+        + str(summary["speed"])
+        + ", accuracy "
+        + str(summary["accuracy"])
+        + ", efficiency "
+        + str(summary["efficiency"])
+    )
     if report["change_from_preflight"] is not None:
         lines.append("  Change from own pre-flight: " + str(report["change_from_preflight"]))
     if len(report["low_scores"]) == 0:
@@ -287,11 +305,14 @@ def text_report(report: dict) -> str:
 def main():
     arguments = sys.argv[1:]
     if "--registry" not in arguments or len(arguments) < 3:
-        print("Usage: python cognition.py session.json [more sessions...] --registry cognition_registry.json")
+        print(
+            "Usage: python -m app.domains.cognition.cognition session.json [...]"
+            " --registry cognition_registry.json"
+        )
         sys.exit(1)
     position = arguments.index("--registry")
     registry_path = arguments[position + 1]
-    session_paths = arguments[:position] + arguments[position + 2:]
+    session_paths = arguments[:position] + arguments[position + 2 :]
 
     registry = {}
     if os.path.exists(registry_path):

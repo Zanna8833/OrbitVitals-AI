@@ -1,30 +1,34 @@
 """Checks whether an astronaut's blood pressure and body temperature are normal for spaceflight.
 
-There is no official NASA table of normal in-flight vital signs: each reading is compared with the same
-astronaut's pre-flight baseline, shifted by the changes published for long-duration ISS flight.
+There is no official NASA table of normal in-flight vital signs: each reading is compared with the
+same astronaut's pre-flight baseline, shifted by the changes published for long-duration ISS flight.
 """
 
 import json
 import statistics
 
-# Blood pressure: equal to or up to about 10 mmHg below the pre-flight baseline is expected in flight
-# (Norsk et al. 2015, J Physiol: 24-h BP -8/-9 mmHg; Hughson et al. 2012, J Appl Physiol: no change at rest).
+# Blood pressure: equal to or up to about 10 mmHg below the pre-flight baseline is expected in
+# flight (Norsk et al. 2015, J Physiol: 24-h BP -8/-9 mmHg; Hughson et al. 2012, J Appl Physiol:
+# no change at rest).
 BP_EXPECTED_DROP = 10  # mmHg
-# Measurement error: BP monitors are validated for a mean error up to 5 mmHg (ISO 81060-2, Stergiou et al. 2018).
+# Measurement error: BP monitors are validated for a mean error up to 5 mmHg
+# (ISO 81060-2, Stergiou et al. 2018).
 BP_MARGIN = 5  # mmHg
 
 # Resting core temperature rises by about 1 degC, gradually, with a plateau after about 75 days
-# (Stahn et al. 2017, Sci Rep). The curve is published only as a figure: the linear rise is our assumption.
+# (Stahn et al. 2017, Sci Rep). The curve is published only as a figure: the linear rise is our
+# assumption.
 TEMP_EXPECTED_RISE = 1.0  # degC
 TEMP_RISE_DAYS = 75
 # Day-to-day variability of body temperature in healthy adults: 0.32 degC (PMC7857558).
 TEMP_MARGIN = 0.3  # degC
 
-# Personal in-flight reference: mean of the 30 days before the last week, so that a drift of the last
-# few days does not hide inside the reference.
+# Personal in-flight reference: mean of the 30 days before the last week, so that a drift of the
+# last few days does not hide inside the reference.
 PLATEAU_DAYS = 30
 RECENT_DAYS = 7
-# With one reading per day, 2 standard deviations gave a false alarm about every 20 days for healthy crew.
+# With one reading per day, 2 standard deviations gave a false alarm about every 20 days for
+# healthy crew.
 PLATEAU_SD_LIMIT = 3
 
 BLOOD_PRESSURE_PARAMETERS = ["systolic_bp", "diastolic_bp"]
@@ -73,20 +77,25 @@ def plateau_values(registry: dict, astronaut_id: str, parameter: str, day: int) 
     return values
 
 
-def check_parameter(registry: dict, astronaut_id: str, parameter: str, value: float, day: int,
-                    baseline_value: float) -> dict:
+def check_parameter(
+    registry: dict, astronaut_id: str, parameter: str, value: float, day: int, baseline_value: float
+) -> dict:
     """Result for one reading, ready to be stored in the registry and saved as JSON."""
     minimum, maximum = expected_range(parameter, baseline_value, day)
     deviation = range_deviation(value, minimum, maximum)
     ok = deviation == 0
 
-    # Second check, only when there is enough history: distance from the personal in-flight reference
+    # Second check, only when there is enough history: distance from the personal in-flight
+    # reference
     plateau = plateau_values(registry, astronaut_id, parameter, day)
     plateau_mean = None
     if len(plateau) >= 2:
         plateau_mean = statistics.mean(plateau)
         standard_deviation = statistics.stdev(plateau)
-        if standard_deviation > 0 and abs(value - plateau_mean) > PLATEAU_SD_LIMIT * standard_deviation:
+        if (
+            standard_deviation > 0
+            and abs(value - plateau_mean) > PLATEAU_SD_LIMIT * standard_deviation
+        ):
             ok = False
         plateau_mean = round(plateau_mean, 2)
 
@@ -100,16 +109,31 @@ def check_parameter(registry: dict, astronaut_id: str, parameter: str, value: fl
     }
 
 
-def record_day(registry: dict, astronaut_id: str, day: int, systolic: float, diastolic: float,
-               temperature: float, baseline: dict) -> dict:
+def record_day(
+    registry: dict,
+    astronaut_id: str,
+    day: int,
+    systolic: float,
+    diastolic: float,
+    temperature: float,
+    baseline: dict,
+) -> dict:
     """Checks one day of readings and stores it in registry[astronaut_id][day].
     baseline = pre-flight values with the keys systolic_bp, diastolic_bp, core_temperature."""
-    systolic_result = check_parameter(registry, astronaut_id, "systolic_bp", systolic, day,
-                                      baseline["systolic_bp"])
-    diastolic_result = check_parameter(registry, astronaut_id, "diastolic_bp", diastolic, day,
-                                       baseline["diastolic_bp"])
-    temperature_result = check_parameter(registry, astronaut_id, TEMPERATURE_PARAMETER, temperature, day,
-                                         baseline[TEMPERATURE_PARAMETER])
+    systolic_result = check_parameter(
+        registry, astronaut_id, "systolic_bp", systolic, day, baseline["systolic_bp"]
+    )
+    diastolic_result = check_parameter(
+        registry, astronaut_id, "diastolic_bp", diastolic, day, baseline["diastolic_bp"]
+    )
+    temperature_result = check_parameter(
+        registry,
+        astronaut_id,
+        TEMPERATURE_PARAMETER,
+        temperature,
+        day,
+        baseline[TEMPERATURE_PARAMETER],
+    )
     day_record = {
         "systolic_bp": systolic_result,
         "diastolic_bp": diastolic_result,
