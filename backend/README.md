@@ -74,6 +74,15 @@ algorithms, assumptions, integration responsibilities and limitations. Run the c
 labeled synthetic examples with `python -m app.domains.physical_activity.demo`;
 add `--full` to include complete simulated inputs and reports.
 
+## Synthetic presentation data
+
+With the API running, use `python -m app.demo_seed seed --report mission-demo-report.json`
+to load three synthetic crew histories and compute real baseline/sleep/activity results
+through the existing HTTP endpoints. Repeat runs are idempotent for the same inputs
+and backend configuration. `python -m app.demo_seed manifest` prints the offline crew,
+scenario and endpoint mapping. See the [mission demo seeder guide](../docs/mission-demo-seed.md)
+for exact Windows PowerShell commands, demo assumptions, reset behavior and tests.
+
 ## Adding an endpoint
 
 1. Create a module in `app/api/routes/` with an `APIRouter`.
