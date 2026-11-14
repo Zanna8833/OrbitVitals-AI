@@ -272,3 +272,10 @@ CLAUDE.local.md
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Private NASA acquisitions and locally generated scientific reports.
+/.nasa-private/
+/.nasa-cache/
+/data/nasa/**/raw/
+/data/nasa/**/computed-*.json
+/data/nasa/**/download-receipt.json
