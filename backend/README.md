@@ -38,12 +38,25 @@ and the OpenAPI document at `/openapi.json`.
 | `app/api/` | HTTP routes. Register new route modules in `app/api/router.py` |
 | `app/models/` | Shared data contracts, the source of truth for `/schemas` |
 | `app/algorithms/` | Cross-domain scientific algorithms. Not implemented yet |
-| `app/domains/` | `sleep/`, `physical_activity/`, `nutrition/`. Not implemented yet |
+| `app/domains/` | Scientific domain services; physical activity is implemented, sleep and nutrition are placeholders |
 | `scripts/` | Developer scripts |
 | `tests/` | Test suite, mirroring `app/` |
 
 Scientific code must not import FastAPI or `app.api`. See "Architecture rules" in
 [AGENTS.md](../AGENTS.md); `tests/architecture` enforces them.
+
+## Physical activity
+
+`app.domains.physical_activity.monitor_activity` evaluates canonical exercise-duration
+and active-energy measurements, explicit recording coverage, personal targets and
+compatible established daily baselines. It returns the existing `EvaluationResult`
+inside a domain-local report with session, daily and weekly detail. No HTTP endpoint
+or unfinished quality/baseline engine is required.
+
+See [physical activity monitoring](../docs/physical-activity-monitoring.md) for the
+algorithms, assumptions, integration responsibilities and limitations. Run the clearly
+labeled synthetic examples with `python -m app.domains.physical_activity.demo`;
+add `--full` to include complete simulated inputs and reports.
 
 ## Adding an endpoint
 
