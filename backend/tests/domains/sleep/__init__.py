@@ -1,1 +1,1 @@
-"""Tests of `app.domains.sleep`. Empty until the domain is implemented."""
+"""Deterministic synthetic tests of the sleep domain, contracts and integration adapters."""
