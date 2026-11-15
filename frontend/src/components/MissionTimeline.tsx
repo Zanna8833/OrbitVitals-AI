@@ -86,9 +86,10 @@ function DayScrubber({ day, today, onPreview, onCommit }: { day: number; today: 
   }
   const shown = drag?.d ?? day
   const thumb = drag ? drag.x : pctOf(day)
-  const labels = [...new Set([1, ...Array.from({ length: Math.floor(today / 7) }, (_, i) => (i + 1) * 7).filter((d) => pctOf(d) <= 72), today])]
+  const labels = [...new Set([1, ...Array.from({ length: Math.floor(today / 7) }, (_, i) => (i + 1) * 7).filter((d) => pctOf(d) <= 90)])]
   return (
     <div className="scrub">
+      <div className="scrub-main">
       <div
         ref={trackRef}
         className={`scrub-track${drag ? ' is-dragging' : ''}`}
@@ -125,18 +126,16 @@ function DayScrubber({ day, today, onPreview, onCommit }: { day: number; today: 
         </span>
       </div>
       <div className="scrub-labels">
-        {labels.map((d) =>
-          d === today ? (
-            <button key={d} type="button" className="scrub-today" style={{ left: `${pctOf(d)}%` }} disabled={day === today} title="Back to today" onClick={() => onCommit(today)}>
-              Today
-            </button>
-          ) : (
-            <span key={d} style={{ left: `${pctOf(d)}%` }} aria-hidden="true">
-              {d}
-            </span>
-          ),
-        )}
+        {labels.map((d) => (
+          <span key={d} style={{ left: `${pctOf(d)}%` }} aria-hidden="true">
+            {d}
+          </span>
+        ))}
       </div>
+      </div>
+      <button type="button" className="scrub-today" disabled={day === today} title="Back to today" onClick={() => onCommit(today)}>
+        Today
+      </button>
     </div>
   )
 }

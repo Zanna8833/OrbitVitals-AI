@@ -6160,27 +6160,39 @@ select option:disabled {
 .astro-chip[aria-current='page'] .avatar { background: var(--tint); }
 .astronaut-switch { gap: 6px; padding: 5px; }
 
-/* "Today" under the day track: a button back to the current day. */
-.scrub-labels .scrub-today {
-  position: absolute;
-  transform: translateX(-100%);
-  top: -1px;
-  padding: 0 7px;
-  margin-right: -7px;
-  line-height: 16px;
+/* "Today": a button beside the day track, back to the current day. */
+.scrub {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  max-width: 520px;
+}
+.mission-day-label { white-space: nowrap; }
+.mission.is-interactive { flex-shrink: 0; }
+.scrub-main {
+  flex: 1 1 auto;
+  width: 220px;
+  min-width: 160px;
+  padding: 0 10px;
+}
+.scrub-today {
+  flex: none;
+  height: 26px;
+  padding: 0 12px;
   border: 0;
-  border-radius: 9px;
+  border-radius: 13px;
   background: color-mix(in srgb, var(--tint) 12%, transparent);
   color: var(--tint);
   font: inherit;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 650;
   cursor: pointer;
   white-space: nowrap;
 }
-.scrub-labels .scrub-today:hover { background: color-mix(in srgb, var(--tint) 22%, transparent); }
-.scrub-labels .scrub-today:disabled { background: transparent; cursor: default; }
-.scrub-labels .scrub-today:focus-visible { outline: 2px solid var(--tint); outline-offset: 1px; }
+.scrub-today:hover { background: color-mix(in srgb, var(--tint) 22%, transparent); }
+.scrub-today:disabled { background: var(--fill-2); color: var(--label-3); cursor: default; }
+.scrub-today:focus-visible { outline: 2px solid var(--tint); outline-offset: 2px; }
 
 @media (min-width: 1024px) and (min-height: 620px) {
   .assistant-page .assistant-chat {
