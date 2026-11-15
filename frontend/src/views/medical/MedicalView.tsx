@@ -17,6 +17,7 @@ import { Moon } from '../../components/SleepGrid'
 import { addDays, coverageOf, nightsFrom } from '../../domain/sleepPlan'
 import { CrewPane } from './CrewPane'
 import { config } from '../../config'
+import { useCognitionAvailable } from '../../hooks/useCognition'
 import type { BackendEvaluation } from '../../domain/metricCatalog'
 
 const DOMAIN_LABEL: Record<string, string> = { vital_signs: 'Vital signs', sleep: 'Sleep', physical_activity: 'Physical activity', nutrition: 'Nutrition', cognition: 'Cognition' }
@@ -147,15 +148,7 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
               trailing={uncovered.length ? <span className="badge badge-attention">{uncovered.length}</span> : undefined}
               chevron={false}
             />
-            <Row
-              href={config.cognitionUrl}
-              newTab
-              leading={<span className="symbol tone-rest">◎</span>}
-              title="Cognition results ↗"
-              subtitle="Opens the ground research view"
-
-              chevron={false}
-            />
+            <CognitionResultsRow />
           </List>
         </div>
         <p className="fineprint sidebar-note">Items are review signals from OrbitVitals rules and the backend engines, not clinical alarms.</p>
@@ -228,6 +221,20 @@ function CrewRow({ snapshot: s, now, selected }: { snapshot: CrewSnapshot; now: 
         </>
       }
       trailing={s.openEvents ? <span className="badge">{s.openEvents}</span> : undefined}
+      chevron={false}
+    />
+  )
+}
+
+function CognitionResultsRow() {
+  const available = useCognitionAvailable()
+  return (
+    <Row
+      href={available === false ? undefined : config.cognitionUrl}
+      newTab
+      leading={<span className="symbol tone-rest">◎</span>}
+      title={available === false ? 'Cognition results' : 'Cognition results ↗'}
+      subtitle={available === false ? 'Not installed: npm run cognition' : 'Opens the ground research view'}
       chevron={false}
     />
   )

@@ -31,6 +31,7 @@ import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
 import { config } from '../../config'
+import { useCognitionAvailable } from '../../hooks/useCognition'
 import { rememberAstronaut } from '../../state/lastAstronaut'
 import { CrewOverview } from './CrewOverview'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
@@ -69,7 +70,7 @@ function CognitionRow() {
       </Symbol>
       <span className="row-text">
         <span className="row-title">Cognition tests ↗</span>
-        <span className="row-subtitle">{available === false ? 'Not in this build' : '10-test battery'}</span>
+        <span className="row-subtitle">{available === false ? 'Not installed: npm run cognition' : '10-test battery'}</span>
       </span>
     </>
   )
@@ -84,19 +85,6 @@ function CognitionRow() {
   )
 }
 
-function useCognitionAvailable(): boolean | null {
-  const [ok, setOk] = useState<boolean | null>(null)
-  useEffect(() => {
-    let alive = true
-    fetch(config.cognitionUrl, { method: 'HEAD' })
-      .then((r) => alive && setOk(r.ok))
-      .catch(() => alive && setOk(false))
-    return () => {
-      alive = false
-    }
-  }, [])
-  return ok
-}
 
 const BrainIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
