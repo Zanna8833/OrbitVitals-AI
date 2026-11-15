@@ -1,0 +1,802 @@
+[
+ {
+  "file": "faces/Anger1.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger10.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger11.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger13.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger14.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger15.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger16.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger19.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger2.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger27.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger29.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger31.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger33.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger35.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger36.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger37.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger41.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger44.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger45.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger46.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger49.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger51.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger54.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger57.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger58.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger6.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger60.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger63.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger65.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger66.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger71.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger72.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger74.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger76.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger77.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger79.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger80.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger83.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger85.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Anger98.jpg",
+  "emotion": "angry"
+ },
+ {
+  "file": "faces/Fear1.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear10.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear11.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear13.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear14.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear15.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear16.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear19.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear2.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear27.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear29.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear31.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear33.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear35.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear36.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear37.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear41.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear44.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear45.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear46.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear49.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear51.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear54.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear57.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear58.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear6.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear60.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear63.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear65.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear66.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear71.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear72.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear74.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear76.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear77.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear79.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear80.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear83.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear85.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Fear98.jpg",
+  "emotion": "fearful"
+ },
+ {
+  "file": "faces/Happy1.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy10.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy11.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy13.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy14.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy15.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy16.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy19.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy2.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy27.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy29.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy31.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy33.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy35.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy36.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy37.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy41.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy44.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy45.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy46.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy49.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy51.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy54.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy57.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy58.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy6.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy60.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy63.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy65.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy66.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy71.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy72.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy74.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy76.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy77.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy79.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy80.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy83.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy85.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Happy98.jpg",
+  "emotion": "happy"
+ },
+ {
+  "file": "faces/Neutral1.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral10.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral11.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral13.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral14.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral15.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral16.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral19.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral2.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral27.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral29.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral31.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral33.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral35.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral36.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral37.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral41.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral44.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral45.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral46.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral49.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral51.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral54.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral57.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral58.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral6.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral60.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral63.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral65.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral66.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral71.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral72.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral74.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral76.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral77.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral79.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral80.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral83.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral85.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Neutral98.jpg",
+  "emotion": "no emotion"
+ },
+ {
+  "file": "faces/Sad1.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad10.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad11.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad13.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad14.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad15.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad16.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad19.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad2.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad27.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad29.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad31.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad33.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad35.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad36.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad37.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad41.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad44.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad45.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad46.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad49.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad51.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad54.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad57.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad58.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad6.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad60.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad63.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad65.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad66.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad71.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad72.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad74.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad76.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad77.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad79.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad80.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad83.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad85.jpg",
+  "emotion": "sad"
+ },
+ {
+  "file": "faces/Sad98.jpg",
+  "emotion": "sad"
+ }
+]
