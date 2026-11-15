@@ -1,6 +1,6 @@
 import { config } from '../config'
 import type { DataSource } from './DataSource'
-import { HttpDataSource } from './http/HttpDataSource'
+import { BackendDataSource } from './backend/BackendDataSource'
 import { fixedClock, replayClock } from './mock/clock'
 import { MockDataSource } from './mock/MockDataSource'
 
@@ -11,7 +11,7 @@ export interface MockOptions {
 
 /** Chooses the data adapter from the build configuration (see src/config.ts). */
 export function createDataSource(scenarioId: string, mock: MockOptions = { replay: false }): DataSource {
-  if (config.dataSource === 'http') return new HttpDataSource(config.apiBaseUrl)
+  if (config.dataSource === 'http') return new BackendDataSource(config.apiBaseUrl, config.backendCrew, { asOf: config.asOf, missionStart: config.missionStart })
   return new MockDataSource(scenarioId, undefined, mock.replay ? replayClock(Date.now()) : fixedClock)
 }
 

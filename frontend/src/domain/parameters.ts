@@ -98,15 +98,16 @@ export const DAILY_INDICATORS: Record<DailyIndicatorId, DailyIndicatorDef> = {
   bp_systolic: { id: 'bp_systolic', label: 'Systolic pressure', when: 'cuff measurement', unit: 'mmHg', decimals: 0 },
   bp_diastolic: { id: 'bp_diastolic', label: 'Diastolic pressure', when: 'cuff measurement', unit: 'mmHg', decimals: 0 },
   body_temperature: { id: 'body_temperature', label: 'Body temperature', when: 'spot check', unit: '°C', decimals: 1 },
-  activity_minutes: { id: 'activity_minutes', label: 'Daily physical activity', when: 'exercise log', unit: 'min', decimals: 0 },
+  activity_minutes: { id: 'activity_minutes', label: 'Exercise time', when: 'exercise log', unit: 'min', decimals: 0 },
   body_mass: { id: 'body_mass', label: 'Body mass', when: 'periodic check', unit: 'kg', decimals: 1 },
   sleep_efficiency: { id: 'sleep_efficiency', label: 'Sleep efficiency estimate', when: 'overnight wearable', unit: '%', decimals: 0 },
+  active_energy: { id: 'active_energy', label: 'Active energy', when: 'exercise sessions', unit: 'kcal', decimals: 0 },
 }
 
 /** Additive, optional daily fields proposed to the backend. No clinical cutoffs. */
 export const DAILY_INDICATOR_ORDER: DailyIndicatorId[] = [
   'resting_hr', 'sleep_duration', 'resting_spo2', 'resting_resp_rate', 'hrv_rmssd',
-  'bp_systolic', 'bp_diastolic', 'body_temperature', 'activity_minutes', 'body_mass', 'sleep_efficiency',
+  'bp_systolic', 'bp_diastolic', 'body_temperature', 'activity_minutes', 'body_mass', 'sleep_efficiency', 'active_energy',
 ]
 
 /** Three readings per pane. The first category remains deliberately minimal. */

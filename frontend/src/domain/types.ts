@@ -161,7 +161,7 @@ export interface CrewMessage {
 export type DailyIndicatorId =
   | 'resting_hr' | 'sleep_duration' | 'resting_spo2'
   | 'resting_resp_rate' | 'hrv_rmssd' | 'bp_systolic' | 'bp_diastolic'
-  | 'body_temperature' | 'activity_minutes' | 'body_mass' | 'sleep_efficiency'
+  | 'body_temperature' | 'activity_minutes' | 'body_mass' | 'sleep_efficiency' | 'active_energy'
 
 export interface DailyValue {
   /** Calendar day, UTC (YYYY-MM-DD). */
@@ -197,6 +197,8 @@ export interface DailyIndicatorSeries {
   /** How the value is obtained (device / method), shown to the user. */
   source: string
   simulated: boolean
+  /** Where the values come from: generated demo data, an imported file, or the backend. */
+  origin?: 'demo' | 'import' | 'backend'
 }
 
 /** 1 (worst) … 5 (best) — higher is always better, on every question. */

@@ -104,7 +104,7 @@ export function storeCrewReport(event: ReviewEvent) {
 }
 
 export function resetCrewDemoData() {
-  for (const key of ['outbox', 'rechecks', 'crew-reports', 'check-ins', 'device-measurements', 'sleep-aid-plan', 'imports']) {
+  for (const key of ['outbox', 'rechecks', 'crew-reports', 'check-ins', 'device-measurements', 'sleep-aid-plan', 'imports', 'intake', 'custom-foods']) {
     try { window.localStorage.removeItem(prefix + key) } catch { /* unavailable */ }
     memoryFallback.delete(prefix + key)
   }
@@ -146,6 +146,8 @@ export interface ImportedCrewData {
   displayName: string | null
   role: string | null
   series: import('../domain/types').DailyIndicatorSeries[]
+  /** Sex, age, height from the profile JSON, when given (nutrition requirements). */
+  nutrition?: Partial<Omit<import('../domain/nutrition').NutritionProfile, 'bodyMassKg' | 'source'>>
   files: string[]
   importedAt: string
 }
@@ -163,4 +165,24 @@ export function removeImport(crewId: string) {
   const all = storedImports()
   delete all[crewId]
   write('imports', all)
+}
+
+/** Demo-only nutrition log. `null` = nothing saved yet (use the seeded log). */
+export function storedIntake(): import('../domain/nutrition').IntakeEntry[] | null {
+  const v = read<import('../domain/nutrition').IntakeEntry[] | null>('intake', null)
+  return Array.isArray(v) ? v : null
+}
+
+export function storeIntake(entries: import('../domain/nutrition').IntakeEntry[]) {
+  write('intake', entries)
+}
+
+/** Foods created by the crew, shared by everyone on board in this demo. */
+export function storedCustomFoods(): import('../domain/nutrition').Food[] {
+  const v = read<import('../domain/nutrition').Food[]>('custom-foods', [])
+  return Array.isArray(v) ? v : []
+}
+
+export function storeCustomFoods(foods: import('../domain/nutrition').Food[]) {
+  write('custom-foods', foods)
 }

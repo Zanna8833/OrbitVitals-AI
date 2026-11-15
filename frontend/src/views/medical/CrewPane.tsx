@@ -17,10 +17,28 @@ import { TimeSeriesChart } from '../../components/TimeSeriesChart'
 import { List, Row } from '../../components/ui'
 import { loadSession } from '../sessionData'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
+import { EvaluationsList } from './Evaluations'
+import { loadNutrition, type NutritionData } from '../crew/Nutrition'
+import { NUTRIENTS, progressOf, totalsOf } from '../../domain/nutrition'
+
+/** Mean daily intake over the complete logged days of the last week, against NASA requirements. */
+function weekNutrition(data: NutritionData, nowIso: string) {
+  const days = [...new Set(data.intake.map((e) => e.eatenAt.slice(0, 10)))].filter((d) => d < nowIso.slice(0, 10))
+  const sum = totalsOf(data.intake.filter((e) => days.includes(e.eatenAt.slice(0, 10))), data.foods)
+  for (const k of Object.keys(sum.totals) as (keyof typeof sum.totals)[]) sum.totals[k] /= Math.max(1, days.length)
+  const all = NUTRIENTS.map((d) => progressOf(d.id, sum, data.profile))
+  return { days: days.length, off: all.filter((p) => p.state === 'over' || p.state === 'below').sort((a, b) => Number(b.state === 'over') - Number(a.state === 'over')) }
+}
 
 async function loadCrew(ds: DataSource, crewId: string) {
-  const [snapshot, session, daily] = await Promise.all([ds.getCrewSnapshot(crewId), loadSession(ds, crewId, PARAMETER_ORDER), ds.getDailyIndicators(crewId)])
-  return { snapshot, session, daily }
+  const [snapshot, session, daily, evaluations] = await Promise.all([
+    ds.getCrewSnapshot(crewId),
+    loadSession(ds, crewId, PARAMETER_ORDER),
+    ds.getDailyIndicators(crewId),
+    ds.listEvaluations(crewId),
+  ])
+  const nutrition = await loadNutrition(ds, crewId, session.mission.now)
+  return { snapshot, session, daily, evaluations, nutrition }
 }
 
 /** One crew member: latest values, the current session, and long-term changes. */
@@ -32,7 +50,10 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
   const [ref, size] = useBoxSize<HTMLDivElement>()
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
-  const { snapshot: s, session, daily } = state.data
+  const { snapshot: s, session, daily, evaluations, nutrition } = state.data
+  // The backend has no live sessions yet: then the main area shows its evaluations.
+  const hasSession = PARAMETER_ORDER.some((p) => (session.series[p]?.samples.length ?? 0) > 0)
+  const week = weekNutrition(nutrition, session.mission.now)
   const now = session.mission.now
   const fresh = computeFreshness(s.device.lastReceivedAt, now, s.device.expectedIntervalS)
   const today = missionDayOf(now, session.mission.missionStartDate)
@@ -77,6 +98,20 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
 
       <div className="pane-grid">
         <div className="pane-main">
+          {!hasSession && (
+            <section className="card eval-card" aria-labelledby="eval-h">
+              <div className="card-toolbar">
+                <h2 className="card-title" id="eval-h">
+                  Backend evaluations
+                </h2>
+                <span className="muted">{evaluations.length} stored</span>
+              </div>
+              <div className="eval-scroll">
+                <EvaluationsList items={evaluations} />
+              </div>
+            </section>
+          )}
+          {hasSession && (
           <section className="card chart-card" aria-label="Current session">
             <div className="card-toolbar">
               <h2 className="card-title">Current session</h2>
@@ -93,6 +128,8 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
               charts
             )}
           </section>
+          )}
+          {hasSession && (
           <div className="figures">
             {VITAL_PARAMETERS.map((p) => {
               const snap = s.parameters.find((x) => x.parameter === p)
@@ -118,6 +155,7 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
               )
             })}
           </div>
+          )}
         </div>
 
         <aside className="pane-side" aria-label="To review and day-to-day changes">
@@ -139,6 +177,37 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
               </List>
             ) : (
               <p className="list-empty">Nothing to review.</p>
+            )}
+          </section>
+          {hasSession && evaluations.length > 0 && (
+            <section aria-labelledby="crew-eval-h">
+              <h2 className="side-title" id="crew-eval-h">
+                Backend evaluations
+              </h2>
+              <EvaluationsList items={evaluations} compact />
+            </section>
+          )}
+          <section aria-labelledby="crew-nutrition-h">
+            <h2 className="side-title" id="crew-nutrition-h">
+              Nutrition <span className="muted">· mean of {week.days} {week.days === 1 ? 'day' : 'days'}</span>
+            </h2>
+            {week.days === 0 ? (
+              <p className="list-empty">No intake logged in the last 7 days.</p>
+            ) : week.off.length ? (
+              <div className="nutri-off">
+                {week.off.some((p) => p.state === 'over') && (
+                  <p>
+                    <span className="nutri-tag is-over">▲ Above limit</span> {week.off.filter((p) => p.state === 'over').map((p) => p.def.label).join(', ')}
+                  </p>
+                )}
+                {week.off.some((p) => p.state === 'below') && (
+                  <p>
+                    <span className="nutri-tag">▼ Below minimum</span> {week.off.filter((p) => p.state === 'below').map((p) => p.def.label).join(', ')}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="list-empty">Every nutrient within the NASA requirements.</p>
             )}
           </section>
           <section aria-labelledby="crew-daily-h">

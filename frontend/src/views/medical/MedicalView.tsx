@@ -16,6 +16,7 @@ import { SleepPane, SLEEP_FUTURE, SLEEP_PAST } from './SleepPane'
 import { Moon } from '../../components/SleepGrid'
 import { addDays, coverageOf, nightsFrom } from '../../domain/sleepPlan'
 import { CrewPane } from './CrewPane'
+import { config } from '../../config'
 
 async function loadOverview(ds: DataSource) {
   const [mission, crew, events] = await Promise.all([ds.getMissionStatus(), ds.listCrew(), ds.listEvents()])
@@ -104,7 +105,7 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
                   <Moon size={14} />
                 </span>
               }
-              title="Sleep-aid plan"
+              title="Sleeping-pill plan"
               subtitle={
                 uncovered.length ? (
                   <span className="text-attention">
@@ -115,6 +116,15 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
                 )
               }
               trailing={uncovered.length ? <span className="badge badge-attention">{uncovered.length}</span> : undefined}
+              chevron={false}
+            />
+            <Row
+              href={config.cognitionUrl}
+              newTab
+              leading={<span className="symbol tone-rest">◎</span>}
+              title="Cognition results ↗"
+              subtitle="Opens the ground research view"
+
               chevron={false}
             />
           </List>

@@ -1,6 +1,6 @@
 import type { CrewMember, SleepAidPlanEntry } from '../../domain/types'
 import { addDays, coverageOf, nightLabel, nightsFrom, SLEEP_COVER_RULE } from '../../domain/sleepPlan'
-import { Moon, SleepGrid } from '../../components/SleepGrid'
+import { PillIcon, SleepGrid } from '../../components/SleepGrid'
 import { List, Row } from '../../components/ui'
 import { activityAfterNight } from '../../domain/missionPlan'
 
@@ -9,7 +9,7 @@ export const SLEEP_FUTURE = 11
 
 /**
  * The crew's sleep-aid plan as the Flight Surgeon sees it: read-only, every
- * crew member, and the nights where nobody would stay without a sleep aid.
+ * crew member, and the nights where nobody would stay without a sleeping pill.
  */
 export function SleepPane({ crew, entries, tonight, missionStart }: { crew: CrewMember[]; entries: SleepAidPlanEntry[]; tonight: string; missionStart: string }) {
   const ids = crew.map((c) => c.id)
@@ -20,23 +20,23 @@ export function SleepPane({ crew, entries, tonight, missionStart }: { crew: Crew
     <article className="pane pane-fit">
       <header className="pane-header">
         <p className="eyebrow">Crew schedule</p>
-        <h1>Sleep-aid plan</h1>
+        <h1>Sleeping-pill plan</h1>
         <p className="why explain">
           <strong>Why it is here · </strong>
-          Each crew member plans the nights they intend to use a sleep aid. Demo rule: at least {SLEEP_COVER_RULE.minWithoutSleepAid} crew member stays
+          Each crew member plans the nights they intend to use a sleeping pill. Demo rule: at least {SLEEP_COVER_RULE.minWithoutSleepAid} crew member stays
           without one every night, ready for an emergency.
         </p>
       </header>
       <div className="pane-grid">
         <div className="pane-main">
-          <section className="card sleep-plan-card" aria-label="Sleep-aid calendar">
+          <section className="card sleep-plan-card" aria-label="Sleeping-pill calendar">
             <SleepGrid nights={nights} today={tonight} crew={crew} entries={entries} me={null} missionStart={missionStart} />
             <ul className="legend">
               <li>
                 <span className="sg-mark legend-moon">
-                  <Moon size={11} />
+                  <PillIcon size={12} />
                 </span>{' '}
-                Sleep aid planned
+                Sleeping pill planned
               </li>
               <li>
                 <span className="sg-warn">▲ 0/3</span> nobody left without one
@@ -57,13 +57,13 @@ export function SleepPane({ crew, entries, tonight, missionStart }: { crew: Crew
                     title={`${nightLabel(c.night).weekday} ${nightLabel(c.night).day} ${nightLabel(c.night).month}`}
                     subtitle={(() => {
                       const a = activityAfterNight(c.night, missionStart)
-                      return a ? `Everyone planned a sleep aid · ${a.label} at ${a.startUtc} next morning` : 'Every crew member planned a sleep aid'
+                      return a ? `Everyone planned a sleeping pill · ${a.label} at ${a.startUtc} next morning` : 'Every crew member planned a sleeping pill'
                     })()}
                   />
                 ))}
               </List>
             ) : (
-              <p className="list-empty">Every night in the next {SLEEP_FUTURE} has at least one crew member without a sleep aid.</p>
+              <p className="list-empty">Every night in the next {SLEEP_FUTURE} has at least one crew member without a sleeping pill.</p>
             )}
           </section>
           <p className="fineprint side-note">

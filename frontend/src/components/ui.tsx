@@ -117,6 +117,7 @@ export function Row({
   href,
   onClick,
   selected,
+  newTab = false,
   chevron = !!(href || onClick),
 }: {
   leading?: ReactNode
@@ -126,6 +127,8 @@ export function Row({
   href?: string
   onClick?: () => void
   selected?: boolean
+  /** Opens in a new tab (a separate app, e.g. the cognition battery). */
+  newTab?: boolean
   chevron?: boolean
 }) {
   const body = (
@@ -146,7 +149,7 @@ export function Row({
   const cls = `row${selected ? ' is-selected' : ''}`
   if (href) {
     return (
-      <a className={cls} href={href} aria-current={selected ? 'page' : undefined}>
+      <a className={cls} href={href} aria-current={selected ? 'page' : undefined} {...(newTab ? { target: '_blank', rel: 'noopener' } : {})}>
         {body}
       </a>
     )

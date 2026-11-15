@@ -70,6 +70,11 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
       displayName: profile?.displayName ?? null,
       role: profile?.role ?? null,
       series: result.series,
+      nutrition: profile
+        ? Object.fromEntries(
+            Object.entries({ sex: profile.sex, ageYears: profile.ageYears, heightM: profile.heightM }).filter(([, v]) => v !== null),
+          )
+        : undefined,
       files: [profileFile?.name, csvFile?.name].filter(Boolean) as string[],
       importedAt: new Date().toISOString(),
     })
@@ -109,6 +114,7 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
               <span className="import-ok">
                 ✓ {profileFile?.name} · {profile.displayName ?? 'No name'}
                 {profile.role ? ` · ${profile.role}` : ''} · mission start {profile.missionStartDate}
+                {profile.sex && profile.ageYears && profile.heightM ? ` · ${profile.sex}, ${profile.ageYears} y, ${profile.heightM.toFixed(2)} m` : ''}
               </span>
             )}
             {profileError && <span className="form-error">{profileError}</span>}

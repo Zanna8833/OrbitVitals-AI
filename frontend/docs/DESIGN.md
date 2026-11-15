@@ -42,6 +42,16 @@ Following team feedback (*"merge heart and the rest into one rectangle that open
 
 The team's research note states that crews are sometimes all under sleep aids at once (a figure of about 16% was quoted). **The source has not been verified here**: cite it in the submission only after checking it, and do not show the figure in the interface.
 
+## Full platform pass (team feedback, 15 Nov afternoon)
+
+- **Nutrition first.** A tinted slot at the top of Today, deliberately the most visible card: three rings (water, energy, vitamins & minerals on target), quick water buttons and *Log food*. NASA asks for 100% of each daily requirement, so the rings show what is still missing; anything above an upper limit (iron, sodium, phosphorus) turns orange. The Nutrition page lists all 16 nutrients. Targets use the backend rules (JSC-67378).
+- **Crew and astronaut.** `#/crew` is the crew overview; a switch in every header moves between *Crew* and each astronaut on the same page type.
+- **Every measurement.** *Take a measurement* lists all the catalog metrics measured on board, grouped (heart and circulation, breathing, body, sleep, exercise), each from the device (simulated) or typed by hand. *All indicators* shows all 11 day-to-day indicators.
+- **Backend.** `VITE_DATA_SOURCE=http` reads and writes the team's FastAPI backend; tags say *Backend* / *Simulated records* / *Imported data*.
+- **Sleep plan.** Explicit wording (*sleeping pill*) and a capsule icon, kept quiet; *Edit whole crew* lets the plan be changed for anyone. The ~16% figure from the team's research is still not shown: its source has not been verified.
+- **Exercise and cognition** sit in *Daily review* as a compact pair.
+- **Fixes:** chart labels moved to a strip above the plot (no text over the data), the tooltip floats above the page, focus rings and hover dots are no longer cut at the plot edges, y labels never stack, a clearer ringed-planet assistant icon. An automated check finds no overlapping or cut text on any page at 1280×720–1920×1080.
+
 ## Sleep plan made more useful + data import (team feedback, 15 Nov)
 
 The calendar stays as it was; it now helps decide, not only record:
@@ -139,7 +149,7 @@ Left column, top to bottom; right column: six health tiles and the trend of the 
 
 ## Verified
 
-- `tsc`, build, and 99 unit/contract tests pass.
+- `tsc`, build, and 101 unit/contract tests pass.
 - End-to-end browser run, with no console errors:
   - indicator sheet and Esc to close;
   - check-in; measurement with a paired blood-pressure capture; share;

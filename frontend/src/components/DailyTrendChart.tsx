@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { type CSSProperties, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { DailyIndicatorId, DailyIndicatorSeries, DailyValue } from '../domain/types'
 import { DAILY_INDICATORS, QUALITY_LABEL, formatDailyValue } from '../domain/parameters'
 import { linear, niceDomain, niceTicks } from './chartScale'
@@ -7,9 +7,10 @@ import { linear, niceDomain, niceTicks } from './chartScale'
 const MIN_SPAN: Record<DailyIndicatorId, number> = {
   resting_hr: 14, sleep_duration: 2.5, resting_spo2: 5, resting_resp_rate: 6,
   hrv_rmssd: 22, bp_systolic: 24, bp_diastolic: 16, body_temperature: 1.8,
-  activity_minutes: 48, body_mass: 2, sleep_efficiency: 18,
+  activity_minutes: 48, body_mass: 2, sleep_efficiency: 18, active_energy: 300,
 }
-const M = { left: 40, right: 52, top: 10, bottom: 24 }
+/** `top` leaves a strip above the plot for labels, so text never sits on the data. */
+const M = { left: 40, right: 52, top: 22, bottom: 24 }
 
 /**
  * One indicator over the mission days, against the person's own usual range
@@ -120,6 +121,22 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
     (base ? ` Usual range ${formatDailyValue(series.indicator, base.low)}–${formatDailyValue(series.indicator, base.high)} ${unit}.` : '')
 
   const missing = days.filter((d) => d.value === null)
+  // Y labels at least 16 px apart: on a short chart only the bottom and top remain.
+  const allYTicks = niceTicks(y0, y1, 3)
+  const yTicks = allYTicks.length > 2 && plotH / (allYTicks.length - 1) < 16 ? [allYTicks[0], allYTicks[allYTicks.length - 1]] : allYTicks
+  // Label placement: nothing overlaps (≈6 px per character at 11 px).
+  const streakText = streak ? `${streak.to - streak.from + 1} days ${streak.side} usual` : ''
+  const baselineTextEnd = base ? Math.max(margin.left + 2, x(base.fromDay) - dayStep / 2 + 2) + `Baseline days ${base.fromDay}–${base.toDay}`.length * 6 : 0
+  const streakTextStart = streak ? x(streak.to) + dayStep / 2 - streakText.length * 6.3 : Infinity
+  const showBaselineText = !!base && baselineTextEnd + 8 < streakTextStart
+  let usualY: number | null = base ? (y(base.high) + y(base.low)) / 2 + 4 : null
+  if (base && latest && usualY !== null && x(latest.missionDay) > margin.left + plotW - dayStep && Math.abs(y(latest.value as number) + 4 - usualY) < 13) {
+    // The latest value's label sits there: move "usual" to the band edge farther from it.
+    const above = y(base.high) - 4
+    const below = y(base.low) + 12
+    const pick = Math.abs(above - y(latest.value as number)) > Math.abs(below - y(latest.value as number)) ? above : below
+    usualY = pick > margin.top + 4 && pick < margin.top + plotH ? pick : null
+  }
   const hovered = hover !== null ? days.find((d) => d.missionDay === hover) ?? null : null
   const pickDay = (clientX: number, el: SVGRectElement) => {
     const r = el.getBoundingClientRect()
@@ -163,7 +180,7 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
               <line x1="0" y1="0" x2="0" y2="5" className="hatch-line" strokeWidth="1.2" />
             </pattern>
           </defs>
-          {!mini && niceTicks(y0, y1, 3).map((v) => (
+          {!mini && yTicks.map((v) => (
             <g key={v}>
               <line x1={margin.left} x2={margin.left + plotW} y1={y(v)} y2={y(v)} className="grid" />
               <text x={margin.left - 8} y={y(v) + 4} className="tick" textAnchor="end">
@@ -198,13 +215,17 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
           {!mini && base && (
             <>
               {/* Days used to compute the usual range: a quiet bracket on the baseline */}
-              <line x1={Math.max(margin.left + 2, x(base.fromDay) - dayStep / 2 + 2)} x2={x(base.toDay) + dayStep / 2 - 2} y1={margin.top + 4} y2={margin.top + 4} className="baseline-bracket" />
-              <text x={Math.max(margin.left + 4, x(base.fromDay) - dayStep / 2 + 4)} y={margin.top + 17} className="band-label">
-                Baseline days {base.fromDay}–{base.toDay}
-              </text>
-              <text x={margin.left + plotW + 6} y={(y(base.high) + y(base.low)) / 2 + 4} className="band-label band-label-side">
-                usual
-              </text>
+              <line x1={Math.max(margin.left + 2, x(base.fromDay) - dayStep / 2 + 2)} x2={x(base.toDay) + dayStep / 2 - 2} y1={margin.top - 3} y2={margin.top - 3} className="baseline-bracket" />
+              {showBaselineText && (
+                <text x={Math.max(margin.left + 2, x(base.fromDay) - dayStep / 2 + 2)} y={margin.top - 8} className="band-label">
+                  Baseline days {base.fromDay}–{base.toDay}
+                </text>
+              )}
+              {usualY !== null && (
+                <text x={margin.left + plotW + 6} y={usualY} className="band-label band-label-side">
+                  usual
+                </text>
+              )}
             </>
           )}
           {!mini && streak && (
@@ -217,7 +238,7 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
                 rx={6}
                 className="streak-zone"
               />
-              <text x={x(streak.to) + dayStep / 2 - 6} y={margin.top + 14} textAnchor="end" className="streak-label">
+              <text x={x(streak.to) + dayStep / 2} y={margin.top - 8} textAnchor="end" className="streak-label">
                 {streak.to - streak.from + 1} days {streak.side} usual
               </text>
             </g>
@@ -270,11 +291,9 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
           )}
         </svg>
         {hovered && !mini && (
-          <div
-            className="tooltip daily-tooltip"
-            style={x(hovered.missionDay) > width * 0.62 ? { right: width - x(hovered.missionDay) + 12 } : { left: x(hovered.missionDay) + 12 }}
-            aria-hidden="true"
-          >
+          // Floats above the page (position: fixed), so a short chart never cuts it.
+          <div className="tt-anchor" style={tooltipAnchor(wrapRef.current, x(hovered.missionDay), x(hovered.missionDay) > width * 0.62)} aria-hidden="true">
+          <div className="tooltip daily-tooltip">
             <div className="tt-time">
               Mission day {hovered.missionDay}
               {hovered.missionDay === lastDay ? ' · today' : ''} · {hovered.date}
@@ -308,6 +327,7 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
                 {hovered.quality !== 'good' && <div className="tt-muted">Not used for the baseline or the trend</div>}
               </>
             )}
+          </div>
           </div>
         )}
         <div className="sr-only" aria-live="polite">
@@ -359,4 +379,14 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
       )}
     </figure>
   )
+}
+
+/** Fixed position next to the hovered day, kept inside the window. */
+function tooltipAnchor(el: HTMLElement | null, px: number, flip: boolean): CSSProperties {
+  if (!el) return { position: 'absolute', top: 6, left: px + 12 }
+  const r = el.getBoundingClientRect()
+  const top = Math.max(8, Math.min(r.top + 6, window.innerHeight - 200))
+  return flip
+    ? { position: 'fixed', top, left: r.left + px - 12, transform: 'translateX(-100%)', zIndex: 40 }
+    : { position: 'fixed', top, left: r.left + px + 12, zIndex: 40 }
 }

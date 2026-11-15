@@ -19,6 +19,7 @@ export function toneOf(id: DailyIndicatorId | ParameterId): Tone {
     case 'sleep_efficiency':
       return 'rest'
     case 'activity_minutes':
+    case 'active_energy':
     case 'motion':
       return 'activity'
     default:

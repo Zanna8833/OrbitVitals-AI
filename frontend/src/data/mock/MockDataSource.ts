@@ -36,8 +36,11 @@ import {
 import { getScenario, type Scenario } from './scenarios'
 import { fixedClock, type SimClock } from './clock'
 import { MISSION_START_DATE, generateDailyIndicators, missionDayOf, seedCheckIns } from './daily'
-import { withDemoMeasurements } from '../../domain/measurements'
-import { storeCheckIns, storedCheckIns, storeCrewReport, storedCrewReports, measurementsFor, storeSleepAidPlan, storedSleepAidPlan, storedImports } from '../../state/crewLocal'
+import { withDemoMeasurements, type DeviceMeasurement } from '../../domain/measurements'
+import { storeCheckIns, storedCheckIns, storeCrewReport, storedCrewReports, measurementsFor, storeMeasurement, storeSleepAidPlan, storedSleepAidPlan, storedImports, storedIntake, storeIntake, storedCustomFoods, storeCustomFoods } from '../../state/crewLocal'
+import { ISS_FOODS, type Food, type IntakeEntry, type NutritionProfile } from '../../domain/nutrition'
+import { NUTRITION_PROFILES, seedIntake } from './nutrition'
+import type { BackendEvaluation } from '../../domain/metricCatalog'
 
 const PSEUDONYM_NOTE = 'Pseudonymised identity — simulated data'
 
@@ -107,7 +110,7 @@ function initialEvents(s: Scenario): ReviewEvent[] {
  * Mutations (status, notes, messages) live only for the browser session.
  */
 export class MockDataSource implements DataSource {
-  readonly kind = 'mock' as const
+  readonly kind: 'mock' | 'http' = 'mock'
   readonly scenario: Scenario
   private events: ReviewEvent[]
   private messages: CrewMessage[] = []
@@ -125,14 +128,14 @@ export class MockDataSource implements DataSource {
     this.clock = clock
   }
 
-  private delay<T>(value: T): Promise<T> {
+  protected delay<T>(value: T): Promise<T> {
     // structuredClone: callers must never mutate the store by reference.
     const copy = structuredClone(value)
     if (this.latencyMs <= 0) return Promise.resolve(copy)
     return new Promise((resolve) => setTimeout(() => resolve(copy), this.latencyMs))
   }
 
-  private requireCrew(crewId: string) {
+  protected requireCrew(crewId: string) {
     const p = getProfile(crewId)
     if (!p) throw new DataSourceError('not_found', `Crew member "${crewId}" not found`, 404)
     return p
@@ -144,7 +147,7 @@ export class MockDataSource implements DataSource {
   }
 
   /** Simulated "now". Mutations are timestamped with it, never with the browser clock. */
-  private simNow() {
+  protected simNow() {
     return this.clock()
   }
 
@@ -415,6 +418,63 @@ export class MockDataSource implements DataSource {
   async listSleepAidPlan(from: string, to: string): Promise<SleepAidPlanEntry[]> {
     if (!(from <= to)) throw new DataSourceError('bad_request', 'Invalid date range', 400)
     return this.delay(this.plan().filter((e) => e.night >= from && e.night <= to).sort((a, b) => (a.night < b.night ? -1 : 1)))
+  }
+
+  async recordMeasurements(crewId: string, readings: DeviceMeasurement[]): Promise<void> {
+    this.requireCrew(crewId)
+    for (const r of readings) storeMeasurement(r)
+    return this.delay(undefined)
+  }
+
+  async listEvaluations(crewId: string): Promise<BackendEvaluation[]> {
+    this.requireCrew(crewId)
+    return this.delay([])
+  }
+
+  /* ---------- nutrition ---------- */
+
+  private intake: IntakeEntry[] | null = null
+
+  private intakeLog(): IntakeEntry[] {
+    if (!this.intake) this.intake = storedIntake() ?? CREW_PROFILES.flatMap((p) => seedIntake(p.id, this.simNow()))
+    return this.intake
+  }
+
+  async getNutritionProfile(crewId: string): Promise<NutritionProfile> {
+    this.requireCrew(crewId)
+    const base = NUTRITION_PROFILES[crewId]
+    const imported = storedImports()[crewId]
+    const series = imported?.series ?? generateDailyIndicators(crewId, this.simNow(), this.scenario.flags)
+    const mass = [...(series.find((s) => s.indicator === 'body_mass')?.days ?? [])].reverse().find((d) => d.value !== null)?.value ?? 75
+    return this.delay({ ...base, ...(imported?.nutrition ?? {}), bodyMassKg: mass, source: imported?.nutrition ? 'Imported profile + latest body mass' : 'Simulated profile + latest body mass' })
+  }
+
+  async listIntake(crewId: string, from: string, to: string): Promise<IntakeEntry[]> {
+    this.requireCrew(crewId)
+    return this.delay(this.intakeLog().filter((e) => e.crewId === crewId && e.eatenAt >= from && e.eatenAt < to).sort((a, b) => (a.eatenAt < b.eatenAt ? -1 : 1)))
+  }
+
+  async addIntake(entry: IntakeEntry): Promise<IntakeEntry> {
+    this.requireCrew(entry.crewId)
+    this.intake = [...this.intakeLog(), entry]
+    storeIntake(this.intake)
+    return this.delay(entry)
+  }
+
+  async removeIntake(crewId: string, entryId: string): Promise<void> {
+    this.intake = this.intakeLog().filter((e) => !(e.crewId === crewId && e.id === entryId))
+    storeIntake(this.intake)
+    return this.delay(undefined)
+  }
+
+  async listFoods(): Promise<Food[]> {
+    return this.delay([...ISS_FOODS, ...storedCustomFoods()])
+  }
+
+  async saveCustomFood(food: Food): Promise<Food> {
+    const saved = { ...food, custom: true }
+    storeCustomFoods([...storedCustomFoods().filter((f) => f.id !== food.id), saved])
+    return this.delay(saved)
   }
 
   async setSleepAidPlan(crewId: string, night: string, planned: boolean): Promise<SleepAidPlanEntry[]> {

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { DataSource } from '../../data'
 import type { DailyIndicatorId, MissionStatus } from '../../domain/types'
 import { DAILY_INDICATORS, PARAMETER_ORDER, formatDailyValue } from '../../domain/parameters'
@@ -11,7 +11,7 @@ import { href, type CrewPage } from '../../hooks/useRoute'
 import { useMutation } from '../../hooks/useMutation'
 import { addDays, coverageOf, isPlanned, nightLabel, nightsFrom, readyOn, suggestNight, wouldUncover } from '../../domain/sleepPlan'
 import { activityAfterNight, involves } from '../../domain/missionPlan'
-import { Moon, SleepGrid } from '../../components/SleepGrid'
+import { Moon, PillIcon, SleepGrid } from '../../components/SleepGrid'
 import { useToast } from '../../components/Toast'
 import { MissionTimeline } from '../../components/MissionTimeline'
 import { PillarStrip, type MethodTopic } from '../../components/Pillars'
@@ -24,19 +24,97 @@ import { MetricGlyph } from '../../components/MetricGlyph'
 import { QualityGlyph } from '../../components/StatusGlyphs'
 import { Sparkline } from '../../components/Sparkline'
 import { toneOf } from '../../components/tone'
-import { List, Row, SectionTitle, Sheet, SimTag, Symbol } from '../../components/ui'
+import { List, Row, SectionTitle, Segmented, Sheet, SimTag, Symbol } from '../../components/ui'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
+import { config } from '../../config'
+import { CrewOverview } from './CrewOverview'
+import { AstronautSwitch } from '../../components/AstronautSwitch'
+import { FoodSheet, NutritionCard, NutritionPage, loadNutrition } from './Nutrition'
 
 /** Shown inside the single Health rectangle on the home screen. */
 const DEFAULT_TILES: DailyIndicatorId[] = ['resting_hr', 'sleep_duration', 'resting_spo2', 'hrv_rmssd', 'bp_systolic', 'resting_resp_rate']
 /** Every indicator, grouped by area, on the Health page. */
 const ALL_TILES: DailyIndicatorId[] = [
   'resting_hr', 'hrv_rmssd', 'bp_systolic', 'resting_spo2', 'resting_resp_rate',
-  'sleep_duration', 'sleep_efficiency', 'activity_minutes', 'body_temperature', 'body_mass',
+  'sleep_duration', 'sleep_efficiency', 'activity_minutes', 'active_energy', 'body_temperature', 'body_mass',
 ]
+/** Where the day-to-day values come from: backend, imported file, or demo generator — and whether they are simulated. */
+function DataOriginTag({ daily }: { daily: Live['daily'] }) {
+  const origin = daily[0]?.origin ?? 'demo'
+  const simulated = daily.some((d) => d.simulated)
+  return (
+    <span className="origin-tags">
+      {origin === 'backend' && (
+        <span className="state-tag is-works" title="Values read from the OrbitVitals backend (/api/v1)">
+          Backend
+        </span>
+      )}
+      {origin === 'import' && (
+        <span className="state-tag is-works" title={daily[0]?.source}>
+          Imported data
+        </span>
+      )}
+      {simulated && <SimTag>{origin === 'backend' ? 'Simulated records' : 'Simulated'}</SimTag>}
+    </span>
+  )
+}
+
+/** The team's cognition battery is a separate full-screen app: opened in its own tab, results go to the ground. */
+function CognitionRow() {
+  const available = useCognitionAvailable()
+  const body = (
+    <>
+      <Symbol tone="rest">
+        <BrainIcon />
+      </Symbol>
+      <span className="row-text">
+        <span className="row-title">Cognition tests ↗</span>
+        <span className="row-subtitle">{available === false ? 'Not in this build' : '10 tests · for the ground'}</span>
+      </span>
+    </>
+  )
+  return available === false ? (
+    <div className="mini-row is-disabled" title="Build it with: npm run cognition">
+      {body}
+    </div>
+  ) : (
+    <a className="mini-row" href={config.cognitionUrl} target="_blank" rel="noopener" title="Opens the team's cognition battery in a new tab">
+      {body}
+    </a>
+  )
+}
+
+function useCognitionAvailable(): boolean | null {
+  const [ok, setOk] = useState<boolean | null>(null)
+  useEffect(() => {
+    let alive = true
+    fetch(config.cognitionUrl, { method: 'HEAD' })
+      .then((r) => alive && setOk(r.ok))
+      .catch(() => alive && setOk(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+  return ok
+}
+
+const BrainIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M9 4.5a3 3 0 0 0-3 3 3 3 0 0 0-2 5.2A3.2 3.2 0 0 0 7.5 18 2.5 2.5 0 0 0 12 19.2V6a2.5 2.5 0 0 0-3-1.5ZM15 4.5a3 3 0 0 1 3 3 3 3 0 0 1 2 5.2 3.2 3.2 0 0 1-3.5 5.3A2.5 2.5 0 0 1 12 19.2"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const PAGE_TITLE: Record<CrewPage, string> = { home: 'Today', health: 'Health', sleep: 'Sleep plan', nutrition: 'Nutrition', crew: 'Crew' }
+
 /** Nights shown: a few past ones for context, then the next two weeks. */
 const PLAN_PAST = 3
 const PLAN_FUTURE = 11
@@ -64,7 +142,8 @@ async function loadToday(ds: DataSource, crewIdParam: string | null) {
     ds.listCheckIns(member.id),
     ds.listSleepAidPlan(addDays(night, -PLAN_PAST), addDays(night, PLAN_FUTURE - 1)),
   ])
-  return { mission, crew, member, live: { snapshot, messages, series, activities, daily, checkIns, sleepPlan } }
+  const nutrition = await loadNutrition(ds, member.id, mission.now)
+  return { mission, crew, member, live: { snapshot, messages, series, activities, daily, checkIns, sleepPlan, nutrition } }
 }
 
 type Sheet =
@@ -74,6 +153,7 @@ type Sheet =
   | { type: 'share' }
   | { type: 'sleep-confirm'; night: string }
   | { type: 'method'; topic: MethodTopic }
+  | { type: 'nutrition'; sheet: 'food' | 'values' | 'create' }
   | null
 
 const setPlan = (ds: DataSource, crewId: string, night: string, planned: boolean) => ds.setSleepAidPlan(crewId, night, planned)
@@ -83,10 +163,15 @@ const setPlan = (ds: DataSource, crewId: string, night: string, planned: boolean
  * - Today (home): what is happening now, what deserves attention, what I can do,
  *   one Health rectangle and the crew sleep plan;
  * - Health: every indicator and the trend of the one selected;
- * - Sleep plan: the crew calendar of planned sleep-aid nights.
+ * - Sleep plan: the crew calendar of planned sleeping-pill nights.
  * Tasks (check-in, measurement, share, details) open as sheets.
  */
 export function CrewToday({ crewId, page = 'home' }: { crewId: string | null; page?: CrewPage }) {
+  if (page === 'crew' || !crewId) return <CrewOverview />
+  return <AstronautArea crewId={crewId} page={page} />
+}
+
+function AstronautArea({ crewId, page }: { crewId: string; page: CrewPage }) {
   const state = useQuery(useCallback((ds: DataSource) => loadToday(ds, crewId), [crewId]))
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
@@ -123,11 +208,12 @@ function TodayBody({
   const evaluations = live.daily.map((s) => evaluateIndicator(s, today))
   const byId = (id: DailyIndicatorId) => evaluations.find((e) => e.series.indicator === id)
   const summary = summarizeHealth(evaluations)
-  const toRepeat = evaluations.filter((e) => e.repeatSuggested && e.series.indicator !== 'bp_diastolic')
+  // Only indicators actually measured before: a metric never recorded is not a reading to repeat.
+  const toRepeat = evaluations.filter((e) => e.repeatSuggested && e.latest && e.series.indicator !== 'bp_diastolic')
   const checkIn = checkedInOn(live.checkIns, mission.now)
   const lastCapture = measurementsFor(memberId)[0]
 
-  const flagged = [...toRepeat, ...summary.changed].map((e) => (e.series.indicator === 'bp_diastolic' ? 'bp_systolic' : e.series.indicator))
+  const flagged: DailyIndicatorId[] = [...toRepeat, ...summary.changed].map((e) => (e.series.indicator === 'bp_diastolic' ? 'bp_systolic' : e.series.indicator))
   const [selected, setSelected] = useState<DailyIndicatorId>(() => flagged[0] ?? 'resting_hr')
 
   // Sleep plan
@@ -136,25 +222,41 @@ function TodayBody({
   const plan = useMutation(setPlan)
   const [busyNight, setBusyNight] = useState<string | null>(null)
   const toast = useToast()
-  const applyPlan = async (night: string, planned: boolean) => {
+  const nameOf = (id: string) => crew.find((c) => c.id === id)?.displayName ?? id
+  const applyPlan = async (night: string, planned: boolean, who: string = memberId) => {
     setBusyNight(night)
-    const ok = await plan.run(memberId, night, planned)
+    const ok = await plan.run(who, night, planned)
     setBusyNight(null)
     const l = nightLabel(night)
-    if (ok) toast(planned ? `Sleep aid planned for ${l.weekday} ${l.day}` : `Removed from ${l.weekday} ${l.day}`)
+    const forWhom = who === memberId ? '' : ` for ${nameOf(who)}`
+    if (ok) toast(planned ? `Sleeping pill planned${forWhom} · ${l.weekday} ${l.day}` : `Removed${forWhom} · ${l.weekday} ${l.day}`)
   }
+  const exerciseValue = (id: DailyIndicatorId) => live.daily.find((d) => d.indicator === id)?.days.find((d) => d.missionDay === today)?.value ?? null
+  const exMin = exerciseValue('activity_minutes')
+  const exKcal = exerciseValue('active_energy')
+  const exerciseToday = exMin !== null ? `${Math.round(exMin)} min${exKcal !== null ? ` · ${Math.round(exKcal)} kcal` : ''} today` : 'Log a session'
   const uncoveredWeek = nightsFrom(tonight, 7).filter((n) => coverageOf(live.sleepPlan, crewIds, n).uncovered)
   // Indicators that need attention always get a tile on Today; the rest fill up to six.
-  const homeTiles = [...new Set<DailyIndicatorId>([...flagged, ...DEFAULT_TILES])].slice(0, Math.max(6, flagged.length))
-  homeTiles.sort((a, b) => ALL_TILES.indexOf(a) - ALL_TILES.indexOf(b))
+  const homeTiles = [...new Set<DailyIndicatorId>([...flagged, ...DEFAULT_TILES])].slice(0, 6)
+  // Indicators needing attention first (only three tiles fit on short screens).
+  homeTiles.sort((a, b) => Number(!flagged.includes(a)) - Number(!flagged.includes(b)) || ALL_TILES.indexOf(a) - ALL_TILES.indexOf(b))
   const lastNight = addDays(tonight, PLAN_FUTURE - 1)
   const myActivity = (night: string) => {
     const a = activityAfterNight(night, mission.missionStartDate)
     return a && involves(a, memberId) ? a : null
   }
   const alternativeTo = (night: string) => suggestNight(live.sleepPlan, crewIds, memberId, night, tonight, lastNight, (n) => !!myActivity(n))
-  const toggleNight = (night: string) => {
-    const planned = isPlanned(live.sleepPlan, memberId, night)
+  const toggleNight = (night: string, who: string = memberId) => {
+    const planned = isPlanned(live.sleepPlan, who, night)
+    if (who !== memberId) {
+      // Editing someone else's night (crew-wide edit): ask only when it would leave nobody ready.
+      if (!planned && wouldUncover(live.sleepPlan, crewIds, who, night)) {
+        toast(`Not planned: ${nameOf(who)} would leave nobody ready that night`)
+        return
+      }
+      void applyPlan(night, !planned, who)
+      return
+    }
     // Ask first when the night would leave nobody ready, or when the person has an activity next morning.
     if (!planned && (wouldUncover(live.sleepPlan, crewIds, memberId, night) || myActivity(night))) setSheet({ type: 'sleep-confirm', night })
     else void applyPlan(night, !planned)
@@ -186,26 +288,19 @@ function TodayBody({
               ‹ Today
             </a>
           )}
-          <h1>{page === 'home' ? 'Today' : page === 'health' ? 'Health' : 'Sleep plan'}</h1>
+          <h1>{PAGE_TITLE[page]}</h1>
           <p className="eyebrow">
             {page === 'health'
               ? `Mission day ${today} · compared with your own usual range`
               : page === 'sleep'
-                ? 'Who plans a sleep aid, and when'
+                ? 'Sleeping pills: who takes one, and when'
+                : page === 'nutrition'
+                ? `Mission day ${today} · against NASA daily requirements`
                 : formatDate(mission.now)}
           </p>
         </div>
         {page === 'home' && <MissionTimeline day={today} />}
-        <label className="viewer">
-          <span className="muted">Viewing as</span>
-          <select value={memberId} onChange={(e) => (window.location.hash = href.crew(e.target.value, page))} aria-label="Crew member (demo)">
-            {crew.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.displayName}
-              </option>
-            ))}
-          </select>
-        </label>
+        <AstronautSwitch crew={crew} current={memberId} page={page} />
       </header>
 
       {page === 'home' && (
@@ -324,7 +419,7 @@ function TodayBody({
                     ? sharing.notice
                     : offline
                       ? 'Saved and sent when the link returns'
-                      : 'Your trends and a note — only if you want'
+                      : 'Trends and a note, only if you want'
               }
               trailing={sharing.queued ? <span className="badge">{sharing.queued}</span> : undefined}
               onClick={() => setSheet({ type: 'share' })}
@@ -339,20 +434,33 @@ function TodayBody({
               subtitle={
                 uncoveredWeek.length ? (
                   <span className="text-attention">
-                    {uncoveredWeek.map((n) => `${nightLabel(n).weekday} ${nightLabel(n).day}`).join(', ')}: nobody without a sleep aid
+                    {uncoveredWeek.map((n) => `${nightLabel(n).weekday} ${nightLabel(n).day}`).join(', ')}: nobody without a sleeping pill
                   </span>
                 ) : (
-                  `Tonight: ${isPlanned(live.sleepPlan, memberId, tonight) ? 'sleep aid planned' : 'no sleep aid planned'} · ${coverageOf(live.sleepPlan, crewIds, tonight).available} of ${crew.length} crew free`
+                  `Tonight: ${isPlanned(live.sleepPlan, memberId, tonight) ? 'sleeping pill planned' : 'no sleeping pill planned'} · ${coverageOf(live.sleepPlan, crewIds, tonight).available} of ${crew.length} crew free`
                 )
               }
               trailing={uncoveredWeek.length ? <span className="badge badge-attention">{uncoveredWeek.length}</span> : undefined}
               href={href.crew(memberId, 'sleep')}
             />
           </List>
+          <div className="review-pair">
+            <button type="button" className="mini-row" onClick={() => setSheet({ type: 'measure', id: 'activity_minutes' })}>
+              <Symbol tone="activity">
+                <MetricGlyph id="activity_minutes" size={15} />
+              </Symbol>
+              <span className="row-text">
+                <span className="row-title">Exercise</span>
+                <span className="row-subtitle">{exerciseToday}</span>
+              </span>
+            </button>
+            <CognitionRow />
+          </div>
           </div>
         </div>
 
         <div className="today-col today-col-wide">
+          <NutritionCard data={live.nutrition} mission={mission} crewId={memberId} onLogFood={() => setSheet({ type: 'nutrition', sheet: 'food' })} />
           <section className="health" aria-labelledby="health-h">
             <SectionTitle
               id="health-h"
@@ -363,15 +471,9 @@ function TodayBody({
               }
             >
               Your health{' '}
-              {live.daily.length > 0 && live.daily.every((d) => d.simulated === false) ? (
-                <span className="state-tag is-works" title={live.daily[0].source}>
-                  Imported data
-                </span>
-              ) : (
-                <SimTag />
-              )}
+<DataOriginTag daily={live.daily} />
             </SectionTitle>
-            <div className="tiles">
+            <div className="tiles home-tiles">
               {homeTiles.map((id) => (
                 <Tile
                   key={id}
@@ -419,6 +521,27 @@ function TodayBody({
             onExplain={(topic) => setSheet({ type: 'method', topic })}
           />
         </div>
+      )}
+
+      {page === 'nutrition' && (
+        <NutritionPage
+          data={live.nutrition}
+          mission={mission}
+          crewId={memberId}
+          sheet={sheet?.type === 'nutrition' ? sheet.sheet : null}
+          setSheet={(x) => setSheet(x ? { type: 'nutrition', sheet: x } : null)}
+        />
+      )}
+
+      {page !== 'nutrition' && (
+        <FoodSheet
+          open={sheet?.type === 'nutrition' && sheet.sheet === 'food'}
+          foods={live.nutrition.foods}
+          crewId={memberId}
+          mission={mission}
+          onClose={() => setSheet(null)}
+          onCreate={() => (window.location.hash = href.crew(memberId, 'nutrition'))}
+        />
       )}
 
       {page === 'sleep' && (
@@ -478,7 +601,7 @@ interface SleepProps {
   tonight: string
   busyNight: string | null
   error: string | null
-  onToggle: (night: string) => void
+  onToggle: (night: string, crewId: string) => void
   missionStart: string
   alternativeTo: (night: string) => string | null
   onMove: (from: string, to: string) => void
@@ -505,14 +628,14 @@ function SleepConfirmSheet({
   onClose: () => void
   onPlan: (night: string) => void
 }) {
-  const title = uncovers ? 'Nobody would be without a sleep aid' : `${activity?.label ?? 'Activity'} the next morning`
+  const title = uncovers ? 'Nobody would be without a sleeping pill' : `${activity?.label ?? 'Activity'} the next morning`
   return (
     <Sheet open={!!night} title={title} onClose={onClose}>
       {night && (
         <div className="stack">
           {uncovers && (
             <p className="body-text">
-              {others.join(' and ')} already planned a sleep aid for the night of <strong>{fullNight(night)}</strong>. If you add yours, nobody on board
+              {others.join(' and ')} already planned a sleeping pill for the night of <strong>{fullNight(night)}</strong>. If you add yours, nobody on board
               would stay without one.
             </p>
           )}
@@ -527,7 +650,7 @@ function SleepConfirmSheet({
           )}
           <p className="body-text muted">
             {uncovers
-              ? 'The crew agreed that at least one person stays without a sleep aid every night, ready for an emergency (demo rule — the real rule is set by the medical team).'
+              ? 'The crew agreed that at least one person stays without a sleeping pill every night, ready for an emergency (demo rule — the real rule is set by the medical team).'
               : 'OrbitVitals only coordinates the plan: whether and what to take stays with you and the medical team.'}
           </p>
           {alternative && (
@@ -555,6 +678,7 @@ function SleepConfirmSheet({
 }
 
 function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggle, missionStart, alternativeTo, onMove }: SleepProps) {
+  const [editAll, setEditAll] = useState(false)
   const nights = nightsFrom(addDays(tonight, -PLAN_PAST), PLAN_PAST + PLAN_FUTURE)
   const ids = crew.map((c) => c.id)
   const upcoming = nightsFrom(tonight, PLAN_FUTURE).map((n) => coverageOf(entries, ids, n))
@@ -565,17 +689,29 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
   const nextActivity = upcoming.map((c) => ({ night: c.night, a: activityAfterNight(c.night, missionStart) })).find((x) => x.a && involves(x.a, memberId))
   return (
     <div className="sleep-page">
-      <section className="card sleep-plan-card" aria-label="Sleep-aid calendar">
-        <p className="body-text muted sleep-intro">
-          Tap a night in your row to plan or remove a sleep aid. Everyone on board sees the plan, so at least one person stays rested and ready.
-        </p>
-        <SleepGrid nights={nights} today={tonight} crew={crew} entries={entries} me={memberId} busyNight={busyNight} onToggle={onToggle} missionStart={missionStart} />
+      <section className="card sleep-plan-card" aria-label="Sleeping-pill calendar">
+        <div className="sleep-intro-row">
+          <p className="body-text muted sleep-intro">
+            Mark the nights you plan to take a <strong>sleeping pill</strong>. At least one person must stay without one every night, ready for an emergency.
+          </p>
+          <Segmented
+            size="small"
+            label="Who can be edited"
+            value={editAll ? 'all' : 'mine'}
+            onChange={(v) => setEditAll(v === 'all')}
+            options={[
+              { value: 'mine', label: 'My nights' },
+              { value: 'all', label: 'Edit whole crew' },
+            ]}
+          />
+        </div>
+        <SleepGrid nights={nights} today={tonight} crew={crew} entries={entries} me={memberId} busyNight={busyNight} onToggle={onToggle} missionStart={missionStart} editAll={editAll} />
         <ul className="legend">
           <li>
             <span className="sg-mark legend-moon">
-              <Moon size={11} />
+              <PillIcon size={12} />
             </span>{' '}
-            Sleep aid planned
+            Sleeping pill planned
           </li>
           <li>
             <span className="sg-warn">▲ 0/3</span> nobody left ready
@@ -595,7 +731,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
                 <strong>{ready.join(' and ')}</strong> {ready.length === 1 ? 'stays' : 'stay'} ready to respond.
               </>
             ) : (
-              <strong className="attention-text">Nobody stays without a sleep aid.</strong>
+              <strong className="attention-text">Nobody stays without a sleeping pill.</strong>
             )}
           </p>
           <dl className="sleep-facts">
@@ -635,7 +771,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
                         <path d="M5.5 0.8 10.4 9.2H0.6Z" fill="currentColor" />
                       </svg>{' '}
                       <span>
-                        <strong>{shortNight(c.night)}</strong>: everyone planned a sleep aid ({c.planned.map(nameOf).join(', ')}).
+                        <strong>{shortNight(c.night)}</strong>: everyone planned a sleeping pill ({c.planned.map(nameOf).join(', ')}).
                       </span>
                     </p>
                     {alt ? (
@@ -657,7 +793,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
           <p className="eyebrow">How it works</p>
           <ul className="plain-list">
             <li>Only the night is recorded: no medicine name and no dose.</li>
-            <li>Demo rule: at least one crew member without a sleep aid every night. The real rule is set by the medical team.</li>
+            <li>Demo rule: at least one crew member without a sleeping pill every night. The real rule is set by the medical team.</li>
             <li>Your flight surgeon sees the same plan.</li>
           </ul>
         </section>
@@ -684,7 +820,7 @@ function TrendCard({
   if (!e) return null
   const id = e.series.indicator
   const def = DAILY_INDICATORS[id]
-  const chartH = fit ? Math.max(110, size.height - 30) : 170
+  const chartH = fit ? Math.max(64, size.height - 30) : 170
   return (
     <section className={`card trend-card tone-${toneOf(id)}`} aria-labelledby="trend-h">
       <div className="trend-head">
@@ -849,13 +985,14 @@ function Tile({ e, id, today, paired, selected, onOpen }: { e: IndicatorEvaluati
 
 /** "Blood pressure 115/75 mmHg" rather than the systolic half alone. */
 function describeCapture(crewId: string, c: DeviceMeasurement): string {
-  if (c.indicator === 'bp_systolic' || c.indicator === 'bp_diastolic') {
-    const all = measurementsFor(crewId)
-    const sys = c.indicator === 'bp_systolic' ? c : all.find((m) => m.indicator === 'bp_systolic' && m.id === c.id.replace(/-DIA$/, ''))
-    const dia = all.find((m) => m.indicator === 'bp_diastolic' && sys && m.id === `${sys.id}-DIA`)
-    if (sys && dia) return `Blood pressure ${formatDailyValue('bp_systolic', sys.value)}/${formatDailyValue('bp_diastolic', dia.value)} mmHg`
-  }
-  return `${DAILY_INDICATORS[c.indicator].label} ${formatDailyValue(c.indicator, c.value)} ${DAILY_INDICATORS[c.indicator].unit}`
+  // Values saved together (blood pressure, sleep, exercise) share the same save time.
+  const together = measurementsFor(crewId).filter((m) => m.savedAtMs === c.savedAtMs)
+  const sys = together.find((m) => m.indicator === 'bp_systolic')
+  const dia = together.find((m) => m.indicator === 'bp_diastolic')
+  if (sys && dia) return `Blood pressure ${formatDailyValue('bp_systolic', sys.value)}/${formatDailyValue('bp_diastolic', dia.value)} mmHg`
+  return together
+    .map((m) => `${DAILY_INDICATORS[m.indicator].label} ${formatDailyValue(m.indicator, m.value)} ${DAILY_INDICATORS[m.indicator].unit}`)
+    .join(' · ')
 }
 
 const CheckInIcon = () => (

@@ -140,6 +140,19 @@ function DemoMenu() {
       </button>
       {open && (
         <div className="popover" id="demo-panel" role="region" aria-label="Demo controls">
+          <p className="popover-label">Data source</p>
+          <p className="popover-note popover-source">
+            {config.dataSource === 'http' ? (
+              <>
+                <span className="state-tag is-works">Backend</span> OrbitVitals API at <code>{config.apiBaseUrl}</code>. Crew: {config.backendCrew.map((c) => c.displayName).join(', ')}.
+              </>
+            ) : (
+              <>
+                <SimTag /> Built-in demo data. Set <code>VITE_DATA_SOURCE=http</code> to use the backend.
+              </>
+            )}
+          </p>
+          <hr />
           {config.dataSource === 'mock' && (
             <>
               <p className="popover-label" id="scenario-label">
@@ -250,7 +263,7 @@ export function Footer({ showAssistant = true }: { showAssistant?: boolean }) {
       {/* The assistant is an add-on, kept to the side on purpose. */}
       {showAssistant && (
         <a className="assistant-bubble" href={href.assistant()} aria-label="Assistant (preview)">
-          <BubbleIcon size={25} />
+          <BubbleIcon size={28} />
           <span className="assistant-tip">Assistant</span>
         </a>
       )}
@@ -263,7 +276,7 @@ function AboutDemo({ open, onClose }: { open: boolean; onClose: () => void }) {
   const rows: [string, 'works' | 'sim' | 'off', string][] = [
     ['Interface, navigation, accessibility', 'works', 'Fully working in the browser'],
     ['Data quality, personal baseline, trend', 'works', 'Really computed by the app from the data it receives'],
-    ['Sleep-aid plan and coverage check', 'works', 'Really computed; saved only in this browser'],
+    ['Sleeping-pill plan and coverage check', 'works', 'Really computed; saved only in this browser'],
     ['Offline queue for reports', 'works', 'Real logic: saved locally, sent when the (simulated) link returns'],
     ['Physiological readings and sensors', 'sim', 'Synthetic, deterministic data — no real person, no device'],
     ['Ground link and mission time', 'sim', 'Simulated scenarios chosen from the Demo menu'],

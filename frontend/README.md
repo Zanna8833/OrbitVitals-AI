@@ -43,6 +43,8 @@ On Windows, prefer `npm ci` to `npm install`: `npm install` can rewrite `package
 | `npm run dev` | development server |
 | `npm run build` | type-check (`tsc -b`) + production build in `dist/` |
 | `npm run demo` | production build + regenerates `OrbitVitals_Demo.html` in this folder |
+| `npm run cognition` | builds the team's cognition battery into `public/cognition/` |
+| `npm run build:all` | cognition battery + production build |
 | `npm test` | unit and contract tests (Vitest) |
 | `npm run lint` | lint (oxlint) |
 
@@ -53,10 +55,12 @@ The only runtime dependencies are React and React DOM. Charts and routing are ha
 | Area | URL | Content |
 |---|---|---|
 | **Crew · Today** | `#/crew/crew-a` | One screen, no scrolling. Left: *Now* (only during a scheduled activity), one summary card, *Daily review*. Right: *Your health* tiles and the trend of the selected one (*All indicators* opens the Health page). *Daily review* includes the crew **Sleep plan** (badge when a night is uncovered). Check-in, measurement, sharing and details open as sheets. |
-| **Crew · Health** | `#/crew/crew-a/health` | All 10 daily indicators and the trend of the selected one against the personal usual range. |
-| **Crew · Sleep plan** | `#/crew/crew-a/sleep` | Two-week calendar of planned sleep-aid nights for the whole crew; each member edits their own row; shows next-morning activities (simulated), who stays ready, and a one-tap fix for nights without cover; a confirmation with an alternative night appears before a night would be left without anyone free of a sleep aid or before your own activity. Only the plan is recorded (no drug, no dose). |
+| **Crew · overview** | `#/crew` | Every astronaut at a glance (health, nutrition rings, tonight's sleeping pill, check-in, next activity) and who is ready tonight. The switch in the header moves between *Crew* and each astronaut. |
+| **Crew · Nutrition** | `#/crew/crew-a/nutrition` | All 16 nutrients against NASA requirements (today or 7-day mean), log food / values / custom foods, today's log. |
+| **Crew · Health** | `#/crew/crew-a/health` | All 11 daily indicators of the backend catalog and the trend of the selected one against the personal usual range. |
+| **Crew · Sleep plan** | `#/crew/crew-a/sleep` | Two-week calendar of planned **sleeping-pill** nights for the whole crew; each member edits their own row, or the whole crew with *Edit whole crew*; shows next-morning activities (simulated), who stays ready, and a one-tap fix for nights without cover; a confirmation with an alternative night appears before a night would be left without anyone free of a sleep aid or before your own activity. Only the plan is recorded (no drug, no dose). |
 | **Assistant (slot)** | `#/assistant` | Placeholder page for the team's language-model assistant, reached from the small *Assistant* bubble in the footer. Not connected: no prompt is sent anywhere. |
-| **Medical · Sleep-aid plan** | `#/medical/sleep` | The same calendar, read-only, for all crew, with the list of nights without cover (badge in the sidebar). |
+| **Medical · Sleeping-pill plan** | `#/medical/sleep` | The same calendar, read-only, for all crew, with the list of nights without cover (badge in the sidebar). |
 | **Medical · Review** | `#/medical` | Split view. The list on the left shows items to review and the crew with data freshness. The selected **event** (`#/medical/event/EV-0142`) shows why it is here, one main chart (±5 min or the whole session; *Compare signals* shows all four), observed figures computed from the samples, context and provenance, and *Your review* (status, notes, predefined message). A **crew member** (`#/medical/crew/crew-a`) shows latest values with quality, the current session and the day-to-day indicators that changed. |
 
 On a laptop or desktop screen (from 1024 × 620) **every view fits the window without scrolling**; phones keep a normal scrolling page. Older links (`#/surgeon`, `#/events/…`, `#/crew/…/health`) still work.
@@ -80,24 +84,43 @@ On a laptop or desktop screen (from 1024 × 620) **every view fits the window wi
 - Daily crew check-ins, simulated measurements, shared crew reports and outgoing queued reports are persisted in this browser's `localStorage` in the **mock demo only**, to demonstrate a disrupted link and later synchronization. On environments that block local storage, they remain session-only.
 - Surgeon-created annotations and outbound ground messages remain in memory. This is **not a secure store** and cannot be used for real personal health data; shared reports are delivered only to the simulated browser-local medical inbox, not to a real server.
 
-## Backend integration
+## Backend integration (team FastAPI backend, `/api/v1`)
 
-1. Agree on [`docs/FRONTEND_DATA_CONTRACT.md`](docs/FRONTEND_DATA_CONTRACT.md). It is a **proposal**: see “Open questions” at the end of the document.
-2. Run the frontend against the backend:
-   ```bash
-   VITE_DATA_SOURCE=http VITE_API_BASE_URL=http://localhost:8000/api/v1 npm run dev
-   ```
-   See `.env.example`. Alternatively, configure `server.proxy` in `vite.config.ts` to avoid CORS issues.
-3. Views depend only on the `DataSource` interface (`src/data/DataSource.ts`). `HttpDataSource` implements the contract endpoints and is covered by **contract tests with a fake `fetch`** (`HttpDataSource.test.ts`). It has **not yet been run against a real server**.
+Tested end to end against `backend/` (seeded with `python -m app.demo_seed seed`).
 
-Still missing for the integration:
+```bash
+# terminal 1 — backend (from backend/)
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+python -m app.demo_seed seed --base-url http://127.0.0.1:8000/api/v1   # optional demo data
+```
 
-- authentication and roles;
-- secure, server-authoritative persistence, audit trail and replay protection/idempotency for reports, notes and statuses;
-- secure encrypted at-rest/offline outbox for any real health data (the `localStorage` queue is demo-only);
-- message templates served by the backend;
-- end-to-end integration tests against the real backend;
-- optionally, server push (SSE) instead of polling.
+```bash
+# terminal 2 — frontend (from frontend/): /api is forwarded to port 8000
+VITE_DATA_SOURCE=http npm run dev
+```
+
+On Windows PowerShell: `$env:VITE_DATA_SOURCE="http"; npm run dev`.
+
+| From the backend | How the interface uses it |
+|---|---|
+| `GET /crew-members/{id}/measurements` | Daily values per indicator (catalog names and units from `schemas/metric_catalog.json`; sleep minutes → hours; exercise summed per day; unusable readings kept out). Quality comes from the backend Data Quality Engine. |
+| `GET /crew-members/{id}/baselines` | An **established** baseline becomes the usual range; otherwise the interface computes one from days 1–7 and says so. |
+| `GET /crew-members/{id}/evaluations` | Shown as they are in **Medical → crew member** (status, summary, each finding's explanation, data quality, algorithm). |
+| `POST /measurements` | *Take a measurement* (device or typed by hand) and the **nutrition log** (each entry stored as nutrition-domain measurements: `fluid_intake`, `energy_intake`, vitamins, minerals…). |
+
+Configuration (`.env.example`): `VITE_BACKEND_CREW` maps the three astronauts to backend `crew_member_id`s (default: the demo seed crews Vega, Noor, Chen); `VITE_AS_OF` and `VITE_MISSION_START` override "now" and mission day 1 (default: latest / earliest stored measurement).
+
+Not on the backend yet, so still local and labelled as such: mission timeline and sessions, review events and messages, check-ins, the sleeping-pill plan, custom foods. Removing a logged food entry is not supported by the API. `src/data/backend/BackendDataSource.ts` holds the adapter; `BackendDataSource.test.ts` holds its contract tests.
+
+Still missing before real use: authentication and roles, durable server storage (the API keeps data in memory), audit trail, and secure storage for any real health data.
+
+## Nutrition
+
+Requirements are the **same rules as `backend/app/domains/nutrition/nutrition.py`** (NASA JSC-67378 Rev 1), ported in `src/domain/nutrition.ts` and tested. The station food list is read directly from `backend/app/domains/nutrition/iss_food_catalog.json`, so there is one catalog. Today shows water, energy and vitamins & minerals rings; the Nutrition page lists all 16 nutrients (iron is an upper limit in flight). Food can be logged from the catalog, as typed values, or as a food the crew creates.
+
+## Cognition tests
+
+The team's battery (`../cognition-frontend`) is attached, not copied: `npm run cognition` builds it into `public/cognition/` and the crew opens it from *Daily review → Cognition tests* (new tab); the medical side opens its *Ground research* view. `npm run build:all` builds both.
 
 ## Limits of the demo
 

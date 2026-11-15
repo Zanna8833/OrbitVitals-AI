@@ -17,6 +17,10 @@ export interface CrewProfileInput {
   displayName: string | null
   role: string | null
   missionStartDate: string
+  /** For the nutrition requirements (NASA JSC-67378), when present. */
+  sex: 'male' | 'female' | null
+  ageYears: number | null
+  heightM: number | null
 }
 
 export interface ImportIssue {
@@ -53,7 +57,18 @@ export function parseProfileJson(text: string): CrewProfileInput {
   }
   const start = pick('missionStartDate', 'mission_start_date', 'missionStart', 'launchDate', 'launch_date')
   if (start && !/^\d{4}-\d{2}-\d{2}/.test(start)) throw new Error(`missionStartDate must be a date like 2026-10-31 (found "${start}").`)
+  const sexRaw = pick('sex', 'gender')?.toLowerCase() ?? null
+  const sex = sexRaw === null ? null : ['m', 'male', 'man', 'maschio', 'uomo'].includes(sexRaw) ? 'male' : ['f', 'female', 'woman', 'femmina', 'donna'].includes(sexRaw) ? 'female' : null
+  const num = (...keys: string[]) => {
+    const v = Number(pick(...keys)?.replace(',', '.'))
+    return Number.isFinite(v) && v > 0 ? v : null
+  }
+  const h = num('heightM', 'height_m', 'height', 'heightCm', 'height_cm')
   return {
+    sex,
+    ageYears: num('ageYears', 'age_years', 'age'),
+    // Heights above 3 are read as centimetres.
+    heightM: h === null ? null : h > 3 ? h / 100 : h,
     crewId: pick('crewId', 'crew_id', 'id', 'astronautId', 'astronaut_id'),
     displayName: pick('displayName', 'display_name', 'name', 'callsign', 'callSign'),
     role: pick('role', 'position'),
@@ -242,6 +257,7 @@ export function parseMeasurementsCsv(text: string, crewId: string, missionStartD
       baseline: baseline ? { ...baseline, basis: baseline.basis.replace('Simulated data.', `Imported from ${fileName}.`) } : null,
       source: `Imported from ${fileName}`,
       simulated: false,
+      origin: 'import' as const,
     }
   })
   if (!series.length) throw new Error('No usable measurement found in the CSV.')

@@ -12,5 +12,6 @@ export const INDICATOR_CONTEXT: Record<DailyIndicatorId, string> = {
   sleep_duration: 'Sleep duration is relevant to fatigue and performance, but does not describe sleep quality on its own.',
   sleep_efficiency: 'This is a device-derived estimate, not a clinical sleep assessment. Review with duration and self-reported sleep.',
   activity_minutes: 'Exercise is part of long-duration mission routines. The duration alone does not measure fitness or bone health.',
+  active_energy: 'Energy spent in exercise sessions, as estimated by the device. Read it with exercise time and what you eat.',
   body_mass: 'Changes in body mass may be worth tracking alongside nutrition and activity. This is not a measure of bone density.',
 }

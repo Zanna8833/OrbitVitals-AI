@@ -10,7 +10,7 @@ import { href } from '../../hooks/useRoute'
  */
 const SUGGESTIONS = [
   'Why is my resting heart rate marked as higher than usual?',
-  'Who is free of a sleep aid on Wednesday night?',
+  'Who is free of a sleeping pill on Wednesday night?',
   'What does “uncertain quality” mean for a reading?',
 ]
 
@@ -83,12 +83,22 @@ export function AssistantPage() {
 }
 
 /** A planet shaped like a speech bubble: round body, a short tail, and a tilted ring. */
+/**
+ * The assistant's mark: a ringed planet (unmistakably Saturn-like) whose body
+ * ends in a speech-bubble tail. Solid body, ring passing in front of it.
+ */
 export const BubbleIcon = ({ size = 18 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    {/* planet body with a speech-bubble tail */}
-    <path d="M12 4.2a7.3 7.3 0 1 1-4.6 13l-3.3 1.4 1.1-3.2A7.3 7.3 0 0 1 12 4.2Z" />
-    {/* ring: the front arc crosses the body, the back arc is hidden behind it */}
-    <path d="M3.2 13.6c-.9-1.4 2.9-3.9 8.4-5.4 5.6-1.6 10.2-1.5 10.6.1.3 1-1.5 2.5-4.5 3.9" />
-    <circle cx="9.6" cy="10.4" r="0.9" fill="currentColor" stroke="none" />
+  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+    {/* ring, back half (behind the planet) */}
+    <path d="M3.6 19.6C2.3 17.4 7.6 13.3 15.5 10.7c7.9-2.6 14.4-2.6 15.3-.3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+    {/* planet body with a speech-bubble tail at the lower left */}
+    <path d="M16.5 6.5a9 9 0 1 1-6.1 15.6l-4.6 2.4 1.6-4.7A9 9 0 0 1 16.5 6.5Z" fill="currentColor" />
+    {/* a band on the planet */}
+    <path d="M9.3 13.4c3.6-.4 9.2-1.6 14-3.6" fill="none" stroke="var(--card, #fff)" strokeWidth="1.4" strokeLinecap="round" opacity="0.55" />
+    {/* ring, front half: a gap in the card colour, then the ring itself */}
+    <path d="M30.8 10.4c.8 2.2-4.6 6.3-12.4 8.8-6.9 2.2-12.7 2.6-14.8 1.2" fill="none" stroke="var(--card, #fff)" strokeWidth="4.2" strokeLinecap="round" />
+    <path d="M30.8 10.4c.8 2.2-4.6 6.3-12.4 8.8-6.9 2.2-12.7 2.6-14.8 1.2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    {/* a small star */}
+    <path d="M26 2.6v3.2M24.4 4.2h3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
   </svg>
 )
