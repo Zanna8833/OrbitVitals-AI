@@ -130,7 +130,7 @@ as part of this preservation review; the earlier full-suite results remain above
 ## Unchanged boundaries
 
 Only `docs/submission-2026/` is modified by this task. The frontend, FastAPI routes,
-scientific algorithms, shared models/schemas, Marco's code, Claude's separate AI
+scientific algorithms, shared models/schemas, Marco's code, the separate AI
 module and Exercise's NASA pipeline are unchanged. The existing test server/helper
 was reused during initial capture, not edited. The initial drafting phase made no
 commit. The separately authorized preservation commit contains only this directory.

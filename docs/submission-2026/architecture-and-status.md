@@ -74,7 +74,7 @@ inputs while its approved visual integration is still pending.
 | Vital-sign and cognition evaluation            | Experimental source/prototypes      | Outside the demonstrated sleep/activity HTTP pipeline               | Do not claim live evaluated cards or clinical scores           |
 | Nutrition evaluation                           | Not demonstrated                    | Placeholder package in this checkout                                | Planned                                                        |
 | NASA observational-data pipeline               | Not integrated in this assessed run | Separate workstream needs owner evidence                            | No dataset-driven result is claimed here                       |
-| Claude's separate AI module                    | Not integrated in this assessed run | Owner/contract verification pending                                 | No live RAG or generative guidance claim                       |
+| Separate AI module                             | Not integrated in this assessed run | Owner/contract verification pending                                 | No live RAG or generative guidance claim                       |
 | MedGemma 1.5                                   | Separate work by Marco              | Team-confirmed development responsibility                           | Integration, contribution, checkpoint and evaluation pending   |
 
 ## Evidence and reproducibility

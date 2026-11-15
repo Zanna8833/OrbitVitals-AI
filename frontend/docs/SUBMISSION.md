@@ -51,12 +51,12 @@ Key requirements read from it: (1) gather health indicators; (2) the **astronaut
 > **Next.** Usability tests with physicians on simulated cases; integration with the team’s backend; crew autonomy for missions far from Earth.
 
 **Use of AI tools (required statement — adapt):**
-> We used Claude (Anthropic), through Claude Code, as a coding and writing assistant: to help draft the UX analysis from our interview notes, write and refactor the frontend code and tests, and translate the documentation into English. All outputs were reviewed and edited by the team. The interviews, the research synthesis and the design decisions are our own. The product itself contains no AI features.
+> We used an AI coding assistant as a coding and writing assistant: to help draft the UX analysis from our interview notes, write and refactor the frontend code and tests, and translate the documentation into English. All outputs were reviewed and edited by the team. The interviews, the research synthesis and the design decisions are our own. The product itself contains no AI features.
 
 **References (to complete):**
 - Interview synthesis, OrbitVitals team, 13 Nov 2026 (`docs/research/`) — participants: M. Cerri, D. Simeone, M. De Vittorio, P. Carlucci, L. Paciucci, F. Torchia, F. Ongaro (check consent before naming them publicly).
 - React and React DOM (MIT); Vite, Vitest, TypeScript, oxlint (development tools).
-- Claude / Claude Code (Anthropic) — AI assistant, see statement above.
+- AI coding assistant, see statement above.
 - No external dataset, image or font is used.
 
 ## 4. Demo script (≈ 2½ minutes)

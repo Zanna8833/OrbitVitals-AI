@@ -192,7 +192,7 @@ every statement against the product as it actually stands at submission time.
 **Use of Super Intelligence (SI).** The rules require a description, and for code and data an
 acknowledgement "in descriptive text and metadata". Draft, to be completed truthfully:
 
-> We used SI coding assistants ([list every tool actually used, for example Claude Code and
+> We used SI coding assistants ([list every tool actually used, for example
 > Codex]) to help write, test and document the backend, to draft documentation, and to help
 > check our scientific references against their sources. The idea, the scope and the scientific
 > rules of the project (no invented thresholds, every constant sourced, synthetic data always

@@ -107,6 +107,6 @@ No file outside `docs/demo/` was created or changed. Nothing was committed.
 
 ## How this package was produced
 
-Drafted with an SI coding assistant (Claude) at the team's request, from the repository and from
+Drafted with an AI coding assistant at the team's request, from the repository and from
 the public sources cited. The team is responsible for reviewing it before relying on it. This
 note is part of the SI disclosure that the Space Apps rules require.

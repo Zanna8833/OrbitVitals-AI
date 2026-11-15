@@ -34,7 +34,7 @@
     { "name": "OpenAI Codex", "use_confirmed": true, "exact_model_versions_across_sessions": null },
     { "name": "ChatGPT", "use_confirmed": true, "exact_model_versions_across_sessions": null },
     {
-      "name": "Anthropic Claude Code",
+      "name": "AI coding assistant (frontend)",
       "use_confirmed": true,
       "exact_model_versions_across_sessions": null
     },

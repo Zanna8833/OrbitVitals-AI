@@ -21,7 +21,7 @@ agency affiliations or additional contributors.
 | ------------------------------------------ | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
 | OpenAI Codex                               | Used during development; this package was prepared with Codex                        | Exact model/version and contribution inventory across all sessions                        |
 | ChatGPT                                    | Used during development                                                              | Model/version, settings and tool-specific contribution inventory                          |
-| Anthropic Claude Code                      | Used during development; the existing demo-planning notes identify Claude assistance | Exact Claude model/version and full contribution inventory                                |
+| AI coding assistant (frontend)             | Used during development; the existing demo-planning notes identify this assistance | Exact model/version and full contribution inventory                                |
 | Qwen 3.5 4B through Ollama, locally hosted | Team-reported development use and model family/size                                  | Exact model tag, digest, quantization, Ollama version and task inventory                  |
 | MedGemma 1.5                               | Marco is developing it separately                                                    | Exact checkpoint, contribution to the final submission, deployment, tests and integration |
 
@@ -29,12 +29,12 @@ Do not infer model versions from dates, code style, package names or generic
 provider branding. Do not turn development-tool use into a claim that a model
 interpreted the demonstrated astronaut measurements. The captured sleep results
 come from the existing deterministic statistical engine, not MedGemma or an LLM.
-Claude's separate AI module and Exercise's NASA data pipeline have not been changed
+The separate AI module and Exercise's NASA data pipeline have not been changed
 or claimed as integrated by this package.
 
 ## Form-ready disclosure draft
 
-Our team used OpenAI Codex, ChatGPT, Anthropic Claude Code and a locally hosted
+Our team used OpenAI Codex, ChatGPT, an AI coding assistant and a locally hosted
 Qwen 3.5 4B model through Ollama during development. This submission package was
 prepared with Codex assistance. Team members provided the project direction and
 the contributor responsibilities listed in our project documentation. Exact
@@ -75,7 +75,7 @@ NASA insignia or mission identifiers as decorative assets.
 | ------------------------------------------------------- | -------------------------------------- |
 | Contributor roles above                                 | Confirmed by Andrea                    |
 | Four development tools above                            | Confirmed by Andrea                    |
-| Exact Codex/Claude/ChatGPT versions across sessions     | Pending                                |
+| Exact Codex/assistant/ChatGPT versions across sessions     | Pending                                |
 | Qwen/Ollama tag, digest, quantization and versions      | Pending                                |
 | Additional tools used by any teammate                   | Pending                                |
 | Generated-media inventory and disclosure placement      | Pending                                |

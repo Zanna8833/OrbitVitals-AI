@@ -32,7 +32,6 @@ OrbitVitals-AI/
 ├── docs/
 │   └── api-contracts.md     API contract between frontend and backend
 ├── AGENTS.md                Shared development conventions
-└── CLAUDE.md                Claude Code entry point, imports AGENTS.md
 ```
 
 ## Quick start (backend)

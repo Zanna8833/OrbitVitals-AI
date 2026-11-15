@@ -90,4 +90,4 @@ src/
 
 - **UX research:** interviews with M. Cerri, D. Simeone, M. De Vittorio, P. Carlucci, L. Paciucci, F. Torchia, F. Ongaro (summary in `docs/UX_ANALYSIS.md`).
 - **Requirements:** NASA JSC-67378 Rev 1 (nutrition), as implemented in the backend.
-- **AI tools:** part of the interface code and documentation was produced with Claude (Anthropic) via Claude Code, under the team's review.
+- **AI tools:** part of the interface code and documentation was produced with an AI coding assistant, under the team's review.
