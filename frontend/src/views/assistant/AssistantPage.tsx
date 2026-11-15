@@ -125,7 +125,7 @@ export function AssistantPage() {
 
           {pastDay && (
             <p className="past-banner" role="status">
-              You are viewing mission day {viewDay}. The assistant answers only from today’s stored results, so it is paused for past days.{' '}
+              You are viewing mission day {viewDay}. The assistant answers only from the latest stored results, so it is paused for past days.{' '}
               <button type="button" className="text-button" onClick={() => setViewDay(null)}>
                 Back to today
               </button>

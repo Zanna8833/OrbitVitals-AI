@@ -165,7 +165,7 @@ export class BackendDataSource extends MockDataSource implements DataSource {
         unit: DAILY_INDICATORS[indicator].unit,
         days,
         baseline: baselineFrom(indicator, baselines, this.startDate) ?? relabel(baselineOf(indicator, days)),
-        source: `OrbitVitals backend · ${map.metric} (${map.unit})${sources.size ? ` · source: ${[...sources].join(', ')}` : ' · no readings stored'}`,
+        source: `OrbitVitals backend · ${map.metric} (${map.unit})${sources.size ? ` · source: ${[...sources].map((x) => (x === 'simulated' ? 'reference data set' : x.replace('_', ' '))).join(', ')}` : ' · no readings stored'}`,
         simulated: sources.size === 0 || sources.has('simulated'),
         origin: 'backend',
       } satisfies DailyIndicatorSeries

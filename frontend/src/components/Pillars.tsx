@@ -2,6 +2,7 @@ import type { DailyIndicatorId } from '../domain/types'
 import type { Pillars } from '../domain/pillars'
 import { DAILY_INDICATORS, QUALITY_LABEL, formatDailyValue } from '../domain/parameters'
 import { QualityGlyph } from './StatusGlyphs'
+import { isPastView } from '../state/pastView'
 
 export type MethodTopic = 'quality' | 'baseline' | 'trend'
 
@@ -24,7 +25,7 @@ export function PillarStrip({ p, indicator, onExplain }: { p: Pillars; indicator
           <QualityGlyph quality={qualityLevel} size={12} /> {q.reliable}/{q.total} <span className="pillar-unit">days reliable</span>
         </p>
         <p className="pillar-note">
-          Today: {q.latestQuality ? QUALITY_LABEL[q.latestQuality].toLowerCase() : 'no reading'}
+          {isPastView() ? 'That day' : 'Today'}: {q.latestQuality ? QUALITY_LABEL[q.latestQuality].toLowerCase() : 'no reading'}
           {q.uncertainDays ? ` · ${q.uncertainDays} uncertain` : ''}
           {q.missingDays ? ` · ${q.missingDays} missing` : ''}
         </p>

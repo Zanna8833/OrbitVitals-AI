@@ -102,7 +102,7 @@ export function statusText(e: IndicatorEvaluation): string {
   if (e.position === null) return 'Usual range not available yet'
   if (e.position === 'within') return 'Within your usual range'
   const side = e.position === 'above' ? 'Higher' : 'Lower'
-  return e.streakDays > 1 ? `${side} than usual for ${e.streakDays} days` : `${side} than usual today`
+  return e.streakDays > 1 ? `${side} than usual for ${e.streakDays} days` : `${side} than usual ${dayWord()}`
 }
 
 /* ------------------------------------------------------------------ */

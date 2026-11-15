@@ -25,7 +25,7 @@ import { Ring } from '../../components/Ring'
 import { FormError } from '../../components/Common'
 import { useToast } from '../../components/Toast'
 import { Segmented, Sheet } from '../../components/ui'
-import { dayPossessive } from '../../state/pastView'
+import { dayPossessive, dayWord } from '../../state/pastView'
 
 export interface NutritionData {
   profile: NutritionProfile
@@ -355,7 +355,7 @@ function IntakeLog({ entries, foods, crewId }: { entries: IntakeEntry[]; foods: 
           })}
         </ul>
       ) : (
-        <p className="list-empty">Nothing logged yet today.</p>
+        <p className="list-empty">Nothing logged yet {dayWord()}.</p>
       )}
       <FormError message={remove.error} />
     </section>
