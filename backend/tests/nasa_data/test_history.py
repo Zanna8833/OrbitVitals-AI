@@ -8,11 +8,13 @@ from pathlib import Path
 
 import pytest
 
-from app.nasa_data.source import load_manifest
+from app.nasa_data.source import REPO_ROOT, load_manifest
 from scripts import audit_nasa_history
 from scripts.audit_nasa_history import audit_history, authentic_data_json, forbidden_path
 
 SYNTHETIC_BLOB = b"SYNTHETIC UNIT TEST DATA. Not NASA observations.\n"
+APPROVED_SYNTHETIC_PATH = "docs/submission-2026/evidence/noor-nine-night-observations.csv"
+APPROVED_SYNTHETIC_SHA256 = "24ff8e481f3bd676e27971d72c2d5a4b3d65f74df7b86c5b7e1e887007a5a271"
 
 
 def test_shallow_history_cannot_receive_a_complete_history_claim(
@@ -57,11 +59,22 @@ def commit_tree(repo: Path, files: dict[str, bytes], parent: str | None = None) 
             stderr=subprocess.PIPE,
         )
 
-    entries = []
-    for name, body in sorted(files.items()):
-        oid = command("hash-object", "-w", "--stdin", content=body).strip()
-        entries.append(b"100644 blob " + oid + b"\t" + name.encode() + b"\n")
-    tree = command("mktree", content=b"".join(entries)).decode().strip()
+    def make_tree(contents: dict[str, bytes]) -> bytes:
+        entries = []
+        directories: dict[str, dict[str, bytes]] = {}
+        for name, body in sorted(contents.items()):
+            directory, separator, remainder = name.partition("/")
+            if separator:
+                directories.setdefault(directory, {})[remainder] = body
+            else:
+                oid = command("hash-object", "-w", "--stdin", content=body).strip()
+                entries.append(b"100644 blob " + oid + b"\t" + name.encode() + b"\n")
+        for name, children in sorted(directories.items()):
+            oid = make_tree(children)
+            entries.append(b"040000 tree " + oid + b"\t" + name.encode() + b"\n")
+        return command("mktree", content=b"".join(entries)).strip()
+
+    tree = make_tree(files).decode()
     args = ["commit-tree", tree, "-m", "Synthetic history test"]
     if parent is not None:
         args += ["-p", parent]
@@ -125,3 +138,168 @@ def test_individual_json_export_marker_is_detected_even_after_deletion(bare_repo
 def test_data_marker_inside_nested_json_is_detected() -> None:
     assert authentic_data_json({"nested": [{"first_record_review_excerpt": {}}]})
     assert not authentic_data_json({"is_synthetic": True, "fixture_notice": "SYNTHETIC TEST DATA"})
+
+
+@pytest.fixture
+def approved_synthetic_evidence() -> bytes:
+    """Read existing simulated evidence as exact Git bytes, without CRLF conversion."""
+    body = audit_nasa_history.git(REPO_ROOT, "show", f"HEAD:{APPROVED_SYNTHETIC_PATH}")
+    capture = json.loads(
+        audit_nasa_history.git(
+            REPO_ROOT, "show", "HEAD:docs/submission-2026/evidence/capture-manifest.json"
+        )
+    )
+    entry = capture["files"]["noor-nine-night-observations.csv"]
+    assert capture["data_kind"] == "simulated"
+    assert hashlib.sha256(body).hexdigest() == entry["sha256"] == APPROVED_SYNTHETIC_SHA256
+    assert len(body) == entry["bytes"]
+    return body
+
+
+def test_synthetic_csv_requires_exact_approved_digest_and_retains_source_name_checks() -> None:
+    assert audit_nasa_history.APPROVED_SYNTHETIC_CSV_SHA256 == {
+        APPROVED_SYNTHETIC_PATH: APPROVED_SYNTHETIC_SHA256
+    }
+    assert forbidden_path(APPROVED_SYNTHETIC_PATH, set())
+    assert forbidden_path(APPROVED_SYNTHETIC_PATH, set(), content_sha256="0" * 64)
+    assert not forbidden_path(
+        APPROVED_SYNTHETIC_PATH, set(), content_sha256=APPROVED_SYNTHETIC_SHA256
+    )
+    assert forbidden_path(
+        APPROVED_SYNTHETIC_PATH,
+        {"noor-nine-night-observations.csv"},
+        content_sha256=APPROVED_SYNTHETIC_SHA256,
+    )
+
+
+def test_approved_synthetic_evidence_passes_in_deleted_history(
+    bare_repo: Path, approved_synthetic_evidence: bytes
+) -> None:
+    first = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence})
+    tip = commit_tree(bare_repo, {}, first)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert result["passed"], result["violations"]
+    assert result["commits_checked"] == 2
+
+
+@pytest.mark.parametrize("tip_state", ["modified", "restored", "deleted"])
+def test_modified_synthetic_evidence_fails_at_every_history_position(
+    bare_repo: Path, approved_synthetic_evidence: bytes, tip_state: str
+) -> None:
+    first = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence})
+    modified = commit_tree(
+        bare_repo, {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence + b"\n"}, first
+    )
+    tip = modified
+    if tip_state != "modified":
+        files = (
+            {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence}
+            if tip_state == "restored"
+            else {}
+        )
+        tip = commit_tree(bare_repo, files, modified)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == APPROVED_SYNTHETIC_PATH
+        for item in result["violations"]
+    )
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "unrelated.csv",
+        "docs/submission-2026/evidence/other.csv",
+        "elsewhere/noor-nine-night-observations.csv",
+        "docs/submission-2026/evidence/NOOR-nine-night-observations.csv",
+    ],
+)
+def test_approved_bytes_do_not_exempt_any_other_csv_path(
+    bare_repo: Path, approved_synthetic_evidence: bytes, name: str
+) -> None:
+    tip = commit_tree(bare_repo, {name: approved_synthetic_evidence})
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == name for item in result["violations"]
+    )
+
+
+def test_approved_path_cannot_hide_original_source_material(bare_repo: Path) -> None:
+    # Invented source bytes exercise the NASA hash protection without copying NASA data.
+    tip = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: SYNTHETIC_BLOB})
+    manifest = {
+        "files": [{"path": "raw/source.csv", "sha256": hashlib.sha256(SYNTHETIC_BLOB).hexdigest()}]
+    }
+    result = audit_history(manifest, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert {item["kind"] for item in result["violations"]} == {
+        "excluded_path",
+        "original_source_blob",
+    }
+
+
+def test_approved_digest_never_disables_original_source_hash_protection(
+    bare_repo: Path, approved_synthetic_evidence: bytes
+) -> None:
+    tip = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence})
+    manifest = {"files": [{"path": "raw/source.csv", "sha256": APPROVED_SYNTHETIC_SHA256}]}
+    result = audit_history(manifest, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(item["kind"] == "original_source_blob" for item in result["violations"])
+
+
+def test_approved_path_never_disables_authentic_json_export_detection(bare_repo: Path) -> None:
+    marker = json.dumps({"data_kind": "authentic_nasa_ground_analog"}).encode()
+    tip = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: marker})
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert {item["kind"] for item in result["violations"]} == {
+        "excluded_path",
+        "authentic_data_json",
+    }
+
+
+def test_modified_capture_manifest_cannot_authorize_different_csv_content(
+    bare_repo: Path, approved_synthetic_evidence: bytes
+) -> None:
+    changed = approved_synthetic_evidence + b"\n"
+    capture = {
+        "data_kind": "simulated",
+        "files": {
+            "noor-nine-night-observations.csv": {
+                "sha256": hashlib.sha256(changed).hexdigest(),
+                "bytes": len(changed),
+            }
+        },
+    }
+    tip = commit_tree(
+        bare_repo,
+        {
+            APPROVED_SYNTHETIC_PATH: changed,
+            "docs/submission-2026/evidence/capture-manifest.json": json.dumps(capture).encode(),
+        },
+    )
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(item["kind"] == "excluded_path" for item in result["violations"])
+
+
+def test_shared_approved_blob_cannot_hide_a_deleted_forbidden_csv_alias(
+    bare_repo: Path, approved_synthetic_evidence: bytes
+) -> None:
+    first = commit_tree(
+        bare_repo,
+        {
+            APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence,
+            "unrelated.csv": approved_synthetic_evidence,
+        },
+    )
+    tip = commit_tree(bare_repo, {APPROVED_SYNTHETIC_PATH: approved_synthetic_evidence}, first)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == "unrelated.csv"
+        for item in result["violations"]
+    )

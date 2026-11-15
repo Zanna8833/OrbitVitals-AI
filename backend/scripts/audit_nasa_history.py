@@ -17,6 +17,13 @@ from app.nasa_data.source import REPO_ROOT, load_manifest
 NASA_DIRECTORY = "data/nasa/utmb_campaign_1_actigraphy/"
 ALLOWED_NASA_FILES = {"manifest.json", ".gitattributes", "notice.md"}
 EXCLUDED_EXPORTS = {"computed-summary.json", "source-investigation.json"}
+# Reviewed simulated evidence, pinned to its capture-manifest.json SHA-256.
+# Manifest edits, matching basenames and other submission CSVs do not grant approval.
+APPROVED_SYNTHETIC_CSV_SHA256 = {
+    "docs/submission-2026/evidence/noor-nine-night-observations.csv": (
+        "24ff8e481f3bd676e27971d72c2d5a4b3d65f74df7b86c5b7e1e887007a5a271"
+    ),
+}
 
 
 def git(repo: Path, *args: str, input_bytes: bytes | None = None) -> bytes:
@@ -26,13 +33,19 @@ def git(repo: Path, *args: str, input_bytes: bytes | None = None) -> bytes:
     )
 
 
-def forbidden_path(name: str, source_names: set[str]) -> bool:
-    """Reject source/cache paths and data exports even if later commits remove them."""
+def forbidden_path(name: str, source_names: set[str], *, content_sha256: str | None = None) -> bool:
+    """Reject excluded paths; only exact approved synthetic CSV bytes may pass."""
     normalized = name.lower()
     path = PurePosixPath(normalized)
     return (
         normalized.startswith((".nasa-private/", ".nasa-cache/"))
-        or path.suffix == ".csv"
+        or (
+            path.suffix == ".csv"
+            and not (
+                name in APPROVED_SYNTHETIC_CSV_SHA256
+                and content_sha256 == APPROVED_SYNTHETIC_CSV_SHA256[name]
+            )
+        )
         or path.name in source_names | EXCLUDED_EXPORTS
         or (
             normalized.startswith(NASA_DIRECTORY)
@@ -66,6 +79,8 @@ def audit_history(
     Path inspection uses every historical tree, rather than the first path assigned
     to an object by rev-list. Thus a forbidden historical path is still detected
     when the same blob also appears under an allowed name or disappears at HEAD.
+    Every historical blob at the one approved synthetic CSV path must match its
+    pinned digest; a later restoration or deletion cannot hide modified content.
     """
     if git(repo, "rev-parse", "--is-shallow-repository").strip() != b"false":
         raise ValueError("Full history audit requires a repository with complete history")
@@ -77,6 +92,7 @@ def audit_history(
     source_names = {PurePosixPath(item["path"]).name.lower() for item in manifest["files"]}
     source_hashes = {item["sha256"] for item in manifest["files"]}
     blob_ids: set[bytes] = set()
+    synthetic_candidates: dict[bytes, list[dict[str, str]]] = {}
     violations = []
     for tree in sorted(trees):
         for entry in git(repo, "ls-tree", "-r", "-z", tree.decode()).split(b"\0"):
@@ -86,7 +102,11 @@ def audit_history(
             _, kind, oid = fields.split()
             name = name_bytes.decode("utf-8")
             if forbidden_path(name, source_names):
-                violations.append({"kind": "excluded_path", "path": name, "tree": tree.decode()})
+                violation = {"kind": "excluded_path", "path": name, "tree": tree.decode()}
+                if name in APPROVED_SYNTHETIC_CSV_SHA256 and kind == b"blob":
+                    synthetic_candidates.setdefault(oid, []).append(violation)
+                else:
+                    violations.append(violation)
             if kind == b"blob":
                 blob_ids.add(oid)
     request = b"\n".join(sorted(blob_ids)) + b"\n"
@@ -100,7 +120,12 @@ def audit_history(
         cursor = end + 1
         body = batch[cursor : cursor + int(size)]
         cursor += int(size) + 1
-        if hashlib.sha256(body).hexdigest() in source_hashes:
+        digest = hashlib.sha256(body).hexdigest()
+        for candidate in synthetic_candidates.get(oid, []):
+            if forbidden_path(candidate["path"], source_names, content_sha256=digest):
+                violations.append(candidate)
+        # Synthetic path approval never bypasses original-source or JSON checks.
+        if digest in source_hashes:
             violations.append({"kind": "original_source_blob", "object": oid.decode()})
         try:
             document = json.loads(body)
