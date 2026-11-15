@@ -25,6 +25,9 @@ class MetricType(StrEnum):
     SLEEP_EFFICIENCY = "sleep_efficiency"
     EXERCISE_DURATION = "exercise_duration"
     ACTIVE_ENERGY_EXPENDITURE = "active_energy_expenditure"
+    RESISTANCE_VOLUME_LOAD = "resistance_volume_load"
+    TREADMILL_SUBJECT_LOAD = "treadmill_subject_load"
+    CYCLE_WORK_RATE = "cycle_work_rate"
     ENERGY_INTAKE = "energy_intake"
     PROTEIN_INTAKE = "protein_intake"
     FLUID_INTAKE = "fluid_intake"
@@ -109,6 +112,26 @@ _DEFINITIONS = (
         domain=HealthDomain.PHYSICAL_ACTIVITY,
         unit="kcal",
         description="Energy expended through physical activity.",
+    ),
+    MetricDefinition(
+        metric=MetricType.RESISTANCE_VOLUME_LOAD,
+        domain=HealthDomain.PHYSICAL_ACTIVITY,
+        unit="kg",
+        description="Resistance exercise volume load: sets times repetitions times external load.",
+    ),
+    MetricDefinition(
+        metric=MetricType.TREADMILL_SUBJECT_LOAD,
+        domain=HealthDomain.PHYSICAL_ACTIVITY,
+        unit="%",
+        description=(
+            "Load pulling the crew member onto the treadmill, as a percentage of body weight."
+        ),
+    ),
+    MetricDefinition(
+        metric=MetricType.CYCLE_WORK_RATE,
+        domain=HealthDomain.PHYSICAL_ACTIVITY,
+        unit="W",
+        description="Work rate on the cycle ergometer.",
     ),
     MetricDefinition(
         metric=MetricType.ENERGY_INTAKE,

@@ -68,6 +68,24 @@
       "description": "Energy expended through physical activity."
     },
     {
+      "metric": "resistance_volume_load",
+      "domain": "physical_activity",
+      "unit": "kg",
+      "description": "Resistance exercise volume load: sets times repetitions times external load."
+    },
+    {
+      "metric": "treadmill_subject_load",
+      "domain": "physical_activity",
+      "unit": "%",
+      "description": "Load pulling the crew member onto the treadmill, as a percentage of body weight."
+    },
+    {
+      "metric": "cycle_work_rate",
+      "domain": "physical_activity",
+      "unit": "W",
+      "description": "Work rate on the cycle ergometer."
+    },
+    {
       "metric": "energy_intake",
       "domain": "nutrition",
       "unit": "kcal",

@@ -77,6 +77,9 @@ DEFINITION_BOUNDS: dict[MetricType, tuple[float | None, float | None]] = {
     MetricType.SLEEP_EFFICIENCY: (0.0, 100.0),  # a share, in percent
     MetricType.EXERCISE_DURATION: (0.0, None),  # a duration
     MetricType.ACTIVE_ENERGY_EXPENDITURE: (0.0, None),  # an amount of energy expended
+    MetricType.RESISTANCE_VOLUME_LOAD: (0.0, None),  # repetitions times a mass
+    MetricType.TREADMILL_SUBJECT_LOAD: (0.0, None),  # a ratio to body weight, may exceed 100
+    MetricType.CYCLE_WORK_RATE: (0.0, None),  # a power
     MetricType.ENERGY_INTAKE: (0.0, None),  # an amount of energy taken in
     MetricType.PROTEIN_INTAKE: (0.0, None),  # an amount of mass
     MetricType.FLUID_INTAKE: (0.0, None),  # an amount of volume
