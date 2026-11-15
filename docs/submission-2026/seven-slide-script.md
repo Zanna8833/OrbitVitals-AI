@@ -161,8 +161,9 @@ Andrea · Marco · Silvio
 The next step is human review, not an automated diagnosis or treatment. HTTP
 sharing, messaging and clinical recommendations are unavailable; this statement
 does not imply a report has been sent. Marco's MedGemma 1.5 work remains separate
-pending confirmation. Development assistance from Codex, ChatGPT, an AI coding assistant and
-locally hosted Qwen 3.5 4B is disclosed in the project materials. Exact versions
+pending confirmation. Development assistance from Codex, ChatGPT, Claude and, during development only,
+locally hosted Qwen 3.5 4B is disclosed in the project materials. The final assistant
+runs Google Gemma 3 4B locally, with MedGemma 1.5 4B as an optional reviewer. Exact versions
 and media provenance remain part of final team review.
 
 **Asset/source**: [Contributor and AI disclosure](ai-tools-and-credits.md),

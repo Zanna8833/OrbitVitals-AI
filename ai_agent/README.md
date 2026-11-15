@@ -8,6 +8,20 @@ dashboard and general scientific questions, always from the stored records and t
 evidence corpus; it is not a general-purpose chatbot, keeps no memory of earlier
 questions and has no information beyond what the backend returns.
 
+> **Primary model in the final release: Google Gemma 3 4B (`gemma3:4b`).** Until the
+> release the primary model was Alibaba Qwen 3.5 4B (`qwen3.5:4b`); it was replaced after
+> the NASA Space Apps organizers advised against open-source technology from Chinese
+> companies. The adapter, prompts, verification and fallback are unchanged; only the
+> default model tag changed (`ORBITVITALS_AGENT_PRIMARY_MODEL`). **Timings, rejection
+> rates and live results reported below as "Qwen" were measured with Qwen 3.5 4B during
+> development and are historical**; the Gemma 3 4B live checks are recorded in
+> [Gemma 3 4B release validation](#gemma-3-4b-release-validation).
+>
+> Questions can also be submitted as server-owned jobs (`POST /agent/v1/jobs` with a
+> client `request_id`, then `GET /agent/v1/jobs/{request_id}`): the answer is computed
+> and stored even if the browser closes, and a repeated request id never runs twice.
+> Job files are written to `ORBITVITALS_AGENT_JOBS_DIR` (default `.agent-jobs/`).
+
 **Status: isolated prototype.** It is a research prototype, not a medical device. It
 never changes a result, never diagnoses and never recommends a treatment. All crew data
 in the demonstration is simulated.

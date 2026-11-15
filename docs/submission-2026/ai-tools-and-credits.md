@@ -22,7 +22,9 @@ agency affiliations or additional contributors.
 | OpenAI Codex                               | Used during development; this package was prepared with Codex                        | Exact model/version and contribution inventory across all sessions                        |
 | ChatGPT                                    | Used during development                                                              | Model/version, settings and tool-specific contribution inventory                          |
 | AI coding assistant (frontend)             | Used during development; the existing demo-planning notes identify this assistance | Exact model/version and full contribution inventory                                |
-| Qwen 3.5 4B through Ollama, locally hosted | Team-reported development use and model family/size                                  | Exact model tag, digest, quantization, Ollama version and task inventory                  |
+| Anthropic Claude (Claude Code)             | Used during development: assistant service, frontend work, final integration         | Exact model versions across sessions                                                      |
+| Qwen 3.5 4B (Alibaba Qwen team) through Ollama, locally hosted | Earlier primary model of the assistant, **development only**; replaced by Gemma 3 4B in the final release (Ollama tag `qwen3.5:4b`, id `d8b0f5e9760c`) | Task inventory |
+| Gemma 3 4B (Google) through Ollama, locally hosted | **Final runtime** primary conversational model of the assistant (`gemma3:4b`)  | Live validation record in `ai_agent/README.md`                                            |
 | MedGemma 1.5                               | Marco is developing it separately                                                    | Exact checkpoint, contribution to the final submission, deployment, tests and integration |
 
 Do not infer model versions from dates, code style, package names or generic
@@ -34,8 +36,15 @@ or claimed as integrated by this package.
 
 ## Form-ready disclosure draft
 
-Our team used OpenAI Codex, ChatGPT, an AI coding assistant and a locally hosted
-Qwen 3.5 4B model through Ollama during development. This submission package was
+Our team used OpenAI Codex, ChatGPT, Anthropic Claude (Claude Code) and a locally
+hosted Qwen 3.5 4B model through Ollama during development. In the final release the
+assistant runs Google Gemma 3 4B (`gemma3:4b`) locally through Ollama as its primary
+model, with Google MedGemma 1.5 4B as an optional biomedical reviewer. Qwen 3.5 4B was
+replaced after the NASA Space Apps Global Organizing Team advised against using
+open-source technology from Chinese companies. The team reports no collaboration,
+sponsorship, affiliation or coordination with Alibaba and no use of Alibaba-hosted
+inference APIs. These disclosures do not by themselves establish eligibility; NASA does
+not endorse this project. This submission package was
 prepared with Codex assistance. Team members provided the project direction and
 the contributor responsibilities listed in our project documentation. Exact
 model versions across sessions and tool-specific contributions are undergoing
@@ -76,7 +85,8 @@ NASA insignia or mission identifiers as decorative assets.
 | Contributor roles above                                 | Confirmed by Andrea                    |
 | Four development tools above                            | Confirmed by Andrea                    |
 | Exact Codex/assistant/ChatGPT versions across sessions     | Pending                                |
-| Qwen/Ollama tag, digest, quantization and versions      | Pending                                |
+| Qwen/Ollama tag and id (development only)               | `qwen3.5:4b`, `d8b0f5e9760c`; Ollama 0.40.16 |
+| Final runtime models                                    | `gemma3:4b` (primary), `medgemma1.5:4b` (`433252621ab1`, optional reviewer) |
 | Additional tools used by any teammate                   | Pending                                |
 | Generated-media inventory and disclosure placement      | Pending                                |
 | Human-origin idea/original-work attestation             | Team Owner to verify against the rules |

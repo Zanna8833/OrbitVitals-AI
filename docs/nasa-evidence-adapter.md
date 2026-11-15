@@ -1,7 +1,7 @@
 # NASA Dataset Evidence Adapter
 
 Contract version: **1.0.0**. This is a read-only context service for the two existing
-NASA pipelines. It is independent of Qwen, MedGemma, the agent corpus and the crew
+NASA pipelines. It is independent of the assistant's language models (Gemma 3, MedGemma), the agent corpus and the crew
 repository. No dataset replaces simulated Crew A/B/C telemetry or supplies a
 dashboard chart, personal baseline, health evaluation or clinical reference range.
 

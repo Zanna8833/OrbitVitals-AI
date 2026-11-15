@@ -39,17 +39,45 @@
       "exact_model_versions_across_sessions": null
     },
     {
-      "name": "Qwen 3.5 4B through Ollama",
+      "name": "Anthropic Claude (Claude Code)",
+      "use_confirmed": true,
+      "contribution": "AI-assisted development of the assistant service, frontend work and the final integration",
+      "exact_model_versions_across_sessions": null
+    },
+    {
+      "name": "Qwen 3.5 4B through Ollama (Alibaba Qwen team)",
       "use_confirmed": true,
       "hosting": "local",
-      "exact_tag_digest_quantization_and_runtime_version": null
+      "role": "Primary language model of the assistant during development only; not part of the final runtime configuration",
+      "replaced_by": "gemma3:4b",
+      "replacement_reason": "The NASA Space Apps Global Organizing Team advised against using open-source technology from Chinese companies.",
+      "relationship_with_alibaba": "No collaboration, sponsorship, affiliation or coordination with Alibaba; no Alibaba-hosted inference API was used.",
+      "exact_tag_digest_quantization_and_runtime_version": "ollama tag qwen3.5:4b, id d8b0f5e9760c"
     }
   ],
+  "runtime_models": [
+    {
+      "name": "Google Gemma 3 4B",
+      "ollama_tag": "gemma3:4b",
+      "hosting": "local, through Ollama",
+      "role": "Primary conversational model of the assistant: drafts wording only; every sentence is verified against backend records",
+      "license": "Gemma Terms of Use (Google)"
+    },
+    {
+      "name": "Google MedGemma 1.5 4B",
+      "ollama_tag": "medgemma1.5:4b",
+      "ollama_id": "433252621ab1",
+      "hosting": "local, through Ollama",
+      "role": "Optional biomedical reviewer of flagged results; never answers the operator directly",
+      "license": "Health AI Developer Foundations Terms of Use (Google)"
+    }
+  ],
+  "eligibility_note": "These disclosures do not by themselves establish eligibility under the NASA Space Apps rules; the team owner confirms eligibility with the organizers.",
   "medgemma": {
     "reported_version": "1.5",
     "owner": "Marco",
     "development_status": "separate_workstream",
-    "integration_status": "pending_confirmation",
+    "integration_status": "integrated_as_optional_specialist_reviewer_in_ai_agent",
     "final_contribution_status": "pending_confirmation",
     "used_in_captured_statistical_sleep_runtime": false,
     "exact_checkpoint": null
