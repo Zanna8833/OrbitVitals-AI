@@ -1,4 +1,75 @@
 {
+  "acquisition": {
+    "data_kind": "simulated",
+    "device_id_pattern": "{crew_member_id}:{device_suffix}",
+    "protocols": {
+      "blood_oxygen_saturation": {
+        "context": "SIMULATED seated resting spot check after waking, before exercise.",
+        "device_suffix": "sim-waking-rest-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 425,
+        "modality": "Authored optical spot reading, including retained decoder corruption."
+      },
+      "body_mass": {
+        "context": "SIMULATED daily morning mass check before exercise.",
+        "device_suffix": "sim-mass-check-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 435,
+        "modality": "Authored mass-instrument reading; no spacecraft instrument model."
+      },
+      "body_temperature": {
+        "context": "SIMULATED oral spot check before exercise; not a core-temperature model.",
+        "device_suffix": "sim-oral-spot-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 430,
+        "modality": "Authored oral reading; no real thermometer."
+      },
+      "diastolic_blood_pressure": {
+        "context": "SIMULATED same cuff, instant and context as the systolic channel.",
+        "device_suffix": "sim-seated-cuff-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 430,
+        "modality": "Authored cuff pair; no device accuracy or calibration claim."
+      },
+      "heart_rate": {
+        "context": "SIMULATED 07:00 waking followed by five minutes of seated quiet rest.",
+        "device_suffix": "sim-waking-rest-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 425,
+        "modality": "Authored optical spot reading; no real sensor or beat data."
+      },
+      "heart_rate_variability_rmssd": {
+        "context": "SIMULATED five-minute seated resting capture immediately after waking.",
+        "device_suffix": "sim-resting-ppg-v2",
+        "interval_minutes": 5,
+        "minute_of_day": 420,
+        "modality": "Authored PPG RMSSD scalar; not computed from absent beat intervals."
+      },
+      "respiratory_rate": {
+        "context": "SIMULATED seated resting spot check after waking, before exercise.",
+        "device_suffix": "sim-waking-rest-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 425,
+        "modality": "Authored respiratory spot reading; no measured waveform."
+      },
+      "systolic_blood_pressure": {
+        "context": "SIMULATED paired seated cuff check after quiet rest, before exercise.",
+        "device_suffix": "sim-seated-cuff-v2",
+        "interval_minutes": 0,
+        "minute_of_day": 430,
+        "modality": "Authored cuff pair; no device accuracy or calibration claim."
+      }
+    },
+    "upgrade": "Use a fresh dedicated API; never relabel existing generic vital records.",
+    "waking_assumption_utc": "07:00; authored schedule, not inferred from sleep values"
+  },
+  "additional_dashboard_metrics": [
+    "heart_rate_variability_rmssd",
+    "systolic_blood_pressure",
+    "diastolic_blood_pressure",
+    "body_temperature",
+    "body_mass"
+  ],
   "api_prefix": "/api/v1",
   "crews": [
     {
@@ -40,7 +111,21 @@
           "window_end": "2026-10-26T00:00:00+00:00"
         }
       ],
-      "measurement_count": 188,
+      "measurement_count": 328,
+      "metric_record_counts": {
+        "active_energy_expenditure": 24,
+        "blood_oxygen_saturation": 28,
+        "body_mass": 28,
+        "body_temperature": 28,
+        "diastolic_blood_pressure": 28,
+        "exercise_duration": 24,
+        "heart_rate": 28,
+        "heart_rate_variability_rmssd": 28,
+        "respiratory_rate": 28,
+        "sleep_duration": 28,
+        "sleep_efficiency": 28,
+        "systolic_blood_pressure": 28
+      },
       "reused_fixtures": [
         "sleep_records",
         "activity_inputs",
@@ -96,7 +181,21 @@
           "window_end": "2026-10-26T00:00:00+00:00"
         }
       ],
-      "measurement_count": 171,
+      "measurement_count": 311,
+      "metric_record_counts": {
+        "active_energy_expenditure": 22,
+        "blood_oxygen_saturation": 28,
+        "body_mass": 28,
+        "body_temperature": 28,
+        "diastolic_blood_pressure": 28,
+        "exercise_duration": 23,
+        "heart_rate": 28,
+        "heart_rate_variability_rmssd": 28,
+        "respiratory_rate": 28,
+        "sleep_duration": 21,
+        "sleep_efficiency": 21,
+        "systolic_blood_pressure": 28
+      },
       "reused_fixtures": [
         "sleep_records",
         "activity_inputs",
@@ -146,7 +245,21 @@
           "window_end": "2026-10-26T00:00:00+00:00"
         }
       ],
-      "measurement_count": 139,
+      "measurement_count": 254,
+      "metric_record_counts": {
+        "active_energy_expenditure": 13,
+        "blood_oxygen_saturation": 23,
+        "body_mass": 23,
+        "body_temperature": 23,
+        "diastolic_blood_pressure": 23,
+        "exercise_duration": 14,
+        "heart_rate": 23,
+        "heart_rate_variability_rmssd": 23,
+        "respiratory_rate": 23,
+        "sleep_duration": 22,
+        "sleep_efficiency": 21,
+        "systolic_blood_pressure": 23
+      },
       "reused_fixtures": [
         "sleep_records",
         "activity_inputs",
@@ -171,7 +284,7 @@
   ],
   "latest_required_server_time": "2026-10-26T12:00:00+00:00",
   "notice": "SIMULATED DATA: deterministic research demonstrations, not astronaut records, clinical validation, diagnoses or medical recommendations.",
-  "plan_sha256": "05ee5583a6414b1b0724663e54f0fd751f99dacfd6d8c1f639d62ff960d8b4d9",
+  "plan_sha256": "9b125aa0fe9ed0ccb989737723cc7ba5b6284dba73db4b7bd820479fffddd0c7",
   "policies": {
     "activity": [
       {
@@ -220,10 +333,15 @@
   },
   "reference_computed_at": "2026-10-12T12:00:00+00:00",
   "reference_start": "2026-09-28T00:00:00+00:00",
+  "seed_revision": "dashboard-acquisition-v2",
   "vital_evaluations": "Unsupported: measurements, data quality and personal baselines only.",
   "vital_metrics": [
     "heart_rate",
     "respiratory_rate",
-    "blood_oxygen_saturation"
+    "blood_oxygen_saturation",
+    "heart_rate_variability_rmssd",
+    "systolic_blood_pressure",
+    "diastolic_blood_pressure",
+    "body_temperature"
   ]
 }

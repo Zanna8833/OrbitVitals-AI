@@ -9,6 +9,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 from app.demo_seed.dataset import (
+    ACQUISITION_PROTOCOLS,
     CURRENT_START,
     FINAL_AS_OF,
     METRICS,
@@ -17,7 +18,7 @@ from app.demo_seed.dataset import (
     build_plan,
     plan_digest,
 )
-from app.models import METRIC_CATALOG, MeasurementSource, PhysiologicalMeasurement
+from app.models import METRIC_CATALOG, MeasurementSource, MetricType, PhysiologicalMeasurement
 from app.scenarios import fixtures
 from app.scenarios.codec import canonical_json
 from app.services.commands import BaselineCommand, EvaluationCommand
@@ -51,7 +52,7 @@ def test_dataset_has_three_distinct_synthetic_longitudinal_crews() -> None:
             assert PhysiologicalMeasurement.model_validate(payload) == record
             validator.validate(payload)
             ids.append(record.measurement_id)
-    assert len(ids) == len(set(ids)) == 498
+    assert len(ids) == len(set(ids)) == 893
 
 
 def test_commands_reuse_policies_and_never_embed_computed_results() -> None:
@@ -133,6 +134,19 @@ def test_fresh_plans_and_mutation_cannot_change_later_generation() -> None:
     first[0].measurements[0].value = 999
     assert plan_digest(first) != expected
     assert plan_digest(build_plan()) == expected
+
+
+def test_acquisition_assumptions_are_fingerprinted_and_manifest_copies_are_independent(
+    monkeypatch,
+) -> None:
+    expected = plan_digest(build_plan())
+    manifest = build_manifest()
+    manifest["acquisition"]["protocols"]["heart_rate"]["context"] = "Changed returned copy"
+    assert plan_digest(build_plan()) == expected
+    monkeypatch.setitem(
+        ACQUISITION_PROTOCOLS[MetricType.HEART_RATE], "context", "SIMULATED changed protocol"
+    )
+    assert plan_digest(build_plan()) != expected
 
 
 def test_manifest_bytes_are_reproducible_across_process_hash_seeds_and_timezones() -> None:

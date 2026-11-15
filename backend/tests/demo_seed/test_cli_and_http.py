@@ -16,7 +16,7 @@ from fastapi.testclient import TestClient
 from app.demo_seed import cli
 from app.demo_seed import client as client_module
 from app.demo_seed.client import HttpApi, SeedError
-from app.demo_seed.dataset import build_manifest
+from app.demo_seed.dataset import DASHBOARD_METRICS, build_manifest, build_plan
 from tests.demo_seed.support import TestApi
 
 BACKEND_ROOT = Path(__file__).resolve().parents[2]
@@ -218,11 +218,38 @@ def test_real_http_cli_smoke_seed_twice_and_retrieve(free_tcp_port: int, tmp_pat
                 root = f"{base_url}/crew-members/{crew['crew_member_id']}"
                 for resource, count in (
                     ("measurements", crew["stored_measurement_count"]),
-                    ("baselines", 7),
+                    ("baselines", 12),
                     ("evaluations", len(crew["evaluations"])),
                 ):
                     with urlopen(root + "/" + resource, timeout=5) as response:
                         assert len(json.load(response)["items"]) == count
+                expected = next(
+                    item for item in build_plan() if item.crew_member_id == crew["crew_member_id"]
+                )
+                for metric in DASHBOARD_METRICS:
+                    with urlopen(
+                        root + "/measurements?metric=" + metric.value, timeout=5
+                    ) as response:
+                        items = json.load(response)["items"]
+                    desired = [
+                        item.model_dump(mode="json")
+                        for item in expected.measurements
+                        if item.metric == metric
+                    ]
+                    actual = {item["measurement_id"]: item for item in items}
+                    assert (
+                        len(items)
+                        == len(desired)
+                        == (23 if crew["crew_member_id"].endswith("03") else 28)
+                    )
+                    for item in desired:
+                        stored = actual[item["measurement_id"]]
+                        assert {
+                            key: value for key, value in stored.items() if key != "data_quality"
+                        } == {key: value for key, value in item.items() if key != "data_quality"}
+                        assert stored["source"] == "simulated"
+                        assert stored["data_quality"]["algorithm"]["name"] == "data_quality"
+                        assert stored["data_quality"]["status"] == "acceptable"
         finally:
             process.terminate()
             try:

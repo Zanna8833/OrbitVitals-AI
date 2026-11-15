@@ -223,6 +223,21 @@ def seed_api(api: JsonApi, *, batch_size: int = 500) -> dict:
         )
         checks.append(
             _check(
+                "measurement_content",
+                "Retrieved values, units, acquisition identities and timestamps match the inputs.",
+                True,
+                {
+                    item.measurement_id: item.model_dump(exclude={"data_quality"})
+                    for item in crew.measurements
+                }
+                == {
+                    item.measurement_id: item.model_dump(exclude={"data_quality"})
+                    for item in retrieved_measurements
+                },
+            )
+        )
+        checks.append(
+            _check(
                 "computed_baseline_retrieval",
                 "Every computed baseline remains stored.",
                 True,
@@ -308,6 +323,9 @@ def seed_api(api: JsonApi, *, batch_size: int = 500) -> dict:
                 "data_kind": "simulated",
                 "scenario": crew.scenario,
                 "stored_measurement_count": len(retrieved_measurements),
+                "metric_record_counts": dict(
+                    sorted(Counter(item.metric.value for item in retrieved_measurements).items())
+                ),
                 "quality_status_counts": dict(
                     sorted(
                         Counter(

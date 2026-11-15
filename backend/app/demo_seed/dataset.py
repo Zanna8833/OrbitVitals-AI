@@ -5,9 +5,18 @@ docs/mission-demo-seed.md. No value or policy is a clinical recommendation.
 """
 
 import hashlib
+from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime, timedelta
 
+from app.demo_seed.acquisition import (
+    ACQUISITION_PROTOCOLS,
+    DASHBOARD_METRICS,
+    LEGACY_VITAL_METRICS,
+    MISSING_CURRENT_VITAL_DAYS,
+    SEED_REVISION,
+    acquisition_device_id,
+)
 from app.domains.physical_activity import ActivityDayPlan, ExerciseSession, RecordingCoverage
 from app.models import (
     HealthDomain,
@@ -32,11 +41,15 @@ CURRENT_START = REFERENCE_START + 14 * fixtures.DAY
 COMPUTED_AT = CURRENT_START + timedelta(hours=12)
 FINAL_AS_OF = CURRENT_START + 14 * fixtures.DAY + timedelta(hours=12)
 VITAL_METRICS = (
-    MetricType.HEART_RATE,
-    MetricType.RESPIRATORY_RATE,
-    MetricType.BLOOD_OXYGEN_SATURATION,
+    *LEGACY_VITAL_METRICS,
+    *(metric for metric in DASHBOARD_METRICS if metric != MetricType.BODY_MASS),
 )
-METRICS = (*fixtures.SLEEP_METRICS, *fixtures.ACTIVITY_METRICS, *VITAL_METRICS)
+METRICS = (
+    *fixtures.SLEEP_METRICS,
+    *fixtures.ACTIVITY_METRICS,
+    *VITAL_METRICS,
+    MetricType.BODY_MASS,
+)
 
 
 @dataclass(frozen=True)
@@ -193,7 +206,7 @@ def _vitals(crew: str, index: int) -> tuple[PhysiologicalMeasurement, ...]:
     for day in range(28):
         current = day >= 14
         offset = day % 14
-        if index == 2 and current and offset in (2, 6, 10, 11, 12):
+        if index == 2 and current and offset in MISSING_CURRENT_VITAL_DAYS:
             continue
         heart = (shifted if current and index else reference)[offset]
         if heart < 0 and index != 2:
@@ -204,16 +217,56 @@ def _vitals(crew: str, index: int) -> tuple[PhysiologicalMeasurement, ...]:
         oxygen = (98, 97, 99, 98, 97, 99, 98)[day % 7]
         if index == 2 and current and offset == 4:
             oxygen = 125  # Explicit percentage-decoder failure, not a clinical deviation.
-        for metric, value in zip(VITAL_METRICS, (heart, respiratory, oxygen), strict=True):
+        for metric, value in zip(LEGACY_VITAL_METRICS, (heart, respiratory, oxygen), strict=True):
             records.append(
                 fixtures.simulated_measurement(
                     f"sim-vitals-{day:02d}-{metric.value}",
                     metric,
                     value,
-                    REFERENCE_START + day * fixtures.DAY + timedelta(hours=8),
+                    REFERENCE_START + day * fixtures.DAY + timedelta(hours=7, minutes=5),
                 )
             )
-    return _remap(tuple(records), crew, "vitals", timedelta(0))
+    # New generation explicitly declares acquisition; old stored generic records
+    # are never relabeled. Preflight rejects their differing timestamps/devices.
+    return tuple(
+        record.model_copy(update={"device_id": acquisition_device_id(crew, record.metric)})
+        for record in _remap(tuple(records), crew, "vitals", timedelta(0))
+    )
+
+
+def _dashboard_measurements(crew: str, index: int) -> tuple[PhysiologicalMeasurement, ...]:
+    """Author scalar inputs without deriving physiological findings or thresholds."""
+    records = []
+    for day in range(28):
+        current, offset = day >= 14, day % 14
+        if index == 2 and current and offset in MISSING_CURRENT_VITAL_DAYS:
+            continue
+        step = offset if current and index == 1 else 0
+        values = (
+            (54, 56, 55, 57, 53, 58, 55)[day % 7] - 4 * index - 0.5 * step,
+            (116, 118, 117, 119, 115, 120, 117)[day % 7] + 3 * index + step // 4,
+            (74, 75, 73, 76, 74, 77, 75)[day % 7] + 2 * index + step // 6,
+            (36.6, 36.7, 36.5, 36.6, 36.8, 36.7, 36.6)[day % 7],
+            (72.0, 72.1, 71.9, 72.2, 72.0, 71.8, 72.1)[day % 7] + 4 * index,
+        )
+        for metric, value in zip(DASHBOARD_METRICS, values, strict=True):
+            protocol = ACQUISITION_PROTOCOLS[metric]
+            instant = (
+                REFERENCE_START + day * fixtures.DAY + timedelta(minutes=protocol["minute_of_day"])
+            )
+            interval = protocol["interval_minutes"]
+            record = fixtures.simulated_measurement(
+                f"sim-dashboard-{day:02d}-{metric.value}",
+                metric,
+                round(value, 2),
+                instant,
+                interval_end=instant + timedelta(minutes=interval) if interval else None,
+            )
+            mapped = _remap((record,), crew, "dashboard", timedelta(0))[0]
+            records.append(
+                mapped.model_copy(update={"device_id": acquisition_device_id(crew, metric)})
+            )
+    return tuple(records)
 
 
 def _options_through(options: ActivityOptions, end: datetime) -> ActivityOptions:
@@ -370,6 +423,7 @@ def build_plan() -> tuple[CrewPlan, ...]:
                     *current_sleep,
                     *current_activity,
                     *_vitals(crew, index),
+                    *_dashboard_measurements(crew, index),
                 ),
                 key=lambda item: (item.measured_at, item.metric, item.measurement_id),
             )
@@ -403,9 +457,15 @@ def build_plan() -> tuple[CrewPlan, ...]:
 
 
 def plan_digest(plan: tuple[CrewPlan, ...]) -> str:
-    """Fingerprint every measurement, policy, command and separately authored expectation."""
+    """Fingerprint inputs, acquisition assumptions, commands and authored expectations."""
     return hashlib.sha256(
-        canonical_json([asdict(crew) for crew in plan]).encode("utf-8")
+        canonical_json(
+            {
+                "seed_revision": SEED_REVISION,
+                "acquisition_protocols": ACQUISITION_PROTOCOLS,
+                "crews": [asdict(crew) for crew in plan],
+            }
+        ).encode("utf-8")
     ).hexdigest()
 
 
@@ -413,6 +473,7 @@ def build_manifest(plan: tuple[CrewPlan, ...] | None = None) -> dict:
     plan = build_plan() if plan is None else plan
     return {
         "dataset_id": DATASET_ID,
+        "seed_revision": SEED_REVISION,
         "data_kind": "simulated",
         "notice": SIMULATION_NOTICE,
         "plan_sha256": plan_digest(plan),
@@ -434,6 +495,16 @@ def build_manifest(plan: tuple[CrewPlan, ...] | None = None) -> dict:
         "evaluated_domains": ["sleep", "physical_activity"],
         "vital_metrics": [metric.value for metric in VITAL_METRICS],
         "vital_evaluations": "Unsupported: measurements, data quality and personal baselines only.",
+        "additional_dashboard_metrics": [metric.value for metric in DASHBOARD_METRICS],
+        "acquisition": {
+            "data_kind": "simulated",
+            "waking_assumption_utc": "07:00; authored schedule, not inferred from sleep values",
+            "protocols": {
+                metric.value: dict(protocol) for metric, protocol in ACQUISITION_PROTOCOLS.items()
+            },
+            "device_id_pattern": "{crew_member_id}:{device_suffix}",
+            "upgrade": "Use a fresh dedicated API; never relabel existing generic vital records.",
+        },
         "crews": [
             {
                 "crew_member_id": crew.crew_member_id,
@@ -441,6 +512,9 @@ def build_manifest(plan: tuple[CrewPlan, ...] | None = None) -> dict:
                 "scenario": crew.scenario,
                 "description": crew.description,
                 "measurement_count": len(crew.measurements),
+                "metric_record_counts": dict(
+                    sorted(Counter(item.metric.value for item in crew.measurements).items())
+                ),
                 "reused_fixtures": list(crew.reused_fixtures),
                 "endpoints": {
                     resource: f"/api/v1/crew-members/{crew.crew_member_id}/{resource}"

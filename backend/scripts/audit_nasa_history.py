@@ -17,11 +17,24 @@ from app.nasa_data.source import REPO_ROOT, load_manifest
 NASA_DIRECTORY = "data/nasa/utmb_campaign_1_actigraphy/"
 ALLOWED_NASA_FILES = {"manifest.json", ".gitattributes", "notice.md"}
 EXCLUDED_EXPORTS = {"computed-summary.json", "source-investigation.json"}
-# Reviewed simulated evidence, pinned to its capture-manifest.json SHA-256.
-# Manifest edits, matching basenames and other submission CSVs do not grant approval.
+# Reviewed simulated evidence and invented frontend import examples, exact Git bytes.
+# Noor is pinned to its capture manifest; frontend examples originated in 13660fa.
+# Manifest edits, matching basenames and other CSVs do not grant approval.
 APPROVED_SYNTHETIC_CSV_SHA256 = {
     "docs/submission-2026/evidence/noor-nine-night-observations.csv": (
         "24ff8e481f3bd676e27971d72c2d5a4b3d65f74df7b86c5b7e1e887007a5a271"
+    ),
+    "frontend/docs/samples/measurements.sample.csv": (
+        "da572991538502aa682bd075fe6bd5857733633f28f55b3568cba1352b833ec6"
+    ),
+    "frontend/docs/samples/measurements-long.sample.csv": (
+        "dbad79029a53e441c6d6b7fca86744920866612757a09a35269f73db48be9455"
+    ),
+    "frontend/src/data/import/samples/measurements.sample.csv": (
+        "da572991538502aa682bd075fe6bd5857733633f28f55b3568cba1352b833ec6"
+    ),
+    "frontend/src/data/import/samples/measurements-long.sample.csv": (
+        "dbad79029a53e441c6d6b7fca86744920866612757a09a35269f73db48be9455"
     ),
 }
 
@@ -79,7 +92,7 @@ def audit_history(
     Path inspection uses every historical tree, rather than the first path assigned
     to an object by rev-list. Thus a forbidden historical path is still detected
     when the same blob also appears under an allowed name or disappears at HEAD.
-    Every historical blob at the one approved synthetic CSV path must match its
+    Every historical blob at an approved synthetic CSV path must match its
     pinned digest; a later restoration or deletion cannot hide modified content.
     """
     if git(repo, "rev-parse", "--is-shallow-repository").strip() != b"false":

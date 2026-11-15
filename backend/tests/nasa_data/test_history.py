@@ -15,6 +15,20 @@ from scripts.audit_nasa_history import audit_history, authentic_data_json, forbi
 SYNTHETIC_BLOB = b"SYNTHETIC UNIT TEST DATA. Not NASA observations.\n"
 APPROVED_SYNTHETIC_PATH = "docs/submission-2026/evidence/noor-nine-night-observations.csv"
 APPROVED_SYNTHETIC_SHA256 = "24ff8e481f3bd676e27971d72c2d5a4b3d65f74df7b86c5b7e1e887007a5a271"
+FRONTEND_SAMPLE_SHA256 = {
+    "frontend/docs/samples/measurements.sample.csv": (
+        "da572991538502aa682bd075fe6bd5857733633f28f55b3568cba1352b833ec6"
+    ),
+    "frontend/docs/samples/measurements-long.sample.csv": (
+        "dbad79029a53e441c6d6b7fca86744920866612757a09a35269f73db48be9455"
+    ),
+    "frontend/src/data/import/samples/measurements.sample.csv": (
+        "da572991538502aa682bd075fe6bd5857733633f28f55b3568cba1352b833ec6"
+    ),
+    "frontend/src/data/import/samples/measurements-long.sample.csv": (
+        "dbad79029a53e441c6d6b7fca86744920866612757a09a35269f73db48be9455"
+    ),
+}
 
 
 def test_shallow_history_cannot_receive_a_complete_history_claim(
@@ -158,7 +172,8 @@ def approved_synthetic_evidence() -> bytes:
 
 def test_synthetic_csv_requires_exact_approved_digest_and_retains_source_name_checks() -> None:
     assert audit_nasa_history.APPROVED_SYNTHETIC_CSV_SHA256 == {
-        APPROVED_SYNTHETIC_PATH: APPROVED_SYNTHETIC_SHA256
+        APPROVED_SYNTHETIC_PATH: APPROVED_SYNTHETIC_SHA256,
+        **FRONTEND_SAMPLE_SHA256,
     }
     assert forbidden_path(APPROVED_SYNTHETIC_PATH, set())
     assert forbidden_path(APPROVED_SYNTHETIC_PATH, set(), content_sha256="0" * 64)
@@ -303,3 +318,144 @@ def test_shared_approved_blob_cannot_hide_a_deleted_forbidden_csv_alias(
         item["kind"] == "excluded_path" and item["path"] == "unrelated.csv"
         for item in result["violations"]
     )
+
+
+@pytest.fixture(params=tuple(FRONTEND_SAMPLE_SHA256))
+def approved_frontend_sample(request: pytest.FixtureRequest) -> tuple[str, bytes]:
+    """Read reviewed invented samples from Git, without working-copy normalization."""
+    name = request.param
+    body = audit_nasa_history.git(REPO_ROOT, "show", f"HEAD:{name}")
+    assert hashlib.sha256(body).hexdigest() == FRONTEND_SAMPLE_SHA256[name]
+    long_layout = "measurements-long.sample.csv" in name
+    expected_notice = (
+        b"# SAMPLE FILE: invented values. One row per reading (long layout)."
+        if long_layout
+        else b"# SAMPLE FILE: invented values, no real person. One row per day (wide layout)."
+    )
+    assert body.splitlines()[0] == expected_notice
+    assert len(body) == (385 if long_layout else 1033)
+    assert b"\r" not in body
+    return name, body
+
+
+def test_frontend_sample_path_requires_its_exact_digest_and_retains_source_name_checks(
+    approved_frontend_sample: tuple[str, bytes],
+) -> None:
+    name, body = approved_frontend_sample
+    digest = hashlib.sha256(body).hexdigest()
+    assert forbidden_path(name, set())
+    assert forbidden_path(name, set(), content_sha256="0" * 64)
+    assert not forbidden_path(name, set(), content_sha256=digest)
+    assert forbidden_path(name, {Path(name).name}, content_sha256=digest)
+
+
+def test_approved_frontend_sample_passes_even_when_later_deleted(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes]
+) -> None:
+    name, body = approved_frontend_sample
+    first = commit_tree(bare_repo, {name: body})
+    tip = commit_tree(bare_repo, {}, first)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert result["passed"], result["violations"]
+    assert result["commits_checked"] == 2
+
+
+@pytest.mark.parametrize("tip_state", ["modified", "restored", "deleted"])
+def test_changed_frontend_sample_fails_at_every_history_position(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes], tip_state: str
+) -> None:
+    name, body = approved_frontend_sample
+    first = commit_tree(bare_repo, {name: body})
+    modified = commit_tree(bare_repo, {name: body + b"\n"}, first)
+    tip = modified
+    if tip_state != "modified":
+        tip = commit_tree(bare_repo, {name: body} if tip_state == "restored" else {}, modified)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == name for item in result["violations"]
+    )
+
+
+@pytest.mark.parametrize("replacement", ["crlf", "other_approved_layout"])
+def test_frontend_sample_rejects_line_conversion_and_swapped_approved_content(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes], replacement: str
+) -> None:
+    name, body = approved_frontend_sample
+    if replacement == "crlf":
+        changed = body.replace(b"\n", b"\r\n")
+    else:
+        other_name = (
+            "frontend/docs/samples/measurements.sample.csv"
+            if "measurements-long.sample.csv" in name
+            else "frontend/docs/samples/measurements-long.sample.csv"
+        )
+        changed = audit_nasa_history.git(REPO_ROOT, "show", f"HEAD:{other_name}")
+        assert hashlib.sha256(changed).hexdigest() == FRONTEND_SAMPLE_SHA256[other_name]
+    assert changed != body
+    tip = commit_tree(bare_repo, {name: changed})
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == name for item in result["violations"]
+    )
+
+
+@pytest.mark.parametrize("alias_kind", ["unrelated_csv", "different_directory", "case_change"])
+def test_shared_frontend_sample_bytes_do_not_approve_other_paths(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes], alias_kind: str
+) -> None:
+    name, body = approved_frontend_sample
+    alias = {
+        "unrelated_csv": "unrelated.csv",
+        "different_directory": f"elsewhere/{Path(name).name}",
+        "case_change": name.upper(),
+    }[alias_kind]
+    first = commit_tree(bare_repo, {name: body, alias: body})
+    tip = commit_tree(bare_repo, {name: body}, first)
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(
+        item["kind"] == "excluded_path" and item["path"] == alias for item in result["violations"]
+    )
+
+
+def test_frontend_sample_approval_never_bypasses_original_source_hash_protection(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes]
+) -> None:
+    name, body = approved_frontend_sample
+    tip = commit_tree(bare_repo, {name: body})
+    manifest = {"files": [{"path": "raw/source.csv", "sha256": FRONTEND_SAMPLE_SHA256[name]}]}
+    result = audit_history(manifest, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert any(item["kind"] == "original_source_blob" for item in result["violations"])
+
+
+def test_frontend_sample_path_rejects_original_source_material(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes]
+) -> None:
+    name, _ = approved_frontend_sample
+    tip = commit_tree(bare_repo, {name: SYNTHETIC_BLOB})
+    manifest = {
+        "files": [{"path": "raw/source.csv", "sha256": hashlib.sha256(SYNTHETIC_BLOB).hexdigest()}]
+    }
+    result = audit_history(manifest, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert {item["kind"] for item in result["violations"]} == {
+        "excluded_path",
+        "original_source_blob",
+    }
+
+
+def test_frontend_sample_path_never_bypasses_authentic_json_export_detection(
+    bare_repo: Path, approved_frontend_sample: tuple[str, bytes]
+) -> None:
+    name, _ = approved_frontend_sample
+    marker = json.dumps({"data_kind": "authentic_nasa_ground_analog"}).encode()
+    tip = commit_tree(bare_repo, {name: marker})
+    result = audit_history({"files": []}, repo=bare_repo, ref=tip)
+    assert not result["passed"]
+    assert {item["kind"] for item in result["violations"]} == {
+        "excluded_path",
+        "authentic_data_json",
+    }

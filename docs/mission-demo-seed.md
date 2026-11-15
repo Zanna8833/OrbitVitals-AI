@@ -7,6 +7,11 @@ ID and a synthetic device ID. Display names, mission timeline, recording declara
 targets and policies are fictional presentation inputs. No result is a clinically
 validated assessment, NASA health standard, diagnosis or medical recommendation.
 
+The current revision, **`dashboard-acquisition-v2`**, covers all 12 final React daily
+physiological indicators. See the [coverage and integration matrix](synthetic-dashboard-coverage.md).
+Start a **fresh dedicated API process** when replacing the earlier 498-record seed;
+its generic vital acquisitions are deliberately incompatible with this revision.
+
 ## Quick start in Windows PowerShell
 
 Use the Python environment that already runs the backend's requirements and tests.
@@ -62,11 +67,11 @@ python -m app.demo_seed manifest
 
 | Synthetic crew | Presentation profile | Measurements | Expected demonstration |
 | --- | --- | --- | --- |
-| `sim-mission-v1-01`, SIMULATED Vega | Stable monitoring | 188 | Variable historical references, stable sleep, alternating exercise amounts, explicit rest and met personal targets; nominal screens mean no configured signal |
-| `sim-mission-v1-02`, SIMULATED Noor | Declining sleep and activity | 171 | Early sleep insufficiency, later actual duration-reduction signals, decreasing activity, complete daily misses and incomplete later weekly adherence |
-| `sim-mission-v1-03`, SIMULATED Chen | Sensor failures and missing data | 139 | Mathematical definition violations, a redundant sleep copy, vital telemetry gaps, a known activity subtotal without completeness, and later insufficient evaluations |
+| `sim-mission-v1-01`, SIMULATED Vega | Stable monitoring | 328 | Variable historical references, stable sleep, alternating exercise amounts, explicit rest and met personal targets; nominal screens mean no configured signal |
+| `sim-mission-v1-02`, SIMULATED Noor | Declining sleep and activity | 311 | Early sleep insufficiency, later actual duration-reduction signals, decreasing activity, complete daily misses and incomplete later weekly adherence |
+| `sim-mission-v1-03`, SIMULATED Chen | Sensor failures and missing data | 254 | Mathematical definition violations, a redundant sleep copy, vital telemetry gaps, a known activity subtotal without completeness, and later insufficient evaluations |
 
-The standard run loads **498 measurements**, computes **21 baselines** (seven per crew),
+The standard run loads **893 measurements**, computes **36 baselines** (12 per crew),
 and requests **13 sleep/activity evaluations**. The current default API returns seven
 unusable measurements for the telemetry profile. These are observed results checked
 in tests; the seeder does not assign engine statuses, statistics, quality scores or
@@ -97,10 +102,24 @@ labels separate during the presentation.
   are independently authored, never estimated from minutes. Rest days are explicit
   workflow declarations; complete empty rest dates can represent zero. Unconfirmed
   empty dates remain unknown.
-- Vital observations occur at 08:00 UTC. Only `heart_rate` (`bpm`), `respiratory_rate`
-  (`breaths/min`) and `blood_oxygen_saturation` (`%`) are added. They support real quality
-  assessments and personal baselines; the API has no supported vital-evaluation domain.
-  No vital/cognition evaluation is fabricated or requested.
+- The new fictional acquisition schedule declares waking at 07:00 UTC, followed by
+  five minutes of seated quiet rest. Heart rate (`bpm`), respiratory rate (`breaths/min`)
+  and SpO2 (`%`) are spot records at 07:05. This supports resting/post-waking labels by
+  explicit generation intent, not by inference from their values or timestamps.
+- RMSSD (`ms`) is an authored scalar for a simulated resting PPG interval 07:00-07:05;
+  no beat intervals, waveform processing or validated HRV estimation are claimed.
+  A seated cuff pair (`mmHg`) and an oral temperature spot check (`degC`) occur at
+  07:10. Daily mass (`kg`) is captured at 07:15. These precede 09:00 exercise.
+- These are synthetic schedule assumptions, not evidence of actual waking, posture,
+  calibrated devices or flight feasibility. Missing sleep records stay missing;
+  no wake time, sleep duration or other observation is reconstructed from this schedule.
+- The existing measurement contract has no context field. Each generated morning
+  vital/mass record carries a stable `device_id` protocol key, resolved in the
+  manifest's `acquisition.protocols` ledger. It is a seeder convention, not a new
+  API field or a claim that the frontend enforces acquisition-context compatibility.
+- All 12 metrics support real quality assessments and personal baselines. The API
+  evaluates only sleep and physical activity; no vital, nutrition or cognition
+  evaluation is fabricated or requested.
 
 The fictional timeline is one in-flight phase covering these windows. The same device
 and protocol are declared within each crew's reference/current data, permitting the
@@ -146,6 +165,23 @@ Additional authored inputs are engineering presentation choices documented here:
 - Stable/telemetry sleep checkpoints are 7 and 14 complete operational nights;
   restriction checkpoints reuse 2, 5 and 9 nights. Activity checkpoints are 7 and 14 days.
 
+The five added dashboard sequences are authored in `_dashboard_measurements`:
+
+| Input | Repeated seven-day pattern | Profile variation |
+| --- | --- | --- |
+| RMSSD, ms | `(54,56,55,57,53,58,55)` | Subtract 4 times crew index; Noor's current pattern additionally subtracts 0.5 times current day offset. |
+| Systolic, mmHg | `(116,118,117,119,115,120,117)` | Add 3 times crew index; Noor's current pattern adds integer day offset divided by 4. |
+| Diastolic, mmHg | `(74,75,73,76,74,77,75)` | Add 2 times crew index; Noor's current pattern adds integer day offset divided by 6. |
+| Oral temperature, degC | `(36.6,36.7,36.5,36.6,36.8,36.7,36.6)` | No crew or trend adjustment. |
+| Body mass, kg | `(72.0,72.1,71.9,72.2,72.0,71.8,72.1)` | Add 4 times crew index. |
+
+Crew index is 0/1/2 for Vega/Noor/Chen. Values are rounded to two decimals. Each
+new metric has 28 records for Vega/Noor and 23 for Chen: the same five current
+vital dates remain absent, including both cuff channels together. Every reference
+has 14 variable samples, allowing the existing baseline policy to run. Systolic
+exceeds diastolic by construction as a coherence condition, not a clinical limit.
+The authored trends imply no causal association, disease, fatigue or diagnosis.
+
 These sequences are not sampling from a validated distribution. No vital-range
 health interpretation or cross-metric physiological correlation is claimed.
 
@@ -172,7 +208,7 @@ inputs as mission exercise prescriptions.
 The client reads health, metric catalog and reserved crew histories first. It then:
 
 1. POSTs raw canonical records through `/api/v1/measurements`, allowing the real engine
-   to assign quality. Default batch size 500 fits the current 498-record dataset;
+   to assign quality. Default batch size 500 splits the 893-record revision into two batches;
    `--batch-size` accepts 1 through the existing API maximum of 1000.
 2. Completes every ingestion batch before generating any derived results.
 3. POSTs each historical baseline command through the existing crew baseline endpoint.
@@ -198,8 +234,8 @@ All input IDs, measurement values, UTC dates, policies, command order and comput
 horizons are fixed. No random generator, local timezone, current-day date shifting or
 client-generated result ID is used. The manifest fingerprints the complete input plan.
 For the same backend/configuration, rerunning the command uses the API's idempotent
-measurement handling and deterministic computed snapshots: there are still 498
-measurements, 21 baselines and 13 evaluations. Server-assigned ingestion assessment
+measurement handling and deterministic computed snapshots: there are still 893
+measurements, 36 baselines and 13 evaluations. Server-assigned ingestion assessment
 timestamps can differ after a restart; fixed-horizon scientific results and the report
 remain reproducible. Unrelated crew records are preserved.
 
@@ -209,6 +245,19 @@ There is no transaction spanning all HTTP commands: a failure after an earlier c
 can leave a partial seed. Correct the connection issue and rerun; identical data resumes
 safely. Changing fixture values, policies or server quality settings calls for a clean
 dedicated presentation instance.
+
+The earlier seed had 498 measurements and 21 baselines. This revision adds 395
+records and 15 baseline requests. Original crew identities, vital values/IDs,
+all sleep/activity inputs and their policies remain intact. Only newly generated
+legacy vital acquisition timestamps (08:00 to 07:05) and device protocol IDs change
+to make context explicit. An existing generic record is rejected before any POST;
+the seeder never updates, deletes or retrospectively labels it as resting.
+
+All 13 original scientific evaluation payloads are regression-checked unchanged
+except `evaluation_id`. The integration service includes the entire crew history
+in that identity, so added records legitimately change IDs. Rerunning this same
+revision remains idempotent. Ingest all batches before computing snapshots; the
+existing API invalidates overlapping results when new records arrive.
 
 To reset the dedicated in-memory API, press **Ctrl+C in its server terminal**, then run
 the same Uvicorn command and seed again. Restarting clears all records in that process;
@@ -229,6 +278,7 @@ python -m pytest -q
 python -m ruff check .
 python -m ruff format --check .
 python -m scripts.export_schemas --check
+python -m scripts.audit_nasa_history
 ```
 
 Tests cover source labels, units and committed schemas; scenario/policy reuse;

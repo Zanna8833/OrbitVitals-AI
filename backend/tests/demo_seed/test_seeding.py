@@ -20,8 +20,8 @@ def test_seed_uses_real_endpoints_and_preserves_schema_valid_computed_results(
     api = TestApi(api_client)
     report = seed_api(api, batch_size=37)
     assert report["all_checks_passed"] is True
-    assert sum(crew["stored_measurement_count"] for crew in report["crews"]) == 498
-    assert sum(len(crew["baselines"]) for crew in report["crews"]) == 21
+    assert sum(crew["stored_measurement_count"] for crew in report["crews"]) == 893
+    assert sum(len(crew["baselines"]) for crew in report["crews"]) == 36
     assert sum(len(crew["evaluations"]) for crew in report["crews"]) == 13
     last_ingest = max(
         index for index, call in enumerate(api.calls) if call == ("POST", "/measurements")
@@ -66,7 +66,7 @@ def test_seed_is_idempotent_and_keeps_other_crew_histories(api_client: TestClien
     assert first == second
     for crew in second["crews"]:
         root = f"/api/v1/crew-members/{crew['crew_member_id']}"
-        assert len(api_client.get(root + "/baselines").json()["items"]) == 7
+        assert len(api_client.get(root + "/baselines").json()["items"]) == 12
         assert len(api_client.get(root + "/evaluations").json()["items"]) == len(
             crew["evaluations"]
         )
