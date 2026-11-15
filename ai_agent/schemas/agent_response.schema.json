@@ -38,14 +38,23 @@
     },
     "Citation": {
       "additionalProperties": false,
-      "description": "A summary, written by the OrbitVitals team, of a paragraph on a public NASA page.\n\nThe summary is not NASA text and not a quotation. `publisher`, `document_title`,\n`section` and `url` identify the source; NASA did not review or endorse the summary.",
+      "description": "A summary, written by the OrbitVitals team, of one paragraph of a published source.\n\nThe source is a public NASA web page or an open-access peer-reviewed article. The\nsummary is not the source's text and not a quotation. `publisher`, `document_title`,\n`section` and `url` identify the source; neither NASA nor the authors or publishers\nof the articles reviewed or endorsed the summary.",
       "properties": {
         "evidence_id": {
           "title": "Evidence Id",
           "type": "string"
         },
+        "source_type": {
+          "default": "nasa_web_page",
+          "enum": [
+            "nasa_web_page",
+            "peer_reviewed_article"
+          ],
+          "title": "Source Type",
+          "type": "string"
+        },
         "publisher": {
-          "description": "Publisher of the source page.",
+          "description": "NASA for a NASA page; the journal for an article.",
           "title": "Publisher",
           "type": "string"
         },
@@ -58,11 +67,64 @@
           "type": "string"
         },
         "url": {
+          "description": "The NASA page, or the DOI link of the article.",
           "title": "Url",
           "type": "string"
         },
+        "authors": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Article authors, abbreviated.",
+          "title": "Authors"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Publication year of the article.",
+          "title": "Year"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Licence of the article as listed by Europe PMC.",
+          "title": "License"
+        },
+        "verification_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Where the summarised paragraph can be fetched to check its digest, when that is not `url`.",
+          "title": "Verification Url"
+        },
         "summary": {
-          "description": "Summary written by the OrbitVitals team; not NASA text.",
+          "description": "Summary written by the OrbitVitals team; not source text.",
           "title": "Summary",
           "type": "string"
         },
@@ -172,6 +234,232 @@
         "evidence_notice"
       ],
       "title": "DataProvenance",
+      "type": "object"
+    },
+    "DatasetEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "not_requested",
+            "disabled",
+            "ok",
+            "partial",
+            "unavailable",
+            "no_matching_evidence",
+            "endpoint_unavailable",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "topics": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Topics",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/DatasetEvidenceItem"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/DatasetEvidenceFailure"
+          },
+          "title": "Failures",
+          "type": "array"
+        },
+        "notice": {
+          "default": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown.",
+          "title": "Notice",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "title": "DatasetEvidence",
+      "type": "object"
+    },
+    "DatasetEvidenceFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dataset_id",
+        "code",
+        "message"
+      ],
+      "title": "DatasetEvidenceFailure",
+      "type": "object"
+    },
+    "DatasetEvidenceItem": {
+      "additionalProperties": false,
+      "description": "Ground-analogue research context from the backend's NASA Dataset Evidence Adapter.",
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "dataset_id": {
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "nasa_source_url": {
+          "title": "Nasa Source Url",
+          "type": "string"
+        },
+        "topic": {
+          "title": "Topic",
+          "type": "string"
+        },
+        "study_population": {
+          "title": "Study Population",
+          "type": "string"
+        },
+        "study_context": {
+          "const": "terrestrial_bed_rest_analogue",
+          "title": "Study Context",
+          "type": "string"
+        },
+        "evidence_scope": {
+          "const": "scientific_context_only",
+          "title": "Evidence Scope",
+          "type": "string"
+        },
+        "crew_telemetry": {
+          "const": false,
+          "title": "Crew Telemetry",
+          "type": "boolean"
+        },
+        "clinically_validated": {
+          "const": false,
+          "title": "Clinically Validated",
+          "type": "boolean"
+        },
+        "nasa_endorsement": {
+          "const": false,
+          "title": "Nasa Endorsement",
+          "type": "boolean"
+        },
+        "redistribution_status": {
+          "const": "unconfirmed",
+          "title": "Redistribution Status",
+          "type": "string"
+        },
+        "source_verification": {
+          "description": "`not_configured` means reviewed context only; files were not re-checked.",
+          "title": "Source Verification",
+          "type": "string"
+        },
+        "variables": {
+          "items": {
+            "$ref": "#/$defs/DatasetVariable"
+          },
+          "title": "Variables",
+          "type": "array"
+        },
+        "context": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Context",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "dataset_id",
+        "title",
+        "nasa_source_url",
+        "topic",
+        "study_population",
+        "study_context",
+        "evidence_scope",
+        "crew_telemetry",
+        "clinically_validated",
+        "nasa_endorsement",
+        "redistribution_status",
+        "source_verification",
+        "variables",
+        "context",
+        "limitations"
+      ],
+      "title": "DatasetEvidenceItem",
+      "type": "object"
+    },
+    "DatasetVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "source_column": {
+          "title": "Source Column",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "canonical_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Null when the unit of the NASA export is unresolved. Never inferred.",
+          "title": "Canonical Unit"
+        },
+        "unit_verification": {
+          "enum": [
+            "reviewed_source_dictionary",
+            "unresolved"
+          ],
+          "title": "Unit Verification",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_column",
+        "description",
+        "canonical_unit",
+        "unit_verification"
+      ],
+      "title": "DatasetVariable",
       "type": "object"
     },
     "Fact": {
@@ -326,6 +614,48 @@
           ],
           "default": null,
           "title": "Primary Model"
+        },
+        "question_kind": {
+          "default": "none",
+          "description": "How the question was classified for routing.",
+          "enum": [
+            "none",
+            "greeting",
+            "general",
+            "factual",
+            "interpretive",
+            "clinical_advice"
+          ],
+          "title": "Question Kind",
+          "type": "string"
+        },
+        "answer_profile": {
+          "default": "full",
+          "description": "Size of the model draft: conversation (a short reply), general (an evidence-led answer), brief (stored values) or full (an explanation).",
+          "enum": [
+            "conversation",
+            "general",
+            "brief",
+            "full"
+          ],
+          "title": "Answer Profile",
+          "type": "string"
+        },
+        "reply_language": {
+          "default": "en",
+          "description": "Language the model was asked to write in.",
+          "enum": [
+            "en",
+            "it"
+          ],
+          "title": "Reply Language",
+          "type": "string"
+        },
+        "context_turns": {
+          "default": 0,
+          "description": "Earlier conversation turns sent by the client and given to the model as context. 0 means the question was answered on its own.",
+          "title": "Context Turns",
+          "type": "integer"
         },
         "attempts": {
           "default": 0,
@@ -587,6 +917,55 @@
       "title": "RejectedStatement",
       "type": "object"
     },
+    "SpecialistEvidenceRef": {
+      "additionalProperties": false,
+      "description": "A reviewed knowledge-base section given to the specialist as background.",
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "document_id": {
+          "title": "Document Id",
+          "type": "string"
+        },
+        "document_title": {
+          "title": "Document Title",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "similarity": {
+          "title": "Similarity",
+          "type": "number"
+        },
+        "knowledge_base": {
+          "const": "rag/knowledge_base",
+          "default": "rag/knowledge_base",
+          "title": "Knowledge Base",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "document_id",
+        "document_title",
+        "section",
+        "sources",
+        "similarity"
+      ],
+      "title": "SpecialistEvidenceRef",
+      "type": "object"
+    },
     "SpecialistFinding": {
       "additionalProperties": false,
       "properties": {
@@ -645,12 +1024,75 @@
           "title": "Reason",
           "type": "string"
         },
+        "evidence_status": {
+          "default": "not_used",
+          "description": "Specialist background evidence: used, none_relevant, unavailable: <reason>, or not_used when the specialist was not consulted or has no retrieval.",
+          "title": "Evidence Status",
+          "type": "string"
+        },
+        "evidence": {
+          "description": "Provenance of the background sections the specialist was given.",
+          "items": {
+            "$ref": "#/$defs/SpecialistEvidenceRef"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "decision": {
+          "default": "not_configured",
+          "description": "Routing outcome, as a code. `consulted` means a model was really called.",
+          "enum": [
+            "consulted",
+            "not_configured",
+            "non_generative",
+            "conversational_question",
+            "general_question",
+            "factual_question",
+            "clinical_advice_question",
+            "no_physiological_reading",
+            "no_flagged_result",
+            "unavailable",
+            "failed"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specialist model, when one was called.",
+          "title": "Model"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
         "findings": {
           "items": {
             "$ref": "#/$defs/SpecialistFinding"
           },
           "title": "Findings",
           "type": "array"
+        },
+        "notice": {
+          "default": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment.",
+          "title": "Notice",
+          "type": "string"
         }
       },
       "required": [
@@ -806,7 +1248,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "default": "0.1.0",
+      "default": "0.2.0",
       "title": "Schema Version",
       "type": "string"
     },
@@ -906,6 +1348,9 @@
       "title": "Citations",
       "type": "array"
     },
+    "dataset_evidence": {
+      "$ref": "#/$defs/DatasetEvidence"
+    },
     "data_provenance": {
       "$ref": "#/$defs/DataProvenance"
     },
@@ -940,6 +1385,7 @@
     "human_review",
     "facts",
     "citations",
+    "dataset_evidence",
     "data_provenance",
     "data_access",
     "generation",

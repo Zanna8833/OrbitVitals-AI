@@ -1,17 +1,21 @@
-"""Confirm that every summarised NASA paragraph is still published at its source URL.
+"""Confirm that every summarised paragraph is still published by its source.
 
-The corpus stores summaries written by the OrbitVitals team, not NASA text. For each
+The corpus stores summaries written by the OrbitVitals team, not source text. For each
 entry it records the SHA-256 digest of the summarised paragraph (whitespace collapsed).
-This script downloads each source page, computes the digest of every paragraph-like
-block, and reports whether the recorded digest is among them. Page text is held in
-memory only; nothing from the page is written to disk or printed.
+This script downloads each source document, computes the digest of every paragraph-like
+block, and reports whether the recorded digest is among them. Document text is held in
+memory only; nothing from a source is written to disk or printed.
 
-Usage, from `ai_agent/` (network access required):
+A source is a NASA web page (fetched at its URL) or an open-access article (fetched as
+full-text XML from the Europe PMC REST service named in `verification_url`; the entry's
+`url` is the DOI link shown to readers).
+
+Usage, from `ai_agent/` (network access required, about 25 requests):
 
     python -m scripts.verify_sources
 
 Exits with status 1 when a summary digest is wrong or a source paragraph is no longer
-found on its page. When that happens, re-read the page and update the summary by hand.
+found. When that happens, re-read the source and update the summary by hand.
 """
 
 from __future__ import annotations
@@ -21,6 +25,7 @@ import hashlib
 import html.parser
 import json
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 from urllib.parse import urlparse
@@ -30,12 +35,14 @@ CORPUS_PATH = (
     / "orbit_agent"
     / "evidence"
     / "corpus"
-    / "nasa_summaries.json"
+    / "evidence_summaries.json"
 )
 
 _TEXT_BLOCKS = {"p", "li", "td", "blockquote"}
 _IGNORED = {"script", "style", "noscript", "svg", "nav", "footer", "form"}
 _USER_AGENT = "Mozilla/5.0 (compatible; evidence-source-check)"
+# Downloads of large pages occasionally time out; each source is tried this many times.
+_ATTEMPTS = 3
 
 
 class _BlockExtractor(html.parser.HTMLParser):
@@ -78,10 +85,17 @@ def page_block_digests(url: str, allowed_hosts: list[str]) -> set[str]:
     if urlparse(url).scheme != "https" or urlparse(url).hostname not in allowed_hosts:
         raise ValueError(f"URL is not on the allow-list: {url}")
     request = urllib.request.Request(url, headers={"User-Agent": _USER_AGENT})
-    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - allow-listed
-        if urlparse(response.geturl()).hostname not in allowed_hosts:
-            raise ValueError(f"Redirected outside the allow-list: {response.geturl()}")
-        document = response.read().decode("utf-8", errors="replace")
+    document = ""
+    for attempt in range(_ATTEMPTS):
+        try:
+            with urllib.request.urlopen(request, timeout=90) as response:  # noqa: S310 - allow-listed
+                if urlparse(response.geturl()).hostname not in allowed_hosts:
+                    raise ValueError(f"Redirected outside the allow-list: {response.geturl()}")
+                document = response.read().decode("utf-8", errors="replace")
+            break
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
+            if attempt == _ATTEMPTS - 1:
+                raise ConnectionError(f"Cannot download {url}: {error}") from error
     extractor = _BlockExtractor()
     extractor.feed(document)
     return {sha256_text(block) for block in extractor.blocks}
@@ -89,23 +103,34 @@ def page_block_digests(url: str, allowed_hosts: list[str]) -> set[str]:
 
 def check(corpus_path: Path = CORPUS_PATH) -> int:
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
-    pages: dict[str, set[str]] = {}
+    documents: dict[str, set[str] | None] = {}
     failures = 0
     for entry in corpus["passages"]:
-        url = entry["url"]
-        if url not in pages:
-            pages[url] = page_block_digests(url, corpus["allowed_hosts"])
+        url = entry.get("verification_url") or entry["url"]
+        if url not in documents:
+            try:
+                documents[url] = page_block_digests(url, corpus["allowed_hosts"])
+            except ConnectionError as error:
+                print(f"WARN {error}")
+                documents[url] = None
+        digests = documents[url]
         summary_ok = sha256_text(entry["text"]) == entry["sha256"]
-        found = entry["source_paragraph_sha256"] in pages[url]
+        found = digests is not None and entry["source_paragraph_sha256"] in digests
         if not (summary_ok and found):
             failures += 1
+        state = (
+            "source not reachable"
+            if digests is None
+            else "found"
+            if found
+            else "not found in the source"
+        )
         print(
             f"{'ok  ' if summary_ok and found else 'FAIL'} {entry['evidence_id']} "
-            f"summary-digest={'ok' if summary_ok else 'mismatch'} "
-            f"source-paragraph={'found' if found else 'not found on page'}"
+            f"summary-digest={'ok' if summary_ok else 'mismatch'} source-paragraph={state}"
         )
     total = len(corpus["passages"])
-    print(f"{total - failures}/{total} entries verified against {len(pages)} source pages")
+    print(f"{total - failures}/{total} entries verified against {len(documents)} sources")
     return 1 if failures else 0
 
 

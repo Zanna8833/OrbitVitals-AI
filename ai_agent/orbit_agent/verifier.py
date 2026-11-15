@@ -45,6 +45,7 @@ from orbit_agent.grounding import (
     passage_source_text,
     ungrounded_values,
 )
+from orbit_agent.lexicon import italian_entry, with_italian
 from orbit_agent.models import (
     AgentResponse,
     Fact,
@@ -70,7 +71,9 @@ _SOFT_TERMS = re.compile(
     r"treat\w*|therap\w*|healthy|unhealthy|unwell|normal|abnormal\w*|all clear|clinical\w*|"
     r"validated|prove[sn]?|significance|(statistically|medically) significant|"
     r"significant(ly)? (\w+ )?(declin|reduc|decreas|drop|chang|deviat|increas|differ|trend|"
-    r"worsen|improv|los[st])\w*|fatigue\w*|"
+    r"worsen|improv|los[st])\w*|"
+    r"(declin|reduc|decreas|dropp|fell|chang|deviat|increas|differ|worsen|improv|los[st])\w*"
+    r" significantly|fatigue\w*|"
     r"tired\w*|exhaust\w*|stress\w*|burnout|impair\w*|sleep deprivation|sleep debt|"
     r"deconditioning)\b",
     re.IGNORECASE,
@@ -119,6 +122,24 @@ _NEGATION = re.compile(
 # limited to the current sentence by `_negated`.
 _NEGATION_WINDOW = 90
 
+# Replies can be written in Italian (orbit_agent/language.py), so every word guard also
+# matches the Italian words of orbit_agent/lexicon/italian.json. The Italian lists are
+# smaller than the English ones; INTEGRATION.md says so.
+_HARD_TERMS = with_italian(_HARD_TERMS, "hard_terms")
+_SOFT_TERMS = with_italian(_SOFT_TERMS, "soft_terms")
+_TREND_TERMS = with_italian(_TREND_TERMS, "trend_terms")
+_NEGATION = with_italian(_NEGATION, "negation")
+_EVALUATION_STATUS = {
+    name: re.compile(f"(?:{pattern.pattern})|{italian_entry('status_names', name)}", re.IGNORECASE)
+    for name, pattern in _EVALUATION_STATUS.items()
+}
+_STATUS_PARAPHRASE = {
+    name: re.compile(
+        f"(?:{pattern.pattern})|{italian_entry('status_paraphrases', name)}", re.IGNORECASE
+    )
+    for name, pattern in _STATUS_PARAPHRASE.items()
+}
+
 
 def _negated(text: str, position: int) -> bool:
     """True when a negation precedes `position` within the same sentence."""
@@ -161,7 +182,7 @@ def language_problems(text: str, *, source_texts: tuple[str, ...] = ()) -> list[
 _NASA_AS_SPEAKER = re.compile(
     r"\b(according to|per|as (stated|noted|reported|described) by|cited by)\s+(the\s+)?NASA\b"
     r"|\bNASA(['\N{RIGHT SINGLE QUOTATION MARK}]s)?(\s+[A-Za-z-]+){0,3}?\s+"
-    r"(says|said|states|stated|notes|noted|"
+    r"(says|said|states|stated|notes|noted|lists|listed|"
     r"reports|reported|warns|warned|recommends|recommended|advises|advised|indicates|"
     r"indicated|explains|explained|describes|described|confirms|confirmed|suggests|"
     r"suggested|shows|showed|finds|found|concludes|concluded|highlights|highlighted|"
@@ -169,6 +190,7 @@ _NASA_AS_SPEAKER = re.compile(
     r"points out)\b",
     re.IGNORECASE,
 )
+_NASA_AS_SPEAKER = with_italian(_NASA_AS_SPEAKER, "nasa_as_speaker")
 
 
 def attribution_problems(text: str) -> list[str]:
@@ -177,6 +199,63 @@ def attribution_problems(text: str) -> list[str]:
     if match is None:
         return []
     return [f"source attribution: '{match.group(0)}' presents NASA as the speaker"]
+
+
+# References to earlier messages. True only when the client sent them with the request
+# (`ExplanationRequest.conversation`); the agent itself keeps no history.
+_MEMORY_CLAIM = re.compile(
+    r"\b(as (i|we) (said|mentioned|discussed|explained)|i (remember|recall)|"
+    r"last time (we|you|i)|our (previous|earlier|last) (conversation|chat|exchange)|"
+    r"you (told|asked) me (before|earlier)|(earlier|previously),? you (asked|said|mentioned))\b",
+    re.IGNORECASE,
+)
+_MEMORY_CLAIM = with_italian(_MEMORY_CLAIM, "memory_claims")
+# Claims of abilities the API never has: actions, or a lack of access to the stored data.
+_ACTION_CLAIM = re.compile(
+    r"\b(i (will|'ll|can) (remind|notify|alert|schedule|contact|call|send|message|book)|"
+    r"i have (notified|contacted|scheduled|alerted|informed|sent)|"
+    # False: the agent reads the stored results of the selected crew member.
+    r"(do not|don't|cannot|can't) (have )?access (to )?(any |the |specific |your )?"
+    r"(data|results|records)|no access to (any |the |specific )?(data|results|records)|"
+    # Seen live in a conversational reply, which receives no facts: also false.
+    r"no (monitoring |stored )?(data|results|records) (are |is )?available for this crew member)\b",
+    re.IGNORECASE,
+)
+_ACTION_CLAIM = with_italian(_ACTION_CLAIM, "action_claims")
+
+
+def capability_problems(text: str, *, history: bool = False) -> list[str]:
+    """Reject claims of actions the assistant cannot take, and of a memory it was not given.
+
+    `history` is true when the client sent earlier messages with the request: a reference
+    to them is then true and allowed.
+    """
+    match = _ACTION_CLAIM.search(text) or (None if history else _MEMORY_CLAIM.search(text))
+    if match is None:
+        return []
+    return [f"capability claim: '{match.group(0)}' is not something the agent can do"]
+
+
+# Space agencies and institutes a model may be tempted to name as the actor of a study.
+# Several NASA pages describe investigations run by other agencies, so the publisher of
+# a page is not evidence of who did the work.
+_AGENCY = re.compile(r"\b(NASA|ESA|CSA|JAXA|DLR|Roscosmos|IBMP)\b")
+
+
+def agency_problems(text: str, passages: list[Passage]) -> list[str]:
+    """An agency named in a model sentence must be named by a summary it cites.
+
+    The title, section and summary of the cited entries count; the publisher field does
+    not, because it says who published the page, not who ran the study.
+    """
+    named = " ".join(
+        f"{passage.document_title} {passage.section} {passage.text}" for passage in passages
+    )
+    return [
+        f"source attribution: '{agency}' is not named in the cited summary"
+        for agency in dict.fromkeys(_AGENCY.findall(text))
+        if not re.search(rf"\b{agency}\b", named)
+    ]
 
 
 def _shares_wording(text: str, passage: Passage) -> bool:
@@ -205,6 +284,8 @@ class _Context:
     facts: dict[str, Fact]
     passages: dict[str, Passage]
     crew_member_id: str
+    # True when the client sent earlier messages: references to them are then allowed.
+    history: bool = False
     _numbers: dict[str, set[float]] = field(default_factory=dict)
 
     def grounding_problems(
@@ -363,24 +444,40 @@ class _Context:
         need_fact: bool,
         ground_in_all_facts_if_uncited: bool = False,
     ) -> list[str]:
+        """Check a sentence about the crew member.
+
+        Its numbers and dates must come from the cited facts. A cited evidence entry is
+        only a pointer to context: its numbers describe other people or general
+        requirements, so they may not appear in a sentence about this crew member, where
+        they would read as a comparison with a threshold the backend does not use.
+        """
         problems = self.reference_problems(fact_ids, evidence_ids)
         if problems:
             return problems
         if need_fact and not fact_ids:
             return ["no fact cited"]
         all_facts = ground_in_all_facts_if_uncited and not fact_ids
-        problems += self.grounding_problems(text, fact_ids, evidence_ids, all_facts=all_facts)
+        problems += self.grounding_problems(text, fact_ids, [], all_facts=all_facts)
         problems += self.status_problems(text, fact_ids, all_facts=all_facts)
         problems += self.missing_night_problems(text, fact_ids, all_facts=all_facts)
         problems += language_problems(text)
         problems += attribution_problems(text)
+        problems += agency_problems(text, [self.passages[i] for i in evidence_ids])
+        problems += capability_problems(text, history=self.history)
         if screen_text(text):
             problems.append("instruction-like wording")
         return problems
 
     def evidence_statement(
-        self, text: str, fact_ids: list[str], evidence_ids: list[str]
+        self,
+        text: str,
+        fact_ids: list[str],
+        evidence_ids: list[str],
+        *,
+        model_written: bool = True,
     ) -> list[str]:
+        """Check a general statement. Rule-based ones carry a fixed source label, which
+        names the publisher, so the agency check applies to model-written text only."""
         problems = self.reference_problems(fact_ids, evidence_ids)
         if problems:
             return problems
@@ -394,6 +491,9 @@ class _Context:
         sources = tuple(passage_source_text(self.passages[i]) for i in evidence_ids)
         problems += language_problems(text, source_texts=sources)
         problems += attribution_problems(text)
+        problems += capability_problems(text, history=self.history)
+        if model_written:
+            problems += agency_problems(text, [self.passages[i] for i in evidence_ids])
         return problems
 
     def interpretation(
@@ -439,7 +539,21 @@ class VerifiedDraft:
         The headline is not required: a rejected headline is replaced by the rule-based
         one without discarding the rest of the draft.
         """
-        return len(self.observations) >= 2 and bool(self.interpretations)
+        return self.complete_for("full")
+
+    def complete_for(self, profile: str) -> bool:
+        """Completeness for a draft profile.
+
+        A full draft needs two observations and a reading, a brief draft one of each. A
+        conversational reply needs its headline; a general answer needs a verified
+        headline, evidence statement or observation.
+        """
+        if profile == "conversation":
+            return self.headline is not None
+        if profile == "general":
+            return bool(self.headline or self.evidence_context or self.observations)
+        minimum = 1 if profile == "brief" else 2
+        return len(self.observations) >= minimum and bool(self.interpretations)
 
     def feedback(self) -> list[str]:
         """Rejection reasons phrased for a second drafting attempt."""
@@ -450,12 +564,18 @@ class VerifiedDraft:
         ]
 
 
-def verify_draft(draft: Draft, sheet: FactSheet, passages: list[Passage]) -> VerifiedDraft:
-    """Keep the sentences of a model draft that pass every check; report the others."""
+def verify_draft(
+    draft: Draft, sheet: FactSheet, passages: list[Passage], *, history: bool = False
+) -> VerifiedDraft:
+    """Keep the sentences of a model draft that pass every check; report the others.
+
+    `history` is true when the client sent earlier conversation turns with the request.
+    """
     context = _Context(
         facts=sheet.by_id(),
         passages={passage.evidence_id: passage for passage in passages},
         crew_member_id=sheet.crew_member_id,
+        history=history,
     )
     result = VerifiedDraft()
     seen: set[str] = set()
@@ -544,7 +664,62 @@ def _check(name: str, problems: list[str], ok_detail: str) -> VerificationCheck:
     )
 
 
-def audit_response(response: AgentResponse, store: EvidenceStore) -> list[VerificationCheck]:
+# Crew identifiers of the simulated mission, as the backend and the seeder write them.
+_CREW_ID = re.compile(r"\bsim-mission-v\d+-\d{2}\b")
+
+
+def crew_identity_problems(
+    response: AgentResponse, other_crew: re.Pattern[str] | None = None
+) -> list[str]:
+    """Everything in a response must concern the requested crew member only.
+
+    `other_crew` matches the names of the other crew members (settings.crew_aliases), so
+    a sentence such as "Crew A slept 430 minutes" in an answer about Crew B fails.
+    """
+    crew = response.crew_member_id
+    problems = []
+    for request in response.data_access.requests:
+        if request.path.startswith("/crew-members/") and not request.path.startswith(
+            f"/crew-members/{crew}/"
+        ):
+            problems.append(f"backend request for another crew member: {request.path}")
+    for fact in response.facts:
+        path = fact.source.path
+        if path.startswith("/crew-members/") and not path.startswith(f"/crew-members/{crew}/"):
+            problems.append(f"{fact.id} comes from another crew member: {path}")
+    texts = [
+        ("headline", response.headline),
+        ("status_summary", response.status_summary),
+        *((item.id, item.text) for item in response.observations),
+        *((item.id, item.text) for item in response.interpretations),
+        *((item.id, item.text) for item in response.uncertainties),
+    ]
+    for label, text in texts:
+        others = sorted(set(_CREW_ID.findall(text)) - {crew})
+        if other_crew is not None:
+            others += sorted({match.group(0) for match in other_crew.finditer(text)})
+        if others:
+            problems.append(f"{label} names another crew member: {', '.join(others)}")
+    return problems
+
+
+# Source details of a citation that must equal the stored corpus entry.
+_CITATION_SOURCE_FIELDS = (
+    "source_type",
+    "publisher",
+    "document_title",
+    "section",
+    "url",
+    "authors",
+    "year",
+    "license",
+    "verification_url",
+)
+
+
+def audit_response(
+    response: AgentResponse, store: EvidenceStore, other_crew: re.Pattern[str] | None = None
+) -> list[VerificationCheck]:
     """Re-check a finished response against its own facts and the evidence corpus."""
     facts = {fact.id: fact for fact in response.facts}
     cited_passages = {
@@ -552,7 +727,12 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
         for citation in response.citations
         if (passage := store.get(citation.evidence_id)) is not None
     }
-    context = _Context(facts=facts, passages=cited_passages, crew_member_id=response.crew_member_id)
+    context = _Context(
+        facts=facts,
+        passages=cited_passages,
+        crew_member_id=response.crew_member_id,
+        history=response.generation.context_turns > 0,
+    )
 
     grounding: list[str] = []
     language: list[str] = []
@@ -561,6 +741,7 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
     insufficient: list[str] = []
     statuses: list[str] = []
     attribution: list[str] = []
+    capability: list[str] = []
     checked = 0
 
     def record(label: str, problems: list[str]) -> None:
@@ -568,6 +749,8 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
             target = (
                 attribution
                 if problem.startswith("source attribution")
+                else capability
+                if problem.startswith("capability claim")
                 else references
                 if problem.startswith(("unknown", "no fact", "no passage"))
                 else grounding
@@ -597,7 +780,15 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
         record(item.id, context.crew_statement(item.text, item.fact_ids, [], need_fact=True))
     for item in response.evidence_context:
         checked += 1
-        record(item.id, context.evidence_statement(item.text, item.fact_ids, item.evidence_ids))
+        record(
+            item.id,
+            context.evidence_statement(
+                item.text,
+                item.fact_ids,
+                item.evidence_ids,
+                model_written=item.origin == "model",
+            ),
+        )
     for item in response.interpretations:
         checked += 1
         record(
@@ -630,8 +821,11 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
             citation.summary != passage.text
             or citation.sha256 != passage.sha256
             or sha256_text(citation.summary) != citation.sha256
-            or citation.url != passage.url
             or citation.source_paragraph_sha256 != passage.source_paragraph_sha256
+            or any(
+                getattr(citation, name) != getattr(passage, name)
+                for name in _CITATION_SOURCE_FIELDS
+            )
         ):
             citation_problems.append(f"{citation.evidence_id}: differs from the stored entry")
     cited = {citation.evidence_id for citation in response.citations}
@@ -643,9 +837,12 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
         ]
 
     uncertain_facts = {i for item in response.uncertainties for i in item.fact_ids}
+    # A conversational reply presents no result, so it has no result to qualify.
+    presents_results = response.generation.answer_profile != "conversation"
     for fact in facts.values():
         if (
-            fact.kind == "finding"
+            presents_results
+            and fact.kind == "finding"
             and fact.data.get("status") == "insufficient_data"
             and fact.id not in uncertain_facts
             and _is_latest_finding(fact, facts)
@@ -727,6 +924,16 @@ def audit_response(response: AgentResponse, store: EvidenceStore) -> list[Verifi
             f"Crew data is labelled '{expected_kind}'.",
         ),
         _check("read_only_access", write_requests, "Only GET requests were sent to the backend."),
+        _check(
+            "capability_claims",
+            capability,
+            "No sentence claims memory of earlier exchanges or an action the agent cannot take.",
+        ),
+        _check(
+            "crew_identity",
+            crew_identity_problems(response, other_crew),
+            f"Every request, fact and sentence concerns {response.crew_member_id} only.",
+        ),
         _check(
             "generation_disclosure",
             disclosure_problems,

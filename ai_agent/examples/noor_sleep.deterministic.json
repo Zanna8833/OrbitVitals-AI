@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1.0",
-  "generated_at": "2026-11-14T23:28:10.838867Z",
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:40:50.273894Z",
   "crew_member_id": "sim-mission-v1-02",
   "domains": [
     "sleep"
@@ -88,29 +88,29 @@
   "evidence_context": [
     {
       "id": "E1",
-      "text": "OrbitVitals summary of the NASA web page \"Risk from Inadequate Sleep and Irregular Schedules\" (section \"Formal risk description\"): This formal risk covers reduced performance and harm to health that can follow from lost sleep, from a body clock out of step with the work schedule (circadian desynchronization) and from excessive workload.",
+      "text": "OrbitVitals summary of the NASA web page \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\" (section \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\"): In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": [
-        "NASA-SLEEP-RISK-04"
+        "NASA-SLEEP-STATION-02"
       ]
     },
     {
       "id": "E2",
-      "text": "OrbitVitals summary of the NASA web page \"Risk from Inadequate Sleep and Irregular Schedules\" (section \"What are the top risks?\"): Heavy workloads, irregular light and dark periods and disrupted sleep patterns are among the stressors of spaceflight. Their combined effect on the body can harm health over short and long periods and can put mission success at risk.",
+      "text": "OrbitVitals summary of the NASA web page \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\" (section \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\"): The Sleep-Long experiment found that scheduled sleep was out of step with the body clock in roughly one of every five sleep episodes on the station. In those episodes crew members slept nearly one hour less and rated their sleep as poorer, and misalignment was more likely in periods of critical operations, for example while a vehicle was docked.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": [
-        "NASA-SLEEP-RISK-01"
+        "NASA-SLEEP-STATION-06"
       ]
     },
     {
       "id": "E3",
-      "text": "OrbitVitals summary of the NASA web page \"Risk from Inadequate Sleep and Irregular Schedules\" (section \"What can be done about it?\"): On the International Space Station, LED lighting reproduces the day and night pattern of Earth to support crew sleep. Research examines how light exposure and caffeine influence the body clock and sleep quality, and crew schedules reserve time for rest and self-care to lower the risk of burnout.",
+      "text": "OrbitVitals summary of the peer-reviewed article \"On-orbit sleep problems of astronauts and countermeasures\" (Wu B et al., Military Medical Research, 2018; section \"Design reasonable on-orbit work-rest schedules\"): Work-rest schedules for a mission are planned before flight around launch and landing times, crew size, time-critical events, workload, mission objectives and shift pattern. The review adds that the schedule should include interesting work and enough time for rest and recreation so that fatigue does not become sustained.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": [
-        "NASA-SLEEP-RISK-02"
+        "LIT-WU2018-03"
       ]
     }
   ],
@@ -171,7 +171,7 @@
     },
     {
       "id": "U4",
-      "text": "The cited summaries of NASA web pages are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": []
@@ -887,55 +887,78 @@
   ],
   "citations": [
     {
-      "evidence_id": "NASA-SLEEP-RISK-04",
+      "evidence_id": "NASA-SLEEP-STATION-02",
+      "source_type": "nasa_web_page",
       "publisher": "NASA",
-      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
-      "section": "Formal risk description",
-      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
-      "summary": "This formal risk covers reduced performance and harm to health that can follow from lost sleep, from a body clock out of step with the work schedule (circadian desynchronization) and from excessive workload.",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
       "text_kind": "independent_summary",
-      "sha256": "c5f85faf5a2c94e39b4c4b94cf28e832ecab14b879826efd7931c43004065da5",
-      "source_paragraph_sha256": "3d80cad85f32dd8ad0325fd0d1b4b218d6085046b6a3c7798134638c7b26378e",
+      "sha256": "912d1a1318342a09af21107e06b1ce8067f01df7db2c5670fbc4c2986b624173",
+      "source_paragraph_sha256": "f7078f839aa294b73a92d4a96c803bf0cf3b2577d49b2bfcea8626d954500519",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 7.9448
+      "relevance_score": 14.2006
     },
     {
-      "evidence_id": "NASA-SLEEP-RISK-01",
+      "evidence_id": "NASA-SLEEP-STATION-06",
+      "source_type": "nasa_web_page",
       "publisher": "NASA",
-      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
-      "section": "What are the top risks?",
-      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
-      "summary": "Heavy workloads, irregular light and dark periods and disrupted sleep patterns are among the stressors of spaceflight. Their combined effect on the body can harm health over short and long periods and can put mission success at risk.",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "The Sleep-Long experiment found that scheduled sleep was out of step with the body clock in roughly one of every five sleep episodes on the station. In those episodes crew members slept nearly one hour less and rated their sleep as poorer, and misalignment was more likely in periods of critical operations, for example while a vehicle was docked.",
       "text_kind": "independent_summary",
-      "sha256": "9c2d9424d80f21e493e3f83d824f2784c8284d21852c2a35dd83b924ef5b1cda",
-      "source_paragraph_sha256": "2b1c83ecf5d6cf1525009196fe8f8cfa55ee668ee22ba95f68912ac32e0b34aa",
+      "sha256": "1ca9c39dac72fea2714257a413c515cad323ceea0af63e7064790ae7ce0fb49e",
+      "source_paragraph_sha256": "fc183549242228ec12563b6b78c131364fb64fb0967bdfe365da0e1fe3e51788",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 7.876
+      "relevance_score": 8.9106
     },
     {
-      "evidence_id": "NASA-SLEEP-RISK-02",
-      "publisher": "NASA",
-      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
-      "section": "What can be done about it?",
-      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
-      "summary": "On the International Space Station, LED lighting reproduces the day and night pattern of Earth to support crew sleep. Research examines how light exposure and caffeine influence the body clock and sleep quality, and crew schedules reserve time for rest and self-care to lower the risk of burnout.",
+      "evidence_id": "LIT-WU2018-03",
+      "source_type": "peer_reviewed_article",
+      "publisher": "Military Medical Research",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Design reasonable on-orbit work-rest schedules",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "summary": "Work-rest schedules for a mission are planned before flight around launch and landing times, crew size, time-critical events, workload, mission objectives and shift pattern. The review adds that the schedule should include interesting work and enough time for rest and recreation so that fatigue does not become sustained.",
       "text_kind": "independent_summary",
-      "sha256": "264502d81d5d8f97f7e7fff6f38b7e6b268248f6379c5f0d55f35b96fcf9fca3",
-      "source_paragraph_sha256": "ff86f5c4eb18b45030c867cf0a4eba57c3d455a7b1632f013823f356a3c7934c",
+      "sha256": "20e9af70682836ab00a3d00eaeb5b628e2221b84a6f544a69ebc01f037a7c9c8",
+      "source_paragraph_sha256": "772d5455ffebe375c60e10b708700e8c69345e145924b317c796513ef25ccb58",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 6.0634
+      "relevance_score": 8.5097
     }
   ],
+  "dataset_evidence": {
+    "status": "not_requested",
+    "topics": [],
+    "reason": "The question does not ask for NASA dataset context.",
+    "items": [],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
   "data_provenance": {
     "crew_data_kind": "simulated",
     "measurement_sources": {
       "simulated": 42
     },
     "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
-    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages, with the source URL. They are not NASA text, and NASA did not review or endorse them. They give general context about spaceflight; they are not measurements of this crew member."
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
   },
   "data_access": {
     "read_only": true,
@@ -944,7 +967,7 @@
         "method": "GET",
         "path": "/metrics",
         "status": 200,
-        "item_count": 15
+        "item_count": 28
       },
       {
         "method": "GET",
@@ -971,20 +994,31 @@
     "generative": false,
     "fallback_reason": "deterministic_mode_requested",
     "primary_model": null,
+    "question_kind": "interpretive",
+    "answer_profile": "full",
+    "reply_language": "en",
+    "context_turns": 0,
     "attempts": 0,
     "model_runs": [],
     "specialist": {
-      "configured": "none",
+      "configured": "medgemma",
       "consulted": false,
-      "reason": "No specialist is configured.",
-      "findings": []
+      "reason": "The response is non-generative, so no model was called.",
+      "evidence_status": "not_used",
+      "evidence": [],
+      "decision": "non_generative",
+      "model": null,
+      "duration_ms": null,
+      "findings": [],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
     },
     "timings_ms": {
-      "backend_read_ms": 38.2,
+      "backend_read_ms": 15.1,
       "facts_and_retrieval_ms": 1.8,
+      "dataset_evidence_ms": 0.0,
       "generation_ms": 0.0,
-      "assembly_and_audit_ms": 11.9,
-      "total_ms": 51.8
+      "assembly_and_audit_ms": 15.1,
+      "total_ms": 32.3
     }
   },
   "verification": {
@@ -1039,6 +1073,16 @@
         "name": "read_only_access",
         "passed": true,
         "detail": "Only GET requests were sent to the backend."
+      },
+      {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-02 only."
       },
       {
         "name": "generation_disclosure",

@@ -280,3 +280,6 @@ desktop.ini
 
 # Embedding cache of the RAG knowledge base
 index_cache/
+
+# Server-owned Assistant jobs (ai_agent/orbit_agent/jobs.py), local runtime state
+.agent-jobs/

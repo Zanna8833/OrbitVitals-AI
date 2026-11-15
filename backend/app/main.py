@@ -16,6 +16,7 @@ from fastapi.responses import JSONResponse
 from app import __version__
 from app.api.router import api_router
 from app.core.config import API_V1_PREFIX, Settings, get_settings
+from app.nasa_evidence import DatasetId, NasaEvidenceAdapter
 from app.repositories.memory import InMemoryRepository
 from app.services.integration import Clock, IntegrationError, IntegrationService
 
@@ -43,6 +44,16 @@ def create_app(
     app.state.repository = repository if repository is not None else InMemoryRepository()
     app.state.integration_service = IntegrationService(
         app.state.repository, settings, clock or (lambda: datetime.now(UTC))
+    )
+    app.state.nasa_evidence_adapter = NasaEvidenceAdapter(
+        {
+            dataset: path
+            for dataset, path in (
+                (DatasetId.ACTIGRAPHY, settings.nasa_actigraphy_cache),
+                (DatasetId.MR001G, settings.nasa_mr001g_cache),
+            )
+            if path is not None
+        }
     )
 
     @app.exception_handler(RequestValidationError)

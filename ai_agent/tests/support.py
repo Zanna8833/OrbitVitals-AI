@@ -19,7 +19,17 @@ NOOR = "sim-mission-v1-02"
 CHEN = "sim-mission-v1-03"
 BACKEND_URL = "http://backend.test/api/v1"
 OLLAMA_URL = "http://ollama.test"
-MODEL = "qwen3.5:4b"
+MODEL = "gemma3:4b"
+# In a scripted draft, stands for the first evidence identifier this request offers, so
+# that a draft does not depend on which corpus entries retrieval happens to rank first.
+FIRST_RETRIEVED = "@first-retrieved"
+
+
+def offered_evidence_ids(chat_body: dict[str, Any]) -> list[str]:
+    """Evidence identifiers that the output schema of a chat request allows."""
+    properties = (chat_body.get("format") or {}).get("properties", {})
+    items = properties.get("evidence_context", {}).get("items", {})
+    return items.get("properties", {}).get("evidence_ids", {}).get("items", {}).get("enum", [])
 
 
 def load_fixture(*parts: str) -> list[dict[str, Any]]:
@@ -95,6 +105,9 @@ class FakeOllama:
             index = min(len(self.chat_requests), len(self.drafts)) - 1
             draft = self.drafts[index]
             content = draft if isinstance(draft, str) else json.dumps(draft)
+            if FIRST_RETRIEVED in content:
+                offered = offered_evidence_ids(body)
+                content = content.replace(FIRST_RETRIEVED, offered[0] if offered else "NONE")
             return _json(
                 200,
                 {
@@ -143,8 +156,12 @@ def fact_id(sheet: FactSheet, **criteria: Any) -> str:
     return matches[0].id
 
 
-def noor_draft(sheet: FactSheet, evidence_id: str = "NASA-SLEEP-RISK-01") -> dict[str, Any]:
-    """A correct model draft for Noor's sleep, citing real fact identifiers."""
+def noor_draft(sheet: FactSheet, evidence_id: str = FIRST_RETRIEVED) -> dict[str, Any]:
+    """A correct model draft for Noor's sleep, citing real fact identifiers.
+
+    The evidence sentence holds no number and no sensitive word, so it is acceptable for
+    whichever sleep entry is retrieved first.
+    """
     latest = fact_id(sheet, kind="finding", metric="sleep_duration", observed_value=430.0)
     baseline = fact_id(sheet, kind="baseline", metric="sleep_duration")
     series = fact_id(sheet, kind="measurement_series", metric="sleep_duration")
@@ -166,8 +183,8 @@ def noor_draft(sheet: FactSheet, evidence_id: str = "NASA-SLEEP-RISK-01") -> dic
         "evidence_context": [
             {
                 "text": (
-                    "NASA lists work overload and sleep-pattern disruptions among the "
-                    "stressors of spaceflight."
+                    "Sleep in spaceflight is influenced by the mission schedule and by the "
+                    "light environment."
                 ),
                 "evidence_ids": [evidence_id],
             }

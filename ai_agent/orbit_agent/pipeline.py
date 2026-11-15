@@ -2,16 +2,20 @@
 
 The control flow is fixed code, not a model deciding what to do next:
 
-1. read the crew member's stored results from the backend (GET only);
-2. turn them into a numbered fact sheet;
-3. retrieve summaries of NASA web pages from the local corpus;
-4. derive suggested checks and the human-review flag with fixed rules;
-5. ask the local model for a draft, verify it sentence by sentence, retry once;
-6. optionally ask a registered specialist to review physiological readings;
-7. assemble the response and audit it as a whole.
+1. classify the question (`orbit_agent.routing`): brief or full draft;
+2. read the crew member's stored results from the backend (GET only) and check that
+   every record belongs to the requested crew member;
+3. turn them into a numbered fact sheet;
+4. retrieve summaries of published sources from the local corpus, and, when the question
+   asks for it, NASA dataset context from the backend's evidence adapter;
+5. derive suggested checks and the human-review flag with fixed rules;
+6. ask the primary model (Qwen) for a draft, verify it sentence by sentence, retry once;
+7. when routing says so, ask the specialist (MedGemma) to review the verified readings;
+8. assemble the response and audit it as a whole.
 
-If the model is unavailable, or nothing it wrote survives verification, step 5 is
-replaced by rule-based sentences and the response says so in `generation`.
+If the primary model is unavailable, or nothing it wrote survives verification, step 6
+is replaced by rule-based sentences, no model of any kind is called, and the response
+says so in `generation`.
 """
 
 from __future__ import annotations
@@ -22,20 +26,29 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from orbit_agent.backend_client import ReadOnlyBackendClient
+from orbit_agent import nasa_datasets
+from orbit_agent.backend_client import BackendUnavailable, ReadOnlyBackendClient
 from orbit_agent.composer import (
-    SYSTEM_PROMPT,
     DraftParseError,
     build_user_prompt,
     draft_schema,
     parse_draft,
+    system_prompt,
 )
 from orbit_agent.config import Settings
+from orbit_agent.conversation import (
+    Context,
+    build_context,
+    other_crew_pattern,
+    parse_crew_aliases,
+)
 from orbit_agent.evidence.sanitizer import screen_text
 from orbit_agent.evidence.store import EvidenceStore, ScoredPassage
 from orbit_agent.facts import BackendSnapshot, FactSheet, build_fact_sheet
 from orbit_agent.grounding import fact_dates, fact_numbers, ungrounded_values
 from orbit_agent.http import Transport, urllib_transport
+from orbit_agent.language import Language, reply_language
+from orbit_agent.lexicon import italian_text
 from orbit_agent.llm import ModelUnavailable, OllamaClient
 from orbit_agent.models import (
     AgentResponse,
@@ -43,17 +56,31 @@ from orbit_agent.models import (
     Citation,
     DataAccess,
     DataProvenance,
+    DatasetEvidence,
     ExplanationRequest,
     Fact,
     GenerationInfo,
+    HumanReview,
     Interpretation,
     ModelRun,
+    SpecialistEvidenceRef,
     SpecialistFinding,
     SpecialistInfo,
     Statement,
     SuggestedCheck,
     VerificationCheck,
     VerificationReport,
+)
+from orbit_agent.routing import (
+    AnswerProfile,
+    QuestionKind,
+    answer_profile,
+    asks_about_the_dashboard,
+    classify_question,
+    conversation_intent,
+    mentions_mission,
+    refers_to_earlier_exchange,
+    route_specialist,
 )
 from orbit_agent.rules import (
     CandidateAction,
@@ -72,14 +99,21 @@ from orbit_agent.specialist import (
     SpecialistError,
     SpecialistRequest,
     create_specialist,
-    should_consult,
 )
-from orbit_agent.verifier import VerifiedDraft, audit_response, language_problems, verify_draft
+from orbit_agent.verifier import (
+    VerifiedDraft,
+    agency_problems,
+    attribution_problems,
+    audit_response,
+    language_problems,
+    verify_draft,
+)
 
-# Topic tags of the evidence corpus that each health domain maps to.
+# Topic tags of the evidence corpus that each health domain maps to. "countermeasure" is
+# not a domain topic: it also tags lighting and other measures unrelated to exercise.
 _DOMAIN_TOPICS: dict[str, frozenset[str]] = {
     "sleep": frozenset({"sleep", "circadian", "fatigue", "workload"}),
-    "physical_activity": frozenset({"exercise", "fitness", "countermeasure"}),
+    "physical_activity": frozenset({"exercise", "fitness", "muscle"}),
     "vital_signs": frozenset({"cardiovascular"}),
 }
 _QUALITY_TOPICS = frozenset({"monitoring", "autonomy"})
@@ -88,8 +122,9 @@ _FLAGGED = {"attention", "alert"}
 
 _EVIDENCE_NOTICE = (
     "Citations are summaries, written by the OrbitVitals team, of paragraphs on public "
-    "NASA web pages, with the source URL. They are not NASA text, and NASA did not review "
-    "or endorse them. They give general context about spaceflight; they are not "
+    "NASA web pages and in open-access peer-reviewed articles, with the source URL or "
+    "DOI. They are not the sources' text, and neither NASA nor the authors or publishers "
+    "reviewed or endorsed them. They give general context about spaceflight; they are not "
     "measurements of this crew member."
 )
 _PROVENANCE_NOTICES = {
@@ -145,6 +180,28 @@ def plan_retrieval(sheet: FactSheet, question: str | None) -> RetrievalPlan:
     return RetrievalPlan(query, frozenset(focus), frozenset(background))
 
 
+def citation_from(item: ScoredPassage) -> Citation:
+    """The citation shown for a retrieved corpus entry, copied field by field."""
+    passage = item.passage
+    return Citation(
+        evidence_id=passage.evidence_id,
+        source_type=passage.source_type,
+        publisher=passage.publisher,
+        document_title=passage.document_title,
+        section=passage.section,
+        url=passage.url,
+        authors=passage.authors,
+        year=passage.year,
+        license=passage.license,
+        verification_url=passage.verification_url,
+        summary=passage.text,
+        sha256=passage.sha256,
+        source_paragraph_sha256=passage.source_paragraph_sha256,
+        source_checked_on=passage.source_checked_on,
+        relevance_score=item.score,
+    )
+
+
 def prompt_facts(sheet: FactSheet, withheld: list[str]) -> list[Fact]:
     """Facts shown to the model: everything except superseded, unremarkable findings.
 
@@ -186,6 +243,21 @@ class _Generation:
     attempts: int = 0
     runs: list[ModelRun] = field(default_factory=list)
     elapsed_ms: float = 0.0
+    question_kind: QuestionKind = "none"
+    profile: AnswerProfile = "full"
+    language: Language = "en"
+    context: Context = field(default_factory=lambda: Context((), None, False))
+
+
+def foreign_crew_ids(snapshot: BackendSnapshot) -> list[str]:
+    """Crew identifiers in the returned records that are not the requested one."""
+    found = {
+        item.get("crew_member_id")
+        for group in (snapshot.evaluations, snapshot.baselines, snapshot.measurements)
+        for item in group
+        if isinstance(item, dict) and item.get("crew_member_id") is not None
+    }
+    return sorted(str(value) for value in found if value != snapshot.crew_member_id)
 
 
 @dataclass
@@ -213,6 +285,23 @@ class Agent:
             timeout_seconds=self.settings.backend_timeout_seconds,
         )
 
+    def warm_up(self) -> dict[str, Any]:
+        """Load the primary model and the specialist's retrieval index now. Never raises.
+
+        The specialist model itself is not loaded in advance: when GPU memory is short,
+        loading it would push the primary model out.
+        """
+        result: dict[str, Any] = {"model": self.settings.primary_model}
+        try:
+            load_ms = self._llm.warm_up(self.settings.primary_model, self.settings.model_keep_alive)
+            result.update(loaded=True, load_ms=load_ms)
+        except ModelUnavailable as error:
+            result.update(loaded=False, reason=error.reason)
+        specialist_warm_up = getattr(self.specialist, "warm_up", None)
+        if callable(specialist_warm_up):
+            result["specialist"] = specialist_warm_up()
+        return result
+
     def status(self) -> dict[str, Any]:
         """Report which dependencies are reachable. Never raises."""
         backend_ok = True
@@ -226,6 +315,12 @@ class Agent:
         except ModelUnavailable as error:
             model_reason = error.reason
         assert self.specialist is not None
+        specialist = {
+            "configured": self.specialist.name,
+            "available": self.specialist.is_available(),
+        }
+        if getattr(self.specialist, "model", None):
+            specialist["model"] = self.specialist.model
         return {
             "backend": {"base_url": self.settings.backend_base_url, "reachable": backend_ok},
             "primary_model": {
@@ -233,10 +328,8 @@ class Agent:
                 "available": model_reason is None,
                 "unavailable_reason": model_reason,
             },
-            "specialist": {
-                "configured": self.specialist.name,
-                "available": self.specialist.is_available(),
-            },
+            "specialist": specialist,
+            "nasa_dataset_evidence": {"enabled": self.settings.nasa_dataset_evidence},
             "evidence_corpus": {
                 "corpus_id": self.store.corpus_id,
                 "passages": len(self.store.passages),
@@ -248,6 +341,23 @@ class Agent:
         """Build one explanation. Raises `BackendUnavailable` if the data cannot be read."""
         started = time.perf_counter()
         timings: dict[str, float] = {}
+        # Earlier turns sent by the client. A follow-up without a subject of its own is
+        # routed together with the question it continues; the reply still answers the
+        # current message.
+        context = build_context(
+            request,
+            self.settings.conversation_max_turns,
+            parse_crew_aliases(self.settings.crew_aliases),
+        )
+        routed = context.routed
+        kind = classify_question(routed)
+        profile = answer_profile(kind)
+        language = reply_language(
+            request.question,
+            [turn.text for turn in context.turns if turn.role == "operator"],
+            request.language,
+            detect=self.settings.reply_language_detection,
+        )
 
         mark = time.perf_counter()
         backend = self._backend()
@@ -258,31 +368,62 @@ class Agent:
             baselines=backend.baselines(request.crew_member_id),
             measurements=backend.measurements(request.crew_member_id),
         )
+        foreign = foreign_crew_ids(snapshot)
+        if foreign:
+            # Never explain one crew member with another one's records.
+            raise BackendUnavailable(
+                f"The backend returned records of another crew member ({', '.join(foreign)})"
+            )
         timings["backend_read_ms"] = _elapsed(mark)
 
         mark = time.perf_counter()
         sheet = build_fact_sheet(snapshot, request.domain)
-        plan = plan_retrieval(sheet, request.question)
-        passages = self.store.search(
-            plan.query,
-            focus_topics=plan.focus_topics,
-            background_topics=plan.background_topics,
-            top_k=self.settings.evidence_top_k,
+        # A general question is not about this crew member's results, so the question
+        # alone chooses the evidence; the flagged domains would crowd out its subject.
+        plan = (
+            RetrievalPlan(routed or "", frozenset(), frozenset())
+            if kind == "general"
+            else plan_retrieval(sheet, routed)
+        )
+        # A greeting needs no evidence; retrieving some would only lengthen the answer. A
+        # question about the dashboard is answered from the statuses, not the literature.
+        passages = (
+            []
+            if kind == "greeting" or (kind == "general" and asks_about_the_dashboard(routed))
+            else self.store.search(
+                plan.query,
+                focus_topics=plan.focus_topics,
+                background_topics=plan.background_topics,
+                top_k=self.settings.evidence_top_k,
+            )
         )
         actions = derive_actions(sheet)
         withheld = [fact.id for fact in sheet.facts if screen_text(fact.statement)]
         timings["facts_and_retrieval_ms"] = _elapsed(mark)
 
+        mark = time.perf_counter()
+        dataset = nasa_datasets.retrieve(
+            backend,
+            routed,
+            sheet.domains,
+            enabled=self.settings.nasa_dataset_evidence,
+        )
+        timings["dataset_evidence_ms"] = _elapsed(mark)
+
         generation = (
             _Generation(fallback_reason="deterministic_mode_requested")
             if request.mode == "deterministic"
-            else self._generate(request, sheet, passages, actions, withheld)
+            else self._generate(
+                request, sheet, passages, actions, withheld, profile, language, context
+            )
         )
+        generation.question_kind, generation.profile = kind, profile
+        generation.language, generation.context = language, context
         timings["generation_ms"] = round(generation.elapsed_ms, 1)
 
         mark = time.perf_counter()
         response = self._assemble(
-            request, sheet, passages, actions, backend, generation, timings, withheld
+            request, sheet, passages, actions, backend, generation, timings, withheld, dataset
         )
         if not response.verification.passed and response.generation.generative:
             # Safety net: a generative response that fails its own audit is not returned.
@@ -290,9 +431,13 @@ class Agent:
                 fallback_reason="final_audit_failed",
                 attempts=generation.attempts,
                 runs=generation.runs,
+                question_kind=kind,
+                profile=profile,
+                language=language,
+                context=context,
             )
             response = self._assemble(
-                request, sheet, passages, actions, backend, generation, timings, withheld
+                request, sheet, passages, actions, backend, generation, timings, withheld, dataset
             )
         timings["assembly_and_audit_ms"] = _elapsed(mark)
         timings["total_ms"] = _elapsed(started)
@@ -306,23 +451,44 @@ class Agent:
         passages: list[ScoredPassage],
         actions: list[CandidateAction],
         withheld: list[str],
+        profile: AnswerProfile = "full",
+        language: Language = "en",
+        context: Context | None = None,
     ) -> _Generation:
         generation = _Generation()
         started = time.perf_counter()
         model = self.settings.primary_model
-        facts = prompt_facts(sheet, withheld)
-        stated_limits = [
-            item.text for item in rule_uncertainties(sheet, has_evidence=bool(passages))
-        ]
+        context = context or Context((), None, False)
+        history = [{"role": turn.role, "text": turn.text} for turn in context.turns]
+        # A conversational reply describes no result, so Qwen gets no crew facts, checks or
+        # limits to talk about; the verifier still checks the reply against all facts.
+        conversation = profile == "conversation"
+        facts = [] if conversation else prompt_facts(sheet, withheld)
+        stated_limits = (
+            []
+            if conversation
+            else [
+                item.text
+                for item in rule_uncertainties(
+                    sheet,
+                    has_evidence=bool(passages),
+                    cited_topics=frozenset(t for item in passages for t in item.passage.topics),
+                )
+            ]
+        )
         schema = draft_schema(
-            [fact.id for fact in facts], [item.passage.evidence_id for item in passages]
+            [fact.id for fact in facts], [item.passage.evidence_id for item in passages], profile
         )
         options = {
             "temperature": self.settings.model_temperature,
             "seed": self.settings.model_seed,
             "presence_penalty": self.settings.model_presence_penalty,
             "num_ctx": self.settings.model_context_tokens,
-            "num_predict": self.settings.model_max_output_tokens,
+            "num_predict": {
+                "conversation": self.settings.conversation_max_output_tokens,
+                "general": self.settings.general_max_output_tokens,
+                "brief": self.settings.brief_max_output_tokens,
+            }.get(profile, self.settings.model_max_output_tokens),
         }
         best: VerifiedDraft | None = None
         feedback: list[str] | None = None
@@ -333,15 +499,20 @@ class Agent:
                 generation.attempts = attempt
                 result = self._llm.chat(
                     model=model,
-                    system=SYSTEM_PROMPT,
+                    system=system_prompt(language),
                     user=build_user_prompt(
                         question=request.question,
                         domains=sheet.domains,
                         facts=facts,
                         passages=passages,
-                        actions=actions,
+                        actions=[] if conversation else actions,
                         stated_limits=stated_limits,
                         feedback=feedback,
+                        profile=profile,
+                        language=language,
+                        intent=conversation_intent(context.routed or request.question),
+                        conversation=history,
+                        question_in_context=context.question_in_context,
                     ),
                     schema=schema,
                     options=options,
@@ -367,14 +538,19 @@ class Agent:
                     failure = "model_output_not_parseable"
                     feedback = ["The previous output was not a complete JSON object."]
                     continue
-                verified = verify_draft(draft, sheet, [item.passage for item in passages])
+                verified = verify_draft(
+                    draft,
+                    sheet,
+                    [item.passage for item in passages],
+                    history=context.has_history,
+                )
                 run.rejected_sentences = len(verified.rejected)
                 if best is None or _quality(verified) > _quality(best):
                     best = verified
                     for earlier in generation.runs:
                         earlier.accepted = False
                     run.accepted = True
-                if verified.is_complete:
+                if verified.complete_for(profile):
                     # Rejected sentences are dropped and reported. A second draft is
                     # requested only when too little of the first one survived.
                     break
@@ -383,7 +559,7 @@ class Agent:
             failure = error.reason
             best = None
         generation.elapsed_ms = (time.perf_counter() - started) * 1000
-        if best is not None and best.is_complete:
+        if best is not None and best.complete_for(profile):
             generation.draft = best
         else:
             generation.fallback_reason = failure
@@ -401,13 +577,26 @@ class Agent:
         generation: _Generation,
         timings: dict[str, float],
         withheld: list[str],
+        dataset: DatasetEvidence | None = None,
     ) -> AgentResponse:
+        dataset = dataset or DatasetEvidence(
+            status="not_requested", reason="The question does not ask for NASA dataset context."
+        )
         draft = generation.draft
         generative = draft is not None
         rule_evidence = rule_evidence_context(passages)
 
         status_summary = rule_headline(sheet)
-        if draft is not None:
+        conversation = generation.profile == "conversation"
+        if conversation:
+            # A conversational reply describes no result: no report sections. Without a
+            # verified model reply, a fixed greeting is returned instead of a status report.
+            replied = draft is not None and draft.headline is not None
+            headline = draft.headline if replied else _fixed_greeting(generation.language)
+            headline_origin = "model" if replied else "rule"
+            observations, evidence_context, interpretations = [], [], []
+            extra_uncertainties = []
+        elif draft is not None:
             # A model headline that failed verification is replaced by the rule-based one.
             headline = draft.headline or status_summary
             headline_origin = "model" if draft.headline else "rule"
@@ -424,13 +613,38 @@ class Agent:
             interpretations = rule_interpretations(sheet)
             extra_uncertainties = []
 
-        specialist_info, interpretations, specialist_notes, specialist_ms = self._consult(
-            request, sheet, interpretations, generative=generative
+        specialist_info, interpretations, specialist_notes, specialist_run = self._consult(
+            request,
+            sheet,
+            interpretations,
+            generative=generative,
+            kind=generation.question_kind,
+            question=generation.context.question_in_context or request.question,
         )
-        if specialist_ms is not None:
-            timings["specialist_ms"] = specialist_ms
+        if specialist_info.duration_ms is not None:
+            timings["specialist_ms"] = specialist_info.duration_ms
+        if specialist_run is not None:
+            generation.runs.append(specialist_run)
 
-        stated = rule_uncertainties(sheet, has_evidence=bool(passages))
+        used_evidence = {
+            evidence_id
+            for item in [*evidence_context, *interpretations]
+            for evidence_id in item.evidence_ids
+        }
+        cited = [item for item in passages if item.passage.evidence_id in used_evidence]
+        stated = (
+            []
+            if conversation
+            else rule_uncertainties(
+                sheet,
+                has_evidence=bool(passages),
+                cited_topics=frozenset(topic for item in cited for topic in item.passage.topics),
+            )
+            + _integration_limits(specialist_info, dataset)
+        )
+        stated += _conversation_limits(
+            request.question, generation.language, history=generation.context.has_history
+        )
         stated_texts = [item.text for item in stated]
         uncertainties = [
             *stated,
@@ -442,27 +656,7 @@ class Agent:
         _number(interpretations, "I")
         _number(uncertainties, "U")
 
-        used_evidence = {
-            evidence_id
-            for item in [*evidence_context, *interpretations]
-            for evidence_id in item.evidence_ids
-        }
-        citations = [
-            Citation(
-                evidence_id=item.passage.evidence_id,
-                publisher=item.passage.publisher,
-                document_title=item.passage.document_title,
-                section=item.passage.section,
-                url=item.passage.url,
-                summary=item.passage.text,
-                sha256=item.passage.sha256,
-                source_paragraph_sha256=item.passage.source_paragraph_sha256,
-                source_checked_on=item.passage.source_checked_on,
-                relevance_score=item.score,
-            )
-            for item in passages
-            if item.passage.evidence_id in used_evidence
-        ]
+        citations = [citation_from(item) for item in cited]
         sources: dict[str, int] = sheet.of_kind("provenance")[0].data["sources"]
         kind = (
             "no_measurements"
@@ -494,11 +688,17 @@ class Agent:
                     fact_ids=list(action.fact_ids),
                     requires_human_review=action.requires_human_review,
                 )
-                for action in actions
+                for action in ([] if conversation else actions)
             ],
-            human_review=human_review(sheet),
+            # The review recommendation belongs to answers that present results.
+            human_review=(
+                HumanReview(recommended=False, reasons=[], fact_ids=[])
+                if conversation
+                else human_review(sheet)
+            ),
             facts=sheet.facts,
             citations=citations,
+            dataset_evidence=dataset,
             data_provenance=DataProvenance(
                 crew_data_kind=kind,
                 measurement_sources=sources,
@@ -521,6 +721,10 @@ class Agent:
                 generative=generative,
                 fallback_reason=generation.fallback_reason,
                 primary_model=self.settings.primary_model if generative else None,
+                question_kind=generation.question_kind,
+                answer_profile=generation.profile,
+                reply_language=generation.language,
+                context_turns=len(generation.context.turns),
                 attempts=generation.attempts,
                 model_runs=generation.runs,
                 specialist=specialist_info,
@@ -528,7 +732,13 @@ class Agent:
             ),
             verification=VerificationReport(passed=False, checks=[]),
         )
-        checks = audit_response(response, self.store)
+        checks = audit_response(
+            response,
+            self.store,
+            other_crew_pattern(
+                parse_crew_aliases(self.settings.crew_aliases), request.crew_member_id
+            ),
+        )
         screened = [*sorted(self.store.quarantined), *withheld]
         checks.append(
             VerificationCheck(
@@ -555,44 +765,80 @@ class Agent:
         interpretations: list[Interpretation],
         *,
         generative: bool,
-    ) -> tuple[SpecialistInfo, list[Interpretation], list[Statement], float | None]:
-        """Ask the registered specialist, if any, and apply its opinions conservatively."""
+        kind: QuestionKind = "none",
+        question: str | None = None,
+    ) -> tuple[SpecialistInfo, list[Interpretation], list[Statement], ModelRun | None]:
+        """Route to the registered specialist and apply its opinions conservatively.
+
+        The specialist sees only verified readings and the facts they cite; it can remove
+        a reading or lower its confidence, never add one. Its comments pass the same
+        checks as the primary model's sentences, and the whole response is audited after.
+        """
         assert self.specialist is not None
         name = self.specialist.name
 
-        def skipped(reason: str) -> tuple[SpecialistInfo, list[Interpretation], list, None]:
-            info = SpecialistInfo(configured=name, consulted=False, reason=reason)
+        def skipped(
+            decision: str, reason: str, duration: float | None = None
+        ) -> tuple[SpecialistInfo, list[Interpretation], list, None]:
+            info = SpecialistInfo(
+                configured=name,
+                consulted=False,
+                decision=decision,
+                reason=reason,
+                duration_ms=duration,
+            )
             return info, interpretations, [], None
 
         if name == "none":
-            return skipped("No specialist is configured.")
+            return skipped("not_configured", "No specialist is configured.")
         if not generative:
             # The fallback is non-generative by contract: no model of any kind is called.
-            return skipped("The response is non-generative, so no model was called.")
-        wanted, reason = should_consult(interpretations)
-        if not wanted:
-            return skipped(reason)
+            return skipped(
+                "non_generative", "The response is non-generative, so no model was called."
+            )
+        route = route_specialist(kind, interpretations, sheet.by_id())
+        if not route.consult:
+            return skipped(route.decision, route.reason)
         # Temporary identifiers so that opinions can refer to interpretations.
         _number(interpretations, "I")
         mark = time.perf_counter()
         try:
             if not self.specialist.is_available():
-                raise SpecialistError("The specialist is not available.")
+                return skipped(
+                    "unavailable",
+                    "The specialist was selected but is not available; specialist review did "
+                    "not occur.",
+                    _elapsed(mark),
+                )
             report = self.specialist.review(
                 SpecialistRequest(
                     crew_member_id=request.crew_member_id,
-                    question=request.question,
+                    # A follow-up is reviewed with the question it continues.
+                    question=question or request.question,
                     facts=tuple(sheet.facts),
                     interpretations=tuple(interpretations),
                 )
             )
         except Exception as error:  # noqa: BLE001 - a plug-in must never break the answer
-            info = SpecialistInfo(
-                configured=name,
-                consulted=False,
-                reason=f"The specialist could not be consulted: {type(error).__name__}.",
+            detail = str(error)[:160] if isinstance(error, SpecialistError) else ""
+            return skipped(
+                "failed",
+                "The specialist could not be consulted; specialist review did not occur: "
+                f"{type(error).__name__}{': ' + detail if detail else ''}.",
+                _elapsed(mark),
             )
-            return info, interpretations, [], _elapsed(mark)
+        duration = _elapsed(mark)
+        raw = report.raw if isinstance(report.raw, dict) else {}
+        run = ModelRun(
+            role="specialist",
+            model=report.model or name,
+            attempt=1,
+            accepted=True,
+            duration_ms=report.duration_ms if report.duration_ms is not None else duration,
+            load_ms=raw.get("load_ms"),
+            prompt_tokens=raw.get("prompt_tokens"),
+            output_tokens=raw.get("output_tokens"),
+        )
         by_id = {item.id: item for item in interpretations}
         findings: list[SpecialistFinding] = []
         notes: list[Statement] = []
@@ -617,7 +863,7 @@ class Agent:
                 notes.append(
                     Statement(
                         id="",
-                        text=f"Specialist review ({name}): {comment}",
+                        text=f"Second-opinion model ({name}): {comment}",
                         origin="model",
                         fact_ids=target.fact_ids,
                     )
@@ -631,8 +877,120 @@ class Agent:
                 )
             )
         kept = [item for item in interpretations if item.id not in removed]
-        info = SpecialistInfo(configured=name, consulted=True, reason=reason, findings=findings)
-        return info, kept, notes, _elapsed(mark)
+        info = SpecialistInfo(
+            configured=name,
+            consulted=True,
+            decision="consulted",
+            reason=route.reason,
+            model=report.model,
+            duration_ms=duration,
+            findings=findings,
+            evidence_status=report.evidence_status or "not_used",
+            evidence=[SpecialistEvidenceRef(**item) for item in report.evidence],
+        )
+        return info, kept, notes, run
+
+
+_FIXED_TEXTS: dict[str, dict[str, str]] = {
+    "greeting": {
+        "en": (
+            "Hello! I am the OrbitVitals assistant: I explain the stored monitoring results of "
+            "the selected crew member, with research context. What would you like to know?"
+        ),
+    },
+    "memory_limit": {
+        "en": (
+            "The assistant keeps no memory of earlier questions. This reply is based on the "
+            "current question and the stored records alone."
+        ),
+    },
+    "mission_limit": {
+        "en": (
+            "The assistant has no information about the mission beyond the stored records of "
+            "the selected crew member."
+        ),
+    },
+}
+
+
+def _fixed_text(key: str, language: Language) -> str:
+    """A fixed sentence in the operator's language (English, or Italian from the lexicon)."""
+    return italian_text(key) if language == "it" else _FIXED_TEXTS[key]["en"]
+
+
+def _fixed_greeting(language: Language) -> str:
+    return _fixed_text("greeting", language)
+
+
+def _conversation_limits(
+    question: str | None, language: Language = "en", *, history: bool = False
+) -> list[Statement]:
+    """Fixed statements about what the assistant cannot know, when a question asks for it.
+
+    With earlier turns sent by the client, a reference to them is answered from them, so
+    the statement that no earlier message is kept would be wrong and is not added.
+    """
+    limits: list[Statement] = []
+    if refers_to_earlier_exchange(question) and not history:
+        limits.append(Statement(id="", text=_fixed_text("memory_limit", language), origin="rule"))
+    if mentions_mission(question):
+        limits.append(Statement(id="", text=_fixed_text("mission_limit", language), origin="rule"))
+    return limits
+
+
+def _integration_limits(specialist: SpecialistInfo, dataset: DatasetEvidence) -> list[Statement]:
+    """Fixed statements about the second model and the NASA dataset context."""
+    limits: list[Statement] = []
+    if specialist.consulted:
+        limits.append(
+            Statement(
+                id="",
+                text=(
+                    f"A second model ({specialist.configured}) reviewed the readings. Its "
+                    "verdicts are a model's opinion, not a validated clinical assessment."
+                ),
+                origin="rule",
+            )
+        )
+    elif specialist.decision in {"unavailable", "failed"}:
+        limits.append(
+            Statement(
+                id="",
+                text=(
+                    "The second-opinion model was selected for this explanation but could not "
+                    "be consulted, so specialist review did not occur."
+                ),
+                origin="rule",
+            )
+        )
+    if dataset.items:
+        limits.append(
+            Statement(
+                id="",
+                text=(
+                    "The research datasets listed in this answer come from terrestrial "
+                    "bed-rest studies of volunteers, not from this crew member, and provide no "
+                    "reference values for this crew member."
+                ),
+                origin="rule",
+            )
+        )
+        if any(
+            variable.unit_verification == "unresolved"
+            for item in dataset.items
+            for variable in item.variables
+        ):
+            limits.append(
+                Statement(
+                    id="",
+                    text=(
+                        "Some variables of those datasets have unresolved units, so none of "
+                        "their values can be compared with anything."
+                    ),
+                    origin="rule",
+                )
+            )
+    return limits
 
 
 def _comment_is_safe(comment: str, target: Interpretation, sheet: FactSheet) -> bool:
@@ -643,6 +1001,8 @@ def _comment_is_safe(comment: str, target: Interpretation, sheet: FactSheet) -> 
     return (
         not ungrounded_values(comment, numbers, dates)
         and not language_problems(comment)
+        and not attribution_problems(comment)
+        and not agency_problems(comment, [])
         and not screen_text(comment)
     )
 

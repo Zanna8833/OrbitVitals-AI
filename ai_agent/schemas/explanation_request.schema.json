@@ -1,4 +1,64 @@
 {
+  "$defs": {
+    "ConversationTurn": {
+      "additionalProperties": false,
+      "description": "One earlier message of the chat, as the dashboard showed it.",
+      "properties": {
+        "role": {
+          "enum": [
+            "operator",
+            "assistant"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "crew_member_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Crew member the message was about. Turns about another one are not used.",
+          "title": "Crew Member Id"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "enum": [
+                "vital_signs",
+                "sleep",
+                "physical_activity",
+                "nutrition"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domain"
+        }
+      },
+      "required": [
+        "role",
+        "text"
+      ],
+      "title": "ConversationTurn",
+      "type": "object"
+    }
+  },
   "additionalProperties": false,
   "properties": {
     "crew_member_id": {
@@ -50,6 +110,32 @@
       ],
       "title": "Mode",
       "type": "string"
+    },
+    "conversation": {
+      "description": "Earlier messages of this chat, oldest first, kept by the client. The agent keeps no history of its own; it uses the most recent turns to understand follow-up questions. They are never used as facts.",
+      "items": {
+        "$ref": "#/$defs/ConversationTurn"
+      },
+      "maxItems": 40,
+      "title": "Conversation",
+      "type": "array"
+    },
+    "language": {
+      "anyOf": [
+        {
+          "enum": [
+            "en",
+            "it"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reply language. Omitted: English, or Italian when the operator writes in or asks for Italian.",
+      "title": "Language"
     }
   },
   "required": [

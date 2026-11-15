@@ -66,6 +66,13 @@ class SpecialistReport:
     duration_ms: float | None = None
     # Whatever the specialist returned, untouched. Never shown to the operator.
     raw: Any = field(default=None, compare=False)
+    # Provenance of the background evidence the specialist was given, if any: one dict
+    # per passage with evidence_id, document_id, document_title, section, sources and
+    # similarity. The passage text itself is not reported.
+    evidence: tuple[dict[str, Any], ...] = ()
+    # "used", "none_relevant", "unavailable: <reason>" or None when the adapter has no
+    # retrieval of its own.
+    evidence_status: str | None = None
 
 
 class SpecialistError(Exception):

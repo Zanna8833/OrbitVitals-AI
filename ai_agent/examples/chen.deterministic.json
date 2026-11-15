@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1.0",
-  "generated_at": "2026-11-14T23:28:23.012959Z",
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:41:00.226986Z",
   "crew_member_id": "sim-mission-v1-03",
   "domains": [
     "physical_activity",
@@ -215,29 +215,29 @@
   "evidence_context": [
     {
       "id": "E1",
+      "text": "OrbitVitals summary of the NASA web page \"Wearable Tech for Space Station Research\" (section \"To sleep, perchance to dream\"): The Wearable Monitoring investigation tested a light vest with built-in sensors that record heart rate and breathing during sleep without waking the wearer, to learn whether sleep quality is affected by changes in heart activity. Signal quality was reported as good, which supports its use for individual health monitoring on future flights.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": [
+        "NASA-WEARABLE-04"
+      ]
+    },
+    {
+      "id": "E2",
+      "text": "OrbitVitals summary of the NASA web page \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\" (section \"Science in Space: Week of Sept. 15, 2023 - Sleep on Station\"): In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": [
+        "NASA-SLEEP-STATION-02"
+      ]
+    },
+    {
+      "id": "E3",
       "text": "OrbitVitals summary of the NASA web page \"OCHMO-TB-031 Exercise Overview\" (section \"In-mission exercise monitoring\"): Astronaut Strength, Conditioning, and Rehabilitation Specialists (ACERS) follow crew fitness during flight and tailor exercise prescriptions to each crew member's ability and performance. Ground teams review crew data, including physiological markers and the duration and intensity of exercise sessions, and strength prescriptions depend on the equipment on board.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": [
         "NASA-TB031-MONITORING-01"
-      ]
-    },
-    {
-      "id": "E2",
-      "text": "OrbitVitals summary of the NASA web page \"The Human Body in Space\" (section \"Distance from Earth\"): Work is under way on a spacecraft medical data architecture to support clinical decision support tools, which might apply artificial intelligence and machine learning to assist in diagnosing and treating illness. Virtual assistants are also being studied as a way to help crews on distant missions recognize and respond quickly to spaceflight anomalies.",
-      "origin": "rule",
-      "fact_ids": [],
-      "evidence_ids": [
-        "NASA-BODY-DECISION-01"
-      ]
-    },
-    {
-      "id": "E3",
-      "text": "OrbitVitals summary of the NASA web page \"5 Hazards of Human Spaceflight\" (section \"About the Five Hazards\"): Grouping the challenges of human spaceflight into hazard categories helps organize the work on them, but the hazards interact and can amplify one another's effects on the body. They are studied in ground-based analogs, in laboratories and on the International Space Station, which serve as test beds for human performance and for strategies meant to keep crews safe and healthy.",
-      "origin": "rule",
-      "fact_ids": [],
-      "evidence_ids": [
-        "NASA-HAZARDS-OVERVIEW-01"
       ]
     }
   ],
@@ -317,7 +317,14 @@
     },
     {
       "id": "U7",
-      "text": "The cited summaries of NASA web pages are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U8",
+      "text": "No stored result explained here concerns cardiovascular function. Cited summaries on this subject are background only and cannot be applied to this crew member.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": []
@@ -1600,55 +1607,78 @@
   ],
   "citations": [
     {
+      "evidence_id": "NASA-WEARABLE-04",
+      "source_type": "nasa_web_page",
+      "publisher": "NASA",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "To sleep, perchance to dream",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "The Wearable Monitoring investigation tested a light vest with built-in sensors that record heart rate and breathing during sleep without waking the wearer, to learn whether sleep quality is affected by changes in heart activity. Signal quality was reported as good, which supports its use for individual health monitoring on future flights.",
+      "text_kind": "independent_summary",
+      "sha256": "022f6006d5fa4ff91a0a0d5162e3aed145abe03b0d697c2158784e25303590c0",
+      "source_paragraph_sha256": "964e06ca72d74762eaab2be6e4684a625d779ea64288cad08971f98f17adf162",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 7.0883
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-02",
+      "source_type": "nasa_web_page",
+      "publisher": "NASA",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
+      "text_kind": "independent_summary",
+      "sha256": "912d1a1318342a09af21107e06b1ce8067f01df7db2c5670fbc4c2986b624173",
+      "source_paragraph_sha256": "f7078f839aa294b73a92d4a96c803bf0cf3b2577d49b2bfcea8626d954500519",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 4.9853
+    },
+    {
       "evidence_id": "NASA-TB031-MONITORING-01",
+      "source_type": "nasa_web_page",
       "publisher": "NASA",
       "document_title": "OCHMO-TB-031 Exercise Overview",
       "section": "In-mission exercise monitoring",
       "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
       "summary": "Astronaut Strength, Conditioning, and Rehabilitation Specialists (ACERS) follow crew fitness during flight and tailor exercise prescriptions to each crew member's ability and performance. Ground teams review crew data, including physiological markers and the duration and intensity of exercise sessions, and strength prescriptions depend on the equipment on board.",
       "text_kind": "independent_summary",
       "sha256": "0a1ea216c02e058c9216122b77ce5b73310f1316c100e0336b758216ba067835",
       "source_paragraph_sha256": "75ad98e5aafbbb378476e5393c985b8747cd98dd001a65bf4141f8d671dd075d",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 4.6309
-    },
-    {
-      "evidence_id": "NASA-BODY-DECISION-01",
-      "publisher": "NASA",
-      "document_title": "The Human Body in Space",
-      "section": "Distance from Earth",
-      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
-      "summary": "Work is under way on a spacecraft medical data architecture to support clinical decision support tools, which might apply artificial intelligence and machine learning to assist in diagnosing and treating illness. Virtual assistants are also being studied as a way to help crews on distant missions recognize and respond quickly to spaceflight anomalies.",
-      "text_kind": "independent_summary",
-      "sha256": "c220dfe570bc0d1a36ba71bb57ca6cbe834894b5e3c0d87466634484c4bda550",
-      "source_paragraph_sha256": "fe2568dd0f1de7bcea85ed9af4a33b8a4f2ecd353dff74b29b1f9969aabe6a9e",
-      "source_checked_on": "2026-11-15",
-      "scope": "general_evidence",
-      "relevance_score": 4.0
-    },
-    {
-      "evidence_id": "NASA-HAZARDS-OVERVIEW-01",
-      "publisher": "NASA",
-      "document_title": "5 Hazards of Human Spaceflight",
-      "section": "About the Five Hazards",
-      "url": "https://www.nasa.gov/hrp/hazards/",
-      "summary": "Grouping the challenges of human spaceflight into hazard categories helps organize the work on them, but the hazards interact and can amplify one another's effects on the body. They are studied in ground-based analogs, in laboratories and on the International Space Station, which serve as test beds for human performance and for strategies meant to keep crews safe and healthy.",
-      "text_kind": "independent_summary",
-      "sha256": "d7d07f69b630884018f33b1d5e1100ea541d2dc8b6132b93e0cea78c8837d3bb",
-      "source_paragraph_sha256": "6194505675878409127c4cf97ce6b27f2fff0997105b4bbbe8c398f8fc76389e",
-      "source_checked_on": "2026-11-15",
-      "scope": "general_evidence",
-      "relevance_score": 3.9018
+      "relevance_score": 4.8695
     }
   ],
+  "dataset_evidence": {
+    "status": "not_requested",
+    "topics": [],
+    "reason": "The question does not ask for NASA dataset context.",
+    "items": [],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
   "data_provenance": {
     "crew_data_kind": "simulated",
     "measurement_sources": {
       "simulated": 139
     },
     "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
-    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages, with the source URL. They are not NASA text, and NASA did not review or endorse them. They give general context about spaceflight; they are not measurements of this crew member."
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
   },
   "data_access": {
     "read_only": true,
@@ -1657,7 +1687,7 @@
         "method": "GET",
         "path": "/metrics",
         "status": 200,
-        "item_count": 15
+        "item_count": 28
       },
       {
         "method": "GET",
@@ -1684,20 +1714,31 @@
     "generative": false,
     "fallback_reason": "deterministic_mode_requested",
     "primary_model": null,
+    "question_kind": "interpretive",
+    "answer_profile": "full",
+    "reply_language": "en",
+    "context_turns": 0,
     "attempts": 0,
     "model_runs": [],
     "specialist": {
-      "configured": "none",
+      "configured": "medgemma",
       "consulted": false,
-      "reason": "No specialist is configured.",
-      "findings": []
+      "reason": "The response is non-generative, so no model was called.",
+      "evidence_status": "not_used",
+      "evidence": [],
+      "decision": "non_generative",
+      "model": null,
+      "duration_ms": null,
+      "findings": [],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
     },
     "timings_ms": {
-      "backend_read_ms": 37.0,
+      "backend_read_ms": 29.7,
       "facts_and_retrieval_ms": 2.9,
+      "dataset_evidence_ms": 0.0,
       "generation_ms": 0.0,
-      "assembly_and_audit_ms": 24.0,
-      "total_ms": 63.9
+      "assembly_and_audit_ms": 28.6,
+      "total_ms": 61.4
     }
   },
   "verification": {
@@ -1706,7 +1747,7 @@
       {
         "name": "numeric_grounding",
         "passed": true,
-        "detail": "All numbers and dates in 40 sentences appear in the cited sources."
+        "detail": "All numbers and dates in 41 sentences appear in the cited sources."
       },
       {
         "name": "status_consistency",
@@ -1752,6 +1793,16 @@
         "name": "read_only_access",
         "passed": true,
         "detail": "Only GET requests were sent to the backend."
+      },
+      {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-03 only."
       },
       {
         "name": "generation_disclosure",

@@ -7,7 +7,7 @@ import pytest
 from orbit_agent.composer import Draft, draft_schema
 from orbit_agent.evidence.store import EvidenceStore, ScoredPassage
 from orbit_agent.rules import rule_evidence_context
-from orbit_agent.verifier import VerifiedDraft, language_problems, verify_draft
+from orbit_agent.verifier import VerifiedDraft, _Context, language_problems, verify_draft
 from tests.support import CHEN, NOOR, fact_id, fact_sheet, noor_draft
 
 STORE = EvidenceStore.load()
@@ -16,7 +16,7 @@ SLEEP_PASSAGES = [STORE.get("NASA-SLEEP-RISK-01"), STORE.get("NASA-SLEEP-RISK-03
 
 def _verify_noor(change: dict[str, Any] | None = None) -> VerifiedDraft:
     sheet = fact_sheet(NOOR, "sleep")
-    draft = noor_draft(sheet)
+    draft = noor_draft(sheet, "NASA-SLEEP-RISK-01")
     draft.update(change or {})
     return verify_draft(Draft.model_validate(draft), sheet, SLEEP_PASSAGES)
 
@@ -156,14 +156,77 @@ def test_evidence_link_is_kept_only_when_the_reading_uses_the_passage() -> None:
             "interpretations": [
                 reading("The screen detected a configured pattern and asks for a review."),
                 reading(
-                    "NASA lists work overload and irregular light-dark cycles among spaceflight "
-                    "conditions, which is why a flagged reduction is worth a review."
+                    "Heavy workloads and irregular light and dark periods are known "
+                    "spaceflight conditions, which is why a flagged reduction is worth a "
+                    "review."
                 ),
             ]
         }
     )
 
     assert [item.evidence_ids for item in result.interpretations] == [[], ["NASA-SLEEP-RISK-01"]]
+
+
+def test_reading_may_not_use_a_number_from_cited_evidence() -> None:
+    """A literature value next to a crew value would read as a threshold comparison."""
+    sheet = fact_sheet(NOOR, "sleep")
+    latest = fact_id(sheet, kind="finding", metric="sleep_duration", observed_value=430.0)
+    passage = STORE.get("LIT-WU2018-01")
+    draft = noor_draft(sheet, passage.evidence_id)
+    draft["evidence_context"] = [
+        {
+            "text": "Astronauts averaged about 6 hours of sleep per day in flight.",
+            "evidence_ids": [passage.evidence_id],
+        }
+    ]
+    draft["interpretations"] = [
+        {
+            "text": "The observed 430 min is above the 6 hours that astronauts average in flight.",
+            "kind": "screening_signal",
+            "confidence": "low",
+            "fact_ids": [latest],
+            "evidence_ids": [passage.evidence_id],
+        },
+        {
+            "text": "The screen returned 'attention' and asks for a review.",
+            "kind": "screening_signal",
+            "confidence": "low",
+            "fact_ids": [latest],
+            "evidence_ids": [],
+        },
+    ]
+
+    result = verify_draft(Draft.model_validate(draft), sheet, [passage])
+
+    # The general statement keeps its number; the reading about the crew member does not.
+    assert len(result.evidence_context) == 1
+    assert [item.text for item in result.interpretations] == [
+        "The screen returned 'attention' and asks for a review."
+    ]
+    assert "value not found in the cited sources: 6" in _reasons(result)
+
+
+def test_article_summary_may_cite_its_own_year_and_section_numbers() -> None:
+    passage = STORE.get("LIT-CHANCELLOR2014-01")
+    sheet = fact_sheet(NOOR, "sleep")
+    draft = noor_draft(sheet, passage.evidence_id)
+    draft["evidence_context"] = [
+        {
+            "text": "A 2014 review explains that shielding only partly reduces the dose.",
+            "evidence_ids": [passage.evidence_id],
+        },
+        {
+            "text": "A 2019 review explains that shielding only partly reduces the dose.",
+            "evidence_ids": [passage.evidence_id],
+        },
+    ]
+
+    result = verify_draft(Draft.model_validate(draft), sheet, [passage])
+
+    assert [item.text for item in result.evidence_context] == [
+        "A 2014 review explains that shielding only partly reduces the dose."
+    ]
+    assert "value not found in the cited sources: 2019" in _reasons(result)
 
 
 def test_quality_word_must_be_reported_by_a_cited_fact() -> None:
@@ -253,6 +316,9 @@ def test_statement_about_one_metric_may_cite_a_flagged_evaluation() -> None:
         "The decline is clinically relevant.",
         "The reduction is statistically significant.",
         "Sleep duration shows a significant decline from baseline.",
+        # Seen in a live draft (2026-11-15): the backend makes no significance claim.
+        "The observed values deviated significantly from the personal baseline.",
+        "Exercise duration decreased significantly.",
     ],
 )
 def test_medical_and_overreaching_wording_is_rejected(text: str) -> None:
@@ -369,6 +435,7 @@ def test_evidence_summary_may_reuse_words_of_its_passage() -> None:
         "According to NASA, sleep loss is a spaceflight risk.",
         "NASA notes that sleep loss and irregular schedules are spaceflight stressors.",
         "NASA's Human Research Program states that sleep loss is a risk.",
+        "NASA lists work overload among the conditions of spaceflight.",
         "Sleep loss is a spaceflight risk, as reported by NASA.",
     ],
 )
@@ -379,6 +446,68 @@ def test_evidence_statement_must_not_present_nasa_as_the_speaker(text: str) -> N
 
     assert result.evidence_context == []
     assert "presents NASA as the speaker" in _reasons(result)
+
+
+def test_agency_may_be_named_only_when_the_cited_summary_names_it() -> None:
+    """A NASA page can describe another agency's study; the publisher is not the actor."""
+    sheet = fact_sheet(NOOR, "sleep")
+    baseline_study = STORE.get("NASA-SLEEP-STATION-02")  # summary names no agency
+    thermolab = STORE.get("NASA-WEARABLE-02")  # summary names ESA
+    draft = noor_draft(sheet, baseline_study.evidence_id)
+    draft["evidence_context"] = [
+        {
+            "text": "NASA records individual sleep baselines before a mission.",
+            "evidence_ids": [baseline_study.evidence_id],
+        },
+        {
+            "text": "Sleep on Earth is recorded before a mission to form an individual baseline.",
+            "evidence_ids": [baseline_study.evidence_id],
+        },
+        {
+            "text": "The ESA Thermolab investigation studied temperature regulation.",
+            "evidence_ids": [thermolab.evidence_id],
+        },
+        {
+            "text": "The NASA Thermolab investigation studied temperature regulation.",
+            "evidence_ids": [thermolab.evidence_id],
+        },
+    ]
+
+    result = verify_draft(Draft.model_validate(draft), sheet, [baseline_study, thermolab])
+
+    assert [item.text for item in result.evidence_context] == [
+        "Sleep on Earth is recorded before a mission to form an individual baseline.",
+        "The ESA Thermolab investigation studied temperature regulation.",
+    ]
+    assert "'NASA' is not named in the cited summary" in _reasons(result)
+
+
+def test_reading_about_the_crew_member_may_not_name_an_agency() -> None:
+    sheet = fact_sheet(NOOR, "sleep")
+    latest = fact_id(sheet, kind="finding", metric="sleep_duration", observed_value=430.0)
+    result = _verify_noor(
+        {
+            "interpretations": [
+                {
+                    "text": "NASA would review this 'attention' result.",
+                    "kind": "screening_signal",
+                    "confidence": "low",
+                    "fact_ids": [latest],
+                    "evidence_ids": [],
+                },
+                {
+                    "text": "The screen returned 'attention' and asks for a review.",
+                    "kind": "screening_signal",
+                    "confidence": "low",
+                    "fact_ids": [latest],
+                    "evidence_ids": [],
+                },
+            ]
+        }
+    )
+
+    assert len(result.interpretations) == 1
+    assert "'NASA' is not named in the cited summary" in _reasons(result)
 
 
 def test_plain_evidence_statement_with_a_nasa_citation_is_accepted() -> None:
@@ -397,18 +526,30 @@ def test_plain_evidence_statement_with_a_nasa_citation_is_accepted() -> None:
 
 
 def test_every_corpus_summary_can_be_shown_by_the_rule_based_fallback() -> None:
-    """A stored summary, with its label, title and section, must pass the evidence checks."""
+    """A stored summary, with its label, title and section, must pass the evidence checks.
+
+    The fixed label names the publisher, so it is checked as rule-based text; the same
+    sentence written by a model would be refused for naming NASA as the actor.
+    """
     sheet = fact_sheet(NOOR, "sleep")
     scored = [ScoredPassage(passage=passage, score=1.0) for passage in STORE.passages]
-    draft = noor_draft(sheet)
-    draft["evidence_context"] = [
-        {"text": statement.text, "evidence_ids": statement.evidence_ids}
-        for statement in rule_evidence_context(scored)
+    context = _Context(
+        facts={fact.id: fact for fact in sheet.facts},
+        passages={passage.evidence_id: passage for passage in STORE.passages},
+        crew_member_id=sheet.crew_member_id,
+    )
+    statements = rule_evidence_context(scored)
+
+    assert len(statements) == len(STORE.passages) >= 100
+    for statement in statements:
+        problems = context.evidence_statement(
+            statement.text, [], statement.evidence_ids, model_written=False
+        )
+        assert problems == [], f"{statement.evidence_ids}: {problems}"
+    nasa_page = next(s for s in statements if s.evidence_ids == ["NASA-SLEEP-STATION-02"])
+    assert context.evidence_statement(nasa_page.text, [], nasa_page.evidence_ids) == [
+        "source attribution: 'NASA' is not named in the cited summary"
     ]
-
-    result = verify_draft(Draft.model_validate(draft), sheet, STORE.passages)
-
-    assert len(result.evidence_context) == len(STORE.passages) == 25, _reasons(result)
 
 
 def test_unknown_references_are_rejected() -> None:

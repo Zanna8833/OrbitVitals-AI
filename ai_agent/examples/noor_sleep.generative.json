@@ -1,48 +1,31 @@
 {
-  "schema_version": "0.1.0",
-  "generated_at": "2026-11-14T23:28:10.526214Z",
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:40:49.273897Z",
   "crew_member_id": "sim-mission-v1-02",
   "domains": [
     "sleep"
   ],
   "question": "Why is Noor's sleep flagged, and how does it compare with her baseline?",
   "status_summary": "sleep: latest stored status 'attention' (window ending 2026-10-21T12:00:00Z).",
-  "headline": "Noor's sleep duration shows a progressive decline compared to her baseline, though data quality is acceptable.",
+  "headline": "Noor's sleep duration shows a progressive decline from her baseline, flagged as attention.",
   "headline_origin": "model",
   "observations": [
     {
       "id": "O1",
-      "text": "The latest evaluation window ending 2026-10-21T12:00:00Z has status 'attention' for sleep duration.",
+      "text": "Sleep duration is flagged as attention with an observed median of 430 min, compared to a personal baseline of 480 min.",
       "origin": "model",
       "fact_ids": [
-        "F8"
+        "F9",
+        "F11"
       ],
       "evidence_ids": []
     },
     {
       "id": "O2",
-      "text": "The observed median value is 430 min, which is 50 min below the personal baseline of 480 min.",
+      "text": "Sleep duration decreased by 50 min over the window 2026-10-12 to 2026-10-21, with a Theil-Sen slope of -15 min/day.",
       "origin": "model",
       "fact_ids": [
         "F9"
-      ],
-      "evidence_ids": []
-    },
-    {
-      "id": "O3",
-      "text": "Sleep efficiency remains at 92 %, matching the baseline with no deviation.",
-      "origin": "model",
-      "fact_ids": [
-        "F10"
-      ],
-      "evidence_ids": []
-    },
-    {
-      "id": "O4",
-      "text": "Records for 2026-10-14 and 2026-10-18 are missing from the dataset.",
-      "origin": "model",
-      "fact_ids": [
-        "F13"
       ],
       "evidence_ids": []
     }
@@ -50,55 +33,27 @@
   "evidence_context": [
     {
       "id": "E1",
-      "text": "Spaceflight stressors include irregular light and dark periods that can disrupt sleep patterns.",
+      "text": "Individual baselines are formed by recording natural sleep on Earth before and after a mission to compare spaceflight sleep against that baseline.",
       "origin": "model",
       "fact_ids": [],
       "evidence_ids": [
-        "NASA-SLEEP-RISK-01"
-      ]
-    },
-    {
-      "id": "E2",
-      "text": "Crew schedules reserve time for rest to lower the risk of burnout.",
-      "origin": "model",
-      "fact_ids": [],
-      "evidence_ids": [
-        "NASA-SLEEP-RISK-02"
+        "NASA-SLEEP-STATION-02"
       ]
     }
   ],
   "interpretations": [
     {
       "id": "I1",
-      "text": "The algorithm detected a configured pattern of progressive duration reduction based on the trend data.",
+      "text": "The algorithm detected a configured pattern of progressive duration reduction based on the observed trend.",
       "origin": "model",
       "fact_ids": [
-        "F9"
+        "F9",
+        "F6",
+        "F8",
+        "F5"
       ],
       "evidence_ids": [],
       "kind": "screening_signal",
-      "confidence": "low"
-    },
-    {
-      "id": "I2",
-      "text": "The 'attention' status indicates a screening signal but does not confirm a physiological problem.",
-      "origin": "model",
-      "fact_ids": [
-        "F8"
-      ],
-      "evidence_ids": [],
-      "kind": "screening_signal",
-      "confidence": "low"
-    },
-    {
-      "id": "I3",
-      "text": "No physiological conclusion is possible regarding the missing nights because the data is unavailable.",
-      "origin": "model",
-      "fact_ids": [
-        "F13"
-      ],
-      "evidence_ids": [],
-      "kind": "data_quality",
       "confidence": "low"
     }
   ],
@@ -133,25 +88,24 @@
     },
     {
       "id": "U4",
-      "text": "The cited summaries of NASA web pages are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": []
     },
     {
       "id": "U5",
-      "text": "The cause of the missing records for 2026-10-14 and 2026-10-18 is unknown.",
-      "origin": "model",
-      "fact_ids": [
-        "F13"
-      ],
+      "text": "A second model (medgemma) reviewed the readings. Its verdicts are a model's opinion, not a validated clinical assessment.",
+      "origin": "rule",
+      "fact_ids": [],
       "evidence_ids": []
     },
     {
       "id": "U6",
-      "text": "Operational factors such as workload or schedule changes are not captured in the records.",
+      "text": "Two nights in the window are missing from the records, which limits the coverage of the trend analysis.",
       "origin": "model",
       "fact_ids": [
+        "F9",
         "F13"
       ],
       "evidence_ids": []
@@ -867,41 +821,40 @@
   ],
   "citations": [
     {
-      "evidence_id": "NASA-SLEEP-RISK-01",
+      "evidence_id": "NASA-SLEEP-STATION-02",
+      "source_type": "nasa_web_page",
       "publisher": "NASA",
-      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
-      "section": "What are the top risks?",
-      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
-      "summary": "Heavy workloads, irregular light and dark periods and disrupted sleep patterns are among the stressors of spaceflight. Their combined effect on the body can harm health over short and long periods and can put mission success at risk.",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
       "text_kind": "independent_summary",
-      "sha256": "9c2d9424d80f21e493e3f83d824f2784c8284d21852c2a35dd83b924ef5b1cda",
-      "source_paragraph_sha256": "2b1c83ecf5d6cf1525009196fe8f8cfa55ee668ee22ba95f68912ac32e0b34aa",
+      "sha256": "912d1a1318342a09af21107e06b1ce8067f01df7db2c5670fbc4c2986b624173",
+      "source_paragraph_sha256": "f7078f839aa294b73a92d4a96c803bf0cf3b2577d49b2bfcea8626d954500519",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 7.876
-    },
-    {
-      "evidence_id": "NASA-SLEEP-RISK-02",
-      "publisher": "NASA",
-      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
-      "section": "What can be done about it?",
-      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
-      "summary": "On the International Space Station, LED lighting reproduces the day and night pattern of Earth to support crew sleep. Research examines how light exposure and caffeine influence the body clock and sleep quality, and crew schedules reserve time for rest and self-care to lower the risk of burnout.",
-      "text_kind": "independent_summary",
-      "sha256": "264502d81d5d8f97f7e7fff6f38b7e6b268248f6379c5f0d55f35b96fcf9fca3",
-      "source_paragraph_sha256": "ff86f5c4eb18b45030c867cf0a4eba57c3d455a7b1632f013823f356a3c7934c",
-      "source_checked_on": "2026-11-15",
-      "scope": "general_evidence",
-      "relevance_score": 6.0634
+      "relevance_score": 14.2006
     }
   ],
+  "dataset_evidence": {
+    "status": "not_requested",
+    "topics": [],
+    "reason": "The question does not ask for NASA dataset context.",
+    "items": [],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
   "data_provenance": {
     "crew_data_kind": "simulated",
     "measurement_sources": {
       "simulated": 42
     },
     "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
-    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages, with the source URL. They are not NASA text, and NASA did not review or endorse them. They give general context about spaceflight; they are not measurements of this crew member."
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
   },
   "data_access": {
     "read_only": true,
@@ -910,7 +863,7 @@
         "method": "GET",
         "path": "/metrics",
         "status": 200,
-        "item_count": 15
+        "item_count": 28
       },
       {
         "method": "GET",
@@ -937,6 +890,10 @@
     "generative": true,
     "fallback_reason": null,
     "primary_model": "qwen3.5:4b",
+    "question_kind": "interpretive",
+    "answer_profile": "full",
+    "reply_language": "en",
+    "context_turns": 0,
     "attempts": 1,
     "model_runs": [
       {
@@ -944,27 +901,55 @@
         "model": "qwen3.5:4b",
         "attempt": 1,
         "accepted": true,
-        "duration_ms": 17423.6,
-        "load_ms": 3881.8,
-        "prompt_tokens": 3513,
-        "output_tokens": 758,
-        "prompt_eval_ms": 1199.6,
-        "output_eval_ms": 12327.5,
+        "duration_ms": 5503.4,
+        "load_ms": 4.0,
+        "prompt_tokens": 3708,
+        "output_tokens": 335,
+        "prompt_eval_ms": 35.1,
+        "output_eval_ms": 5448.0,
         "rejected_sentences": 0
+      },
+      {
+        "role": "specialist",
+        "model": "medgemma1.5:4b",
+        "attempt": 1,
+        "accepted": true,
+        "duration_ms": 11225.2,
+        "load_ms": 3125.4,
+        "prompt_tokens": 1266,
+        "output_tokens": 63,
+        "prompt_eval_ms": null,
+        "output_eval_ms": null,
+        "rejected_sentences": null
       }
     ],
     "specialist": {
-      "configured": "none",
-      "consulted": false,
-      "reason": "No specialist is configured.",
-      "findings": []
+      "configured": "medgemma",
+      "consulted": true,
+      "reason": "A reading interprets a flagged screening result.",
+      "evidence_status": "none_relevant",
+      "evidence": [],
+      "decision": "consulted",
+      "model": "medgemma1.5:4b",
+      "duration_ms": 11270.2,
+      "findings": [
+        {
+          "statement_id": "I1",
+          "verdict": "supported",
+          "comment": "The facts show the algorithm detected a configured pattern of progressive duration reduction based on the observed trend.",
+          "applied": "no change"
+        }
+      ],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
     },
     "timings_ms": {
-      "backend_read_ms": 39.3,
-      "facts_and_retrieval_ms": 1.7,
-      "generation_ms": 17477.7,
-      "assembly_and_audit_ms": 9.5,
-      "total_ms": 17528.1
+      "backend_read_ms": 59.3,
+      "facts_and_retrieval_ms": 1.9,
+      "dataset_evidence_ms": 0.0,
+      "generation_ms": 5562.2,
+      "specialist_ms": 11270.2,
+      "assembly_and_audit_ms": 11283.8,
+      "total_ms": 16907.5
     }
   },
   "verification": {
@@ -973,7 +958,7 @@
       {
         "name": "numeric_grounding",
         "passed": true,
-        "detail": "All numbers and dates in 20 sentences appear in the cited sources."
+        "detail": "All numbers and dates in 15 sentences appear in the cited sources."
       },
       {
         "name": "status_consistency",
@@ -988,7 +973,7 @@
       {
         "name": "citation_authenticity",
         "passed": true,
-        "detail": "2 citations match the stored corpus summary, digests and source URL."
+        "detail": "1 citations match the stored corpus summary, digests and source URL."
       },
       {
         "name": "source_attribution",
@@ -1019,6 +1004,16 @@
         "name": "read_only_access",
         "passed": true,
         "detail": "Only GET requests were sent to the backend."
+      },
+      {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-02 only."
       },
       {
         "name": "generation_disclosure",

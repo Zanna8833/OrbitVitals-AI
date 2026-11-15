@@ -7,6 +7,7 @@ import json
 import sys
 from dataclasses import replace
 
+from orbit_agent import medgemma  # noqa: F401 - registers the "medgemma" specialist
 from orbit_agent.backend_client import BackendUnavailable
 from orbit_agent.config import load_settings
 from orbit_agent.evidence.store import EvidenceStore
@@ -33,7 +34,11 @@ def _parser() -> argparse.ArgumentParser:
     explain.add_argument("--backend-url", help="override ORBITVITALS_AGENT_BACKEND_BASE_URL")
     explain.add_argument("--out", help="write the JSON response to this file instead of stdout")
 
-    evidence = commands.add_parser("evidence", help="search the local NASA evidence corpus")
+    explain.add_argument(
+        "--specialist", help="override ORBITVITALS_AGENT_SPECIALIST (for example: medgemma)"
+    )
+
+    evidence = commands.add_parser("evidence", help="search the local evidence corpus")
     evidence.add_argument("query")
     evidence.add_argument("--limit", type=int, default=5)
 
@@ -46,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
     settings = load_settings()
     if getattr(arguments, "backend_url", None):
         settings = replace(settings, backend_base_url=arguments.backend_url)
+    if getattr(arguments, "specialist", None):
+        settings = replace(settings, specialist=arguments.specialist)
     agent = Agent(settings=settings, store=EvidenceStore.load())
 
     if arguments.command == "status":
@@ -56,8 +63,8 @@ def main(argv: list[str] | None = None) -> int:
         for item in results:
             passage = item.passage
             print(f"[{passage.evidence_id}] score={item.score} {passage.document_title}")
-            print(f"  Source: {passage.publisher} web page, {passage.url}")
-            print(f"  OrbitVitals summary (not NASA text): {passage.text}\n")
+            print(f"  Source: {passage.source_label}, {passage.url}")
+            print(f"  OrbitVitals summary (not the source's text): {passage.text}\n")
         if not results:
             print("No passage in the local corpus matches this query.")
         return 0

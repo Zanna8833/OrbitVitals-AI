@@ -1,0 +1,75 @@
+{
+  "notice": "Operator messages in English and Italian with the routing and reply language expected for each. Italian text is kept here, as data, because the test source code stays ASCII English.",
+  "routing": [
+    {"text": "ciao", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Ciao!", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Ciao, come stai?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Buongiorno", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Grazie mille", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Come funziona OrbitVitals?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Cosa puoi fare?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Chi sei?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Che tempo fa oggi a Roma?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Ti ricordi cosa ti ho chiesto prima?", "language": "it", "kind": "greeting", "profile": "conversation"},
+    {"text": "Quanto ha dormito Crew A?", "language": "it", "kind": "factual", "profile": "brief"},
+    {"text": "Quante notti mancano?", "language": "it", "kind": "factual", "profile": "brief"},
+    {"text": "Perché il sonno è peggiorato?", "language": "it", "kind": "interpretive", "profile": "full"},
+    {"text": "Cosa potrebbe significare fisiologicamente questa riduzione del sonno?", "language": "it", "kind": "interpretive", "profile": "full"},
+    {"text": "Quale farmaco dovrebbe prendere Noor per dormire meglio?", "language": "it", "kind": "clinical_advice", "profile": "full"},
+    {"text": "Quanto dura la missione?", "language": "it", "kind": "general", "profile": "general"},
+    {"text": "Come influisce la microgravità sulle ossa in generale?", "language": "it", "kind": "general", "profile": "general"},
+    {"text": "Hello!", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "ok", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "What can you do?", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "How does OrbitVitals work?", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "What's the weather today?", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "Why?", "language": "en", "kind": "greeting", "profile": "conversation"},
+    {"text": "How much did Crew A sleep?", "language": "en", "kind": "factual", "profile": "brief"},
+    {"text": "Why has the sleep got worse?", "language": "en", "kind": "interpretive", "profile": "full"},
+    {"text": "Is everything ok?", "language": "en", "kind": "interpretive", "profile": "full"},
+    {"text": "Which medication should Noor take?", "language": "en", "kind": "clinical_advice", "profile": "full"}
+  ],
+  "messages": {
+    "greeting": "ciao",
+    "platform": "Come funziona OrbitVitals?",
+    "factual": "Quanto ha dormito Noor?",
+    "biomedical": "Perché il sonno di Noor è peggiorato?",
+    "memory": "Ti ricordi cosa ti ho chiesto prima?",
+    "off_topic": "Che tempo fa oggi a Roma?"
+  },
+  "drafts": {
+    "greeting": "Ciao! Sono l'assistente di OrbitVitals e spiego i risultati di monitoraggio salvati. Che cosa vuoi sapere?",
+    "platform": "OrbitVitals confronta i dati simulati di sonno e attività fisica di ogni membro dell'equipaggio con la sua baseline personale; io spiego i risultati salvati e non faccio diagnosi.",
+    "memory": "Non conservo i messaggi precedenti: dimmi quale membro dell'equipaggio o quale argomento ti interessa."
+  },
+  "multiturn": {
+    "italian_question": "Quanto ha dormito Crew A?",
+    "italian_follow_up": "E rispetto a ieri?",
+    "ambiguous": "Crew A?",
+    "ask_italian": "Rispondi in italiano: quanto ha dormito Noor?",
+    "ask_italian_follow_up": "Rispondi in italiano: e ieri?",
+    "decimal_comma": "L'esercizio è durato 52,5 minuti.",
+    "wrong_decimal_comma": "L'esercizio è durato 53,5 minuti.",
+    "three_decimals": "Il dispendio energetico è stato di 241,667 kcal.",
+    "no_alert_signal": "Lo stato 'nominal' indica che nessun segnale di allerta è stato rilevato per il sonno."
+  },
+  "verifier": {
+    "rejected": [
+      "Noor dovrebbe prendere la melatonina.",
+      "Questo indica un disturbo del sonno.",
+      "Il membro dell'equipaggio è sano.",
+      "Secondo la NASA il sonno in orbita è più breve.",
+      "Come ho detto prima, il sonno è segnalato.",
+      "Avviserò il medico di volo.",
+      "Non ho accesso ai dati o ai risultati di nessun membro dell'equipaggio.",
+      "Posso spiegare i dati simulati, ma non ho accesso a risultati specifici.",
+      "La riduzione è statisticamente significativa."
+    ],
+    "accepted": [
+      "Questo risultato non è una diagnosi.",
+      "I dati non mostrano se il membro dell'equipaggio è stanco."
+    ],
+    "status_mismatch": "La durata del sonno è in stato di allerta.",
+    "alarm_words": "L'algoritmo non ha rilevato segnali di allarme configurati per l'efficienza del sonno."
+  }
+}

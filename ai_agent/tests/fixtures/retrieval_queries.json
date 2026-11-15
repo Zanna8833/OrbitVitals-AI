@@ -1,0 +1,65 @@
+{
+  "description": "Labelled queries for measuring evidence retrieval. For each query, `relevant` lists the corpus entries judged relevant by the author of the corpus (one person, no independent review). `unsupported` queries are outside the corpus and should return nothing.",
+  "queries": [
+    {"id": "sleep-duration", "category": "sleep", "query": "How much do astronauts sleep during spaceflight?", "relevant": ["LIT-WU2018-01", "NASA-WEARABLE-03", "NASA-SLEEP-STATION-06", "LIT-WU2018-05"]},
+    {"id": "sleep-misalignment", "category": "sleep", "query": "circadian misalignment and scheduled sleep on the space station", "relevant": ["NASA-SLEEP-STATION-06", "NASA-SLEEP-STATION-04", "NASA-BODY-SLEEP-01", "LIT-WU2018-05", "NASA-SLEEP-RISK-03", "NASA-WEARABLE-03", "NASA-SLEEP-RISK-04"]},
+    {"id": "sleep-performance", "category": "sleep", "query": "effect of sleep loss on cognitive performance and reaction time", "relevant": ["LIT-WU2018-02", "NASA-SLEEP-STATION-07", "NASA-SLEEP-STATION-01", "LIT-WU2018-05", "NASA-BODY-VIGILANCE-01", "NASA-SLEEP-RISK-04"]},
+    {"id": "sleep-lighting", "category": "sleep", "query": "lighting countermeasures for sleep and circadian rhythm", "relevant": ["LIT-WU2018-04", "NASA-SLEEP-RISK-02", "NASA-BODY-ACTIGRAPHY-01", "NASA-ISOLATION-02", "NASA-WEARABLE-03"]},
+    {"id": "sleep-monitoring", "category": "sleep", "query": "how is sleep monitored in orbit with wearable devices", "relevant": ["NASA-WEARABLE-03", "NASA-SLEEP-STATION-03", "NASA-BODY-ACTIGRAPHY-01", "NASA-WEARABLE-04", "NASA-SLEEP-STATION-05", "NASA-WEARABLE-01", "NASA-SLEEP-STATION-02"]},
+    {"id": "sleep-baseline", "category": "sleep", "query": "personal sleep baseline recorded before the mission", "relevant": ["NASA-SLEEP-STATION-02"]},
+    {"id": "sleep-workload", "category": "sleep", "query": "workload and schedule changes as causes of sleep problems", "relevant": ["NASA-SLEEP-RISK-01", "LIT-WU2018-05", "LIT-WU2018-03", "NASA-BODY-FATIGUE-01", "NASA-SLEEP-RISK-04", "LIT-PATEL2020-06"]},
+
+    {"id": "cardio-fluid-shift", "category": "cardiovascular", "query": "fluid shift toward the head in microgravity", "relevant": ["NASA-CARDIO-STATION-01", "NASA-CARDIO-STATION-02", "LIT-MARSHALLGOEBEL2019-02", "LIT-DEMONTIS2017-01", "NASA-GRAVITY-04"]},
+    {"id": "cardio-orthostatic", "category": "cardiovascular", "query": "orthostatic intolerance and low blood pressure after landing", "relevant": ["NASA-CARDIO-STATION-03", "LIT-DEMONTIS2017-03", "NASA-CARDIO-RISK-01", "NASA-CARDIO-RISK-02", "NASA-CARDIO-STATION-05"]},
+    {"id": "cardio-heart-rate", "category": "cardiovascular", "query": "heart rate changes during spaceflight", "relevant": ["LIT-DEMONTIS2017-02", "LIT-DEMONTIS2017-03", "NASA-CARDIO-RISK-01"]},
+    {"id": "cardio-jugular", "category": "cardiovascular", "query": "jugular vein blood flow and clot risk", "relevant": ["LIT-MARSHALLGOEBEL2019-01", "LIT-MARSHALLGOEBEL2019-03", "NASA-CARDIO-RISK-01"]},
+    {"id": "cardio-monitoring", "category": "cardiovascular", "query": "cardiovascular deconditioning monitoring with wearable sensors", "relevant": ["NASA-PERFORMANCE-01", "NASA-WEARABLE-01", "NASA-WEARABLE-04"]},
+    {"id": "cardio-exercise", "category": "cardiovascular", "query": "how exercise protects cardiovascular fitness in orbit", "relevant": ["NASA-CARDIO-STATION-04", "NASA-CARDIO-RISK-02", "LIT-ENGLISH2020-06", "NASA-BODY-EXERCISE-01"]},
+
+    {"id": "exercise-countermeasures", "category": "exercise", "query": "exercise countermeasures on the International Space Station", "relevant": ["NASA-FITNESS-RISK-02", "LIT-ENGLISH2020-01", "LIT-ENGLISH2020-02", "LIT-DEMONTIS2017-06", "NASA-CARDIO-STATION-04", "NASA-TB031-OVERVIEW-01", "LIT-ENGLISH2020-03", "NASA-BONE-MUSCLE-02", "NASA-TB031-MONITORING-01", "LIT-SCOTT2021-02"]},
+    {"id": "exercise-strength-loss", "category": "exercise", "query": "loss of muscle strength after long missions", "relevant": ["LIT-ENGLISH2020-04", "LIT-DEMONTIS2017-07", "LIT-DEMONTIS2017-05", "NASA-FITNESS-RISK-03", "NASA-PERFORMANCE-02", "LIT-ENGLISH2020-02", "NASA-TB031-STRENGTH-01"]},
+    {"id": "exercise-aerobic", "category": "exercise", "query": "aerobic capacity decrease and peak oxygen uptake", "relevant": ["LIT-ENGLISH2020-06", "NASA-TB031-AEROBIC-01", "NASA-FITNESS-RISK-03", "LIT-SCOTT2021-03"]},
+    {"id": "exercise-time", "category": "exercise", "query": "time needed for daily exercise sessions", "relevant": ["LIT-ENGLISH2020-03", "NASA-FITNESS-RISK-02"]},
+    {"id": "exercise-individual", "category": "exercise", "query": "differences between individuals in response to exercise and unloading", "relevant": ["LIT-SCOTT2021-01", "LIT-SCOTT2021-02", "LIT-SCOTT2021-03", "LIT-SCOTT2021-05", "NASA-FITNESS-RISK-03", "NASA-TB031-VARIABILITY-01", "LIT-DEMONTIS2017-05"]},
+    {"id": "exercise-bed-rest", "category": "exercise", "query": "bed rest as an analog of weightlessness", "relevant": ["LIT-SCOTT2021-04", "LIT-ROYOREILLY2021-03", "LIT-SCOTT2021-01", "LIT-SCOTT2021-05", "NASA-BODY-EXERCISE-01"]},
+
+    {"id": "microgravity-bone-loss", "category": "microgravity", "query": "bone mineral density loss per month in space", "relevant": ["NASA-GRAVITY-04", "LIT-ENGLISH2020-05", "LIT-DEMONTIS2017-04", "NASA-BONE-MUSCLE-01", "NASA-BONE-RISK-01"]},
+    {"id": "microgravity-gravity-levels", "category": "microgravity", "query": "adapting to different gravity levels on a Mars mission", "relevant": ["NASA-GRAVITY-02", "NASA-GRAVITY-01", "NASA-GRAVITY-03", "NASA-BONE-MUSCLE-04"]},
+    {"id": "microgravity-motion-sickness", "category": "microgravity", "query": "space motion sickness and balance", "relevant": ["NASA-GRAVITY-03", "LIT-DEMONTIS2017-01", "NASA-GRAVITY-01"]},
+    {"id": "microgravity-vision", "category": "microgravity", "query": "vision changes and SANS", "relevant": ["LIT-PATEL2020-04", "NASA-CARDIO-STATION-02", "NASA-GRAVITY-04"]},
+    {"id": "microgravity-atrophy", "category": "microgravity", "query": "why muscles and bones weaken in weightlessness", "relevant": ["NASA-BONE-MUSCLE-01", "LIT-DEMONTIS2017-04", "NASA-FITNESS-RISK-01", "LIT-DEMONTIS2017-05", "NASA-GRAVITY-04", "NASA-BONE-MUSCLE-04"]},
+
+    {"id": "cognition-six-months", "category": "cognition", "query": "cognitive performance of astronauts on six month missions", "relevant": ["NASA-PERFORMANCE-05", "NASA-PERFORMANCE-03", "LIT-ROYOREILLY2021-05"]},
+    {"id": "cognition-brain-mri", "category": "cognition", "query": "brain changes after long duration spaceflight seen with MRI", "relevant": ["LIT-ROYOREILLY2021-02", "LIT-ROYOREILLY2021-05", "LIT-ROYOREILLY2021-07", "LIT-ROYOREILLY2021-06", "LIT-ROYOREILLY2021-03"]},
+    {"id": "cognition-isolation", "category": "cognition", "query": "effects of isolation and confinement on crew behavior", "relevant": ["NASA-ISOLATION-01", "NASA-BEHAVIOR-RISK-01", "LIT-PATEL2020-07", "LIT-ROYOREILLY2021-04", "LIT-PATEL2020-05", "NASA-ISOLATION-02"]},
+    {"id": "cognition-mars-simulation", "category": "cognition", "query": "simulated Mars mission isolation study results", "relevant": ["LIT-PATEL2020-07", "NASA-ISOLATION-04", "NASA-ISOLATION-03", "LIT-ROYOREILLY2021-04"]},
+    {"id": "cognition-operational", "category": "cognition", "query": "operational performance and manual control after landing", "relevant": ["NASA-PERFORMANCE-04", "LIT-ROYOREILLY2021-01"]},
+    {"id": "cognition-support", "category": "cognition", "query": "behavioral health support for crews on the station", "relevant": ["LIT-PATEL2020-06", "NASA-BEHAVIOR-RISK-01", "NASA-ISOLATION-02"]},
+
+    {"id": "radiation-components", "category": "radiation", "query": "what is space radiation made of", "relevant": ["NASA-RADIATION-BASICS-01", "LIT-CHANCELLOR2014-01"]},
+    {"id": "radiation-dose", "category": "radiation", "query": "radiation dose on a Mars mission", "relevant": ["LIT-PATEL2020-01", "NASA-RADIATION-BASICS-02", "NASA-WEARABLE-05", "LIT-CHANCELLOR2014-06"]},
+    {"id": "radiation-cns", "category": "radiation", "query": "radiation effects on the central nervous system and cognition", "relevant": ["LIT-PATEL2020-03", "LIT-CHANCELLOR2014-04", "NASA-RADIATION-RISK-01", "NASA-PERFORMANCE-03", "LIT-PATEL2020-05"]},
+    {"id": "radiation-cancer", "category": "radiation", "query": "cancer risk from radiation exposure", "relevant": ["NASA-RADIATION-RISK-01", "NASA-RADIATION-RISK-02", "LIT-CHANCELLOR2014-03"]},
+    {"id": "radiation-shielding", "category": "radiation", "query": "can shielding protect against galactic cosmic rays and solar particle events", "relevant": ["LIT-CHANCELLOR2014-01", "LIT-CHANCELLOR2014-02", "NASA-RADIATION-RISK-03"]},
+    {"id": "radiation-cardiovascular", "category": "radiation", "query": "radiation and cardiovascular disease", "relevant": ["LIT-PATEL2020-02", "LIT-CHANCELLOR2014-03", "NASA-RADIATION-RISK-01"]},
+    {"id": "radiation-susceptibility", "category": "radiation", "query": "individual susceptibility to radiation", "relevant": ["LIT-CHANCELLOR2014-05"]},
+
+    {"id": "paraphrase-tired", "category": "paraphrase", "query": "Why are crew members tired?", "relevant": ["NASA-BODY-FATIGUE-01", "NASA-SLEEP-STATION-07", "LIT-WU2018-02", "NASA-SLEEP-RISK-04", "NASA-BODY-VIGILANCE-01"]},
+    {"id": "paraphrase-workout", "category": "paraphrase", "query": "Do workouts keep the heart in shape?", "relevant": ["NASA-CARDIO-STATION-04", "NASA-CARDIO-RISK-02", "NASA-BODY-EXERCISE-01"]},
+    {"id": "paraphrase-memory", "category": "paraphrase", "query": "Is memory affected by living in orbit?", "relevant": ["NASA-PERFORMANCE-05", "NASA-PERFORMANCE-03", "NASA-SLEEP-STATION-01", "LIT-WU2018-02"]},
+    {"id": "paraphrase-fainting", "category": "paraphrase", "query": "astronauts fainting when they stand up", "relevant": ["NASA-CARDIO-STATION-03", "NASA-CARDIO-RISK-01", "LIT-DEMONTIS2017-03"]},
+    {"id": "paraphrase-cosmic-brain", "category": "paraphrase", "query": "cosmic rays hitting the brain", "relevant": ["LIT-PATEL2020-03", "LIT-CHANCELLOR2014-04", "NASA-RADIATION-RISK-01", "NASA-PERFORMANCE-03"]},
+    {"id": "paraphrase-skeleton", "category": "paraphrase", "query": "skeleton getting weaker", "relevant": ["NASA-BONE-MUSCLE-01", "NASA-GRAVITY-04", "LIT-DEMONTIS2017-04"]},
+    {"id": "paraphrase-eyesight", "category": "paraphrase", "query": "eyesight problems", "relevant": ["LIT-PATEL2020-04", "NASA-CARDIO-STATION-02", "NASA-GRAVITY-04"]},
+    {"id": "paraphrase-lonely", "category": "paraphrase", "query": "feeling lonely far from home", "relevant": ["NASA-ISOLATION-01", "NASA-BEHAVIOR-RISK-01", "LIT-PATEL2020-05", "LIT-ROYOREILLY2021-04"]},
+
+    {"id": "unsupported-revenue", "category": "unsupported", "query": "quarterly revenue forecast spreadsheet", "relevant": []},
+    {"id": "unsupported-recipe", "category": "unsupported", "query": "best pizza recipe with mozzarella", "relevant": []},
+    {"id": "unsupported-football", "category": "unsupported", "query": "football championship final score", "relevant": []},
+    {"id": "unsupported-kubernetes", "category": "unsupported", "query": "how to configure a kubernetes cluster", "relevant": []},
+    {"id": "unsupported-stocks", "category": "unsupported", "query": "stock market prices tomorrow", "relevant": []},
+    {"id": "unsupported-weather", "category": "unsupported", "query": "weather forecast for Rome this weekend", "relevant": []},
+    {"id": "unsupported-medication", "category": "unsupported", "query": "which melatonin dose should be taken", "relevant": []},
+    {"id": "unsupported-tax", "category": "unsupported", "query": "income tax deadline for small companies", "relevant": []}
+  ]
+}

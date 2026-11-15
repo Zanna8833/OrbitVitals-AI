@@ -60,6 +60,26 @@ class OllamaClient:
             raise ModelUnavailable("ollama_unreachable", f"/api/tags returned {response.status}")
         return [entry.get("name", "") for entry in payload.get("models", [])]
 
+    def warm_up(self, model: str, keep_alive: str) -> float | None:
+        """Load `model` into memory without generating text. Returns the load time in ms.
+
+        Ollama loads a model on a generate request with an empty prompt. A failure is
+        reported as `ModelUnavailable`; callers decide whether it matters.
+        """
+        body = {"model": model, "prompt": "", "stream": False, "keep_alive": keep_alive}
+        try:
+            response = self.transport(
+                "POST", self._url("/api/generate"), body, self.timeout_seconds
+            )
+            payload = response.json()
+        except TransportError as error:
+            raise ModelUnavailable("ollama_unreachable", str(error)) from error
+        if response.status != 200 or not isinstance(payload, dict):
+            raise ModelUnavailable(
+                "model_request_failed", f"/api/generate returned {response.status}"
+            )
+        return _milliseconds(payload.get("load_duration"))
+
     def require_model(self, model: str) -> None:
         installed = self.installed_models()
         if model not in installed and f"{model}:latest" not in installed:

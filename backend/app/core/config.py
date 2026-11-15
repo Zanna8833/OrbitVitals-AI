@@ -1,6 +1,7 @@
 """Runtime configuration, loaded from environment variables and an optional `.env` file."""
 
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -28,6 +29,10 @@ class Settings(BaseSettings):
     data_quality: DataQualityConfig = Field(default_factory=DataQualityConfig)
     # No demonstration policy is used for operational requests.
     sleep_config: SleepConfig | None = None
+
+    # Explicit opt-in to reading verified external NASA caches; never auto-discovered.
+    nasa_actigraphy_cache: Path | None = None
+    nasa_mr001g_cache: Path | None = None
 
     # Browsers enforce CORS, so the Flutter Web client must be allowed explicitly.
     # The default regex accepts any localhost port because `flutter run -d chrome`

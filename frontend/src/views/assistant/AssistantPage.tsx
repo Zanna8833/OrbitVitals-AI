@@ -7,9 +7,8 @@ import { lastAstronaut } from '../../state/lastAstronaut'
 import { useAppState } from '../../state/AppState'
 import { Segmented } from '../../components/ui'
 import { BackLink } from '../../components/BackLink'
-import { agentHealth, askAgent, type AgentDomain, type AgentHealth, type AgentResponse } from './agentClient'
-
-type Topic = 'all' | AgentDomain
+import { agentHealth, type AgentHealth, type AgentResponse } from './agentClient'
+import { conversations, useThread, type Topic } from './conversationStore'
 
 const TOPICS: { value: Topic; label: string }[] = [
   { value: 'all', label: 'Everything' },
@@ -27,15 +26,6 @@ const SUGGESTIONS: Record<Topic, string[]> = {
   nutrition: ['Which nutrients are below the requirement?', 'Why does intake matter in space?'],
 }
 
-interface Turn {
-  id: number
-  question: string
-  who: string
-  topic: Topic
-  answer: AgentResponse | null
-  error: string | null
-}
-
 /**
  * The assistant explains what OrbitVitals has stored and computed for one
  * astronaut, with NASA sources for context. Answers come from the team's
@@ -47,8 +37,6 @@ export function AssistantPage() {
   const crew = crewQuery.data ?? []
   const [topic, setTopic] = useState<Topic>('all')
   const [question, setQuestion] = useState('')
-  const [turns, setTurns] = useState<Turn[]>([])
-  const [busy, setBusy] = useState(false)
   const [health, setHealth] = useState<AgentHealth | null | 'down'>(null)
   const endRef = useRef<HTMLDivElement>(null)
   const { demo, viewDay, setViewDay } = useAppState()
@@ -56,6 +44,9 @@ export function AssistantPage() {
   const selected = lastAstronaut()?.crewId ?? crew[0]?.id ?? null
   const backendId = config.backendCrew.find((c) => c.id === selected)?.backendId ?? null
   const name = crew.find((c) => c.id === selected)?.displayName ?? ''
+  // One persistent conversation per astronaut; requests keep running when this page closes.
+  const turns = useThread(backendId)
+  const busy = turns.some((t) => t.status === 'pending')
   // It reads the server's latest results: not in demo mode, and not for a past day (that would answer with another day's data).
   const pastDay = viewDay !== null
   const available = config.dataSource === 'http' && !demo && !pastDay
@@ -78,18 +69,8 @@ export function AssistantPage() {
 
   const ask = async (q: string) => {
     if (!backendId || busy) return
-    const id = Date.now()
-    setTurns((t) => [...t, { id, question: q || 'Give me an overview.', who: name, topic, answer: null, error: null }])
+    conversations.ask(backendId, name, topic, q)
     setQuestion('')
-    setBusy(true)
-    try {
-      const answer = await askAgent(backendId, topic === 'all' ? null : topic, q)
-      setTurns((t) => t.map((x) => (x.id === id ? { ...x, answer } : x)))
-    } catch (e) {
-      setTurns((t) => t.map((x) => (x.id === id ? { ...x, error: e instanceof Error ? e.message : 'The assistant could not answer.' } : x)))
-    } finally {
-      setBusy(false)
-    }
   }
   const submit = (e: FormEvent) => {
     e.preventDefault()

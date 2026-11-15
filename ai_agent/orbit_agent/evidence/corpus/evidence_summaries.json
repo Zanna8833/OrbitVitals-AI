@@ -1,0 +1,2193 @@
+{
+  "corpus_id": "orbitvitals-evidence-summaries-v2",
+  "description": "Summaries written by the OrbitVitals team of paragraphs on public NASA web pages and in open-access peer-reviewed articles. They are not the sources' text and not quotations. General scientific context only: no entry describes a monitored crew member.",
+  "attribution": "Each entry names its source: a page published by NASA, or a peer-reviewed article identified by its DOI. Neither NASA nor the authors or publishers of the articles wrote, reviewed or endorsed these summaries or this project.",
+  "allowed_hosts": [
+    "doi.org",
+    "www.ebi.ac.uk",
+    "www.nasa.gov"
+  ],
+  "passages": [
+    {
+      "evidence_id": "NASA-SLEEP-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Heavy workloads, irregular light and dark periods and disrupted sleep patterns are among the stressors of spaceflight. Their combined effect on the body can harm health over short and long periods and can put mission success at risk.",
+      "sha256": "9c2d9424d80f21e493e3f83d824f2784c8284d21852c2a35dd83b924ef5b1cda",
+      "source_paragraph_sha256": "2b1c83ecf5d6cf1525009196fe8f8cfa55ee668ee22ba95f68912ac32e0b34aa",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On the International Space Station, LED lighting reproduces the day and night pattern of Earth to support crew sleep. Research examines how light exposure and caffeine influence the body clock and sleep quality, and crew schedules reserve time for rest and self-care to lower the risk of burnout.",
+      "sha256": "264502d81d5d8f97f7e7fff6f38b7e6b268248f6379c5f0d55f35b96fcf9fca3",
+      "source_paragraph_sha256": "ff86f5c4eb18b45030c867cf0a4eba57c3d455a7b1632f013823f356a3c7934c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Crews on the space station see 16 sunrises and 16 sunsets each day, a pattern that can upset the sleep-wake cycle.",
+      "sha256": "09588c9b269ba7b53f2c1bc5c1d93e08ab928e4ad6193d689ea7e69f44b8b5c9",
+      "source_paragraph_sha256": "582d8387debdca7a6d73e3c9247a974cace672c24882f13fd272841a04136928",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-RISK-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk from Inadequate Sleep and Irregular Schedules",
+      "section": "Formal risk description",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "This formal risk covers reduced performance and harm to health that can follow from lost sleep, from a body clock out of step with the work schedule (circadian desynchronization) and from excessive workload.",
+      "sha256": "c5f85faf5a2c94e39b4c4b94cf28e832ecab14b879826efd7931c43004065da5",
+      "source_paragraph_sha256": "3d80cad85f32dd8ad0325fd0d1b4b218d6085046b6a3c7798134638c7b26378e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-SLEEP-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Good sleep matters because the circadian rhythm can be shifted by unusual light and dark cycles, cramped and noisy living quarters, the strain of long isolation and confinement and, on Mars, a day that is 37 minutes longer than on Earth.",
+      "sha256": "a2f8c6c7c0b9880cf488d442343abbac120d4d58b26002ab0c58b4743e94af54",
+      "source_paragraph_sha256": "48b897cb211a8b79d5563599edfaebe66804bd59ff873d260eed39cd4c27308b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-FATIGUE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "fatigue",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Fatigue has to be planned for, because spaceflight brings periods of heavy work and changing schedules. For a Mars round trip lasting several years, the activities available to the crew are also planned so as to limit boredom.",
+      "sha256": "89439e60faed32badd782cfa3783c9c47ae8480826908148220acdbafb329bd0",
+      "source_paragraph_sha256": "b86a9df66708bbbc46150ebf535ef0ab7046c7230c8feac85aabf12613f0aa26",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-ACTIGRAPHY-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "sleep",
+        "monitoring",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Actigraphy devices log body movement and the surrounding light level, and are used to assess sleep and alertness and to help improve them. LED lighting on the space station helps keep crew circadian rhythms aligned and supports sleep, alertness and performance.",
+      "sha256": "fbada50777f9d976f8f4c3738d70a58eda7bd87b6f2d59c5780cc1e0e34d56ce",
+      "source_paragraph_sha256": "ea918f0706093dd7f02e600f51580c4c315afbe11098279100fbbd4a16b1d3ae",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-VIGILANCE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Isolation and Confinement",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "fatigue",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "A self-administered test of vigilance and attention lasting 10 minutes measures how fatigue affects performance. Personal journals give crew members a private outlet and give researchers material for studying behavioral concerns that arise in isolation and confinement.",
+      "sha256": "50a528453a31be12614a9673e94d8a60368b29f8ecc69f46a8aa0d109b35875b",
+      "source_paragraph_sha256": "33e73cc6d925c97968cac5bb9ee2ed8fec23c4c99c609a9c0e5adee2738af23d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-DISTANCE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Mars lies on average 140 million miles away, and the Moon is 1,000 times as distant as the space station, which circles Earth at an altitude of 240 miles. Because a message can need up to 20 minutes to travel one way to Mars, crew members there have to resolve problems among themselves, without support from mission control.",
+      "sha256": "7cb58102a31439dcdadf1f66c8d149663d275a74a860090110aa23f35a9b570f",
+      "source_paragraph_sha256": "b2ebafd2bd3fa3e213d505590fb3115af6e804fc3741c93ee13a27d62f43f84a",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-DECISION-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "autonomy",
+        "decision_support",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Work is under way on a spacecraft medical data architecture to support clinical decision support tools, which might apply artificial intelligence and machine learning to assist in diagnosing and treating illness. Virtual assistants are also being studied as a way to help crews on distant missions recognize and respond quickly to spaceflight anomalies.",
+      "sha256": "c220dfe570bc0d1a36ba71bb57ca6cbe834894b5e3c0d87466634484c4bda550",
+      "source_paragraph_sha256": "fe2568dd0f1de7bcea85ed9af4a33b8a4f2ecd353dff74b29b1f9969aabe6a9e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BODY-EXERCISE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "The Human Body in Space",
+      "section": "Gravity Fields",
+      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
+      "topics": [
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Aerobic and resistance exercise helps keep the heart healthy and bones and muscles strong, supports alertness and a positive outlook, and may help balance and coordination. Software-based virtual training partners could encourage regular exercise on long missions, and a joint bed rest study on Earth tested whether artificial gravity from a centrifuge could offset the physiological effects of weightlessness.",
+      "sha256": "dd0655a6a08c0825ed16f211c137a23abbf5923dde817db3a6d6505b938c0631",
+      "source_paragraph_sha256": "6f87c2c3ea99c486c969bf67b20c5f08ca42e3f4576d9a1b44775738abc75932",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "exercise",
+        "fitness"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Microgravity can weaken bones, muscles, heart and lungs, which makes demanding mission tasks harder and raises the chance of injury. Falls and trips become more likely when crews move between gravity levels, for example on arrival at the Moon or Mars or after coming back to Earth.",
+      "sha256": "a0abb97a2690825d70eb62214f614f1bdf56da64029be34c3d8925613fef24e8",
+      "source_paragraph_sha256": "21ae50bfd7fb721a885eb57b27a447febc529c374d7d8f93927a8a9b9a5345dc",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "exercise",
+        "fitness",
+        "countermeasure",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Space station crews exercise six to seven days a week, combining resistance and aerobic training for 1.5 hours a day to preserve fitness and limit loss of muscle and bone. Regular fitness self-assessments let researchers follow crew health and adjust training. Vehicles for Moon and Mars missions are expected to have less room for exercise equipment, so exercise machines and protocols are being refined for deep space missions.",
+      "sha256": "22e536cc43561b38ceadec28efb6eebf1eba13d2f936cbcfa593d627d99cacb6",
+      "source_paragraph_sha256": "db94b7f2e1278ee7acd18594e560a6294f1edbb420e7005d0b541c68611cf6ca",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-FITNESS-RISK-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/",
+      "topics": [
+        "fitness",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Responses to microgravity differ widely from one astronaut to another. On the space station, strength and aerobic fitness fell on average by 10-12% compared with pre-mission levels, and, depending on the measure, between 12% and 38% of crew members ended up over 20% below their pre-mission fitness. Strength loss is more common than aerobic decline, and losses span strength, endurance, flexibility, aerobic fitness, agility and coordination.",
+      "sha256": "2cbd2d05576b0bb5b5764288ae9b212e87e1e73e54c6e6040551ce2c89fbd561",
+      "source_paragraph_sha256": "e0bb02f5c9b7f3965eb5221e7c89da5634dcb2ef377d41a40fb8d3e8be01db39",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Cardiovascular Adaptations",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/",
+      "topics": [
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reduced gravity and other spaceflight stressors can change the heart and blood vessels, with possible consequences such as blood clots, irregular heart rhythms, cardiovascular disease and low blood pressure that makes fainting at landing more likely. These risks grow with mission length, for example on a Mars mission lasting several years, so research on understanding and treating them is a priority.",
+      "sha256": "13b83808cbc31fb815436710d74d73ac28f6f39642664ee7f54eccbe9f69d513",
+      "source_paragraph_sha256": "b4ea7e7dbcc0661cc0008bfbba9edb41e0f79e5128beb408f70ec52c901d15f6",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-RISK-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Cardiovascular Adaptations",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/",
+      "topics": [
+        "cardiovascular",
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Cardiovascular fitness is maintained through regular exercise and a healthy diet. Lower-body compression garments and extra fluid intake before landing help prevent low blood pressure, and crews for future Mars missions are to receive additional training in handling cardiovascular emergencies.",
+      "sha256": "760c39d295d9c66cfbf3f0ad38c4556d788a48c00f6ba4110b1be6399442d967",
+      "source_paragraph_sha256": "11b87bfac170a2ca09c5a6d1bf689d89bde54c78cc4a6961e57155aa1564be37",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BEHAVIOR-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Behavioral Changes and Psychiatric Disorders",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-behavioral-changes-and-psychiatric-disorders/",
+      "topics": [
+        "behavioral",
+        "sleep",
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Long stays in isolation and confinement can increase the likelihood of behavioral problems and of psychiatric conditions, for example anxiety or depression, which may then affect sleep, morale and decision making. Space station crews can talk remotely with family and medical professionals, but the long communication delays of a Mars mission will make such support harder.",
+      "sha256": "78fd6463192ba84683528381ce13f91f1edd50199d4a0dab5cbc3763d2c52778",
+      "source_paragraph_sha256": "84a56127e2ad1ef1b4868ef46b1fb52e8a0ab4fcbe432d2dd1c97d49f58f3d3c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-OVERVIEW-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "About the Five Hazards",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Grouping the challenges of human spaceflight into hazard categories helps organize the work on them, but the hazards interact and can amplify one another's effects on the body. They are studied in ground-based analogs, in laboratories and on the International Space Station, which serve as test beds for human performance and for strategies meant to keep crews safe and healthy.",
+      "sha256": "d7d07f69b630884018f33b1d5e1100ea541d2dc8b6132b93e0cea78c8837d3bb",
+      "source_paragraph_sha256": "6194505675878409127c4cf97ce6b27f2fff0997105b4bbbe8c398f8fc76389e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-DISTANCE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "Distance from Earth",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The farther crews travel from Earth, the harder it becomes to receive instructions, supplies and medical care from the ground.",
+      "sha256": "d1197570f182c68d358dc30c483c1193364be80cc0ea4f2e0eeb63a458daf724",
+      "source_paragraph_sha256": "c57885e4f88fecf9d6c97935ad94c9e4c81f8c009cffc91bf5c7f77344661c78",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-HAZARDS-DISTANCE-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "5 Hazards of Human Spaceflight",
+      "section": "Distance From Earth",
+      "url": "https://www.nasa.gov/hrp/hazards/",
+      "topics": [
+        "autonomy"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On average, Earth and Mars are 140 million miles apart. Instead of the three days needed to reach the Moon, a Mars mission would take a crew away for roughly three years, so careful planning and self-sufficiency become essential.",
+      "sha256": "9aea4e62698f54734f021fed96b69154c28e8de58efe4cec9511985791843a04",
+      "source_paragraph_sha256": "6e8994fbd39f630bcdaf59c3fbbd5d2a944f06d0d6b93dca7aed00ae0788bfb0",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-OVERVIEW-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Executive summary",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "exercise",
+        "fitness",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The heart, blood vessels and skeletal muscles are adapted to standing upright in Earth's gravity. In altered gravity, crews lose aerobic capacity, muscle strength and bone strength and can experience vision changes and altered vascular motility, all of which can reduce performance. Exercise is prescribed as a central countermeasure for crew health and performance, and it also helps against orthostatic intolerance and supports immune and sensorimotor function.",
+      "sha256": "71fdb00ddbd95424391ac0a6dcccd4f99ba33f7fa2740dbfaa0b3dcb8c0369cf",
+      "source_paragraph_sha256": "c4edfbc8262fc5e96a1cc0e459bbf9b2ac262bafefa9ef3b4792414f87a578c3",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-VARIABILITY-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Executive summary",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "How much an astronaut deconditions depends on the individual, including starting fitness, age, mission length and gravity level. Without countermeasures, deconditioning starts as soon as gravity changes, can be measured within a few days and keeps growing as the mission continues. NASA has set standards and thresholds to protect health and support mission tasks.",
+      "sha256": "979ccb6c47736c6957346bba65b9bb85424580f7f50129bafc54249327773831",
+      "source_paragraph_sha256": "7b93fe2d9a7376279fdd9a0bd0f731eebc69a717f903836e122d876fad6f766c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-AEROBIC-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Relevant technical requirements (NASA-STD-3001)",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "NASA-STD-3001 requirement V1 4003 (In-Mission Aerobic Capacity) calls for aerobic capacity during a mission to be kept, through countermeasures or work activity, at no less than 80% of the pre-mission value, measured directly or indirectly.",
+      "sha256": "7a3fe0a77da2d1c5877b542d42ceed36d3fa5731ee072be607505fcbbaa4ff67",
+      "source_paragraph_sha256": "70b5fa46a9cd9a13a60c29f8e08b8fa28c6ba7691dc8061df0f55a13c46f6a8f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-STRENGTH-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "Relevant technical requirements (NASA-STD-3001)",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "fitness",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "NASA-STD-3001 requirement V1 4024 (In-Mission Skeletal Muscle Strength) calls for countermeasures that keep skeletal muscle strength during a mission at no less than 80% of baseline values.",
+      "sha256": "dafc0c24d074c3094957ef2d129ac92e3a38511fd7222e72a3dbc74e58d87c3d",
+      "source_paragraph_sha256": "535a2747bf27617cb00855bf58284cc197a6d60e1bedf270d8b3e0a3bef645b4",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-TB031-MONITORING-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "OCHMO-TB-031 Exercise Overview",
+      "section": "In-mission exercise monitoring",
+      "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "topics": [
+        "exercise",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Astronaut Strength, Conditioning, and Rehabilitation Specialists (ACERS) follow crew fitness during flight and tailor exercise prescriptions to each crew member's ability and performance. Ground teams review crew data, including physiological markers and the duration and intensity of exercise sessions, and strength prescriptions depend on the equipment on board.",
+      "sha256": "0a1ea216c02e058c9216122b77ce5b73310f1316c100e0336b758216ba067835",
+      "source_paragraph_sha256": "75ad98e5aafbbb378476e5393c985b8747cd98dd001a65bf4141f8d671dd075d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-GRAVITY-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Gravity Fields",
+      "section": "Hazard: Gravity Fields",
+      "url": "https://www.nasa.gov/hrp/hazard-gravity-fields/",
+      "topics": [
+        "microgravity",
+        "sensorimotor"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Weightlessness inside a spacecraft is linked to dizziness, loss of bone and muscle and vision problems. After landing on the Moon or Mars, crews may need time to adjust to the local gravity before doing critical tasks, so ways of speeding up adaptation between gravity levels matter for mission success.",
+      "sha256": "4aad3b0571c0e16d625b9e1d85729ca03022de371f15819b0414d8a95f569792",
+      "source_paragraph_sha256": "3720037ca08d282420c9b97938ce8054baf4be51ad12598024144bf006237a50",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-GRAVITY-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Gravity Fields",
+      "section": "Hazard: Gravity Fields",
+      "url": "https://www.nasa.gov/hrp/hazard-gravity-fields/",
+      "topics": [
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "A Mars mission involves three gravity conditions: weightlessness during the roughly six-month transit between the planets, about one-third of Earth's gravity on the Martian surface, and Earth's gravity again on return, to which the crew must readapt.",
+      "sha256": "d17fe6c712dffe00ed834f46ca28213f30dc0741895f4b197c94bb8707aaf0a5",
+      "source_paragraph_sha256": "af37df79bf3e1954810456357f65f096a513a3a4215d9249ea45a996029b9f98",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-GRAVITY-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Gravity Fields",
+      "section": "Hazard: Gravity Fields",
+      "url": "https://www.nasa.gov/hrp/hazard-gravity-fields/",
+      "topics": [
+        "microgravity",
+        "sensorimotor"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Moving between gravity levels disturbs spatial orientation, balance, locomotion and the coordination of head, eyes and hands, and some crew members develop space motion sickness.",
+      "sha256": "1edf8f8635c13237839c1f5c0fb6eb7f4420fa6fc4757a68595dbd81c75b94c5",
+      "source_paragraph_sha256": "c277de43dd32d9d4564ddbf05ec87870d8fe4522e48c43a9f9a40e675a873984",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-GRAVITY-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Gravity Fields",
+      "section": "Hazard: Gravity Fields",
+      "url": "https://www.nasa.gov/hrp/hazard-gravity-fields/",
+      "topics": [
+        "microgravity",
+        "bone",
+        "fluid_shift",
+        "vision"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Bones that normally carry body weight lose mineral density in flight, at an average rate of 1% to 1.5% each month, because gravity no longer loads them continuously. Body fluids move toward the head, which may raise pressure on the eyes and affect vision, and without preventive measures dehydration and calcium released from bone can raise the risk of kidney stones.",
+      "sha256": "25c7588f010e84447b4a94381ffe8fd9cdf35cb04e0681def3f602ded45c4a77",
+      "source_paragraph_sha256": "7ee4f0a11cb84dffad279430bf021757dbff9ce960988b52e235be64ae344881",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-ISOLATION-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Isolation and Confinement",
+      "section": "Hazard: Isolation and Confinement",
+      "url": "https://www.nasa.gov/hrp/hazard-isolation-and-confinement/",
+      "topics": [
+        "behavioral",
+        "isolation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Groups that live for a long time in a small space far from Earth show behavioral responses to isolation and confinement. Crews are therefore selected, trained and supported with the aim that they can keep working well as a team for months or years.",
+      "sha256": "d180d2c0182f1ba7e77e4cfd2e6f2bc42f5127982c3706dd7001deee857a9a8f",
+      "source_paragraph_sha256": "f07b0a7d48cf0852f8459d4a581a72861941edb05e051ecab0fa71041358e15e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-ISOLATION-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Isolation and Confinement",
+      "section": "Hazard: Isolation and Confinement",
+      "url": "https://www.nasa.gov/hrp/hazard-isolation-and-confinement/",
+      "topics": [
+        "behavioral",
+        "isolation",
+        "monitoring",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Work on this hazard includes methods for monitoring behavioral health, tools adapted to spaceflight for detecting early risk factors, and research on workload and performance, on light therapy to keep the body clock aligned, on shifting sleep phase and on alertness.",
+      "sha256": "44297a02facb26c0cac82eff4a3d7fe7b23aebbf27ff9ed75e56c06980af0d70",
+      "source_paragraph_sha256": "52190af7daa9e9df482e0ff358f6c0fbad5d793ee69c84cb25e1f85cc237261b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-ISOLATION-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Isolation and Confinement",
+      "section": "HERA",
+      "url": "https://www.nasa.gov/hrp/hazard-isolation-and-confinement/",
+      "topics": [
+        "analog",
+        "isolation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Human Exploration Research Analog (HERA) is a 650-square-foot, three-level habitat in which volunteer crews live for 45 days at a time so that isolation, confinement and remote working conditions can be studied in exploration scenarios.",
+      "sha256": "58e7ff32c1bfa8410975ebc84eba580f9f23db5a5f525feccb6112c7011fe8ab",
+      "source_paragraph_sha256": "dfdc2f945da8c5dbb6fc2bf860d02ca31683098ecb41fc7593193c259ff01dae",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-ISOLATION-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Hazard: Isolation and Confinement",
+      "section": "CHAPEA",
+      "url": "https://www.nasa.gov/hrp/hazard-isolation-and-confinement/",
+      "topics": [
+        "analog",
+        "isolation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The CHAPEA analog missions each simulate a year-long stay on Mars, with four crew members living in an isolated 1,700-square-foot habitat called Mars Dune Alpha.",
+      "sha256": "4adccc607c25de39a5d79099cbd496dab38fb2f4e0bb5dd0719650ef6c6e01a5",
+      "source_paragraph_sha256": "3f82c20ee01fb69f74f3104f06af83457f60fcb7c32ef08957b5c3b9ea8ea84b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-RADIATION-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Radiation-Induced Cancers",
+      "section": "What are the top risks?",
+      "url": "https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/",
+      "topics": [
+        "radiation",
+        "cardiovascular",
+        "cognition"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Radiation levels in space are higher than on Earth and can lead to certain cancers. Exposure may also raise the risk of degenerative disorders in several tissues, for example blood vessels, the heart and the eyes, and may affect the central nervous system, with possible cognitive or performance impairment during a mission and degenerative conditions later in life.",
+      "sha256": "b62360de25cf05ad7cf66efacf4e8976ca04902fcd0ce2e5bffe233ec335b3bb",
+      "source_paragraph_sha256": "01e46c77eec1373d4623df61d33e496a3dda57a90346be44676a3eafcf0f4ed4",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-RADIATION-RISK-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Radiation-Induced Cancers",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/",
+      "topics": [
+        "radiation",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Approaches under development include health surveillance practices and medicines against the effects of radiation exposure. Instruments on the International Space Station measure radiation exposure, and tissue research on Earth aims at cancer risk estimates tailored to each astronaut from radiation dose and genetic factors.",
+      "sha256": "288d2818e5f9b15a47fad6198506bbe750c74194a78a8a10e45e168c309238f5",
+      "source_paragraph_sha256": "d53d8a82305fa063ce0536c590375e41a629251d836ea59d09034a4bb3d34969",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-RADIATION-RISK-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Radiation-Induced Cancers",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Earth's magnetosphere shields the planet from most space radiation. Space station missions stay inside it, whereas missions to the Moon and Mars go beyond it, which is why radiation shielding is being built for the Artemis missions and for Gateway, the planned lunar station, and studied for later missions to Mars.",
+      "sha256": "bafeea13dc6dec55d974d47a8db51f560fd0546f58011d9d3dea14ec0d13dba8",
+      "source_paragraph_sha256": "705f4113e66d5eba76fe16d15fa8790a05dc01811197cba167c11228c8e104fa",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-STATION-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Cardiovascular Health in Microgravity",
+      "section": "Cardiovascular Health in Microgravity",
+      "url": "https://www.nasa.gov/missions/station/cardiovascular-health-in-microgravity/",
+      "topics": [
+        "cardiovascular",
+        "fluid_shift",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On arrival in microgravity, blood and other fluids move upward, away from the abdomen and legs and toward the head and heart, and this persists for the whole stay. The shift reduces the amount of fluid and blood held in the vessels and the heart, while the face and head swell.",
+      "sha256": "b61af473c61c7cdcc906962da6acebbdad45a07201e05289af3a679cd1d7043e",
+      "source_paragraph_sha256": "37b8855ae96c52d261b4179f4c931e8cbd7ccf95dbb33a8c5e9d3aefcda02349",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-STATION-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Cardiovascular Health in Microgravity",
+      "section": "Cardiovascular Health in Microgravity",
+      "url": "https://www.nasa.gov/missions/station/cardiovascular-health-in-microgravity/",
+      "topics": [
+        "cardiovascular",
+        "fluid_shift",
+        "vision"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Fluid shifts on long stays affect the brain, eyes and other neurological functions as well as the circulation. More fluid inside the skull is thought to raise pressure in the brain, which is linked to hearing loss, brain edema and the eye deformation called Spaceflight Associated Neuro-ocular Syndrome (SANS). The heart also becomes rounder, and the muscles that constrict blood vessels waste, so blood flow is controlled less well.",
+      "sha256": "89d80c6cd2b2844e21bf781112d3012579e8839b9b0dbc165fecd09801081644",
+      "source_paragraph_sha256": "a0d2142e87a71b69e6f24c381ed9e2599f1c9f8526d9c103ebfe2f172c2febdd",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-STATION-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Cardiovascular Health in Microgravity",
+      "section": "Cardiovascular Health in Microgravity",
+      "url": "https://www.nasa.gov/missions/station/cardiovascular-health-in-microgravity/",
+      "topics": [
+        "cardiovascular",
+        "fluid_shift",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Back on Earth, gravity draws blood and fluid toward the abdomen and legs again. Reduced blood volume together with wasting of the heart and vessels makes it harder to limit the fall in blood pressure on standing, and some astronauts have orthostatic intolerance: lightheadedness or fainting that makes standing difficult or impossible.",
+      "sha256": "92f85af9b939220513cf4310daaa49e78e5f1618f563e428ff7cd26a475985d9",
+      "source_paragraph_sha256": "be2f533b836ae769c8291bae928ef1a0951f5709cbc4d66c6484db7d2d8147ce",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-STATION-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Cardiovascular Health in Microgravity",
+      "section": "Cardiovascular Health in Microgravity",
+      "url": "https://www.nasa.gov/missions/station/cardiovascular-health-in-microgravity/",
+      "topics": [
+        "cardiovascular",
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Exercise in orbit is an efficient way to preserve most kinds of cardiovascular fitness. The space station has the Advanced Resistive Exercise Device (ARED) for resistance work and a treadmill and stationary bike for aerobic work, and crews can also wear trousers that use a pressure difference to draw blood back toward the abdomen and legs.",
+      "sha256": "e980c34d41ae43a9a0661c8f6989a83e21b8f934acf713406ce8ab8b620bdce3",
+      "source_paragraph_sha256": "22c771638caaa0d663773b3a373e6998faca46e62a77825ffc650634fb13b086",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-CARDIO-STATION-05",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Cardiovascular Health in Microgravity",
+      "section": "Cardiovascular Health in Microgravity",
+      "url": "https://www.nasa.gov/missions/station/cardiovascular-health-in-microgravity/",
+      "topics": [
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Many cardiovascular changes seen in space resemble those of aging or illness on Earth, including dysfunction related to inflammation or lack of exercise, orthostatic intolerance and hormonal and metabolic changes. The underlying cell-level mechanisms are studied in astronauts and with stem cells, cell cultures, organ-on-a-chip devices and model organisms.",
+      "sha256": "c1ee8353e58f084be42607e480694965c583e84417a45e57ccaaf4c049166d06",
+      "source_paragraph_sha256": "2b2737e19669966ee7c3799cf2b5fa0247f94b7890f1102525947d7fdd337d97",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-RISK-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Spaceflight-Induced Bone Changes",
+      "section": "What can be done about it?",
+      "url": "https://www.nasa.gov/reference/risk-of-spaceflight-induced-bone-changes/",
+      "topics": [
+        "bone",
+        "exercise",
+        "countermeasure",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Exercise is central to limiting bone loss in flight, because it reduces the post-flight deficit in bone density and builds muscle force. Bone scans before and after each mission track density changes and show how far resistance exercise keeps bones strong in microgravity.",
+      "sha256": "eb07abd8c58d074f77164b96951ec6d29e840239b1c0d5afab1836bd72160f98",
+      "source_paragraph_sha256": "09e804dba81b0f6d050f962254d8c7b71ce63007e3d92393db1e77a4c9682721",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-RISK-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Risk of Spaceflight-Induced Bone Changes",
+      "section": "Did you know?",
+      "url": "https://www.nasa.gov/reference/risk-of-spaceflight-induced-bone-changes/",
+      "topics": [
+        "bone",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In space the spine straightens and lengthens, so a crew member's height can increase by as much as 3%.",
+      "sha256": "568ee316691ee3727a4e9a26cdd0d92a45d4b22323b032635ecf35f1d8024758",
+      "source_paragraph_sha256": "479249a18227093a9161bcf4faca9237d2198d68aa5f20c3bb968ae740ad6c23",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-WEARABLE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "Science in Space Nov 2024",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "topics": [
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Wearable monitors are common tools in health research, including on the International Space Station, where watches, headbands, vests and other devices have been used to study sleep quality, the effectiveness of exercise and heart health.",
+      "sha256": "700a125b5050138c68328c8009dfd293abdd751d2f7d6a6b09f331d7d267dca1",
+      "source_paragraph_sha256": "aa2d3e592b3a73bf4854d835fc1e5d425f469f044a5621f374278015248969d0",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-WEARABLE-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "Warm to the core",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "topics": [
+        "monitoring",
+        "exercise",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The ESA Thermolab investigation studied temperature regulation and cardiovascular adaptation at rest and during exercise in microgravity. During exercise in space, core body temperature climbed faster and reached higher values than on Earth, and it stayed raised during rest, which could matter for crew health on long flights.",
+      "sha256": "bd2ac1a9cfd30928bb76acdd72f65bb065dfa8f61c74ba342e13c898b36b0a8a",
+      "source_paragraph_sha256": "bac951dc77c31ee4e1b6dd5d48e5ce1dd42ea401ce732ab3b6299e7c69616660",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-WEARABLE-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "To sleep, perchance to dream",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Actiwatch Spectrum is a wrist device with an accelerometer for motion and photodetectors for ambient light, used on the space station to record how long and how well crew members sleep. Earlier missions showed less sleep in flight than before or after it, and the Sleep-Long investigation linked sleep deficiency with in-flight changes in circadian patterns; follow-up work tests lighting systems against these effects.",
+      "sha256": "7f5e68ba38f0c9e183c5cfa7adbbdf6ea0d8efd0ece8d4e339de322c5704a6e7",
+      "source_paragraph_sha256": "cd4765cca3c7200e5e3c26405705a7dbd00a97508cd290a4e9ff54c8395c24ca",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-WEARABLE-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "To sleep, perchance to dream",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "topics": [
+        "sleep",
+        "monitoring",
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Wearable Monitoring investigation tested a light vest with built-in sensors that record heart rate and breathing during sleep without waking the wearer, to learn whether sleep quality is affected by changes in heart activity. Signal quality was reported as good, which supports its use for individual health monitoring on future flights.",
+      "sha256": "022f6006d5fa4ff91a0a0d5162e3aed145abe03b0d697c2158784e25303590c0",
+      "source_paragraph_sha256": "964e06ca72d74762eaab2be6e4684a625d779ea64288cad08971f98f17adf162",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-WEARABLE-05",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Wearable Tech for Space Station Research",
+      "section": "Radiation in real time",
+      "url": "https://www.nasa.gov/missions/station/iss-research/wearable-tech-for-space-station-research/",
+      "topics": [
+        "radiation",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "ESA's Active Dosimeter is a device worn by crew members that records how their radiation exposure changes over time with solar flares, the solar cycle and the altitude and orbit of the station, so that dose can be analysed across a whole mission.",
+      "sha256": "cec08433f4f971a446d83393d69407b1d1f460e824357941610c2320c0b602a9",
+      "source_paragraph_sha256": "da6cb1bd46b1ef36c2cf00a02736f4cb0d6fa4bf58d8e2a78267f5eb0f873d3a",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "sleep",
+        "cognition",
+        "circadian"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Cognitive performance, well-being and health all depend on sleep. Bad sleep can quickly impair judgment, decision making, problem solving, memory, learning, concentration and attention, and evidence is growing that persistently poor sleep raises the risk of cognitive decline. Weightlessness and an artificial day-night cycle influence circadian rhythm and sleep patterns.",
+      "sha256": "e64509c00ca09ba67509b88376ee2476e7c0d14c2bf8a8cf16dee764d1bb869e",
+      "source_paragraph_sha256": "421bce35d5c2181445dc952b5d243a0f83b32a5e1ce3491a5b58031e14a0db0c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "sleep",
+        "baseline",
+        "individual_variability",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In the Sleep In Orbit investigation, each astronaut's natural sleep on Earth is recorded before and after the mission to form an individual baseline, and sleep recorded on the space station is then compared with that baseline.",
+      "sha256": "912d1a1318342a09af21107e06b1ce8067f01df7db2c5670fbc4c2986b624173",
+      "source_paragraph_sha256": "f7078f839aa294b73a92d4a96c803bf0cf3b2577d49b2bfcea8626d954500519",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "sleep",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The ESA Dreams investigation uses a dry-EEG headband to monitor sleep quality over several nights wherever the astronaut sleeps. Feedback available to the crew member includes heart rate, the number of awakenings, sleep stages and how long they slept, and research teams receive the raw data.",
+      "sha256": "c2a826c39665d92bb8516d330487e412c2fe2770ac0840ed2e6c828c50e38667",
+      "source_paragraph_sha256": "a2525a0a1c56d9c07e56db4f46de76eec65ee0af3063f8401486bf87d50556d2",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "circadian",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The ESA Circadian Rhythms investigation studied how the body clock changes on long flights and the influence of a light-dark cycle that is not 24 hours long, reduced physical activity and changes in body composition and temperature regulation. It led to work on describing circadian rhythms from non-invasive measurements of core body temperature.",
+      "sha256": "3379b9ec919919df60ec83465245ce09a24f91e8c4a40d46f8744ce8e3a37b9d",
+      "source_paragraph_sha256": "5baef3883154203ee6baf0b508beabbe286ab809f2a339a715f0327022e14b6e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-05",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "monitoring",
+        "sleep",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Standard Measures study uses the Actiwatch Spectrum Plus on the station and collects a common set of psychological and physiological measurements before, during and after long missions, including questionnaires on sleep amount and quality, mood, team cohesion and performance. The data feed a repository used to follow how well countermeasures work.",
+      "sha256": "739068c069fab4c5b9cca20275bb877bd83dded204f2f52c40366b2ff90304d7",
+      "source_paragraph_sha256": "b556ebc457984d57000a50374918d231d8345f47d85ca699adcbc0cc6d848f85",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-06",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "sleep",
+        "circadian",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Sleep-Long experiment found that scheduled sleep was out of step with the body clock in roughly one of every five sleep episodes on the station. In those episodes crew members slept nearly one hour less and rated their sleep as poorer, and misalignment was more likely in periods of critical operations, for example while a vehicle was docked.",
+      "sha256": "1ca9c39dac72fea2714257a413c515cad323ceea0af63e7064790ae7ce0fb49e",
+      "source_paragraph_sha256": "fc183549242228ec12563b6b78c131364fb64fb0967bdfe365da0e1fe3e51788",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-07",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "topics": [
+        "sleep",
+        "fatigue",
+        "cognition",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reaction Self Test was a portable five-minute reaction-time task that let astronauts track the effect of fatigue on their performance in flight. After sleep periods of six hours or less, astronauts showed more tiredness, higher stress and slower psychomotor speed.",
+      "sha256": "955e72e1bbe811ac99aff81f6aeb858338238f821faf5bd973d93187ee49566e",
+      "source_paragraph_sha256": "cac25599e924b9e047a4eb5ff084b4d958c7ce91ad699378c4ab61531415ea65",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-PERFORMANCE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Peak Performance in Microgravity",
+      "section": "Science in Space January 2025",
+      "url": "https://www.nasa.gov/missions/station/iss-research/peak-performance-in-microgravity/",
+      "topics": [
+        "cardiovascular",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The CSA Space Health investigation assesses cardiovascular deconditioning in flight using Bio-Monitor, a set of wearable sensors that record physical activity, skin temperature, breathing rate, blood pressure and pulse rate. The results could support an autonomous system for monitoring cardiovascular health on future missions.",
+      "sha256": "41eba993d2feb7b56db59d60018610b04dc6396bfd4fdd0c167210f0997c7586",
+      "source_paragraph_sha256": "50fa8b532c055bbfacc1a8a2cb5d0ae010ca7fe5a330881e24f6e54ac2acea6b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-PERFORMANCE-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Peak Performance in Microgravity",
+      "section": "Maintaining muscle fitness",
+      "url": "https://www.nasa.gov/missions/station/iss-research/peak-performance-in-microgravity/",
+      "topics": [
+        "muscle",
+        "exercise",
+        "monitoring",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Astronauts lose muscle mass and muscle stiffness in flight and exercise daily to limit this. The ESA Myotones investigation showed that a small non-invasive device measures muscle stiffness accurately in orbit and that current countermeasures appear effective for most muscle groups; in-flight measurement could help target exercise at specific muscles.",
+      "sha256": "017383e6f83952d491ab7230ed8df9dcac5fd5d9d4984ddf9f8ad93295615b34",
+      "source_paragraph_sha256": "61d282c1295b9eb8f603431be2715706ff7e52b97293c1974418950dfa3abe64",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-PERFORMANCE-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Peak Performance in Microgravity",
+      "section": "Keeping a sharp mind",
+      "url": "https://www.nasa.gov/missions/station/iss-research/peak-performance-in-microgravity/",
+      "topics": [
+        "cognition",
+        "radiation",
+        "sleep"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Effects of spaceflight on cognitive performance are thought to arise mainly from stressors such as radiation and disrupted sleep, and longer missions with more exposure to these hazards may change how individuals are affected.",
+      "sha256": "2b8c38b235a5d3325bef6112b3ed3c8ca793839c2f7613d39131ccbcacfc4a8a",
+      "source_paragraph_sha256": "43975b82a03c9723aeef5525d578dc0e1853ae5529772c04bba0eb585ca2389e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-PERFORMANCE-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Peak Performance in Microgravity",
+      "section": "Keeping a sharp mind",
+      "url": "https://www.nasa.gov/missions/station/iss-research/peak-performance-in-microgravity/",
+      "topics": [
+        "cognition",
+        "sensorimotor"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Manual Control study tested cognitive, sensory and motor function on the day of return from space. Astronauts showed impaired fine motor control and multitasking in simulated flying and driving, and performance recovered after exposure to the task, which suggests that practising a simulated task just before the real one could help.",
+      "sha256": "cc6df39347f9e6983aaf8ec3ff017ba8c39bd8b988fbf607ff5555c2e3f4f3e2",
+      "source_paragraph_sha256": "b98b8010e8afc62d7e0e2829a7826a41d5cb8999859ca2bad3bcb8a0eb08c795",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-PERFORMANCE-05",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Peak Performance in Microgravity",
+      "section": "Keeping a sharp mind",
+      "url": "https://www.nasa.gov/missions/station/iss-research/peak-performance-in-microgravity/",
+      "topics": [
+        "cognition",
+        "baseline",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Data from the cognition test battery of the Standard Measures study showed that, over missions of 6 months, the cognitive performance of astronauts stayed broadly stable, with mild changes in attention, working memory, processing speed and willingness to take risks. These findings give baseline data for recognising cognitive changes on future missions.",
+      "sha256": "bed9603730e15362ed7466b2910bcc0e8685faf87541f99e3331b79fd2673d3f",
+      "source_paragraph_sha256": "48b39d7c6b7ee7e998be4ac2b9232eb5b5e6f261d38694e54dd091b8ef4448de",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-MUSCLE-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Counteracting Bone and Muscle Loss in Microgravity",
+      "section": "Opening section",
+      "url": "https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/",
+      "topics": [
+        "bone",
+        "muscle",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In microgravity bone tissue remodels: bone-building cells slow down while bone-resorbing cells keep their usual pace, so breakdown outpaces formation and bones become weaker and more brittle. Muscles also weaken because moving in weightlessness demands less of them. This loss of bone and muscle tissue is called atrophy.",
+      "sha256": "ae961865051ae411795476e3f8c0a2d7abe66afee710da38b8f252a3efbc3798",
+      "source_paragraph_sha256": "62191e0e0441de0b57839f75f885e29403077558654aa0ebe0fffdef9944a722",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-MUSCLE-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Counteracting Bone and Muscle Loss in Microgravity",
+      "section": "Exercise & Forces",
+      "url": "https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/",
+      "topics": [
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Zero T2 experiment has some astronauts leave out the treadmill and do only other aerobic and resistance exercise; their muscle performance and recovery are then compared with those of crewmates who used it.",
+      "sha256": "bb93e887b5922fdb1195e0c46273dd124420ddbb17f446851a90a81626ed7127",
+      "source_paragraph_sha256": "fd577aa23d4ce24e25dbb7204cdf07400b051e21ba414ca0703b1e71a7eccd06",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-MUSCLE-03",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Counteracting Bone and Muscle Loss in Microgravity",
+      "section": "Exercise & Forces",
+      "url": "https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/",
+      "topics": [
+        "exercise",
+        "muscle",
+        "bone"
+      ],
+      "text_kind": "independent_summary",
+      "text": "ARED Kinematics analyses the internal loads on the body, such as bone stress and muscle strain, during resistance exercise in microgravity, to learn how exercises should be adapted for long missions. One finding was that exercise training before flight improves performance on the station.",
+      "sha256": "c598b33bfdac39273a3f3d35d26d11e5ef8c9e7a9c08f1cff946796b1a2c141a",
+      "source_paragraph_sha256": "ddb4ad36075f1fe801faf0492a2995b360afe88c36a51fdb049a71da79e8d746",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-MUSCLE-04",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Counteracting Bone and Muscle Loss in Microgravity",
+      "section": "Exercise & Forces",
+      "url": "https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/",
+      "topics": [
+        "muscle",
+        "bone",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Preventing muscle atrophy and bone loss matters for Moon and Mars missions because crews may have to do strenuous work in partial gravity after a long period of near weightlessness.",
+      "sha256": "8c31b47d4760df68310b609fa46b3ed6a241dc8bb8b9279c3427db8181f305f8",
+      "source_paragraph_sha256": "bb2f7435abe15b14e7b0477378c6b1d921097163392f10dfa9ecc9512bf2cfa1",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-BONE-MUSCLE-05",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Counteracting Bone and Muscle Loss in Microgravity",
+      "section": "Exercise & Forces",
+      "url": "https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/",
+      "topics": [
+        "monitoring",
+        "bone",
+        "muscle"
+      ],
+      "text_kind": "independent_summary",
+      "text": "CIPHER is an integrated experiment on crew members whose missions last from a few weeks to one year. It measures physiological and psychological changes, among them the loss of muscle and bone, and asks whether long missions change the body more than short ones, whether changes level off after some time and whether changes in one system affect others.",
+      "sha256": "ea528bac1cdc8de00905fd593c07b19e661afaa682257804d9311d7b7d28dd3f",
+      "source_paragraph_sha256": "e7121f8f2b627a651178594df197f4ff9e2e8aa27cac9f8ca2a2c8052b1b7754",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-RADIATION-BASICS-01",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Why Space Radiation Matters",
+      "section": "What is Space Radiation?",
+      "url": "https://www.nasa.gov/missions/analog-field-testing/why-space-radiation-matters/",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Space radiation has three components: particles trapped in Earth's magnetic field, particles that the Sun throws out during solar flares, and galactic cosmic rays, meaning heavy ions and high-energy protons that arrive from beyond the solar system. All three are ionizing radiation.",
+      "sha256": "04b2650dff9482dc5efddf52fc8d4d637504ee0393e3ec1e745c458be04a8a2b",
+      "source_paragraph_sha256": "030b81171fb25fae2ef3685fa194a907226f83b9fc2c38cd87a782f5095ac030",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "NASA-RADIATION-BASICS-02",
+      "publisher": "NASA",
+      "source_type": "nasa_web_page",
+      "document_title": "Why Space Radiation Matters",
+      "section": "What Factors Determine the Amount of Radiation Astronauts Receive?",
+      "url": "https://www.nasa.gov/missions/analog-field-testing/why-space-radiation-matters/",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "One factor in the radiation dose astronauts receive is the solar cycle: the Sun follows an 11-year cycle that peaks with many more, and more intense, solar flares.",
+      "sha256": "b4a0fad7c3a1c9578a413f0c44d06901ffc5d3e9c1b13c768b31ccfe0bc74214",
+      "source_paragraph_sha256": "66598226c25c7cbddb9daeb9557ec22484806cf500b7401bebf1e1ce3011d02b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-WU2018-01",
+      "publisher": "Military Medical Research",
+      "source_type": "peer_reviewed_article",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Sleep time",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "topics": [
+        "sleep"
+      ],
+      "text_kind": "independent_summary",
+      "text": "A 2015 summary of 7 studies covering 177 astronauts found a consistent average of about 6 hours of sleep per day in flight, which is 2 hours less than the 8 hours specified in NASA-STD-3001 (Volume 1) and below the amounts recommended by sleep medicine societies for alertness and health.",
+      "sha256": "51b78e1a3844396592a45ebb509e56d1e9326a97b495353634b861e55d62c3ab",
+      "source_paragraph_sha256": "0990c12eab4838e7eb1e46739cdd954eb7e6d9c5807f3bfd6e093bf563a2f506",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-WU2018-02",
+      "publisher": "Military Medical Research",
+      "source_type": "peer_reviewed_article",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Effects of lack of sleep on performance and mental and physical health",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "topics": [
+        "sleep",
+        "cognition",
+        "fatigue"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Ground studies of restricted sleep show that sleeping less than 6 hours on two consecutive nights reduces cognitive performance, with slower responses, more errors and weaker working memory, and that the deficit builds up as restriction continues. One cited study found that 14 consecutive nights of 4 to 6 hours of sleep impaired performance as much as 24 to 48 hours without sleep.",
+      "sha256": "45cc8d6008df013bf9f5326dd6da95a96c78da3914f402a53f3644716bc0a463",
+      "source_paragraph_sha256": "53d8c7bd66eba06c3f2459ed9b4eb9d02938dd6573480a65289c22b0c7998b9f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-WU2018-03",
+      "publisher": "Military Medical Research",
+      "source_type": "peer_reviewed_article",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Design reasonable on-orbit work-rest schedules",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "topics": [
+        "sleep",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Work-rest schedules for a mission are planned before flight around launch and landing times, crew size, time-critical events, workload, mission objectives and shift pattern. The review adds that the schedule should include interesting work and enough time for rest and recreation so that fatigue does not become sustained.",
+      "sha256": "20e9af70682836ab00a3d00eaeb5b628e2221b84a6f544a69ebc01f037a7c9c8",
+      "source_paragraph_sha256": "772d5455ffebe375c60e10b708700e8c69345e145924b317c796513ef25ccb58",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-WU2018-04",
+      "publisher": "Military Medical Research",
+      "source_type": "peer_reviewed_article",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Light treatment",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "topics": [
+        "circadian",
+        "countermeasure",
+        "sleep"
+      ],
+      "text_kind": "independent_summary",
+      "text": "At the end of 2016 the lighting on the International Space Station was changed to Solid-State Lighting Assemblies that combine white, blue (peak 468 nm) and red (peak near 626 nm) LEDs. The system has three settings, for general illumination, for phase shifting and alertness, and for the period before sleep, and can be dimmed, as a lighting countermeasure against sleep and circadian disturbance.",
+      "sha256": "2240f49f119c00f73c32ce7cd7e3bbb206452935d399b28a77199fc752814c30",
+      "source_paragraph_sha256": "3eaa5c1a103820e6be763b871ca3028b8d6de3a34b682ea690baf4b5a1e4dc7d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-WU2018-05",
+      "publisher": "Military Medical Research",
+      "source_type": "peer_reviewed_article",
+      "document_title": "On-orbit sleep problems of astronauts and countermeasures",
+      "section": "Summary and prospect",
+      "url": "https://doi.org/10.1186/s40779-018-0165-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5975626/fullTextXML",
+      "authors": "Wu B et al.",
+      "year": 2018,
+      "license": "CC BY",
+      "topics": [
+        "sleep",
+        "circadian",
+        "cognition"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The review concludes that too little sleep and poorer sleep quality are common in spaceflight. It lists as main causes the confined cabin, changes to the work-rest schedule, poorly arranged work, impaired sleep regulation, circadian desynchrony and physical or psychological discomfort, and notes that the effect of sleep loss on performance is complex and may depend on the type of task.",
+      "sha256": "41ba8e6e761a11b393f3c3fe7fbb33633eaf549bb44cbbea82eff8d4001cf320",
+      "source_paragraph_sha256": "912796f663af1be4db8b42e95e457f717a7959a7cca8e1a58392b0cc448f8159",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-01",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Background",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "cognition",
+        "sensorimotor"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reduced operational performance has been reported throughout the history of spaceflight: altered driving on lunar excursions in the Apollo era, 20% of orbiter landings outside acceptable limits in the first 100 Space Shuttle missions, and close calls and one collision on Mir and the International Space Station. Crews must still be able to fly a vehicle manually if automatic control fails.",
+      "sha256": "10a5f76b4ad5a2d20eaa0dc4b2917c5f05a6a703e2ed9d31addbcbe366340cd2",
+      "source_paragraph_sha256": "4bdacd4aee8723293266d144b9693e6a2a09236762d85b1c6822d6afb92b7783",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-02",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Changes to cerebrospinal fluid circulation after spaceflight",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "cognition",
+        "fluid_shift",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "MRI studies after long-duration flights report structural brain changes, including an upward shift of the brain and larger fluid-filled ventricles. One study found a 10.7% increase in total ventricular volume after long International Space Station missions and none after short Space Shuttle missions, with larger increases after longer missions; ventricles were still enlarged at follow-up 7 months later.",
+      "sha256": "0d4e92a07f4cee12c30da4f49a0d1f93958f05edfe2143cb3a5896dd444698f8",
+      "source_paragraph_sha256": "2146a4deca1908d3546c20af17e586c9d84d9cb937cb7317eaf85a148ba26278",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-03",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Comparison of spaceflight-related CNS alterations to those seen in terrestrial analogs",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "analog",
+        "fluid_shift",
+        "cognition"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Head-down bed rest is regarded as one of the best analogs for studying how spaceflight-like conditions affect the brain, because it produces a headward fluid shift, reduced movement, unloading of the body axis and a deprived environment. Bed rest and spaceflight share several imaging findings, such as rotation of the brain within the skull and crowding of tissue at the top of the head.",
+      "sha256": "f97e6bc92adb5d08346f14e8a9dad95f39a6a2db6ec7dbb2eb0aa4a63fec2332",
+      "source_paragraph_sha256": "799579f089fa74cc7ec9a4389e79e8064f6252ff78772d771cd1f9ac8a403152",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-04",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Comparison of spaceflight-related CNS alterations to those seen in terrestrial analogs",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "isolation",
+        "behavioral",
+        "cognition",
+        "analog"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Long isolation and confinement may also affect the brain. Imaging after the 520-day MARS500 isolation study showed changes in white matter microstructure in one brain region, and after a 14-month Antarctic expedition gray matter volume was reduced in regions including the prefrontal cortex and hippocampus.",
+      "sha256": "563c64589d966184bb75326d401ba4afd146a62f95515e36979038d117e97700",
+      "source_paragraph_sha256": "a3eb4364fcf60bc1345deced0625f43dd6f59b2eb61b22a7ed80bbc7b45ca830",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-05",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "The relationship between spaceflight-associated brain changes and mission duration",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "cognition",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Some brain alterations become more pronounced as missions get longer. Imaging studies have recorded minor alterations after an average of 6 months in space, and it is not yet known whether individual alterations are adaptive or harmful for crew health and operational performance.",
+      "sha256": "71dceb817a87efa0a6c49c739dfe701224e03ef6bceb0818e6955163855fa1e8",
+      "source_paragraph_sha256": "5dd4e7c5c5c8ce2dd16039d6c57ffdaa85232a41a26caf8eb5b7a0905aeb2790",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-06",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Current limitations of neuro-imaging studies in spaceflight subjects",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "cognition",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Spaceflight brain-imaging studies have important limits: very small numbers of astronauts, MRI only before and after flight, variable timing between scans, often no matched control group, and very little data on female astronauts. Changes may therefore also reflect pre-flight training or baseline differences in a highly selected group.",
+      "sha256": "8cd3509dc0139477d7a82f06a918253e2cb5a6b4df4ec2935c92b995ae62ebab",
+      "source_paragraph_sha256": "ea17dd8145b67cdde7c8edecd17bea10dd0583e9fd7b406766496f0796ae8d1d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ROYOREILLY2021-07",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "A review of alterations to the brain during spaceflight and the potential relevance to crew in long-duration space exploration",
+      "section": "Conclusions",
+      "url": "https://doi.org/10.1038/s41526-021-00133-z",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7887220/fullTextXML",
+      "authors": "Roy-O'Reilly M, Mulavara A, Williams T",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "cognition",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The review concludes that several regions of the central nervous system change in structure and function during spaceflight, probably through the combined action of several stressors, with microgravity possibly the most acutely important. Some changes are likely beneficial adaptations, and the effect on operational performance remains unclear.",
+      "sha256": "1359a487caffcd100aa9a7f4d8a02a72a3a518595cfebcdcfaee49559a4c3f12",
+      "source_paragraph_sha256": "97f845513ed16f375baeefef39ec82905dbf504a61a1eeecefe1a3ab8b3f276f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-01",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "2.1. Galactic Cosmic Radiation",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Galactic cosmic ray ions can pass through several centimeters of tissue or other material, so shielding only partly reduces the dose inside a spacecraft. Thicker shielding would protect more in principle, but the mass that current launch systems can lift limits it.",
+      "sha256": "6dd086b8435729b40cddada1679f88fa03dfe28e04a4b724a109ac89d444740b",
+      "source_paragraph_sha256": "103efcf3002bc3c87fa3d378dc8c098fe51e5d16d3f54f1f14e85459cba25834",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-02",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "2.2. SPE Radiation",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On missions beyond low Earth orbit, spacecraft shielding may not fully protect crews from a solar particle event, and several such events are likely in one mission: five were recorded while the Mars Science Laboratory spacecraft travelled from Earth to Mars.",
+      "sha256": "7dd9168f543b421dbc54d4f714b2303006c29fe539a00988c580b3b1e69b6d0b",
+      "source_paragraph_sha256": "fe3f055749f85704ccc90c37f6946026906b0f88e4eb1f96122884b0170792f0",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-03",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "3.1. Degenerative Tissue Effects from Radiation Exposure",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation",
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The review names degenerative changes in blood vessels, genetic mutations and cancer as the main radiation health risks on exploration missions, and notes that few data exist for judging degenerative tissue effects of a high dose received over several months.",
+      "sha256": "9d02aa051fe149efb13bbe76994e37990fb22add283e8920550f05f73072dca7",
+      "source_paragraph_sha256": "031ba9bc072c3464237167f10ff2e2fc0d8d0db3c92ab9e5c32330c4dec467b3",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-04",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "3.3. Acute and Late CNS Effects from Radiation Exposure",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation",
+        "cognition"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Experiments indicate that changes to the central nervous system can be expected at radiation doses and dose rates relevant to missions, but their importance for astronaut health is not established, and animal studies that model space radiation are hard to translate into countermeasures.",
+      "sha256": "061c3666f53518f6cfb570255835de956f9b6fc1c4bf29d33a0635daaf6cf211",
+      "source_paragraph_sha256": "94664c68049fe79991032a18d088f5e8c5fec43ba19e33ad0237718a24ef1796",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-05",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "4. Synergistic Effects and Individual Susceptibility",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation",
+        "individual_variability"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Individuals differ in their response to radiation at molecular, cellular and tissue level, and some of this difference is linked to specific genetic variants. It is not yet possible to connect observed changes in DNA sequence directly with a person's radiation sensitivity.",
+      "sha256": "05e5c69dcc75fd5f7540eeabde79af80f6df216693dfa7025b51aa32f90ed16e",
+      "source_paragraph_sha256": "6124bc8826adb3526726c71ee94fa8065dcc597e5e65e7eba0b9511f2f366a5b",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-CHANCELLOR2014-06",
+      "publisher": "Life",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Space Radiation: The Number One Risk to Astronaut Health beyond Low Earth Orbit",
+      "section": "6. Conclusions",
+      "url": "https://doi.org/10.3390/life4030491",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4206856/fullTextXML",
+      "authors": "Chancellor JC, Scott GBI, Sutton JP",
+      "year": 2014,
+      "license": "CC BY",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Only 24 people have travelled beyond Earth's magnetosphere, and for at most about 12 days (Apollo 17), which is very short compared with the multi-year duration of a Mars mission. The review ranks space radiation as the leading health risk on long missions beyond the magnetosphere.",
+      "sha256": "d37a7d6739cd660a9b891d2c1ccdde71eab9e9b0e6ae6bfadd93a7cc7b3e678c",
+      "source_paragraph_sha256": "384fe059ce2ca9ccbfbdb243b570e436c6ae10b9847c691b4acbbf9a21b02702",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-SCOTT2021-01",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Abstract",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "individual_variability",
+        "analog",
+        "exercise"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Adaptation to spaceflight involves many body systems and appears to differ substantially between crew members. Because crews exercise in flight, the effect of the space environment cannot be separated from that of exercise. Two 60-day head-down bed rest studies, run under highly standardised conditions, still showed marked differences between individuals in cardiorespiratory and musculoskeletal responses.",
+      "sha256": "273f10ba2991bc87c211dff52a8c33bb27f86662670140b2b37374c0af3499f9",
+      "source_paragraph_sha256": "72bd9ecbd64222957b61333b208fb47b9fda9c63d756ff14f2fa3572b8aa2be8",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-SCOTT2021-02",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Interpretation of IV From Spaceflight Data",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "individual_variability",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Astronauts differ in attitude to and motivation for exercise. Agencies provide devices, programs, time and education, but doing the countermeasure exercise remains an individual choice, so the number, intensity and duration of sessions vary between crew members.",
+      "sha256": "565424f75d8f4a3def0f556e12fb370171759eec9b21dabbad06c1958fc15a4a",
+      "source_paragraph_sha256": "fe137f1d860b9ab75bf3342aa8e02a8ad8693c8f16e49fc2867032d311bbc17f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-SCOTT2021-03",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Interpretation of IV From Spaceflight Data",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "baseline",
+        "individual_variability",
+        "fitness"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Astronauts differ considerably before flight in bone mineral density, muscle force capacity and maximal oxygen uptake, possibly because of genetics or training history. The same transition to weightlessness and to the in-flight exercise program may therefore be a different stimulus for different crew members.",
+      "sha256": "d5a86057edec434827f5655020a8d211497e03e05f9404e0f07a7215a6d59dd7",
+      "source_paragraph_sha256": "8a908f37caef04a97dd3398011b1aabdb8a4a7854adcb97827fd3479febc88c9",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-SCOTT2021-04",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Role of Head-Down Bed Rest in Understanding IV in Spaceflight",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "analog",
+        "cardiovascular",
+        "muscle"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Long-term head-down bed rest is the leading ground-based method for studying prolonged unloading and disuse. Gravity is still present and space radiation is absent, so it does not model every body system, but for the cardiovascular and musculoskeletal systems it is regarded as a valid analog.",
+      "sha256": "dfb5319acdd44f30e675326d31a9534481f6630a098559901e74b3b2b9caacee",
+      "source_paragraph_sha256": "8360d3a0b7bf3ea2d27ff8ef2a43cdbf6bbc250651d05e299b01209532df5fb3",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-SCOTT2021-05",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Discussion",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "topics": [
+        "individual_variability",
+        "analog"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The authors conclude that the apparent variation between individuals in long spaceflight cannot yet be interpreted, because many biological, operational and environmental factors contribute to it, whereas bed rest studies are suited to investigating it.",
+      "sha256": "e233f12d3bd769fd3cdce669478ef1d992e12915ea21fcba565bfd80db0f1ea3",
+      "source_paragraph_sha256": "db47a76adb0fd549e4d4681a162ca6cbf37d883893a3605b9804cffd6c56373f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-01",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Effects on the cardiovascular system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "cardiovascular",
+        "fluid_shift",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In upright posture on Earth, gravity produces a pressure gradient with arterial pressure of about 200 mmHg at the feet, 100 mmHg at heart level and 70 mmHg at the head. In space this gradient disappears and blood moves toward the head, which alters baroreceptor, nervous and endocrine responses. Space motion sickness appears within minutes of exposure and resolves over 48 to 72 hours.",
+      "sha256": "4278eeb1ca14d2f4d578cd486c6d4e5a7748d7bddd16eddec2355fba9e429be4",
+      "source_paragraph_sha256": "a00120b8dbdd2af5b8aedcfada4554ff74e3b6eb2df9f5e809374d265c7b214e",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-02",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Reflex mechanisms",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reports on heart rate in flight are inconsistent: higher, lower and unchanged values relative to pre-flight have all been published. Several authors describe a fall in heart rate on short and long missions, consistent with neck baroreceptors sensing higher arterial pressure after blood moves toward the head.",
+      "sha256": "c58e9dd1d5b599f304a09043e816b325f7959f91c4f7716013df392f370fc75c",
+      "source_paragraph_sha256": "9aa370af64678f084253041951e25e3af6b0eb1c451a752366598c28a83a4307",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-03",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Endocrine mechanisms",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "cardiovascular",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Despite some contradictory findings, the review sees agreement that circulation becomes more efficient in microgravity: the heart does less work because it no longer pumps against gravity. The rapid adaptation to fluid redistribution suits space but leads to deconditioning and low blood pressure on standing after return to Earth.",
+      "sha256": "da3103e585a0ccbd8b9f091a960ac26b25e9c16e66364a2fc3028a5604f21244",
+      "source_paragraph_sha256": "2fa1bf4923597307e17041bc1bc950b1023f7ce805f01aaa63c55d52fef4e2a8",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-04",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Effects on the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "bone",
+        "muscle",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Long exposure to microgravity reduces bone and muscle mass, which is attributed to reduced use and to changes in blood perfusion. Bone mineral loss is greatest at sites that carry body weight on Earth, such as the lumbar spine, hip, pelvis, heel and leg, while arm bones are not affected.",
+      "sha256": "adf1eff5cec88c4be9f78c54e0275213909150940851eec7abe9603f27e04023",
+      "source_paragraph_sha256": "2423d7055c45a022463c103faf577387866436411aa2cc32402c900f295ad1c4",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-05",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Effects on the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "muscle",
+        "individual_variability",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Reported muscle atrophy varies widely, depending on how long muscles are unloaded and, in a non-linear way, on muscle size before flight. Calf muscles (plantar flexors) waste more than knee extensors, and the loss comes from smaller fibres and reduced protein synthesis, not from a loss of fibres.",
+      "sha256": "9681c95ad3f196d376e4e83d023190ecacfa1ceb0cc3b0d9833cd7afd5ede1be",
+      "source_paragraph_sha256": "d712a5359949ec12ebe46a28c98766548e6f2e0c17f013f4d20a25ccc82499d9",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-06",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Physical exercise programs to protect the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "countermeasure",
+        "muscle"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Exercise programs before, during and after flight are the main countermeasure protecting muscle and bone, and equipment has advanced from the rowing ergometer of Skylab to the motorised treadmill of the International Space Station.",
+      "sha256": "7fec7c0c7b8e3fcd8c6ccbef1b1a292890b508b1df63bf8aaed40ab324cdc8f1",
+      "source_paragraph_sha256": "c6a66397b89f8e249184863e3e925e17b78abd9b49fd4b252197de1edf5af6e9",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-07",
+      "publisher": "Frontiers in Physiology",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Physical exercise programs to protect the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "muscle",
+        "fitness"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Recovery after return depends on mission length. Despite encouraging results for cardiac performance, studies cited in the review found that current exercise does not prevent substantial loss in calf muscles: muscle volume and force declined after six months on the station.",
+      "sha256": "baec0e49c0c981ccaf1b0b98d0f27b388863bdb490c4edd7b3e7ad74ab0bc23e",
+      "source_paragraph_sha256": "ed25c1232d7a345d347abab2894f1985975c3a16e4f14bd6b6011ccb206dcf7d",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-01",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Space radiation health risks",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Absorbed radiation doses for crews on 6- to 12-month International Space Station missions range from about 30 to 120 mGy. Estimates are 100 to 120 mGy for a one-year stay on the lunar surface and 300 to 450 mGy for a Mars mission of about three years, and the actual dose depends strongly on vehicle and habitat design and mission details.",
+      "sha256": "f2c43d72e9a911bbb36d6f2e89824608479c558c956609de1ea284220e9b7db1",
+      "source_paragraph_sha256": "a1d2fd17212f79a54e2b7d2ad852be84c842ef6f63a64c3c6a9b3a913902eaf5",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-02",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Risk of cardiovascular disease and other degenerative tissue effects from radiation exposure and secondary spaceflight stressors",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "radiation",
+        "cardiovascular"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Radiation exposure on Earth is associated with non-cancer conditions including cardiovascular and cerebrovascular disease. Most evidence for cardiovascular disease comes from radiotherapy patients who received high doses to the chest, and more recent evidence indicates risk at lower doses, below 0.5 Gy, appearing 10 years or more after exposure.",
+      "sha256": "fe1aa5e5857d8569c5529977b450b3e111b571d61fd3b35f66c82404f4cb2bec",
+      "source_paragraph_sha256": "45d97aeb4798944f93e8b8a46eda9b803488b6dfe29e9ba27989422fe00edd21",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-03",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Risk of acute (in-flight) and late CNS effects from space radiation exposure",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "radiation",
+        "cognition"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Possible in-flight effects of space radiation on the central nervous system are changes in neurocognitive function, in motor function and in behavior; possible late effects include neurological disorders. Evidence comes from patients treated with high radiation doses and from animal studies using heavy ions at lower doses.",
+      "sha256": "4cefff4b6dadc58abffccdf941cdfdfa5731ef7157c810878bfc21ad1ecede52",
+      "source_paragraph_sha256": "f667992bb35341cdcd35b0fa2a92c860b6458bed4f08059478fa510e1f5c776c",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-04",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Spaceflight-Associated Neuro-ocular Syndrome",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "vision",
+        "fluid_shift"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Spaceflight-Associated Neuro-ocular Syndrome (SANS) was first recognised about 15 years before the review and was originally called Vision Impairment Intracranial Pressure. It was renamed in 2017, in part because it lacks the classic symptoms of raised intracranial pressure and has never produced vision changes severe enough to count as vision impairment by the standard definition.",
+      "sha256": "ab97b34ad40aa329a7cdb8862c4c7aa3639b85c82938f77a22f356671ed20005",
+      "source_paragraph_sha256": "ff4abbafe73f5682dd10d74b9f6d2637fb5ae48ad44d36dcc44e77428662b751",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-05",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Behavioral health and performance",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "behavioral",
+        "cognition",
+        "isolation",
+        "radiation"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The behavioral health risk tracked by the NASA Human Research Program (adverse cognitive or behavioral conditions and psychiatric disorders) concerns possible losses of performance and psychological health caused by several hazards of spaceflight, among them distance from Earth and isolation. Radiation is recognised as a contributing factor, and combined effects of radiation, isolation and confinement and prolonged weightlessness on the central nervous system are an emerging concern.",
+      "sha256": "7556d1551a66218f148d36cb8d53a103ebf71cd316765a49ae98c4a47d25f84c",
+      "source_paragraph_sha256": "ecfaf4a2b661818682852980604f4a7d3c3bbeb747cdc9ed30a14d90082b3b33",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-06",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Behavioral health and performance",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "behavioral",
+        "workload"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Stressors on International Space Station missions include long periods of high workload or shifting schedules and physiological adaptation such as fluid shifts. Crews are supported from the ground with regular private psychological conferences and care packages, and have ample volume and near-constant communication, so today's behavioral challenges are not expected to represent those of exploration missions.",
+      "sha256": "d9d5521c050125e7c4b03d689fa40743296343fbdc8e65d5d19eda2bcf4eb13d",
+      "source_paragraph_sha256": "328295d190986e7778fa6af88edc3c5378becad6a2e29460b57d3564ad5e51ab",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-PATEL2020-07",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Red risks for a journey to the red planet: The highest priority human health risks for a mission to Mars",
+      "section": "Behavioral health and performance",
+      "url": "https://doi.org/10.1038/s41526-020-00124-6",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7645687/fullTextXML",
+      "authors": "Patel ZS et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "isolation",
+        "behavioral",
+        "sleep",
+        "circadian",
+        "analog"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In a 520-day simulated Mars mission with a crew of six in an isolation chamber in Moscow, one crew member reported depressive symptoms in most mission weeks, two crew members with the highest stress and exhaustion ratings accounted for 85% of perceived conflicts, other crew members had disturbed circadian entrainment and sleep difficulties, and two reported no adverse behavioral symptoms.",
+      "sha256": "6a11d2f3d7f02504ca896657e259fd9614e03a985c6addbb2cedd5da054bf5ea",
+      "source_paragraph_sha256": "db7526756040784ed96765a7c5e4fc90d71d897f7e61df194306ad87b57d980f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-MARSHALLGOEBEL2019-01",
+      "publisher": "JAMA Network Open",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Assessment of Jugular Venous Blood Flow Stasis and Thrombosis During Spaceflight",
+      "section": "Results",
+      "url": "https://doi.org/10.1001/jamanetworkopen.2019.15011",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6902784/fullTextXML",
+      "authors": "Marshall-Goebel K et al.",
+      "year": 2019,
+      "license": "CC BY",
+      "topics": [
+        "cardiovascular",
+        "fluid_shift"
+      ],
+      "text_kind": "independent_summary",
+      "text": "In a study of 11 healthy International Space Station crew members who spent a mean of 210 days in space, the cross-sectional area and pressure of the left internal jugular vein increased in flight compared with the seated position before flight. Stagnant or reverse flow in that vein was seen in 6 crew members around flight day 50, and one occlusive clot was found.",
+      "sha256": "d30ba02c08326ff2391c79c900fa5b6298c980597152125c38d805692f40d1b8",
+      "source_paragraph_sha256": "2e3c20036e588385fe0c155726326212f05c3f73b6f2feb7136a79dc68c694ba",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-MARSHALLGOEBEL2019-02",
+      "publisher": "JAMA Network Open",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Assessment of Jugular Venous Blood Flow Stasis and Thrombosis During Spaceflight",
+      "section": "Introduction",
+      "url": "https://doi.org/10.1001/jamanetworkopen.2019.15011",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6902784/fullTextXML",
+      "authors": "Marshall-Goebel K et al.",
+      "year": 2019,
+      "license": "CC BY",
+      "topics": [
+        "fluid_shift",
+        "cardiovascular",
+        "microgravity"
+      ],
+      "text_kind": "independent_summary",
+      "text": "On Earth people spend about two-thirds of the day upright and one-third lying down, so body fluids shift every day. In weightlessness the shift of fluid toward the head is sustained, without this daily variation, and leads to facial puffiness, smaller leg volume, larger stroke volume and lower plasma volume.",
+      "sha256": "ad7ab421e9a4f1d9a5eb454d77b80110b11e7531a549606a93cbe9cc3519ef2b",
+      "source_paragraph_sha256": "abd81229a6006418de8f36f366f26d99234c023f600238baecf659374a99a3fd",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-MARSHALLGOEBEL2019-03",
+      "publisher": "JAMA Network Open",
+      "source_type": "peer_reviewed_article",
+      "document_title": "Assessment of Jugular Venous Blood Flow Stasis and Thrombosis During Spaceflight",
+      "section": "Limitations",
+      "url": "https://doi.org/10.1001/jamanetworkopen.2019.15011",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6902784/fullTextXML",
+      "authors": "Marshall-Goebel K et al.",
+      "year": 2019,
+      "license": "CC BY",
+      "topics": [
+        "cardiovascular",
+        "monitoring"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The authors note limits of the study: the non-invasive device probably overestimated absolute jugular pressure although relative changes remained useful, and only the left internal jugular vein was imaged, so nothing can be said about flow in the right vein.",
+      "sha256": "f9ac840aaad959c6151887fca42bfb32253b34fc9b7b5ef8d102f91316a86df2",
+      "source_paragraph_sha256": "82075869fe82359ce1a6b53dc31f8e80a6d961b530764cef7572e57f38b7b20f",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-01",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Abstract",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "fitness",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The Sprint study compared two in-flight exercise programs on long International Space Station missions: a high-intensity, lower-volume program with resistance exercise 3 days a week and aerobic interval and continuous sessions (9 crew members), and the standard program of daily resistance and aerobic exercise (17 crew members). Bone density, muscle strength and function and cardiorespiratory fitness were measured before and after flight.",
+      "sha256": "8587f8cf810f910ee1dcdac194e80ae255d8b6d3ae9e6e4efc9fb5ba9e9e2a17",
+      "source_paragraph_sha256": "040de8f03a700f0b383bcda126b2cc077a4921de0b9f414dd3c36711162d73a7",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-02",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Introduction",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "fitness",
+        "muscle",
+        "bone"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Early exercise hardware on the station allowed only low running speeds and low resistance loads, so a low-intensity, high-volume program was the default. Even with near-daily exercise, crews showed deconditioning in several systems: losses of muscle mass, strength and function, of cardiorespiratory fitness and of bone mineral density.",
+      "sha256": "4cb81ea290df0368ff116a6c80d45d8c7b181fe743666faa00c0ad38314e87f8",
+      "source_paragraph_sha256": "088b394cc057f174a43d672751c752b7f5638f869af83d3e8b4bb768e35175b5",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-03",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Discussion",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "workload",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "The two programs gave similar physiological outcomes but differed in time: the standard program uses about 1.5 to 2.0 hours of exercise on 6 days a week, at least 9 hours weekly, whereas the Sprint program needs about 6 hours, at least 33% less. Short high-intensity prescriptions are therefore attractive for exploration missions with tight schedules and little room.",
+      "sha256": "d614a6f67fdec56bc95483fb926b8a439c5d1d7d0f293bfb6d7566aafaf63968",
+      "source_paragraph_sha256": "79c45d1625a525296099ccf13846b80f4d167a1bc34a85154be3fa3a1de223a2",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-04",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Discussion",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "muscle",
+        "fitness",
+        "exercise"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Pooled across both groups, strength losses after flight were smaller than in earlier station crews: isokinetic strength fell by 6% at the knee, 10% at the ankle and 5% at the trunk, compared with 14%, 14% and 7% in crews who used the earlier resistance device.",
+      "sha256": "a9948ec2d05cd4ec309689509d0944fffba992238f93761fb6605723fc4bc9e7",
+      "source_paragraph_sha256": "6fda9d205c45288999977e85c9ed1040534b4d0a99a5ec6aa7c34656b1d2a6cf",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-05",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Discussion",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "bone",
+        "exercise",
+        "countermeasure"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Bone mineral density losses over multi-month missions were 1.7% at the lumbar spine and 1.7% at the femoral neck in this study, less than with earlier station exercise devices and within the precision error of the measurement. On the Mir station, which had no resistance exercise capability, losses were 1.06% per month at the lumbar spine and 1.15% per month at the femoral neck.",
+      "sha256": "06f8a296801f63fa3e7ea84b949545515ab7e05cf7f6257b4addcdcb4811ca9f",
+      "source_paragraph_sha256": "4c0e132fc8afa0eabd986bbf15be8315a2854ec2088ab052628c432e05e3bdf6",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-06",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Discussion",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "fitness",
+        "exercise",
+        "baseline"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Peak oxygen uptake decreased by 6% from before to after flight in this study, compared with a decrease of about 15% in an earlier study of station crew members. The authors ask how much loss is acceptable and whether that depends on each person's starting point and mission tasks.",
+      "sha256": "3769ed0bd673651b4cb5981eca9fa9e20a2bab1216d0f963ff318b0f23967f44",
+      "source_paragraph_sha256": "f068afd7dcde4cab8e40f52134bc603bf89936fae7e13b05001007750eaac2d5",
+      "source_checked_on": "2026-11-15"
+    },
+    {
+      "evidence_id": "LIT-ENGLISH2020-07",
+      "publisher": "npj Microgravity",
+      "source_type": "peer_reviewed_article",
+      "document_title": "High intensity training during spaceflight: results from the NASA Sprint Study",
+      "section": "Discussion",
+      "url": "https://doi.org/10.1038/s41526-020-00111-x",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7434884/fullTextXML",
+      "authors": "English KL et al.",
+      "year": 2020,
+      "license": "CC BY",
+      "topics": [
+        "exercise",
+        "individual_variability"
+      ],
+      "text_kind": "independent_summary",
+      "text": "Limits of the study include self-selection of astronauts into the two groups, a small number of participants, and a standard program that was individualised and changed over the roughly six years of the study, while the Sprint protocol was fixed.",
+      "sha256": "7d22f34c2b250e2f3557698cd5b546911796bbff63c63431ebad9d24175c9110",
+      "source_paragraph_sha256": "de47d3133d8077ef553b7f18285ce2d1a8749ff520da00d01d903d817687e3da",
+      "source_checked_on": "2026-11-15"
+    }
+  ]
+}

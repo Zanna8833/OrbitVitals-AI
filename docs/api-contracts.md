@@ -322,6 +322,15 @@ are settled.
 7. Explanations backed by the RAG module. That contract is defined together with the
    RAG owner and is not covered by this version.
 
+## Read-only NASA dataset evidence
+
+`GET /api/v1/nasa-evidence?topic=heart_rate` provides separate scientific dataset
+context. It never supplies crew measurements, baselines or evaluations. Its
+additive versioned contract is [nasa_evidence.schema.json](../schemas/nasa_evidence.schema.json).
+See the [NASA evidence adapter guide](nasa-evidence-adapter.md) for supported topics,
+source verification, privacy boundaries, failure states and the AI-agent handoff.
+The existing shared crew contracts remain unchanged.
+
 ## Changing this contract
 
 Follow the steps in "Data contracts" in [AGENTS.md](../AGENTS.md): change the model,

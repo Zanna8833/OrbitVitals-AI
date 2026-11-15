@@ -87,9 +87,52 @@ export function agentHealth(): Promise<AgentHealth> {
   return call<AgentHealth>('/health')
 }
 
-export function askAgent(crewMemberId: string, domain: AgentDomain | null, question: string): Promise<AgentResponse> {
+/** One earlier exchange sent back as context (agent request field `conversation`). */
+export interface AgentTurn {
+  role: 'operator' | 'assistant'
+  text: string
+  crew_member_id: string
+  domain: AgentDomain | null
+}
+
+export interface ExplanationRequest {
+  crew_member_id: string
+  domain: AgentDomain | null
+  question: string | null
+  mode: 'auto'
+  conversation: AgentTurn[]
+}
+
+export function explanationRequest(crewMemberId: string, domain: AgentDomain | null, question: string, conversation: AgentTurn[] = []): ExplanationRequest {
+  return { crew_member_id: crewMemberId, domain, question: question.trim() || null, mode: 'auto', conversation }
+}
+
+export function askAgent(crewMemberId: string, domain: AgentDomain | null, question: string, conversation: AgentTurn[] = []): Promise<AgentResponse> {
   return call<AgentResponse>('/explanations', {
     method: 'POST',
-    body: JSON.stringify({ crew_member_id: crewMemberId, domain, question: question.trim() || null, mode: 'auto' }),
+    body: JSON.stringify(explanationRequest(crewMemberId, domain, question, conversation)),
   })
+}
+
+/**
+ * Server-owned job (POST /agent/v1/jobs, GET /agent/v1/jobs/{id}): the agent keeps
+ * working and stores the answer even when this page is closed; the same request id
+ * never runs twice.
+ */
+export interface AgentJob {
+  request_id: string
+  crew_member_id: string
+  status: 'running' | 'done' | 'error'
+  created_at: string
+  finished_at: string | null
+  response: AgentResponse | null
+  error: string | null
+}
+
+export function submitJob(requestId: string, request: ExplanationRequest): Promise<AgentJob> {
+  return call<AgentJob>('/jobs', { method: 'POST', body: JSON.stringify({ request_id: requestId, request }) })
+}
+
+export function readJob(requestId: string): Promise<AgentJob> {
+  return call<AgentJob>(`/jobs/${encodeURIComponent(requestId)}`)
 }

@@ -118,7 +118,7 @@ def test_noor_generative_answer_keeps_verified_model_text() -> None:
     )
 
     assert response.generation.mode == "generative"
-    assert response.generation.primary_model == "qwen3.5:4b"
+    assert response.generation.primary_model == "gemma3:4b"
     assert response.generation.attempts == 1
     assert response.headline_origin == "model"
     assert [item.origin for item in response.observations] == ["model", "model"]
@@ -326,11 +326,15 @@ def test_citations_are_stored_corpus_summaries(mode: str) -> None:
         assert citation.sha256 == stored["sha256"] == sha256_text(citation.summary)
         assert citation.source_paragraph_sha256 == stored["source_paragraph_sha256"]
         assert citation.text_kind == "independent_summary"
-        assert citation.url == stored["url"] and citation.url.startswith("https://www.nasa.gov/")
+        assert citation.url == stored["url"]
+        assert citation.url.startswith(("https://www.nasa.gov/", "https://doi.org/"))
+        assert citation.source_type == stored["source_type"]
+        assert citation.authors == stored.get("authors")
+        assert citation.license == stored.get("license")
         assert citation.scope == "general_evidence"
     cited = {i for item in response.evidence_context for i in item.evidence_ids}
     assert cited == {citation.evidence_id for citation in response.citations}
-    assert "did not review or endorse" in response.data_provenance.evidence_notice
+    assert "reviewed or endorsed" in response.data_provenance.evidence_notice
 
 
 def test_rule_based_evidence_is_labelled_as_a_project_summary() -> None:
@@ -338,7 +342,9 @@ def test_rule_based_evidence_is_labelled_as_a_project_summary() -> None:
 
     assert response.evidence_context
     for item in response.evidence_context:
-        assert item.text.startswith("OrbitVitals summary of the NASA web page ")
+        assert item.text.startswith(
+            ("OrbitVitals summary of the NASA web page ", "OrbitVitals summary of the peer-")
+        )
     attribution = next(c for c in response.verification.checks if c.name == "source_attribution")
     assert attribution.passed
 

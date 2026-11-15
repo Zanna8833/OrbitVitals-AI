@@ -85,6 +85,11 @@ for exact Windows PowerShell commands, demo assumptions, reset behavior and test
 
 ## Adding an endpoint
 
+NASA dataset context is available through the read-only `/api/v1/nasa-evidence`
+endpoint and `python -m app.nasa_evidence`. It is separate from crew telemetry.
+See the [evidence contract and agent integration guide](../docs/nasa-evidence-adapter.md).
+Check its additive schema with `python -m scripts.export_nasa_evidence_schema --check`.
+
 1. Create a module in `app/api/routes/` with an `APIRouter`.
 2. Include it in `app/api/router.py`.
 3. Use the models from `app/models/` as request and response types.

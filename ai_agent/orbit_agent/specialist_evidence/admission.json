@@ -1,0 +1,1830 @@
+{
+  "knowledge_base": "rag/knowledge_base",
+  "reviewed_on": "2026-11-15",
+  "verified_hosts": [
+    "doi.org",
+    "escholarship.org",
+    "humanresearchroadmap.nasa.gov",
+    "journals.physiology.org",
+    "nasa.gov",
+    "ntrs.nasa.gov",
+    "physoc.onlinelibrary.wiley.com",
+    "pmc.ncbi.nlm.nih.gov",
+    "science.nasa.gov",
+    "standards.nasa.gov",
+    "www.asc-csa.gc.ca",
+    "www.frontiersin.org",
+    "www.nasa.gov"
+  ],
+  "summary": {
+    "documents": 54,
+    "admitted_documents": 10,
+    "admitted_sections": 18,
+    "quarantined_documents": 44
+  },
+  "notice": "Admitted sections are general space-medicine context written by the rag/ module's author, given only to the specialist model as background. They are not shown to the operator and are not crew data. The licences of the works they cite were not reviewed one by one; only the hosts were.",
+  "documents": [
+    {
+      "id": "anaphylaxis-severe-allergic-reaction",
+      "file": "anaphylaxis-severe-allergic-reaction.md",
+      "file_sha256": "d12771aab241cb83af6ed9ef76ca32342bbfe9d259497d0831633dd56b66eda9",
+      "title": "Anaphylaxis and Severe Allergic Reaction",
+      "category": "protocol",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-pharmaceuticals.pdf",
+        "https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2018.01437/full"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "artemis-ii-crew-health",
+      "file": "artemis-ii-crew-health.md",
+      "file_sha256": "0ab32bc2a1e4838435e74e685b86267223a9553e4f4ecfe55c326ecb55575af5",
+      "title": "Artemis II Crew Health - What NASA Documented and What Is Not Yet Published",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/general/artemis-ii-crew-both-subjects-and-scientists-in-nasa-deep-space-research/",
+        "https://www.nasa.gov/humans-in-space/artemis-ii-crew-to-advance-human-spaceflight-research/",
+        "https://science.nasa.gov/missions/artemis/artemis-2/nasas-artemis-ii-moon-mission-research-continues-on-earth/",
+        "https://science.nasa.gov/missions/artemis/artemis-2/to-protect-artemis-ii-astronauts-nasa-experts-keep-eyes-on-sun/",
+        "https://www.nasa.gov/missions/artemis/nasas-artemis-ii-moon-mission-daily-agenda/",
+        "https://www.nasa.gov/blogs/missions/2026/04/08/artemis-ii-flight-day-8-crew-conducts-key-tests-on-return-to-earth/",
+        "https://www.nasa.gov/blogs/missions/2026/04/03/artemis-ii-flight-day-3-crew-prepares-for-first-correction-burn-readies-to-receive-lunar-observation-assignment/",
+        "https://www.nasa.gov/blogs/missions/2026/04/04/artemis-ii-flight-day-4-deep-space-flying-lunar-flyby-prep/",
+        "https://www.nasa.gov/reference/artemis-ii-standard-measures/",
+        "https://ntrs.nasa.gov/citations/20260008921",
+        "https://ntrs.nasa.gov/citations/20260009221",
+        "https://www.asc-csa.gc.ca/eng/missions/artemis-ii/scientific-research-during-mission.asp",
+        "https://www.nasa.gov/blogs/missions/2026/04/10/artemis-ii-flight-day-10-re-entry-live-updates/",
+        "https://www.nasa.gov/wp-content/uploads/2026/03/artemis-ii-mission-prioirities-objectives-.pdf",
+        "https://www.nasa.gov/blogs/missions/2026/04/02/artemis-ii-flight-day-2-orion-completes-tli-burn-crew-begins-journey-to-the-moon/",
+        "https://www.nasa.gov/blogs/missions/2026/04/02/artemis-ii-flight-update-crew-and-ground-teams-successfully-troubleshoot-orions-toilet/",
+        "https://www.nasa.gov/blogs/missions/2026/04/11/artemis-ii-astronauts-back-in-houston-reunite-with-families/"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Mission facts and status of the results",
+          "sha256": "145bcc7f3c18632aa0a3256b22f2a88e1ac3a390c1c10151c52088a271dd6846",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "Health studies on Artemis II",
+          "sha256": "385575f04bab21c690d7aad4492d0e8a260fe6c48e6de49b805f19684ba1adcf",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Health-related activities during the flight",
+          "sha256": "55317f0a686875439109bfd354a055fa853de77a873c5a0968a82334ac094de4",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Radiation monitoring and the pre-flight expectation",
+          "sha256": "2c2c256f6653d62d2faa615481cd3de9a08d15bb3c8c3b277e09cf4623dfb4c2",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "After landing",
+          "sha256": "8483184101f4f54c4989147e47c9777cec83ab8acdfe2193fdfaac047631acb0",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "How to use this document",
+          "sha256": "9b43c3b996d19d2ed25e99328f976b3103d8feaff1a2f3953e36a1f527253b68",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence",
+            "no cited source: provenance unknown",
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "back-pain-spine",
+      "file": "back-pain-spine.md",
+      "file_sha256": "efa736625d9a84bc10fc03514c5020b77d4bcc89d85615dd4c657dfdd3892c5c",
+      "title": "Back Pain in Flight and Disc Herniation Risk After Flight",
+      "category": "protocol",
+      "sources": [
+        "https://doi.org/10.3357/ASEM.2876.2012",
+        "https://doi.org/10.3357/ASEM.2427.2010",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/05/ochmo-tb-051-crew-medical-support-entry-descent-landing.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "behavioral-health-isolation",
+      "file": "behavioral-health-isolation.md",
+      "file_sha256": "cf7f54761b19915d0e9765ac2eaa80bdba28cf50146b93c54d8a4c0f2affd451",
+      "title": "Behavioral Health - Stress, Low Mood, Anxiety and Crew Conflict",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-014-behavioral-health-mishaps.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "bone-muscle-loss-countermeasures",
+      "file": "bone-muscle-loss-countermeasures.md",
+      "file_sha256": "724a00f9d602a00e4c5533e4a5b26b6c1d8f76257ec2c379b2d6418c70b47908",
+      "title": "Bone Loss, Muscle Atrophy and Exercise Countermeasures",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2026/02/ochmo-mtb-013-bone-loss.pdf",
+        "https://humanresearchroadmap.nasa.gov/evidence/reports/Bone%20Fracture%20Evidence%20Report_07-18-2024.pdf",
+        "https://doi.org/10.1002/jbmr.1647",
+        "https://doi.org/10.1007/s00198-012-2243-z",
+        "https://journals.physiology.org/doi/10.1152/japplphysiol.91578.2008",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-031-exercise-overview.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-006-shoulder-injury.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf",
+        "https://www.nasa.gov/reference/zero-t2/"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Why bone and muscle are lost",
+          "sha256": "1efde3ec11fb6ae2f6559fbfed6c34c74ababe126804031fe436f3f9ea32d37a",
+          "decision": "quarantined",
+          "reasons": [
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Countermeasures that work",
+          "sha256": "a627f31ac1c4b89378bf9e3ae24863e12e847dfd7cd19f4f45baecc1ab50199f",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "What to do if exercise is missed or painful",
+          "sha256": "f55d6cd0f3441fb00414f419d1b833c547b68f43de0b2adba955e8e35813ae9b",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "What can and cannot be measured in flight",
+          "sha256": "d63a3891d6baad0443f9c3c1dfe26c54b74802fb5e12289cf4fdb7db4a1e65ee",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Kidney stone link and exploration missions",
+          "sha256": "a73d125f0ab055f385d9fde9157a6f885a4cfead7196db7598b803e116fdd5a0",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardiac-arrest-cpr-microgravity",
+      "file": "cardiac-arrest-cpr-microgravity.md",
+      "file_sha256": "da9692dbae51b622269fcff88776a1035f76a0f58bc830a1d2796aa278db5bef",
+      "title": "Cardiac Arrest and CPR in Microgravity",
+      "category": "protocol",
+      "sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7607644/",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "cardiovascular-orthostatic-intolerance",
+      "file": "cardiovascular-orthostatic-intolerance.md",
+      "file_sha256": "7550cb1ddcd93ff78391049b7ef8cc992b46074223897247991b1c22359665d6",
+      "title": "Cardiovascular Adaptation and Orthostatic Intolerance on Return",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-019-orthostatic-intolerance.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/05/ochmo-tb-051-crew-medical-support-entry-descent-landing.pdf",
+        "https://physoc.onlinelibrary.wiley.com/doi/10.1113/jphysiol.2014.284869",
+        "https://journals.physiology.org/doi/10.1152/japplphysiol.01196.2011",
+        "https://doi.org/10.1097/00006842-200111000-00003",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "chest-pain-arrhythmia",
+      "file": "chest-pain-arrhythmia.md",
+      "file_sha256": "b2427f406ace8b3e14e4340dff7a3a69749274fa1a7121d421c683efb1dd7aba",
+      "title": "Chest Pain, Palpitations and Cardiac Arrhythmias in Flight",
+      "category": "protocol",
+      "sources": [
+        "https://doi.org/10.1161/CIRCEP.117.005959",
+        "https://ntrs.nasa.gov/api/citations/20110008425/downloads/20110008425.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/11/ochmo-mtb-011-patent-foramen-ovale-pfo.pdf",
+        "https://doi.org/10.1016/S2666-5247(24)00098-3",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "choking-airway-breathing-difficulty",
+      "file": "choking-airway-breathing-difficulty.md",
+      "file_sha256": "bd37dc6d384642462baf624872e6f8ce8cd16e0a360f0e4512a8f7690d11147d",
+      "title": "Choking, Airway Obstruction and Difficulty Breathing",
+      "category": "protocol",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7607644/",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-015-spaceflight-toxicology.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "commercial-short-duration-crews",
+      "file": "commercial-short-duration-crews.md",
+      "file_sha256": "4b4ee263467c103d582ce6ad8799ba00a65a17000dbca1d90fa0bc30bc49ba8b",
+      "title": "Short-Duration and Commercial Spaceflight Crews (Inspiration4 Findings)",
+      "category": "knowledge",
+      "sources": [
+        "https://doi.org/10.1038/s41586-024-07648-x",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-health-stabilization-program.pdf",
+        "https://doi.org/10.3357/AMHP.6659.2025"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Inspiration4: what three days in orbit did",
+          "sha256": "bcdc94bedcc555b8d021dfe8825df5b517a83081bafe7ad5e7959ce70a4aae32",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "When NASA-level selection is not used",
+          "sha256": "c64659e50291fa05204dc37f17cf7b700b49feaff885154ab501bd34cf7f896d",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Notes for the assistant",
+          "sha256": "fc1772ae8f74672554822e60ff83b53165e4b2add0880110740ad287a894e7b5",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decompression-sickness-eva",
+      "file": "decompression-sickness-eva.md",
+      "file_sha256": "9bfc06ddf3c8faf6a2a92ac6eb0962787dd7d75b2d0f5bd95682828f0f03c5ff",
+      "title": "Decompression Sickness During or After EVA",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-037-decompression-sickness.pdf",
+        "https://ntrs.nasa.gov/api/citations/20230013523/downloads/Evidence%20Report%20Draft%20Hypoxia%20and%20DCS_20230918.pdf",
+        "https://www.nasa.gov/reference/6-0-natural-and-induced-environments-vol-2",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/11/ochmo-mtb-011-patent-foramen-ovale-pfo.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "dental-emergencies",
+      "file": "dental-emergencies.md",
+      "file_sha256": "f256453451f955dfaa91e9551011e646973f867820ec6f3a0e9ba73334ee69e3",
+      "title": "Dental Emergencies - Tooth Pain, Lost Filling or Crown, Broken or Lost Tooth",
+      "category": "protocol",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "dynamic-loads-landing-injury",
+      "file": "dynamic-loads-landing-injury.md",
+      "file_sha256": "ff3eb2f18c16a56c23327cacce2674939920d94e03fab5c8384ad71d4de5f7fd",
+      "title": "Injury from Dynamic Loads - Landing, Re-entry and Readiness After Splashdown",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/reference/risk-of-injury-from-dynamic-loads/",
+        "https://www.nasa.gov/directorates/esdmd/hhp/dynamic-loads-risk/",
+        "https://www.nasa.gov/humans-in-space/new-tests-evaluate-mission-readiness-of-astronauts-upon-landing/",
+        "https://www.nasa.gov/reference/spacecraft-occupant-protection/",
+        "https://www.nasa.gov/reference/cipher/",
+        "https://humanresearchroadmap.nasa.gov/evidence/reports/OP%20Dynamic%20Loads%20EB%20FINAL_11-30-22.pdf"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "What the risk is",
+          "sha256": "d4a19413b16d210f4f6359ee4fc4267dfba7ff5dfb8f7f1f58b85e6b319b133e",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Why current knowledge is limited",
+          "sha256": "1e484f892fa0c4f3461b0021e3b8cc0c10af3a28fc95c5914a084cfd7fef4c63",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Injuries seen in Soyuz landings",
+          "sha256": "2fdc9cef886357eb1d1cc0a4666168b459272e8f238419f2645e6b8d1afca367",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Risk factors named by NASA",
+          "sha256": "87c824ec624abd9f973be02148a255f26be985db43d63d8c81a74c21f2126c87",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Deconditioning and the spine",
+          "sha256": "84d50133253dafa7f018f0e623102752630116af9dac6b89d079ca4783ed6fb7",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "What NASA is doing about it",
+          "sha256": "2723acf458d8155ff0a5148569d18794393c89fcea555561d2036944f9985028",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Standing landings and the Moon",
+          "sha256": "415a43c5cb8c78f7fcdf235755d5630a5556aa0ac48bd94020840b580c48acb4",
+          "decision": "quarantined",
+          "reasons": [
+            "instruction-like wording (output_directive)"
+          ]
+        },
+        {
+          "title": "Readiness to act after landing",
+          "sha256": "b99ea5017bb02cb6a5f06583ed7efb1b627b85269b70da60700f599d550a6553",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Related documents",
+          "sha256": "31dea34718b546ffeaed0a59ebf7355e0c2d3ea51f00e388930bd5fc04e3652b",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence",
+            "no cited source: provenance unknown"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ear-sinus-barotrauma",
+      "file": "ear-sinus-barotrauma.md",
+      "file_sha256": "91f0d573b4d2a2cce8846ae4f031f491c468b47b7ea72db60196eb85dd565479",
+      "title": "Ear and Sinus Barotrauma (Ear Pain After a Pressure Change)",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-tb-050-spacesuits.pdf",
+        "https://doi.org/10.1002/lio2.70229",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/11/ochmo-mtb-011-patent-foramen-ovale-pfo.pdf",
+        "https://doi.org/10.3357/AMHP.6659.2025"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "eva-glove-hand-injuries",
+      "file": "eva-glove-hand-injuries.md",
+      "file_sha256": "dd18bc39b94b000b709a5ef0188f2b163854f805ea37409f2d13d3fe3f03b625",
+      "title": "EVA Glove Hand Injuries and Fingernail Delamination",
+      "category": "protocol",
+      "sources": [
+        "https://ntrs.nasa.gov/api/citations/20150003049/downloads/20150003049.pdf",
+        "https://ntrs.nasa.gov/citations/20240008933",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-tb-050-spacesuits.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-040-eva-mishaps.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-011-lunar-dust-technical-brief.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/11/ochmo-mtb-011-patent-foramen-ovale-pfo.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "exploration-medical-autonomy",
+      "file": "exploration-medical-autonomy.md",
+      "file_sha256": "d973a2540c21a610ee9460323d8867edc29b1d47ffa81be6877aed0a4f2d40cb",
+      "title": "Medical Autonomy on Moon and Mars Missions - Communication Delay and No Evacuation",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-007-mission-duration.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7607644/",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-pharmaceuticals.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Three mission classes",
+          "sha256": "78614c8fac97785b815ee60bcc94dbd77a295a07a8a379eb9e108cecd8afd2a5",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Medical consequences",
+          "sha256": "6e1cc21fbb8de32bf5b1963e87590065b3a1c4e27d0bb634f9af6d67e88dc587",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "What the crew must be able to do alone",
+          "sha256": "a591e38e70c5c65c13a4f8d18f3f8e8015b8377c6e10ce3136349fe4818c9a54",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps"
+          ]
+        },
+        {
+          "title": "Implications for an onboard assistant",
+          "sha256": "9adb0cf3f3d28e61cc905b0d4672f301aa594e538fc38ecdbb982eb94497288a",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence",
+            "no cited source: provenance unknown"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eye-irritation-injury",
+      "file": "eye-irritation-injury.md",
+      "file_sha256": "82e245529296ee2ef42078fbda42c665c373308dbbb2e220968ed360aa11ab60",
+      "title": "Eye Irritation, Foreign Body and Chemical Exposure",
+      "category": "protocol",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-040-eva-mishaps.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-011-lunar-dust-technical-brief.pdf",
+        "https://doi.org/10.1186/1471-2415-12-26"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "faq-emergencies-acute-symptoms",
+      "file": "faq-emergencies-acute-symptoms.md",
+      "file_sha256": "7eb0bd0840e99db8a280dbbfbff3a54e2a0c5f92226c8f38e8d502dce5ed892a",
+      "title": "Crew FAQ: Emergencies and Acute Symptoms",
+      "category": "faq",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2018.01437/full",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf",
+        "https://doi.org/10.1161/CIRCEP.117.005959"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Q: I feel nauseous and vomited twice on flight day 2. What do I do, and can I take promethazine?",
+          "sha256": "61f9410fdd16a667400125a8205ae99877e159107d8c0f3c6158f7411dfa756c",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: One side of my neck is swollen and painful, and my face looks puffier than usual. Could it be a jugular clot?",
+          "sha256": "11404bbcc7b4707416a7e03783a76d260f40a8ff4e759457fc3f96e740ef7dc9",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I have chest pain and an irregular heartbeat. What now?",
+          "sha256": "1ba135dfdef98b899b1b3237a99cd3962a008f4700271a27b36ee7bf6b7e3d99",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [3] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps"
+          ]
+        },
+        {
+          "title": "Q: I've had a cold sore and a rash for a week. Is this virus reactivation?",
+          "sha256": "b01f31fd780e44d2083c10ec555120b4fc9bec62773d6b978b3ee5d4c642e910",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [3] on www.governmentattic.org, which is not a verified host",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: A solar particle event alert has been issued. What do we do?",
+          "sha256": "3313d475efcf1849607bf95d92cd1593fbc86be08191e4315ced94ef63f89c05",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains a numbered list of steps",
+            "contains advice addressed to a crew member"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq-eyes-sleep-mind",
+      "file": "faq-eyes-sleep-mind.md",
+      "file_sha256": "9f9505b9bd32c943a0c4d91fb94e8f32eab1928210d52cb08fcd2fc6d771fe1f",
+      "title": "Crew FAQ: Eyes, Sleep and Mood",
+      "category": "faq",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC4188436/",
+        "https://www.nasa.gov/wp-content/uploads/2026/03/ochmo-mtb-009-circadian-desynchrony.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Q: My near vision has got worse over two weeks. Is this SANS?",
+          "sha256": "b6f12ca5e94fa0b48edbf5433d403c6ed3f79223162b9d7fddd5368fa6b90399",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: Something got into my eye. What should I do?",
+          "sha256": "00cf5114874c7ae40087431f1640d7f116b8fb63a188fbed4ea6348dd8faf060",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [2] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Q: I slept only 4 hours for three nights. Should I take a sleep medication?",
+          "sha256": "834ed857a86f4ae3606d659b7eb3ec633575486021f77a49289bcde613bfaf21",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [2] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I feel low and irritable and I'm avoiding the crew. What can I do?",
+          "sha256": "fa4e277807d1470380b7e07b02986740283a8d562a8ea015af218bd4c75114e7",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq-landing-eva-exploration",
+      "file": "faq-landing-eva-exploration.md",
+      "file_sha256": "bbfe206e77e0dd5cdd68f75e262dc20a86b0b13bd5d517fd56622d29cf9ac24e",
+      "title": "Crew FAQ: Landing, EVA and Exploration Missions",
+      "category": "faq",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-019-orthostatic-intolerance.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/05/ochmo-tb-051-crew-medical-support-entry-descent-landing.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-010-sensorimotor.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-007-mission-duration.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7607644/",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-pharmaceuticals.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Q: What should I do in the weeks before landing to avoid fainting?",
+          "sha256": "a9ae025714d730311560f45ea885fa9182b49236aa945f3df1d76d7b3a054955",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I felt dizzy and nearly fainted when I stood up after landing. What is happening?",
+          "sha256": "b34bf94f6cb2a1823e8ee6c3ba511933b7eafcb19e6ae6e912f05a7bcd273ef3",
+          "decision": "quarantined",
+          "reasons": [
+            "contains a numbered list of steps",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: On the Moon after six months in microgravity I feel unstable and dizzy. How long until I adapt?",
+          "sha256": "1d609016be7848f08cbd746e5d5f7cea8ce7ef574c6d89180700e6d5e33bce30",
+          "decision": "quarantined",
+          "reasons": [
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I'm about to start an EVA. What should I check about my health?",
+          "sha256": "052c4a3812d33d50d0d6762616b6ff05bef3dd5385c0db070702bbb960d97cba",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Q: Communications with Earth are down for days. What must I handle myself?",
+          "sha256": "32de9609dbb2aba11d5c20ad1a37c0a170b828783d4f6f85f400e5ff3e47a6d8",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [9] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Q: A medication in the kit is past its expiration date. Is it still safe?",
+          "sha256": "dbef009f327c06b83067b0eca67617696c5ae4b99f17da09ad9a294e60548a8b",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq-musculoskeletal-kidneys-nutrition",
+      "file": "faq-musculoskeletal-kidneys-nutrition.md",
+      "file_sha256": "e6fcd311208ec5c4fcb549d623ed3c793c3f5cd6edaad15a1040f3ff9db1c218",
+      "title": "Crew FAQ: Bones, Muscles, Kidneys, Food and Water",
+      "category": "faq",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-031-exercise-overview.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-013-food-and-nutrition.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://doi.org/10.3357/ASEM.2876.2012"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Q: I have waves of flank pain and blood in my urine. Is it a kidney stone? How do I treat it?",
+          "sha256": "390c28106cc9ed417a01edaea1674ad08e6352ac98d8f3feb01ad40d45613737",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [2] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I can't urinate. What should I do?",
+          "sha256": "2586b16814dbe8a3365e322cfa9ecad0f5d5a7142ad27e1b58e028e91bded84a",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [2] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains a numbered list of steps",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: How much water should I drink, and what else prevents kidney stones?",
+          "sha256": "724d2cd2881f26e776e599143255168a19d612095b662bfe2d861fa99d877951",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Q: How hard should I exercise, and can I skip ARED this week?",
+          "sha256": "7e198588d5a7311dbf318994c370fef9db2690fd47c2b7aa9e0fe15efd28febb",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Q: How much should I eat? I'm not hungry and I've lost weight.",
+          "sha256": "0ad488ae111a401facaac6a1975e808ec21b1e54fd7661885795c315c08fd192",
+          "decision": "quarantined",
+          "reasons": [
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Q: I've had lower back pain since arriving in space. Is that normal?",
+          "sha256": "2f80a96366354be5ecfb27ff531802216579dad7d7dc110b26608ffb841b2fe8",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq-vital-signs-cabin-environment",
+      "file": "faq-vital-signs-cabin-environment.md",
+      "file_sha256": "093766b0859f27ea21646ad932b7608d2395efd3d0842012e0baf1bf8d0bf72c",
+      "title": "Crew FAQ: Vital Signs, Cabin CO2 and Radiation Dose",
+      "category": "faq",
+      "sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078/",
+        "https://physoc.onlinelibrary.wiley.com/doi/10.1113/jphysiol.2014.284869",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/10/lsah-newsletter-2023-vol28-issue2.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Q: My resting temperature is 37.9 \u00b0C three months into the mission. Is this a fever?",
+          "sha256": "d0f24beeca8c87ff5de6c235db8adcb400a01a61bf21399835aa5aea83bcbbd9",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Q: My blood pressure is lower than it was on Earth. Is that a problem?",
+          "sha256": "a23a567dafc3f1814ad06c4b862b33db2ed108ad407ca86fccf8bbf140e85e5d",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Q: I get a headache every evening in my sleep station. Could it be CO2?",
+          "sha256": "9c5d8af53a69f18707de0d3dd13a559e626b4d1cbf1938687fae3175a3fc82f8",
+          "decision": "quarantined",
+          "reasons": [
+            "contains advice addressed to a crew member",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Q: What is my radiation dose and what is my limit?",
+          "sha256": "3809fd28f4fb37a160e24472090a0b3099d123c57f5cded588c1b04733f05412",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fire-smoke-inhalation",
+      "file": "fire-smoke-inhalation.md",
+      "file_sha256": "15ae3a6591fd1e5352defd42a7e6ed6748982487e779c2009eb59e712fb01f40",
+      "title": "Fire and Smoke Inhalation on a Spacecraft",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-008-fire-protection.pdf",
+        "https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-015-spaceflight-toxicology.pdf",
+        "https://ntrs.nasa.gov/api/citations/20240007713/downloads/JSC%2020584_SMACs_Rev%20C_FINAL.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "headache-co2",
+      "file": "headache-co2.md",
+      "file_sha256": "871516c6924b232abc570c346a5ba174b168b041dd7b8173d62d3c354914b47d",
+      "title": "Headache in Flight, Including CO2-Related Headache",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf",
+        "https://doi.org/10.1097/JOM.0000000000000158",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "hearing-noise-exposure",
+      "file": "hearing-noise-exposure.md",
+      "file_sha256": "06b1aed2d9b18bb29ea1dea697b4e0933e1ba3f4fe3432bf3c0a3478f752f5b9",
+      "title": "Hearing and Noise Exposure in Spacecraft",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-035-acoustics.pdf",
+        "https://ntrs.nasa.gov/api/citations/20210016305/downloads/Inter-Noise2021_Paper2219_FINAL%20Manuscript.pdf",
+        "https://ntrs.nasa.gov/api/citations/20150011048/downloads/20150011048.pdf",
+        "https://ntrs.nasa.gov/api/citations/20200002173/downloads/20200002173.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-043-longitudinal-health-surveillance.pdf",
+        "https://doi.org/10.5152/iao.2024.231434",
+        "https://www.nasa.gov/wp-content/uploads/2026/11/ochmo-mtb-011-patent-foramen-ovale-pfo.pdf"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Why noise matters in flight",
+          "sha256": "24bbecb1d30e1d1affa8ffdb91dde97eaccb338d433cc3fef47d615de3acc983",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Limits (NASA-STD-3001 and ISS flight rule)",
+          "sha256": "735efef983d51c088b45c91be26c0df6a482b995c1ed2871f2efddaaf1d1da4e",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Measured exposure on ISS",
+          "sha256": "89c51bbc95b6ea9ec112714887de9e3c22c0babe7a2d82d8b0244005a5529727",
+          "decision": "quarantined",
+          "reasons": [
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Monitoring and hearing checks",
+          "sha256": "57dc54d56dbb1a9c5029cfc19eef18e3aeff806fe1a3e43001c3b0c6fb782662",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "When to contact the flight surgeon",
+          "sha256": "97da7b5372e37c0e9277a93a875ed215e0ebb3d4f4e13f7978824c8d3e86d5c3",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat-stress-exercise-eva",
+      "file": "heat-stress-exercise-eva.md",
+      "file_sha256": "e1d97dc7e1eb87e26ebb9248d04eeb8b951d7fc91bcc713ef0461df2587abea4",
+      "title": "Heat Stress During Exercise and EVA",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-tb-050-spacesuits.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078/",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-040-eva-mishaps.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-013-food-and-nutrition.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-009-touch-temperature.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "hrp-hazards-and-risks-overview",
+      "file": "hrp-hazards-and-risks-overview.md",
+      "file_sha256": "d2dcf9651462ec2a96401dca62fae1f099785a19be7e285a725e317568cc20ab",
+      "title": "NASA HRP Overview - The 5 Spaceflight Hazards and the 17 Human Health Risks",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/hrp/hazards/",
+        "https://www.nasa.gov/hrp/risks/",
+        "https://www.nasa.gov/reference/risk-of-inadequate-teamwork/"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "The five hazards of human spaceflight",
+          "sha256": "0af8cbbf5d6d361d1ecb3c355363e0d77e9c4e4c878aae7e26fea9e13803c30b",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "How the 17 risks are organized",
+          "sha256": "4f0b465ba7f589be0d57b97b39777f913f984c2749e31fe5c496b5fc1f773ec8",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Physiology risks and where this knowledge base covers them",
+          "sha256": "6faf7f3d952498d7da83c9b7c3c2e6c26a72e0622311d016389f11a2783bc098",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Behavioral and human factors risks, and the radiation risk",
+          "sha256": "dce8fbfa6aa62f4f86f5e73f79fbec8992adb53f3ff460c4911b708d0e68edd2",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "What this list does and does not tell the crew",
+          "sha256": "4d995e9efa76b62ee953a660d941496c7653715db1e7081fc25e5e0ceb7089de",
+          "decision": "quarantined",
+          "reasons": [
+            "no cited source: provenance unknown",
+            "contains emergency or treatment wording"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "immune-viral-reactivation",
+      "file": "immune-viral-reactivation.md",
+      "file_sha256": "b35281d8eb170d3e9c5bc01a953627800134db6cf0fb2b4ad3d5b50bdaea7a31",
+      "title": "Immune Changes, Latent Virus Reactivation and Skin Hypersensitivity",
+      "category": "knowledge",
+      "sources": [
+        "https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2018.01437/full",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-013-food-and-nutrition.pdf"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "What happens to immunity in flight",
+          "sha256": "3aa8947c9b9ab2b53d10271ac0ed4b391dda2651a9fe63653ab1b2e3d49600ab",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Latent virus reactivation",
+          "sha256": "fd66eb104775f0799e9a8f1b4dc1be4d3f27f01a85a790a217d9baf8eb925b6f",
+          "decision": "quarantined",
+          "reasons": [
+            "instruction-like wording (role_reassignment)"
+          ]
+        },
+        {
+          "title": "Countermeasures in use",
+          "sha256": "55a669a8781fe4adca9771c913c9655b97a5a3280a27aef6238606d169022aee",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [3] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Recognition: what to report",
+          "sha256": "713475721b2c9665be32dd1878d6f439677c459a4a46d8add92da1c1af8cbc80",
+          "decision": "quarantined",
+          "reasons": [
+            "no cited source: provenance unknown",
+            "contains emergency or treatment wording"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "infection-sepsis",
+      "file": "infection-sepsis.md",
+      "file_sha256": "825f60b51db5d9f09ca330b0739fc9c5547666369c2020b3eb8513f1c45fc767",
+      "title": "Infections and Sepsis Recognition with Limited Resources",
+      "category": "protocol",
+      "sources": [
+        "https://doi.org/10.1016/S2666-5247(24)00098-3",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-health-stabilization-program.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/05/ochmo-tb-046-microbiology-rev-a.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078/",
+        "https://www.nasa.gov/reference/risk-of-host-microorganism-interactions/"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "insomnia-circadian-fatigue",
+      "file": "insomnia-circadian-fatigue.md",
+      "file_sha256": "375a8e4bdf5e77475a6f3b12ddc167c7d30e399e734ffd15d186b7bd9f9586af",
+      "title": "Insomnia, Circadian Desynchrony and Fatigue",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2026/03/ochmo-mtb-009-circadian-desynchrony.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC4188436/",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-014-behavioral-health-mishaps.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "iss-medical-kit-medications",
+      "file": "iss-medical-kit-medications.md",
+      "file_sha256": "9182953df45d83a3865570eeea3a8157f0406ce09f012ac75b37825882bdd009",
+      "title": "ISS Medical Kit and Medication Use in Space",
+      "category": "knowledge",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-006-pharmaceuticals.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "no section passed the review"
+      ],
+      "sections": [
+        {
+          "title": "Kit organization",
+          "sha256": "7d2425de9fe5173b1de5a093290b7ad4c459569d21e79fbf103df25ceebeafd7",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [1] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "What the kit covers (examples from the 2015 list)",
+          "sha256": "1b349be85f2603238773568730566f02c62985b58043d892191ec3e1c75f84d3",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [1] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "How medications are used in flight",
+          "sha256": "e48cf31b9444a5fd016b68c556e4da9ee3fd2c3514e5141bd7b48adb3889ef59",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "Do drugs keep in space?",
+          "sha256": "2c76b6acca71fefced4811bc1006e0b1773788bb035aa2ce9a2bc517aedc7daf",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Spaceflight cautions",
+          "sha256": "152e455dd24de5afacc199d148bfdc3effd944ac2dae5b976ef10d0377f703b2",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kidney-stones",
+      "file": "kidney-stones.md",
+      "file_sha256": "22ba2ea6d0f455fb5024f06635e33f08b2b9beab8d48a8ef8009cd141711e727",
+      "title": "Kidney Stones (Renal Stones) in Spaceflight",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/02/ochmo-mtb-013-bone-loss.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "lunar-dust-exposure",
+      "file": "lunar-dust-exposure.md",
+      "file_sha256": "59f1144f67686b3c6f4b0a85dcd43bf57b536e0c33d1a641213dd9206a522bee",
+      "title": "Lunar and Planetary Dust Exposure (Eyes, Lungs, Skin)",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-011-lunar-dust-technical-brief.pdf",
+        "https://doi.org/10.1186/1471-2415-12-26"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "major-trauma-bleeding",
+      "file": "major-trauma-bleeding.md",
+      "file_sha256": "b5c36b12651a3f6fcedb3cb8e6f533880e90a4e66c42fcb798122074ed8663cc",
+      "title": "Major Trauma and Severe Bleeding",
+      "category": "protocol",
+      "sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC9283715/",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7607644/"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "medical-operations-telemedicine",
+      "file": "medical-operations-telemedicine.md",
+      "file_sha256": "8b6616cccbf5d4375d7cc3837d01f92e0038bedc6a9d2d5d08eb661e13bcbbc4",
+      "title": "Medical Operations - Who Does What and the Private Medical Conference Schedule",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.nasa.gov/news-release/nasas-spacex-crew-11-mission-returns-splashes-down-off-california/",
+        "https://www.nasa.gov/blogs/commercialcrew/2026/02/25/nasas-spacex-crew-11-astronaut-update/",
+        "https://www.nasa.gov/reference/tempus-pro/"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "The medical team",
+          "sha256": "55af2b2f9364295c9c79daab5ee6362b8edf8245c679bab2e24d8adfeb14af14",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Private Medical Conference (PMC) schedule",
+          "sha256": "408f53dec7ca2cb39ecf495143b67badd57acca3d77b7c8fab4c66c43208357e",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Onboard capabilities",
+          "sha256": "5c87e58c6b8c915eaa79f4ce91cb12fec4f1575c66f352d4ef070a3ffb1baf54",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "Tempus Pro telemedicine device (research study)",
+          "sha256": "03d820b08cf1bee295dec19d50ed35e3976187d5140b92f04b8d4717ebd0b5a8",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "How to reach the ground in a medical problem",
+          "sha256": "a99cedd60eca49ad6261a44ea8c597812986f0cbfdcebfce399071f29d40393c",
+          "decision": "quarantined",
+          "reasons": [
+            "cites [5] on www.governmentattic.org, which is not a verified host",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "When the ground decides on an early return: Crew-11 (2026)",
+          "sha256": "71e046773936fef0dc24c5433f171ad7046a55813833259bbde75a7aaabfaf3c",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nasal-congestion-sinus",
+      "file": "nasal-congestion-sinus.md",
+      "file_sha256": "ce671fc5f16c80ac6a6cf4c95f88d0c55b8f60056e4f2c6c800d5cfd0a5d3e80",
+      "title": "Nasal Congestion and Facial Fullness in Flight",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf",
+        "https://doi.org/10.1002/lio2.70229"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "nutrition-hydration",
+      "file": "nutrition-hydration.md",
+      "file_sha256": "a82024bc36d92ef835a41dcc74bba9aa9a4717804d5c7ffbb5e84d364f4f0b16",
+      "title": "Nutrition, Energy Intake and Hydration in Flight",
+      "category": "knowledge",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-013-food-and-nutrition.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Why nutrition matters in space",
+          "sha256": "ee58f081e70e205ddc2361807c4a935ffc815455742a509da04fec9fce804618",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "NASA requirements",
+          "sha256": "4356f64a2b0c10aba6b544d96051446d98967b0ab9e1a992153028c8ce20bb3e",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording"
+          ]
+        },
+        {
+          "title": "What astronauts actually consumed",
+          "sha256": "3d005f9b399c2b59f8c1964b82d33466f3f3e567c42ed1027e5b337133bd1ede",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "Dehydration",
+          "sha256": "6804106a376a8d812562f313b57b29cc0ca3e310ee1af42973c58eb9423f1c04",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Links to other problems",
+          "sha256": "035ab8e061a38f0b13a51b5d975cae030df325c72c4578dde6f91ef993473891",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Monitoring cues for the assistant",
+          "sha256": "1dae1f31f604f99e830f7c156b660b7a4e84ff95e40648bf6fc04e6ffd8e14c2",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence",
+            "no cited source: provenance unknown"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "psychiatric-emergency",
+      "file": "psychiatric-emergency.md",
+      "file_sha256": "43645fcccc50a543c3b372ce458d8cfc64c6b7a1a8c9c7d43a09ed2df5e44721",
+      "title": "Psychiatric Emergencies - Acute Agitation, Psychosis, Suicidal Thoughts and Dangerous Crew Conflict",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-014-behavioral-health-mishaps.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "rapid-depressurization-hypoxia",
+      "file": "rapid-depressurization-hypoxia.md",
+      "file_sha256": "ec754627306ac088be6c56c491b635cee4c8b61e303f59fdcad0ae35e88b9aa5",
+      "title": "Rapid Depressurization and Hypoxia",
+      "category": "protocol",
+      "sources": [
+        "https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-038-decompression-mishaps.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-body-mass-bone-muscle",
+      "file": "reference-body-mass-bone-muscle.md",
+      "file_sha256": "9233e5686a0dbfb2b09cce92349ad68acb7a54660930a884e2c2beb0b2bebafa",
+      "title": "Expected Changes in Body Mass, Bone, Muscle and Fitness",
+      "category": "reference-values",
+      "sources": [
+        "https://doi.org/10.3357/ASEM.3979.2014",
+        "https://humanresearchroadmap.nasa.gov/evidence/reports/Bone%20Fracture%20Evidence%20Report_07-18-2024.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/02/ochmo-mtb-013-bone-loss.pdf",
+        "https://doi.org/10.1002/jbmr.1647",
+        "https://doi.org/10.1007/s00198-012-2243-z",
+        "https://journals.physiology.org/doi/10.1152/japplphysiol.91578.2008",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-013-food-and-nutrition.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-027-water.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-031-exercise-overview.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/07/guidance-for-strength-and-human-performance-on-extraterrestrial-surface-eva-07222026.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-cabin-atmosphere",
+      "file": "reference-cabin-atmosphere.md",
+      "file_sha256": "a8f9ffd9d16f70f107c4d80922ad293d5b4db2fe8bb659b427e26f35044b211c",
+      "title": "Cabin Atmosphere Limits (Pressure, O2, CO2, Temperature, Humidity, Contaminants)",
+      "category": "reference-values",
+      "sources": [
+        "https://www.nasa.gov/reference/6-0-natural-and-induced-environments-vol-2",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf",
+        "https://ntrs.nasa.gov/api/citations/20230013523/downloads/Evidence%20Report%20Draft%20Hypoxia%20and%20DCS_20230918.pdf",
+        "https://ntrs.nasa.gov/api/citations/20240007713/downloads/JSC%2020584_SMACs_Rev%20C_FINAL.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf",
+        "https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-inflight-monitoring-schedule",
+      "file": "reference-inflight-monitoring-schedule.md",
+      "file_sha256": "4fb05999e9b8f28df453059c53f02049334e552d2ad53c7660ec77a7d200306f",
+      "title": "In-Flight Medical Monitoring Schedule (How Often Things Are Checked)",
+      "category": "reference-values",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-043-longitudinal-health-surveillance.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://ntrs.nasa.gov/api/citations/20150011048/downloads/20150011048.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/08/ochmo-tb-044-medical-operations.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-radiation-dose",
+      "file": "reference-radiation-dose.md",
+      "file_sha256": "8e681c138041fabc8645f61adc163342bfb585ab83e6bce6246907dc1e89e9f6",
+      "title": "Radiation Dose Limits and Typical Mission Doses",
+      "category": "reference-values",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/10/lsah-newsletter-2023-vol28-issue2.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf",
+        "https://www.nasa.gov/hrp/hazard-space-radiation/",
+        "https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/",
+        "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp",
+        "https://humanresearchroadmap.nasa.gov/evidence/reports/Degen.pdf",
+        "https://humanresearchroadmap.nasa.gov/evidence/reports/HRP-ER-CANCER-SR-20260811.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-sleep",
+      "file": "reference-sleep.md",
+      "file_sha256": "134b6fffb92e3ee7434cb5a9ab37b3dbbf4f8c66099ee031f5bac7e5613484e5",
+      "title": "Sleep Duration, Hypnotic Use and Sleep Environment in Flight",
+      "category": "reference-values",
+      "sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC4188436/",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2026/03/ochmo-mtb-009-circadian-desynchrony.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "reference-vital-signs-inflight",
+      "file": "reference-vital-signs-inflight.md",
+      "file_sha256": "7ffd03f0f46a49c65cf2a65ba1f6a3bf15b996d7b7cfacca3d837179b60b5f41",
+      "title": "In-Flight Vital Signs Compared with Pre-Flight Baseline",
+      "category": "reference-values",
+      "sources": [
+        "https://physoc.onlinelibrary.wiley.com/doi/10.1113/jphysiol.2014.284869",
+        "https://journals.physiology.org/doi/10.1152/japplphysiol.01196.2011",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078/",
+        "https://journals.physiology.org/doi/10.1152/japplphysiol.01419.2005",
+        "https://journals.physiology.org/doi/10.1152/jappl.1995.79.4.1290",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-019-orthostatic-intolerance.pdf",
+        "https://ntrs.nasa.gov/api/citations/20230013523/downloads/Evidence%20Report%20Draft%20Hypoxia%20and%20DCS_20230918.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'reference-values': reference values would act as clinical thresholds"
+      ],
+      "sections": []
+    },
+    {
+      "id": "sans-vision-changes",
+      "file": "sans-vision-changes.md",
+      "file_sha256": "b49085ed3024f066d33887c90b491a76f2aa1e8b07aea6b50a9e9720cc43fc5d",
+      "title": "Spaceflight-Associated Neuro-ocular Syndrome (SANS)",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf",
+        "https://www.nasa.gov/reference/b-complex/",
+        "https://www.nasa.gov/reference/thigh-cuff/",
+        "https://www.nasa.gov/reference/brain-fluid-pressure/",
+        "https://www.nasa.gov/reference/spinal-fluid-biomarkers/"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "seizure",
+      "file": "seizure.md",
+      "file_sha256": "8a6ef07d2779183527bee81a50d508597a13c63f92cee6830cda21016288a045",
+      "title": "Seizure in Flight",
+      "category": "protocol",
+      "sources": [
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-003-habitable-atmosphere.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "skin-wounds-burns",
+      "file": "skin-wounds-burns.md",
+      "file_sha256": "4792138643a11e100a3ec0440c85110e4f1ddf09593c62234254e663aa546f16",
+      "title": "Minor Wounds, Burns, Skin Rashes and Electrical Shock in Flight",
+      "category": "protocol",
+      "sources": [
+        "https://ntrs.nasa.gov/citations/20240008933",
+        "https://escholarship.org/uc/item/9dw087tt",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-009-touch-temperature.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-021-electrical-shock.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-040-eva-mishaps.pdf",
+        "https://doi.org/10.1016/S2666-5247(24)00098-3",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-043-longitudinal-health-surveillance.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "solar-particle-event-radiation",
+      "file": "solar-particle-event-radiation.md",
+      "file_sha256": "dcdda06f98f897458878953b575452c09469aad190b2c35ba34790f23ee74856",
+      "title": "Solar Particle Event - Radiation Alert and Storm Shelter",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/10/lsah-newsletter-2023-vol28-issue2.pdf",
+        "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "space-motion-sickness",
+      "file": "space-motion-sickness.md",
+      "file_sha256": "b2d73d6c7fa846bee79565871561396ae53368cea05f1c88c72c75395d77e79a",
+      "title": "Space Adaptation Sickness and Space Motion Sickness",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-010-sensorimotor.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "toxic-atmosphere-ammonia",
+      "file": "toxic-atmosphere-ammonia.md",
+      "file_sha256": "3e2af5c8751cba8f42301de74e37d0af6967f565a87b98668287e978ff39279b",
+      "title": "Toxic Atmosphere, Chemical Spills and Ammonia Leak",
+      "category": "protocol",
+      "sources": [
+        "https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-015-spaceflight-toxicology.pdf",
+        "https://ntrs.nasa.gov/api/citations/20240007713/downloads/JSC%2020584_SMACs_Rev%20C_FINAL.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "urinary-retention-uti",
+      "file": "urinary-retention-uti.md",
+      "file_sha256": "e584ece76f991276d06aae2a77528b4a3c3b8d52cbdd8acdfe1330518cbc0dfb",
+      "title": "Urinary Retention and Urinary Tract Infection",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.governmentattic.org/19docs/NASA-ISSmedicalEmergManual_2016.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-004-space-adaptation-sickness-sas.pdf"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "venous-thrombosis-jugular",
+      "file": "venous-thrombosis-jugular.md",
+      "file_sha256": "1280b21c703104e50f5cd89e5ee7a598a52a9abfe8b838769822b4e7954568cb",
+      "title": "Venous Thrombosis in Spaceflight (Internal Jugular Vein)",
+      "category": "protocol",
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC6902784/",
+        "https://www.nasa.gov/reference/venous-haemostasis/"
+      ],
+      "decision": "quarantined",
+      "reasons": [
+        "category 'protocol': emergency or treatment protocol"
+      ],
+      "sections": []
+    },
+    {
+      "id": "womens-health-spaceflight",
+      "file": "womens-health-spaceflight.md",
+      "file_sha256": "cb9a25fb00418cbc7915ec6975224412516b44231f12bdf61d9a5e973c9aef09",
+      "title": "Women's Health in Spaceflight - Menstrual Suppression, Contraception, Clot Risk and Sex Differences",
+      "category": "knowledge",
+      "sources": [
+        "https://doi.org/10.1038/npjmgrav.2016.8",
+        "https://www.nasa.gov/wp-content/uploads/2026/01/ochmo-mtb-007-venous-thrombosis-in-spaceflight.pdf",
+        "https://doi.org/10.1089/jwh.2014.4912",
+        "https://www.nasa.gov/wp-content/uploads/2025/01/ochmo-mtb-003-urinary-health.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-043-longitudinal-health-surveillance.pdf",
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf",
+        "https://ntrs.nasa.gov/api/citations/20150003049/downloads/20150003049.pdf"
+      ],
+      "decision": "admitted",
+      "reasons": [],
+      "sections": [
+        {
+          "title": "Why menstruation is usually suppressed",
+          "sha256": "e0bec67a2abbc32974909d0c2c0ebe092875fcfdcc9f50c41617da0610701fc8",
+          "decision": "quarantined",
+          "reasons": [
+            "contains emergency or treatment wording",
+            "contains a numeric comparison that reads as a threshold"
+          ]
+        },
+        {
+          "title": "Options and their trade-offs",
+          "sha256": "fb4707896b6c0d21dad1b534bc28fe4f050e00d4477e870f3ad94f90caf7d5ae",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose"
+          ]
+        },
+        {
+          "title": "Venous thrombosis and hormones (2026 NASA guidance)",
+          "sha256": "954cfafd98540d0361dc6c73546fbb88a9d41e63f3db27afc28fd4ed6fca5ca1",
+          "decision": "quarantined",
+          "reasons": [
+            "mentions a medication, a drug or a dose",
+            "contains advice addressed to a crew member"
+          ]
+        },
+        {
+          "title": "Known sex differences in spaceflight",
+          "sha256": "d4cbcef2ece2b1e16fe559ddf047efedf23373f372422c1c56e6f655afa614f8",
+          "decision": "admitted",
+          "reasons": []
+        },
+        {
+          "title": "Notes for the assistant",
+          "sha256": "40f00f516776e7db9918b0f4502e831051c7b315c72ae63e57b3d50f9e8a863d",
+          "decision": "quarantined",
+          "reasons": [
+            "written as instructions for an assistant, not as evidence",
+            "mentions a medication, a drug or a dose",
+            "contains emergency or treatment wording",
+            "contains advice addressed to a crew member"
+          ]
+        }
+      ]
+    }
+  ]
+}

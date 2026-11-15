@@ -90,3 +90,10 @@ class ReadOnlyBackendClient:
 
     def measurements(self, crew_member_id: str) -> list[dict[str, Any]]:
         return self._items(self._crew_path(crew_member_id, "measurements"))
+
+    def nasa_evidence(self, topic: str) -> dict[str, Any]:
+        """NASA Dataset Evidence Adapter (`GET /nasa-evidence?topic=...`). Raw payload."""
+        payload = self._request("GET", "/nasa-evidence", {"topic": topic})
+        if not isinstance(payload, dict):
+            raise BackendUnavailable("GET /nasa-evidence did not return an object")
+        return payload

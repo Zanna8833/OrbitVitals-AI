@@ -17,7 +17,13 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SCHEMA_VERSION = "0.1.0"
+# 0.2.0: optional source fields on citations (articles), `dataset_evidence`, routing
+# details in `generation` and the specialist's model and duration. All additions; no
+# field of 0.1.0 was removed or renamed except `Citation.quote` (renamed `summary` in the
+# publication-safe release, which kept 0.1.0). Still 0.2.0, not yet released: optional
+# request fields `conversation` and `language`, and `generation.reply_language` and
+# `generation.context_turns` (INTEGRATION.md, "Contract changes").
+SCHEMA_VERSION = "0.2.0"
 
 DISCLAIMER = (
     "Research prototype, not a medical device. This explanation supports a review by a "
@@ -46,6 +52,22 @@ class AgentModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+ReplyLanguage = Literal["en", "it"]
+
+
+class ConversationTurn(AgentModel):
+    """One earlier message of the chat, as the dashboard showed it."""
+
+    role: Literal["operator", "assistant"]
+    text: str = Field(min_length=1, max_length=2000)
+    crew_member_id: str | None = Field(
+        default=None,
+        max_length=128,
+        description="Crew member the message was about. Turns about another one are not used.",
+    )
+    domain: Domain | None = None
+
+
 class ExplanationRequest(AgentModel):
     crew_member_id: str = Field(min_length=1, max_length=128, description="Opaque crew ID.")
     domain: Domain | None = Field(
@@ -58,6 +80,22 @@ class ExplanationRequest(AgentModel):
         default="auto",
         description=(
             "`auto` uses the local model when it is available. `deterministic` never calls a model."
+        ),
+    )
+    conversation: list[ConversationTurn] = Field(
+        default_factory=list,
+        max_length=40,
+        description=(
+            "Earlier messages of this chat, oldest first, kept by the client. The agent keeps "
+            "no history of its own; it uses the most recent turns to understand follow-up "
+            "questions. They are never used as facts."
+        ),
+    )
+    language: ReplyLanguage | None = Field(
+        default=None,
+        description=(
+            "Reply language. Omitted: English, or Italian when the operator writes in or asks "
+            "for Italian."
         ),
     )
 
@@ -82,18 +120,33 @@ class Fact(AgentModel):
 
 
 class Citation(AgentModel):
-    """A summary, written by the OrbitVitals team, of a paragraph on a public NASA page.
+    """A summary, written by the OrbitVitals team, of one paragraph of a published source.
 
-    The summary is not NASA text and not a quotation. `publisher`, `document_title`,
-    `section` and `url` identify the source; NASA did not review or endorse the summary.
+    The source is a public NASA web page or an open-access peer-reviewed article. The
+    summary is not the source's text and not a quotation. `publisher`, `document_title`,
+    `section` and `url` identify the source; neither NASA nor the authors or publishers
+    of the articles reviewed or endorsed the summary.
     """
 
     evidence_id: str
-    publisher: str = Field(description="Publisher of the source page.")
+    source_type: Literal["nasa_web_page", "peer_reviewed_article"] = "nasa_web_page"
+    publisher: str = Field(description="NASA for a NASA page; the journal for an article.")
     document_title: str
     section: str
-    url: str
-    summary: str = Field(description="Summary written by the OrbitVitals team; not NASA text.")
+    url: str = Field(description="The NASA page, or the DOI link of the article.")
+    authors: str | None = Field(default=None, description="Article authors, abbreviated.")
+    year: int | None = Field(default=None, description="Publication year of the article.")
+    license: str | None = Field(
+        default=None, description="Licence of the article as listed by Europe PMC."
+    )
+    verification_url: str | None = Field(
+        default=None,
+        description=(
+            "Where the summarised paragraph can be fetched to check its digest, when "
+            "that is not `url`."
+        ),
+    )
+    summary: str = Field(description="Summary written by the OrbitVitals team; not source text.")
     text_kind: Literal["independent_summary"] = "independent_summary"
     sha256: str = Field(description="SHA-256 digest of `summary`, as stored in the corpus.")
     source_paragraph_sha256: str = Field(
@@ -160,11 +213,61 @@ class SpecialistFinding(AgentModel):
     applied: str = Field(description="What the agent did with this verdict.")
 
 
+SpecialistDecision = Literal[
+    "consulted",
+    "not_configured",
+    "non_generative",
+    "conversational_question",
+    "general_question",
+    "factual_question",
+    "clinical_advice_question",
+    "no_physiological_reading",
+    "no_flagged_result",
+    "unavailable",
+    "failed",
+]
+
+
+class SpecialistEvidenceRef(AgentModel):
+    """A reviewed knowledge-base section given to the specialist as background."""
+
+    evidence_id: str
+    document_id: str
+    document_title: str
+    section: str
+    sources: list[str]
+    similarity: float
+    knowledge_base: Literal["rag/knowledge_base"] = "rag/knowledge_base"
+
+
 class SpecialistInfo(AgentModel):
     configured: str
     consulted: bool
     reason: str
+    evidence_status: str = Field(
+        default="not_used",
+        description=(
+            "Specialist background evidence: used, none_relevant, unavailable: <reason>, or "
+            "not_used when the specialist was not consulted or has no retrieval."
+        ),
+    )
+    evidence: list[SpecialistEvidenceRef] = Field(
+        default_factory=list,
+        description="Provenance of the background sections the specialist was given.",
+    )
+    decision: SpecialistDecision = Field(
+        default="not_configured",
+        description="Routing outcome, as a code. `consulted` means a model was really called.",
+    )
+    model: str | None = Field(default=None, description="Specialist model, when one was called.")
+    duration_ms: float | None = None
     findings: list[SpecialistFinding] = Field(default_factory=list)
+    notice: str = Field(
+        default=(
+            "A specialist verdict is a language model's opinion about the readings. It is not "
+            "a validated clinical assessment."
+        )
+    )
 
 
 class GenerationInfo(AgentModel):
@@ -172,10 +275,90 @@ class GenerationInfo(AgentModel):
     generative: bool
     fallback_reason: str | None = None
     primary_model: str | None = None
+    question_kind: Literal[
+        "none", "greeting", "general", "factual", "interpretive", "clinical_advice"
+    ] = Field(default="none", description="How the question was classified for routing.")
+    answer_profile: Literal["conversation", "general", "brief", "full"] = Field(
+        default="full",
+        description=(
+            "Size of the model draft: conversation (a short reply), general (an "
+            "evidence-led answer), brief (stored values) or full (an explanation)."
+        ),
+    )
+    reply_language: ReplyLanguage = Field(
+        default="en", description="Language the model was asked to write in."
+    )
+    context_turns: int = Field(
+        default=0,
+        description=(
+            "Earlier conversation turns sent by the client and given to the model as context. "
+            "0 means the question was answered on its own."
+        ),
+    )
     attempts: int = 0
     model_runs: list[ModelRun] = Field(default_factory=list)
     specialist: SpecialistInfo
     timings_ms: dict[str, float] = Field(default_factory=dict)
+
+
+class DatasetVariable(AgentModel):
+    source_column: str
+    description: str
+    canonical_unit: str | None = Field(
+        description="Null when the unit of the NASA export is unresolved. Never inferred."
+    )
+    unit_verification: Literal["reviewed_source_dictionary", "unresolved"]
+
+
+class DatasetEvidenceItem(AgentModel):
+    """Ground-analogue research context from the backend's NASA Dataset Evidence Adapter."""
+
+    evidence_id: str
+    dataset_id: str
+    title: str
+    nasa_source_url: str
+    topic: str
+    study_population: str
+    study_context: Literal["terrestrial_bed_rest_analogue"]
+    evidence_scope: Literal["scientific_context_only"]
+    crew_telemetry: Literal[False]
+    clinically_validated: Literal[False]
+    nasa_endorsement: Literal[False]
+    redistribution_status: Literal["unconfirmed"]
+    source_verification: str = Field(
+        description="`not_configured` means reviewed context only; files were not re-checked."
+    )
+    variables: list[DatasetVariable]
+    context: list[str]
+    limitations: list[str]
+
+
+class DatasetEvidenceFailure(AgentModel):
+    dataset_id: str
+    code: str
+    message: str
+
+
+class DatasetEvidence(AgentModel):
+    status: Literal[
+        "not_requested",
+        "disabled",
+        "ok",
+        "partial",
+        "unavailable",
+        "no_matching_evidence",
+        "endpoint_unavailable",
+        "rejected",
+    ]
+    topics: list[str] = Field(default_factory=list)
+    reason: str
+    items: list[DatasetEvidenceItem] = Field(default_factory=list)
+    failures: list[DatasetEvidenceFailure] = Field(default_factory=list)
+    notice: str = (
+        "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is "
+        "research context only: not crew telemetry, not a reference range and not a "
+        "clinical assessment. Structural counts from the adapter are not shown."
+    )
 
 
 class VerificationCheck(AgentModel):
@@ -236,6 +419,7 @@ class AgentResponse(AgentModel):
     human_review: HumanReview
     facts: list[Fact]
     citations: list[Citation]
+    dataset_evidence: DatasetEvidence
     data_provenance: DataProvenance
     data_access: DataAccess
     generation: GenerationInfo

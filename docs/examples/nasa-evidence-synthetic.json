@@ -1,0 +1,309 @@
+{
+  "contains_synthetic_findings": true,
+  "contract_version": "1.0.0",
+  "failures": [],
+  "items": [
+    {
+      "clinically_validated": false,
+      "context_findings": [
+        "The processed export provides sleep-duration and sleep-efficiency context.",
+        "Duration interpretation uses both the source dictionary and the column heading.",
+        "The pipeline verifies the query export without appending it to the primary table.",
+        "Structural counts cover the two selected metric columns, rather than every field."
+      ],
+      "crew_telemetry": false,
+      "dataset_id": "nasa-lsda-brsmact-utmb-campaign-1",
+      "evidence_id": "nasa-evidence-v1-a654d2ebcde2990e4e78530faf9e075c82037b448dfee91b2d2b73ea5da6e554",
+      "evidence_scope": "scientific_context_only",
+      "limitations": [
+        "Human terrestrial bed-rest volunteers are not synthetic crew members or astronauts in flight.",
+        "Descriptive evidence establishes no causation, clinical norms, thresholds or NASA validation.",
+        "Calendar dates do not supply aware measurement instants or observation boundaries.",
+        "Missing observations do not establish sensor failure, nonadherence or physiological decline.",
+        "Source records, participant IDs, notes, dates and individual results remain private.",
+        "Redistribution rights remain unconfirmed. Public access is not a blanket reuse license.",
+        "Physiological statistics are withheld; structural counts describe data validation only.",
+        "Processed actigraphy is not polysomnography or a raw movement-epoch stream.",
+        "Sleep latency has no supported canonical metric mapping.",
+        "Source notes and device quality are not independently validated by the importer."
+      ],
+      "nasa_endorsement": false,
+      "nasa_source_url": "https://nlsp.nasa.gov/search/data/details/e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6?dataType=DATASETS",
+      "provenance": {
+        "documentation_path": "docs/nasa-data-proof-public.md",
+        "experiment_doi": null,
+        "manifest_path": "backend/tests/nasa_data/support.py::synthetic_bundle",
+        "manifest_sha256": "aed257cf4f04a8d76ee215b2abe603fa339e6a5e06773f7c1c7c6652f683334d",
+        "nasa_metadata_url": "https://nlsp.nasa.gov/api/v1/data/datasets/e26501eb-7d7a-5012-8c8e-c5bdb3eecaf6/full",
+        "pipeline": "app.nasa_data.actigraphy.import_dataset",
+        "reviewed_source_file_count": 4,
+        "source_snapshot_sha256": "918dc9b74a915b34fb563c6582f07a0ecf7ef84bf8639e1aae4ed1b757462ee6"
+      },
+      "publication_policy": "authored_context_and_verified_structural_counts_only",
+      "redistribution_status": "unconfirmed",
+      "relevant_variables": [
+        {
+          "canonical_unit": "min",
+          "description": "Processed sleep duration, using documented duration syntax.",
+          "source_column": "Sleep Duration (hours)",
+          "source_representation": "ReadMe HH:mm; inspected cells also contain :ss",
+          "transformation": "Existing importer: 60 * hours + minutes + seconds / 60.",
+          "unit_verification": "reviewed_source_dictionary"
+        },
+        {
+          "canonical_unit": "%",
+          "description": "Processed sleep efficiency reported as a percentage.",
+          "source_column": "Sleep Efficiency (%)",
+          "source_representation": "percent",
+          "transformation": "Identity; no physiological values are exposed by this adapter.",
+          "unit_verification": "reviewed_source_dictionary"
+        }
+      ],
+      "source_verification": {
+        "checks": [
+          "SHA-256",
+          "MD5",
+          "byte_count",
+          "catalog_linkage"
+        ],
+        "pipeline_code_sha256": "4c0ca19d900365904f777cfe7a86c80b655903c4163b205d1133f1a23062814a",
+        "state": "synthetic_fixture_verified"
+      },
+      "structural_findings": [
+        {
+          "code": "source_records",
+          "computation": "app.nasa_data.actigraphy.import_dataset: summary.source_record_count; selected export, no grouping by participant",
+          "count_unit": "records",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "Sleep Duration (hours)",
+            "Sleep Efficiency (%)"
+          ],
+          "scope": "complete_selected_export",
+          "value": 6
+        },
+        {
+          "code": "observed_metric_cells",
+          "computation": "app.nasa_data.actigraphy.import_dataset: summary.observed_value_count; selected export, no grouping by participant",
+          "count_unit": "cells",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "Sleep Duration (hours)",
+            "Sleep Efficiency (%)"
+          ],
+          "scope": "complete_selected_export",
+          "value": 9
+        },
+        {
+          "code": "source_missing_metric_cells",
+          "computation": "app.nasa_data.actigraphy.import_dataset: summary.missing_value_count; selected export, no grouping by participant",
+          "count_unit": "cells",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "Sleep Duration (hours)",
+            "Sleep Efficiency (%)"
+          ],
+          "scope": "complete_selected_export",
+          "value": 3
+        }
+      ],
+      "study_context": "terrestrial_bed_rest_analogue",
+      "study_population": "Human terrestrial bed-rest volunteers; neither in-flight astronauts nor synthetic crew.",
+      "title": "SYNTHETIC UNIT TEST DATA. Not NASA observations.",
+      "topic": "data_quality"
+    },
+    {
+      "clinically_validated": false,
+      "context_findings": [
+        "The Tilt export describes supine and tilt testing in terrestrial bed rest.",
+        "Heart-rate channels remain separate; equivalent acquisition and averaging are not established.",
+        "The importer annotates questionable pressure pairs and keeps both source values.",
+        "Protocol context does not establish a direction or magnitude of cardiovascular adaptation.",
+        "Counts cover present HR/BP columns; absent columns create no cells."
+      ],
+      "crew_telemetry": false,
+      "dataset_id": "nasa-lsda-mr001g-utmb-campaign-3-tilt",
+      "evidence_id": "nasa-evidence-v1-89850d192fd1e4b33fb4cf70003f21e687e2e7b2ab01bf0453dda0d5d205bf33",
+      "evidence_scope": "scientific_context_only",
+      "limitations": [
+        "Human terrestrial bed-rest volunteers are not synthetic crew members or astronauts in flight.",
+        "Descriptive evidence establishes no causation, clinical norms, thresholds or NASA validation.",
+        "Calendar dates do not supply aware measurement instants or observation boundaries.",
+        "Missing observations do not establish sensor failure, nonadherence or physiological decline.",
+        "Source records, participant IDs, notes, dates and individual results remain private.",
+        "Redistribution rights remain unconfirmed. Public access is not a blanket reuse license.",
+        "Physiological statistics are withheld; structural counts describe data validation only.",
+        "Source-unit verification is unresolved for every selected MR001G channel.",
+        "Do not normalize to bpm/mmHg or make quantitative clinical comparisons until units and protocol are established.",
+        "Dates, relative steps, missing context and catalog discrepancies require review.",
+        "Broader campaign enrollment and demographics do not establish export membership.",
+        "The selected Tilt dataset excludes the experiment's separate hormonal exports."
+      ],
+      "nasa_endorsement": false,
+      "nasa_source_url": "https://nlsp.nasa.gov/search/data/details/f4a134da-7131-55f8-a0a1-e67d56509432?dataType=DATASETS",
+      "provenance": {
+        "documentation_path": "docs/nasa-mr001g-cardiovascular.md",
+        "experiment_doi": "https://doi.org/10.83263/gz1q-a824",
+        "manifest_path": "backend/tests/nasa_mr001g/support.py::synthetic_bundle",
+        "manifest_sha256": "07c8d9e1a2406de05aaaef64c28a9aee1987fa46596ab9f530d2c130fbe28209",
+        "nasa_metadata_url": "https://nlsp.nasa.gov/api/v1/data/datasets/f4a134da-7131-55f8-a0a1-e67d56509432/full",
+        "pipeline": "app.nasa_mr001g.analysis.import_dataset",
+        "reviewed_source_file_count": 5,
+        "source_snapshot_sha256": "86a47a8da9558bda8c72a637f3a1362e70318bff72386faae36f21a1fb3081dd"
+      },
+      "publication_policy": "authored_context_and_verified_structural_counts_only",
+      "redistribution_status": "unconfirmed",
+      "relevant_variables": [
+        {
+          "canonical_unit": null,
+          "description": "Source-label systolic pressure candidate.",
+          "source_column": "SBP",
+          "source_representation": "Original numerical scale; source unit is not verified.",
+          "transformation": "None; no normalization or quantitative clinical comparison.",
+          "unit_verification": "unresolved"
+        },
+        {
+          "canonical_unit": null,
+          "description": "Source-label diastolic pressure candidate.",
+          "source_column": "DBP",
+          "source_representation": "Original numerical scale; source unit is not verified.",
+          "transformation": "None; no normalization or quantitative clinical comparison.",
+          "unit_verification": "unresolved"
+        },
+        {
+          "canonical_unit": null,
+          "description": "Reported heart-rate candidate; acquisition method unspecified.",
+          "source_column": "HR",
+          "source_representation": "Original numerical scale; source unit is not verified.",
+          "transformation": "None; no normalization or quantitative clinical comparison.",
+          "unit_verification": "unresolved"
+        },
+        {
+          "canonical_unit": null,
+          "description": "Source-labeled Dinamap heart-rate channel.",
+          "source_column": "HR (Dinamap)",
+          "source_representation": "Original numerical scale; source unit is not verified.",
+          "transformation": "None; no normalization or quantitative clinical comparison.",
+          "unit_verification": "unresolved"
+        },
+        {
+          "canonical_unit": null,
+          "description": "Averaged heart-rate candidate; window and channel are unspecified.",
+          "source_column": "AVE HR",
+          "source_representation": "Original numerical scale; source unit is not verified.",
+          "transformation": "None; no normalization or quantitative clinical comparison.",
+          "unit_verification": "unresolved"
+        }
+      ],
+      "source_verification": {
+        "checks": [
+          "SHA-256",
+          "MD5",
+          "byte_count",
+          "catalog_linkage"
+        ],
+        "pipeline_code_sha256": "5c5295f8a4ef1085f10e54774df49c2e30e454cb5c8fa4df72d86ef99b5442ed",
+        "state": "synthetic_fixture_verified"
+      },
+      "structural_findings": [
+        {
+          "code": "source_records",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.csv_data_records; selected export, no grouping by participant",
+          "count_unit": "records",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 7
+        },
+        {
+          "code": "observed_metric_cells",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.finite_reported_values; selected export, no grouping by participant",
+          "count_unit": "cells",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 14
+        },
+        {
+          "code": "source_missing_metric_cells",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.source_missing_cells; selected export, no grouping by participant",
+          "count_unit": "cells",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 7
+        },
+        {
+          "code": "invalid_numeric_metric_cells",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.invalid_numeric_cells; selected export, no grouping by participant",
+          "count_unit": "cells",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 3
+        },
+        {
+          "code": "empty_source_records",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.entirely_empty_source_records; selected export, no grouping by participant",
+          "count_unit": "records",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 1
+        },
+        {
+          "code": "records_with_missing_context",
+          "computation": "app.nasa_mr001g.analysis.import_dataset: summary.records_with_missing_context; selected export, no grouping by participant",
+          "count_unit": "records",
+          "data_origin": "synthetic_test_fixture",
+          "included_source_columns": [
+            "SBP",
+            "DBP",
+            "HR",
+            "HR (Dinamap)",
+            "AVE HR"
+          ],
+          "scope": "complete_selected_export",
+          "value": 2
+        }
+      ],
+      "study_context": "terrestrial_bed_rest_analogue",
+      "study_population": "Human terrestrial bed-rest volunteers; neither in-flight astronauts nor synthetic crew.",
+      "title": "SYNTHETIC UNIT TEST DATA. Not NASA observations.",
+      "topic": "data_quality"
+    }
+  ],
+  "notice": "Scientific dataset context only. Never substitute for crew telemetry or clinical assessment. Synthetic-fixture findings are tests, not NASA observations.",
+  "status": "ok",
+  "topic": "data_quality"
+}

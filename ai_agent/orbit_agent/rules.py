@@ -42,6 +42,11 @@ def _quality(fact: Fact) -> dict:
     return fact.data.get("data_quality") or {}
 
 
+def _join(items: list[str]) -> str:
+    """Join words as 'a', 'a or b', 'a, b or c'."""
+    return items[0] if len(items) == 1 else f"{', '.join(items[:-1])} or {items[-1]}"
+
+
 def latest_findings(sheet: FactSheet) -> list[Fact]:
     """The most recent finding of each metric (facts are in chronological order)."""
     latest: dict[str, Fact] = {}
@@ -353,7 +358,38 @@ def rule_interpretations(sheet: FactSheet) -> list[Interpretation]:
     return interpretations
 
 
-def rule_uncertainties(sheet: FactSheet, *, has_evidence: bool) -> list[Statement]:
+# Subjects of cited summaries that no stored result of the two evaluated domains can
+# speak about, with the wording used to say so. The backend evaluates sleep and physical
+# activity; a summary about anything in this table is background only.
+_UNMONITORED_SUBJECTS = {
+    "radiation": "radiation exposure",
+    "cognition": "cognitive performance",
+    "cardiovascular": "cardiovascular function",
+    "bone": "bone density",
+    "muscle": "muscle strength",
+    "vision": "vision",
+    "behavioral": "behavioral health",
+    "sensorimotor": "balance and coordination",
+}
+# Subjects that results of a backend domain do relate to.
+_DOMAIN_SUBJECTS = {"vital_signs": frozenset({"cardiovascular"})}
+
+
+def unmonitored_subjects(sheet: FactSheet, cited_topics: frozenset[str]) -> list[str]:
+    """Subjects of the cited summaries for which the fact sheet holds no result."""
+    covered: set[str] = set()
+    for domain in sheet.domains:
+        covered |= _DOMAIN_SUBJECTS.get(domain, frozenset())
+    return sorted(
+        label
+        for topic, label in _UNMONITORED_SUBJECTS.items()
+        if topic in cited_topics and topic not in covered
+    )
+
+
+def rule_uncertainties(
+    sheet: FactSheet, *, has_evidence: bool, cited_topics: frozenset[str] = frozenset()
+) -> list[Statement]:
     """Limits that are stated in every explanation, whatever the model writes."""
     statements: list[Statement] = []
 
@@ -413,13 +449,27 @@ def rule_uncertainties(sheet: FactSheet, *, has_evidence: bool) -> list[Statemen
             Statement(
                 id="",
                 text=(
-                    "The cited summaries of NASA web pages are general context about "
+                    "The cited summaries of published sources are general context about "
                     "spaceflight. They do not describe this crew member and do not validate "
                     "the screening settings."
                 ),
                 origin="rule",
             )
         )
+        subjects = unmonitored_subjects(sheet, cited_topics)
+        if subjects:
+            statements.append(
+                Statement(
+                    id="",
+                    text=(
+                        "No stored result explained here concerns "
+                        f"{_join(subjects)}. Cited summaries on "
+                        f"{'this subject' if len(subjects) == 1 else 'these subjects'} are "
+                        "background only and cannot be applied to this crew member."
+                    ),
+                    origin="rule",
+                )
+            )
     else:
         statements.append(
             Statement(
@@ -437,17 +487,14 @@ def rule_uncertainties(sheet: FactSheet, *, has_evidence: bool) -> list[Statemen
 def rule_evidence_context(passages: list[ScoredPassage]) -> list[Statement]:
     """Show each retrieved entry as stored: a project summary, labelled as such.
 
-    The label names the source page and states that the summary is the project's own
-    text, so the information is not presented as a statement made by NASA.
+    The label names the source (a NASA page or a peer-reviewed article) and states that
+    the summary is the project's own text, so the information is not presented as a
+    statement made by NASA or by the authors.
     """
     return [
         Statement(
             id="",
-            text=(
-                f"OrbitVitals summary of the {item.passage.publisher} web page "
-                f'"{item.passage.document_title}" (section "{item.passage.section}"): '
-                f"{item.passage.text}"
-            ),
+            text=f"OrbitVitals summary of the {item.passage.source_label}: {item.passage.text}",
             origin="rule",
             evidence_ids=[item.passage.evidence_id],
         )

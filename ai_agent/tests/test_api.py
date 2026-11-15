@@ -23,12 +23,12 @@ def test_health_reports_dependencies() -> None:
     assert body["status"] == "ok" and body["service"] == "orbitvitals-agent"
     assert body["backend"]["reachable"] is True
     assert body["primary_model"] == {
-        "name": "qwen3.5:4b",
+        "name": "gemma3:4b",
         "available": True,
         "unavailable_reason": None,
     }
     assert body["specialist"] == {"configured": "none", "available": False}
-    assert body["evidence_corpus"]["passages"] == 25
+    assert body["evidence_corpus"]["passages"] >= 100
 
 
 def test_health_reports_a_missing_model_without_failing() -> None:
@@ -88,17 +88,27 @@ def test_service_exposes_no_write_operation_on_crew_data() -> None:
         f"{API_PREFIX}/health",
         f"{API_PREFIX}/explanations",
         f"{API_PREFIX}/evidence",
+        f"{API_PREFIX}/jobs",
+        f"{API_PREFIX}/jobs/{{request_id}}",
     }
     assert set(paths[f"{API_PREFIX}/explanations"]) == {"post"}
+    # Jobs hold the agent's own answers; they never write crew data to the backend.
+    assert set(paths[f"{API_PREFIX}/jobs/{{request_id}}"]) == {"get"}
 
 
 def test_evidence_search_returns_attributed_summaries() -> None:
     body = _client().get(f"{API_PREFIX}/evidence", params={"query": "exercise fitness"}).json()
 
     assert body["items"]
-    assert all(item["url"].startswith("https://www.nasa.gov/") for item in body["items"])
-    assert all(item["text_kind"] == "independent_summary" for item in body["items"])
-    assert all("quote" not in item for item in body["items"])
+    for item in body["items"]:
+        assert item["url"].startswith(("https://www.nasa.gov/", "https://doi.org/"))
+        assert item["text_kind"] == "independent_summary"
+        assert "quote" not in item
+        if item["source_type"] == "peer_reviewed_article":
+            assert item["authors"] and item["year"] and item["license"].startswith("CC")
+            assert item["verification_url"].startswith("https://www.ebi.ac.uk/europepmc/")
+        else:
+            assert item["publisher"] == "NASA" and item["authors"] is None
     assert (
         _client().get(f"{API_PREFIX}/evidence", params={"query": "zzzz qqqq"}).json()["items"] == []
     )
@@ -128,4 +138,4 @@ def test_settings_are_read_from_the_environment() -> None:
 
     assert settings.backend_base_url == "http://127.0.0.1:9000/api/v1"
     assert settings.model_think is True and settings.evidence_top_k == 5
-    assert load_settings({}).primary_model == "qwen3.5:4b"
+    assert load_settings({}).primary_model == "gemma3:4b"

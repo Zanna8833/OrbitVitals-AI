@@ -1,0 +1,157 @@
+{
+  "language": "it",
+  "notice": "Italian vocabulary for routing and verification, and fixed Italian sentences. Data, not code: the source code stays ASCII English. Every entry is a regular-expression fragment matched case-insensitively at word boundaries. The lists are engineering choices with no external source, smaller than the English ones; see INTEGRATION.md.",
+  "patterns": {
+    "language_markers": [
+      "ciao", "salve", "buongiorno", "buonasera", "buonanotte", "grazie", "prego",
+      "come", "cosa", "che", "perch[eé]", "quanto", "quanta", "quanti", "quante",
+      "quale", "quali", "qual", "chi", "dove", "quando", "sono", "sei", "è", "il", "lo",
+      "la", "le", "gli", "una", "uno", "del", "della", "dei", "delle", "di", "con", "non",
+      "ha", "ho", "hai", "puoi", "posso", "fare", "funziona", "dormito", "sonno",
+      "peggiorat\\w*", "migliorat\\w*", "stai", "sta", "oggi", "ieri", "equipaggio",
+      "notte", "notti", "ultim\\w*", "mi", "ti", "anche", "molto", "questo", "questa"
+    ],
+    "greeting": [
+      "ciao", "salve", "buongiorno", "buon pomeriggio", "buonasera", "buonanotte", "ehi",
+      "grazie( mille)?", "ti ringrazio", "va bene", "perfetto", "capito", "d'accordo",
+      "ottimo", "arrivederci", "a presto"
+    ],
+    "about_assistant": [
+      "chi sei", "che cosa sei", "cosa sei", "che cosa (puoi|sai) fare",
+      "cosa (puoi|sai) fare", "come (mi )?puoi aiutar\\w*", "come stai", "aiuto",
+      "aiutami", "che cosa fai", "cosa fai"
+    ],
+    "about_platform": [
+      "come funziona", "che cos'? ?è orbitvitals", "cos'? ?è orbitvitals",
+      "cosa è orbitvitals", "a cosa serve", "come si usa"
+    ],
+    "general_cue": [
+      "nello spazio", "spazial\\w*", "volo spaziale", "voli spaziali", "astronaut\\w*",
+      "microgravit[aà]", "assenza di peso", "in generale", "generalmente", "cruscotto",
+      "questa schermata", "l'app", "mission[ei]", "nasa", "ricerc[ah]\\w*", "studi",
+      "studio", "letteratura", "allettamento", "bed ?rest",
+      "(che )?cosa significa (lo |il )?(stato )?['\"]?(attention|attenzione|nominal|nominale|alert|allerta)"
+    ],
+    "dashboard": [
+      "cruscotto", "questa schermata", "l'app",
+      "(che )?cosa significa (lo |il )?(stato )?['\"]?(attention|attenzione|nominal|nominale|alert|allerta|insufficient[_ ]data|dati insufficienti)"
+    ],
+    "crew_cue": [
+      "membro dell'equipaggio", "questo membro", "crew [abc]", "suo", "sua", "suoi", "sue",
+      "loro", "mio", "mia", "miei", "ultim\\w*", "ieri", "oggi", "stanotte",
+      "la scorsa notte", "registrat\\w*", "registrazion\\w*", "misur\\w*", "valor[ei]",
+      "baseline", "riferimento personale", "segnalat\\w*"
+    ],
+    "subject_cue": [
+      "crew [abc]", "equipaggio", "membro", "sonno", "dorm\\w*", "riposo", "attivit[aà]",
+      "esercizi\\w*", "allenament\\w*", "passi", "energia", "calori\\w*", "cuore",
+      "battit\\w*", "cardiac\\w*", "pression\\w*", "ossigeno", "temperatura",
+      "nutrizion\\w*", "alimentazion\\w*", "idratazion\\w*", "peso", "salute", "corpo",
+      "muscol\\w*", "ossa", "osse\\w*", "dati", "risultat\\w*", "stato", "stati",
+      "andament\\w*", "tendenz\\w*", "misur\\w*", "valor[ei]", "baseline", "segnalat\\w*",
+      "registrazion\\w*", "sensor\\w*", "dispositiv\\w*", "fisiolog\\w*", "clinic\\w*",
+      "risch\\w*", "peggior\\w*", "miglior\\w*", "calo", "diminu\\w*", "aument\\w*",
+      "nott[ei]", "mancant\\w*", "radiazion\\w*", "cosmic\\w*", "circadian\\w*", "luce",
+      "rumor\\w*", "affaticament\\w*", "stanc\\w*", "stress\\w*", "cognit\\w*", "vista",
+      "cardio\\w*", "isolament\\w*", "carico di lavoro", "turn[oi]", "orari\\w*",
+      "tutto (ok|bene|a posto)", "qualcosa (che )?non va"
+    ],
+    "factual_start": [
+      "quant[oaie]", "qual è", "qual'è", "quale", "quali", "quando", "a che ora",
+      "elenca", "mostra\\w*", "dimmi", "dammi", "che valore"
+    ],
+    "interpretive": [
+      "perch[eé]", "come mai", "significa\\w*", "spieg\\w*", "interpret\\w*",
+      "preoccup\\w*", "normale", "anormale", "salute", "risch\\w*", "caus[ae]\\w*",
+      "confront\\w*", "paragon\\w*", "andament\\w*", "tendenz\\w*", "peggior\\w*",
+      "miglior\\w*", "grave", "dovrebbe", "va bene", "tutto bene", "problem\\w*",
+      "fisiolog\\w*", "clinic\\w*", "significativ\\w*", "affidabil\\w*", "fidar\\w*",
+      "influ\\w*", "effett\\w*", "impatt\\w*", "evidenz\\w*", "dataset"
+    ],
+    "clinical_advice": [
+      "diagnos\\w*", "farmac\\w*", "medicin\\w*", "medicament\\w*", "dos[ei]", "dosaggi\\w*",
+      "posologi\\w*", "pillol\\w*", "compress[ae]", "prescri\\w*", "terapi\\w*",
+      "trattament\\w*", "curar\\w*", "melatonina", "integrator\\w*", "sonnifer\\w*",
+      "malatti\\w*", "disturb\\w* del sonno", "insonnia", "apnea", "apnee",
+      "depression\\w*"
+    ],
+    "earlier_exchange": [
+      "prima", "in precedenza", "precedent\\w*", "l'ultima volta", "di nuovo",
+      "ancora una volta", "hai detto", "mi hai detto", "avevi detto",
+      "come (ho|abbiamo) (detto|chiesto)", "ricord\\w*"
+    ],
+    "mission": ["mission[ei]"],
+    "follow_up_start": [
+      "e", "ed", "invece", "rispetto", "anche", "quindi", "allora", "ma", "perch[eé]",
+      "come mai", "è", "era", "sono", "significa", "davvero", "e se", "e per"
+    ],
+    "anaphora": ["questo", "questa", "quello", "quella", "ciò", "esso", "essa"],
+    "explicit_language": [
+      "((rispondi|parla|scrivi)\\w* )?in italiano( di nuovo)?(,? per favore)?"
+    ],
+    "topic_cue": [
+      "crew [abc]", "noor", "chen", "vega", "sonno", "dorm\\w*", "attivit[aà]",
+      "esercizi\\w*", "allenament\\w*", "passi", "energia", "calori\\w*", "cuore",
+      "battit\\w*", "cardiac\\w*", "pression\\w*", "nutrizion\\w*", "idratazion\\w*",
+      "peso", "muscol\\w*", "ossa", "osse\\w*", "radiazion\\w*", "microgravit[aà]",
+      "missione", "sensor\\w*", "dispositiv\\w*", "registrazion\\w*", "dati"
+    ],
+    "hard_terms": [
+      "prescri\\w*", "farmac\\w*", "medicinal\\w*", "medicin[ae]", "medicament\\w*",
+      "dos[ei]", "dosaggi\\w*", "posologi\\w*", "pillol\\w*", "compress[ae]",
+      "melatonina", "ipnotic\\w*", "sedativ\\w*", "stimolant\\w*", "caffeina",
+      "integrator\\w*", "somministr\\w*", "emergenz\\w*", "urgent\\w*", "insonnia",
+      "apnea", "apnee", "narcolessia", "ipossi\\w*", "aritmi\\w*", "tachicardi\\w*",
+      "bradicardi\\w*", "ipertension\\w*", "ipotension\\w*", "depression\\w*",
+      "depress[oa]", "ansia", "ansios\\w*", "infezion\\w*", "sindrom\\w*", "sonnifer\\w*"
+    ],
+    "soft_terms": [
+      "diagnos\\w*", "disturb[oi]", "malatti\\w*", "patolog\\w*", "terapi\\w*",
+      "trattament\\w*", "san[oaie]", "in salute", "malat[oaie]", "normal[ei]",
+      "anormal[ei]", "tutto a posto", "clinic[oaie]", "clinicamente", "validat[oaie]",
+      "dimostr\\w*", "significativ\\w*", "statisticamente", "affaticament\\w*",
+      "stanc\\w*", "esaust\\w*", "esauriment\\w*", "stress\\w*", "burnout",
+      "compromess\\w*", "privazione di sonno", "deprivazione di sonno",
+      "debito di sonno", "decondizionament\\w*"
+    ],
+    "negation": [
+      "non", "mai", "senza", "né", "nessun\\w*", "anziché", "piuttosto che", "invece di"
+    ],
+    "trend_terms": [
+      "peggior\\w*", "miglior\\w*", "deterior\\w*", "diminu\\w*", "aument\\w*",
+      "ridu[cz]\\w*", "ridott\\w*", "calo", "cala\\w*", "calat\\w*", "declin\\w*"
+    ],
+    "nasa_as_speaker": [
+      "(secondo|come (affermato|riportato|indicato|descritto|spiegato) da|citat[oa] da)\\s+(la\\s+)?nasa",
+      "nasa(\\s+\\S+){0,3}?\\s+(afferma|ha affermato|dice|ha detto|riporta|ha riportato|raccomanda|consiglia|indica|spiega|descrive|conferma|suggerisce|mostra|ha trovato|trova|conclude|sottolinea|evidenzia|ritiene|avverte|segnala|osserva|nota)"
+    ],
+    "memory_claims": [
+      "come (ho|abbiamo) (detto|spiegato|discusso|accennato)", "come dicevo",
+      "(mi )?ricordo", "l'ultima volta che", "la nostra (conversazione|chat) precedente",
+      "mi hai (detto|chiesto) (prima|in precedenza)"
+    ],
+    "action_claims": [
+      "(ti )?(avviserò|notificherò|contatterò|programmerò|ricorderò|invierò|chiamerò|prenoterò)",
+      "posso (avvisare|notificare|contattare|programmare|inviare|chiamare|prenotare)",
+      "ho (avvisato|contattato|notificato|programmato|inviato|informato)",
+      "non ho accesso (a|ai|agli|alle|al) ?(nessun\\w* )?(dati|risultati|registrazioni)"
+    ]
+  },
+  "status_names": {
+    "nominal": ["(stat[oi]|status|esito) ['\"]?nominal[ei]"],
+    "attention": ["(stat[oi]|status|esito|livello) (di )?['\"]?attenzione"],
+    "alert": ["(stat[oi]|status|esito|livello) (di )?['\"]?allerta"],
+    "insufficient_data": ["dati insufficienti"]
+  },
+  "status_paraphrases": {
+    "nominal": ["nessun (segnale|andamento|pattern) configurat\\w*", "non ha (attivato|rilevato)"],
+    "attention": ["segnalat\\w*", "revision\\w*", "da rivedere"],
+    "alert": ["segnalat\\w*"],
+    "insufficient_data": ["insufficient\\w*", "non (è )?determinat\\w*", "indeterminat\\w*", "nessuno stato"]
+  },
+  "fixed_texts": {
+    "greeting": "Ciao! Sono l'assistente di OrbitVitals: spiego i risultati di monitoraggio salvati per il membro dell'equipaggio selezionato, con il contesto della ricerca. Che cosa vuoi sapere?",
+    "memory_limit": "L'assistente non conserva memoria delle domande precedenti. Questa risposta si basa solo sulla domanda attuale e sui dati salvati.",
+    "mission_limit": "L'assistente non ha informazioni sulla missione oltre ai dati salvati del membro dell'equipaggio selezionato."
+  }
+}

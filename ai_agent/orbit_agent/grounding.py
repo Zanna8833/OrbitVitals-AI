@@ -26,6 +26,10 @@ _DATE = re.compile(r"(?<!\d)\d{4}-\d{2}-\d{2}(?!\d)")
 # a letter-initial token joined by `-`, `_` or `:`. Digits inside them are not values.
 _IDENTIFIER = re.compile(r"\b[A-Za-z][A-Za-z0-9]*(?:[-_:][A-Za-z0-9]+)+\b")
 _THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}\b)")
+# A decimal comma, as Italian writes "52,5": one or two digits after the comma. With three
+# digits the comma reads as a thousands separator above, so an Italian "241,667" is read
+# as 241667 and rejected unless the facts hold it: conservative, never more permissive.
+_DECIMAL_COMMA = re.compile(r"(?<=\d),(?=\d{1,2}\b)")
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?![\w])")
 _NUMBER_WORDS = {
     "two": 2,
@@ -68,6 +72,7 @@ def numbers_in(text: str) -> list[float]:
     cleaned = _DATE.sub(" ", cleaned)
     cleaned = _IDENTIFIER.sub(" ", cleaned)
     cleaned = _THOUSANDS.sub("", cleaned)
+    cleaned = _DECIMAL_COMMA.sub(".", cleaned)
     values = [float(match) for match in _NUMBER.findall(cleaned)]
     values.extend(float(_NUMBER_WORDS[word.lower()]) for word in _NUMBER_WORD.findall(cleaned))
     return values
@@ -141,8 +146,11 @@ def fact_numbers(fact: Fact) -> set[float]:
 
 
 def passage_source_text(passage: Passage) -> str:
-    """Everything a sentence about a passage may draw on: its title, section and text."""
-    return f"{passage.document_title}. {passage.section}. {passage.text}"
+    """Everything a sentence about a passage may draw on: its source details and text."""
+    details = " ".join(
+        str(part) for part in (passage.authors, passage.publisher, passage.year) if part
+    )
+    return f"{passage.document_title}. {passage.section}. {details}. {passage.text}"
 
 
 def passage_numbers(passage: Passage) -> set[float]:
@@ -150,7 +158,20 @@ def passage_numbers(passage: Passage) -> set[float]:
 
 
 def ungrounded_values(text: str, allowed_numbers: set[float], allowed_dates: set[str]) -> list[str]:
-    """Numbers and dates in `text` that are not among the allowed values."""
+    """Numbers and dates in `text` that are not among the allowed values.
+
+    "241,667" is ambiguous: English thousands or Italian decimals. It is read both ways and
+    the sentence passes only if one reading is grounded in the allowed values.
+    """
+    problems = _ungrounded(text, allowed_numbers, allowed_dates)
+    if problems and _THOUSANDS.search(text):
+        decimal = _ungrounded(_THOUSANDS.sub(".", text), allowed_numbers, allowed_dates)
+        if not decimal:
+            return decimal
+    return problems
+
+
+def _ungrounded(text: str, allowed_numbers: set[float], allowed_dates: set[str]) -> list[str]:
     problems = [date for date in sorted(dates_in(text)) if date not in allowed_dates]
     for number in numbers_in(text):
         if not any(abs(number - allowed) <= _TOLERANCE for allowed in allowed_numbers):

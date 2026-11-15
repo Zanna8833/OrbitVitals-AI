@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1.0",
-  "generated_at": "2026-11-14T23:28:22.666343Z",
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:40:59.886131Z",
   "crew_member_id": "sim-mission-v1-03",
   "domains": [
     "physical_activity",
@@ -8,30 +8,30 @@
   ],
   "question": "Can we trust Chen's readings, and is anything wrong with Chen?",
   "status_summary": "physical_activity: latest stored status 'insufficient_data' (window ending 2026-10-26T00:00:00Z); sleep: latest stored status 'insufficient_data' (window ending 2026-10-26T12:00:00Z). Unusable stored records: 7.",
-  "headline": "Chen's physical activity and sleep data are unusable due to recording problems; no physiological status is available.",
+  "headline": "Chen's physical activity and sleep data are insufficient due to recording problems; no physiological status is available.",
   "headline_origin": "model",
   "observations": [
     {
       "id": "O1",
-      "text": "Physical activity metrics show insufficient data because usable coverage is missing and recorded values are impossible.",
+      "text": "Physical activity and sleep data for the window 2026-10-12 to 2026-10-26 have status 'insufficient_data' due to missing or impossible values.",
       "origin": "model",
       "fact_ids": [
         "F2",
+        "F5",
         "F8",
-        "F9",
-        "F10"
+        "F11"
       ],
       "evidence_ids": []
     },
     {
       "id": "O2",
-      "text": "Personal baselines for exercise, energy, sleep duration, and sleep efficiency are established from the reference window.",
+      "text": "Exercise duration and active energy expenditure records contain impossible negative values and are marked unusable.",
       "origin": "model",
       "fact_ids": [
-        "F14",
-        "F15",
-        "F16",
-        "F17"
+        "F18",
+        "F19",
+        "F28",
+        "F29"
       ],
       "evidence_ids": []
     }
@@ -45,39 +45,18 @@
       "evidence_ids": [
         "NASA-TB031-MONITORING-01"
       ]
-    },
-    {
-      "id": "E2",
-      "text": "Work is under way on a spacecraft medical data architecture to support clinical decision support tools.",
-      "origin": "model",
-      "fact_ids": [],
-      "evidence_ids": [
-        "NASA-BODY-DECISION-01"
-      ]
     }
   ],
   "interpretations": [
     {
       "id": "I1",
-      "text": "Impossible values indicate recording problems rather than physiological events.",
+      "text": "The algorithm returned 'insufficient_data' because usable coverage or comparison criteria were missing for physical activity.",
       "origin": "model",
       "fact_ids": [
-        "F23",
-        "F24",
-        "F25",
-        "F26"
-      ],
-      "evidence_ids": [],
-      "kind": "data_quality",
-      "confidence": "low"
-    },
-    {
-      "id": "I2",
-      "text": "Missing nights are not evidence of poor or good sleep and the cause is unknown.",
-      "origin": "model",
-      "fact_ids": [
-        "F12",
-        "F13"
+        "F2",
+        "F8",
+        "F9",
+        "F10"
       ],
       "evidence_ids": [],
       "kind": "data_quality",
@@ -142,16 +121,17 @@
     },
     {
       "id": "U7",
-      "text": "The cited summaries of NASA web pages are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
       "origin": "rule",
       "fact_ids": [],
       "evidence_ids": []
     },
     {
       "id": "U8",
-      "text": "The reason for missing nights is unknown and unconfirmed days remain unknown.",
+      "text": "The cause of missing nights is unknown, and unconfirmed days remain unknown.",
       "origin": "model",
       "fact_ids": [
+        "F11",
         "F12",
         "F13"
       ],
@@ -1436,40 +1416,39 @@
   "citations": [
     {
       "evidence_id": "NASA-TB031-MONITORING-01",
+      "source_type": "nasa_web_page",
       "publisher": "NASA",
       "document_title": "OCHMO-TB-031 Exercise Overview",
       "section": "In-mission exercise monitoring",
       "url": "https://www.nasa.gov/ochmo-tb-031-exercise-overview-2/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
       "summary": "Astronaut Strength, Conditioning, and Rehabilitation Specialists (ACERS) follow crew fitness during flight and tailor exercise prescriptions to each crew member's ability and performance. Ground teams review crew data, including physiological markers and the duration and intensity of exercise sessions, and strength prescriptions depend on the equipment on board.",
       "text_kind": "independent_summary",
       "sha256": "0a1ea216c02e058c9216122b77ce5b73310f1316c100e0336b758216ba067835",
       "source_paragraph_sha256": "75ad98e5aafbbb378476e5393c985b8747cd98dd001a65bf4141f8d671dd075d",
       "source_checked_on": "2026-11-15",
       "scope": "general_evidence",
-      "relevance_score": 4.6309
-    },
-    {
-      "evidence_id": "NASA-BODY-DECISION-01",
-      "publisher": "NASA",
-      "document_title": "The Human Body in Space",
-      "section": "Distance from Earth",
-      "url": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/",
-      "summary": "Work is under way on a spacecraft medical data architecture to support clinical decision support tools, which might apply artificial intelligence and machine learning to assist in diagnosing and treating illness. Virtual assistants are also being studied as a way to help crews on distant missions recognize and respond quickly to spaceflight anomalies.",
-      "text_kind": "independent_summary",
-      "sha256": "c220dfe570bc0d1a36ba71bb57ca6cbe834894b5e3c0d87466634484c4bda550",
-      "source_paragraph_sha256": "fe2568dd0f1de7bcea85ed9af4a33b8a4f2ecd353dff74b29b1f9969aabe6a9e",
-      "source_checked_on": "2026-11-15",
-      "scope": "general_evidence",
-      "relevance_score": 4.0
+      "relevance_score": 4.8695
     }
   ],
+  "dataset_evidence": {
+    "status": "not_requested",
+    "topics": [],
+    "reason": "The question does not ask for NASA dataset context.",
+    "items": [],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
   "data_provenance": {
     "crew_data_kind": "simulated",
     "measurement_sources": {
       "simulated": 139
     },
     "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
-    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages, with the source URL. They are not NASA text, and NASA did not review or endorse them. They give general context about spaceflight; they are not measurements of this crew member."
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
   },
   "data_access": {
     "read_only": true,
@@ -1478,7 +1457,7 @@
         "method": "GET",
         "path": "/metrics",
         "status": 200,
-        "item_count": 15
+        "item_count": 28
       },
       {
         "method": "GET",
@@ -1505,6 +1484,10 @@
     "generative": true,
     "fallback_reason": null,
     "primary_model": "qwen3.5:4b",
+    "question_kind": "interpretive",
+    "answer_profile": "full",
+    "reply_language": "en",
+    "context_turns": 0,
     "attempts": 1,
     "model_runs": [
       {
@@ -1512,27 +1495,34 @@
         "model": "qwen3.5:4b",
         "attempt": 1,
         "accepted": true,
-        "duration_ms": 11433.5,
-        "load_ms": 4.0,
-        "prompt_tokens": 5937,
-        "output_tokens": 572,
-        "prompt_eval_ms": 1854.0,
-        "output_eval_ms": 9415.2,
-        "rejected_sentences": 3
+        "duration_ms": 9195.6,
+        "load_ms": 2017.2,
+        "prompt_tokens": 6093,
+        "output_tokens": 359,
+        "prompt_eval_ms": 1706.5,
+        "output_eval_ms": 5450.6,
+        "rejected_sentences": 0
       }
     ],
     "specialist": {
-      "configured": "none",
+      "configured": "medgemma",
       "consulted": false,
-      "reason": "No specialist is configured.",
-      "findings": []
+      "reason": "The explanation contains no physiological reading to review.",
+      "evidence_status": "not_used",
+      "evidence": [],
+      "decision": "no_physiological_reading",
+      "model": null,
+      "duration_ms": null,
+      "findings": [],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
     },
     "timings_ms": {
-      "backend_read_ms": 27.2,
-      "facts_and_retrieval_ms": 3.0,
-      "generation_ms": 11513.5,
-      "assembly_and_audit_ms": 17.5,
-      "total_ms": 11561.3
+      "backend_read_ms": 31.6,
+      "facts_and_retrieval_ms": 2.8,
+      "dataset_evidence_ms": 0.0,
+      "generation_ms": 9275.6,
+      "assembly_and_audit_ms": 16.9,
+      "total_ms": 9327.3
     }
   },
   "verification": {
@@ -1541,7 +1531,7 @@
       {
         "name": "numeric_grounding",
         "passed": true,
-        "detail": "All numbers and dates in 21 sentences appear in the cited sources."
+        "detail": "All numbers and dates in 19 sentences appear in the cited sources."
       },
       {
         "name": "status_consistency",
@@ -1556,7 +1546,7 @@
       {
         "name": "citation_authenticity",
         "passed": true,
-        "detail": "2 citations match the stored corpus summary, digests and source URL."
+        "detail": "1 citations match the stored corpus summary, digests and source URL."
       },
       {
         "name": "source_attribution",
@@ -1589,6 +1579,16 @@
         "detail": "Only GET requests were sent to the backend."
       },
       {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-03 only."
+      },
+      {
         "name": "generation_disclosure",
         "passed": true,
         "detail": "Generation mode is declared as 'generative'."
@@ -1599,29 +1599,7 @@
         "detail": "No instruction-like text was found in retrieved passages or backend text."
       }
     ],
-    "rejected_statements": [
-      {
-        "section": "observations",
-        "text": "Sleep metrics show insufficient data because coverage is below minimum and recorded values are impossible.",
-        "reasons": [
-          "status mismatch: a cited fact has status 'nominal', which the sentence does not acknowledge"
-        ]
-      },
-      {
-        "section": "observations",
-        "text": "Data quality is degraded with missing nights and impossible values like negative minutes or percentages.",
-        "reasons": [
-          "status mismatch: no cited fact reports 'degraded' data quality"
-        ]
-      },
-      {
-        "section": "interpretations",
-        "text": "The algorithm returned insufficient data because the backend could not compute usable values for the metrics.",
-        "reasons": [
-          "status mismatch: a cited fact has status 'nominal', which the sentence does not acknowledge"
-        ]
-      }
-    ]
+    "rejected_statements": []
   },
   "disclaimer": "Research prototype, not a medical device. This explanation supports a review by a person. It is not a diagnosis and it does not recommend any treatment."
 }

@@ -9,19 +9,26 @@ The service adds no endpoint to the backend and changes none of its contracts.
 
 from __future__ import annotations
 
+import threading
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from orbit_agent import __version__
+# Importing the adapter registers it, so `ORBITVITALS_AGENT_SPECIALIST=medgemma` works with
+# `uvicorn orbit_agent.api:app`. Nothing is loaded or called until a review is needed.
+from orbit_agent import __version__, medgemma  # noqa: F401
 from orbit_agent.backend_client import BackendUnavailable
 from orbit_agent.config import API_PREFIX, SERVICE_NAME, Settings, load_settings
 from orbit_agent.evidence.store import EvidenceStore
+from orbit_agent.jobs import Job, JobStore, JobSubmission
 from orbit_agent.models import AgentResponse, Citation, ExplanationRequest
-from orbit_agent.pipeline import Agent
+from orbit_agent.pipeline import Agent, citation_from
 
 
 class EvidenceSearchResult(BaseModel):
@@ -32,6 +39,14 @@ class EvidenceSearchResult(BaseModel):
 def create_app(agent: Agent | None = None, settings: Settings | None = None) -> FastAPI:
     settings = settings or (agent.settings if agent else load_settings())
     agent = agent or Agent(settings=settings, store=EvidenceStore.load())
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        # Load the primary model in the background while the service starts answering.
+        if settings.warm_up_on_start:
+            threading.Thread(target=agent.warm_up, name="warm-up", daemon=True).start()
+        yield
+
     app = FastAPI(
         title="OrbitVitals AI agent (proof of concept)",
         version=__version__,
@@ -39,6 +54,7 @@ def create_app(agent: Agent | None = None, settings: Settings | None = None) -> 
             "Explains results already computed by the OrbitVitals backend. Research "
             "prototype, not a medical device."
         ),
+        lifespan=lifespan,
     )
     app.add_middleware(
         CORSMiddleware,
@@ -67,6 +83,22 @@ def create_app(agent: Agent | None = None, settings: Settings | None = None) -> 
                 detail=f"The OrbitVitals backend could not be read: {error}",
             ) from error
 
+    jobs = JobStore(Path(settings.jobs_dir), agent.explain)
+
+    @app.post(f"{API_PREFIX}/jobs", response_model=Job, status_code=202)
+    def submit_job(submission: JobSubmission) -> Job:
+        try:
+            return jobs.submit(submission)
+        except ValueError as error:
+            raise HTTPException(status_code=409, detail=str(error)) from error
+
+    @app.get(f"{API_PREFIX}/jobs/{{request_id}}", response_model=Job)
+    def read_job(request_id: str) -> Job:
+        job = jobs.get(request_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="Unknown request id.")
+        return job
+
     @app.get(f"{API_PREFIX}/evidence", response_model=EvidenceSearchResult)
     def search_evidence(
         query: Annotated[str, Query(min_length=2, max_length=300)],
@@ -74,21 +106,7 @@ def create_app(agent: Agent | None = None, settings: Settings | None = None) -> 
     ) -> EvidenceSearchResult:
         return EvidenceSearchResult(
             query=query,
-            items=[
-                Citation(
-                    evidence_id=item.passage.evidence_id,
-                    publisher=item.passage.publisher,
-                    document_title=item.passage.document_title,
-                    section=item.passage.section,
-                    url=item.passage.url,
-                    summary=item.passage.text,
-                    sha256=item.passage.sha256,
-                    source_paragraph_sha256=item.passage.source_paragraph_sha256,
-                    source_checked_on=item.passage.source_checked_on,
-                    relevance_score=item.score,
-                )
-                for item in agent.store.search(query, top_k=limit)
-            ],
+            items=[citation_from(item) for item in agent.store.search(query, top_k=limit)],
         )
 
     return app

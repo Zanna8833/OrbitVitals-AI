@@ -1,0 +1,1009 @@
+{
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:41:48.584519Z",
+  "crew_member_id": "sim-mission-v1-02",
+  "domains": [
+    "physical_activity"
+  ],
+  "question": "Is the drop in Noor's exercise a concern for muscle and bone loss in flight?",
+  "status_summary": "physical_activity: latest stored status 'attention' (window ending 2026-10-26T00:00:00Z).",
+  "headline": "Noor's exercise duration and energy expenditure show an attention status due to a progressive decline.",
+  "headline_origin": "model",
+  "observations": [
+    {
+      "id": "O1",
+      "text": "Exercise duration dropped from 60 min to 10 min between 2026-10-12 and 2026-10-25, with a mean of 37 min compared to a baseline of 52.5 min.",
+      "origin": "model",
+      "fact_ids": [
+        "F3",
+        "F6",
+        "F8",
+        "F10"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "O2",
+      "text": "Active energy expenditure fell from 300 kcal to 50 kcal between 2026-10-12 and 2026-10-25, with a mean of 185 kcal compared to a baseline of 241.667 kcal.",
+      "origin": "model",
+      "fact_ids": [
+        "F4",
+        "F7",
+        "F9",
+        "F11"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "O3",
+      "text": "Both metrics have an attention status across evaluation windows from 2026-10-12 to 2026-10-26, with data quality marked as degraded due to missing data.",
+      "origin": "model",
+      "fact_ids": [
+        "F2",
+        "F5",
+        "F12"
+      ],
+      "evidence_ids": []
+    }
+  ],
+  "evidence_context": [
+    {
+      "id": "E1",
+      "text": "Exercise programs are the main countermeasure protecting muscle and bone, though current exercise does not prevent substantial loss in calf muscles after six months.",
+      "origin": "model",
+      "fact_ids": [],
+      "evidence_ids": [
+        "LIT-DEMONTIS2017-07"
+      ]
+    },
+    {
+      "id": "E2",
+      "text": "Exercise training before flight improves performance on the station, and equipment has advanced from the rowing ergometer of Skylab to the motorised treadmill of the International Space Station.",
+      "origin": "model",
+      "fact_ids": [],
+      "evidence_ids": [
+        "LIT-DEMONTIS2017-06"
+      ]
+    }
+  ],
+  "interpretations": [],
+  "uncertainties": [
+    {
+      "id": "U1",
+      "text": "'attention' is produced by screening settings chosen for this demonstration. They are not clinical thresholds, and the screen is not a statistical significance test.",
+      "origin": "rule",
+      "fact_ids": [
+        "F6",
+        "F7"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "U2",
+      "text": "All crew data in this explanation is simulated. It shows how the software behaves, not how a person responds to spaceflight.",
+      "origin": "rule",
+      "fact_ids": [
+        "F1"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "U3",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U4",
+      "text": "No stored result explained here concerns muscle strength. Cited summaries on this subject are background only and cannot be applied to this crew member.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U5",
+      "text": "A second model (medgemma) reviewed the readings. Its verdicts are a model's opinion, not a validated clinical assessment.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U6",
+      "text": "The cause of the progressive reduction in exercise duration and energy expenditure remains unknown.",
+      "origin": "model",
+      "fact_ids": [
+        "F10",
+        "F11"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "U7",
+      "text": "Second-opinion model (medgemma): The facts state the attention status indicates a trigger, not a physiological event.",
+      "origin": "model",
+      "fact_ids": [
+        "F2",
+        "F5"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "U8",
+      "text": "Second-opinion model (medgemma): The facts state no physiological conclusion is possible regarding bone density or muscle strength.",
+      "origin": "model",
+      "fact_ids": [
+        "F12"
+      ],
+      "evidence_ids": []
+    }
+  ],
+  "suggested_checks": [
+    {
+      "id": "A1",
+      "action_code": "human_review_of_flagged_findings",
+      "text": "Ask a qualified person, for example the flight surgeon or the crew medical officer, to review the flagged findings together with the mission context.",
+      "rationale": "The backend returned status 'attention' for active_energy_expenditure, exercise_duration; that status asks for a review by a person.",
+      "fact_ids": [
+        "F6",
+        "F7"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "id": "A2",
+      "action_code": "ask_crew_member_for_context",
+      "text": "Ask the crew member about operational factors the records cannot show, such as schedule changes or workload, before drawing any conclusion.",
+      "rationale": "A flagged pattern in recorded values does not say why the values changed.",
+      "fact_ids": [
+        "F6",
+        "F7"
+      ],
+      "requires_human_review": true
+    }
+  ],
+  "human_review": {
+    "recommended": true,
+    "reasons": [
+      "The backend flagged active_energy_expenditure, exercise_duration with status 'attention'."
+    ],
+    "fact_ids": [
+      "F6",
+      "F7"
+    ]
+  },
+  "facts": [
+    {
+      "id": "F1",
+      "kind": "provenance",
+      "domain": null,
+      "metric": null,
+      "statement": "All 45 stored measurements in scope have source 'simulated': they are synthetic demonstration data, not recordings of a person.",
+      "data": {
+        "measurement_count": 45,
+        "sources": {
+          "simulated": 45
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "data_quality"
+    },
+    {
+      "id": "F2",
+      "kind": "evaluation",
+      "domain": "physical_activity",
+      "metric": null,
+      "statement": "Stored physical_activity evaluation 1 of 2 (window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z, mission phase in_flight): overall status 'attention'; window data quality 'not_assessed'; produced by algorithm physical_activity_monitor 0.1.0. Status per metric: exercise_duration 'attention'; active_energy_expenditure 'attention'.",
+      "data": {
+        "evaluation_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc",
+        "status": "attention",
+        "status_per_metric": {
+          "exercise_duration": "attention",
+          "active_energy_expenditure": "attention"
+        },
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-19T00:00:00Z",
+        "algorithm": {
+          "name": "physical_activity_monitor",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC metric-days: 14/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        },
+        "summary": "SIMULATED DATA: this evaluation includes synthetic measurements. Physical activity: attention. 7 UTC day(s), 1 ISO week(s); 2 progressive reduction run(s). Findings describe configured activity review signals and recording limits, not diagnoses or medical risk. Mission context supplied by the caller: SIMULATED declining adherence, planned rest, partial and missing records."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F3",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "exercise_duration finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z: status 'attention'. Observed value 47.5 min (the mean of 6 complete usable active-day totals in min). Personal baseline value 52.5 min. Deviation from baseline -5 min (-9.5% relative to baseline). Personal daily target missed on: 2026-10-18 (observed 35 < target 40 min). Progressive reduction from 2026-10-12 through 2026-10-16: 5 consecutive daily totals decreased from 60 to 40 min. Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "status": "attention",
+        "unit": "min",
+        "observed_value": 47.5,
+        "baseline_id": "d408761d-d425-5f61-93c7-0c7dc533a074",
+        "baseline_value": 52.5,
+        "absolute_deviation": -5.0,
+        "relative_deviation": -0.09523809523809523,
+        "relative_deviation_percent": -9.5,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 6 complete usable active-day totals in min",
+          "missed_daily_targets": [
+            "2026-10-18 (observed 35 < target 40 min)"
+          ],
+          "configured_daily_target": 40.0,
+          "configured_weekly_target": 240.0,
+          "progressive_reduction": {
+            "from_date": "2026-10-12",
+            "through_date": "2026-10-16",
+            "consecutive_days": 5,
+            "from_value": 60.0,
+            "to_value": 40.0
+          }
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 6 complete usable active-day totals in min; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Personal daily minimum target missed on: 2026-10-18 (observed 35 < target 40 min). Configured daily target: 40.0; weekly target: 240.0 min. Day-specific targets are shown in dail [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 7/7. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F4",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "active_energy_expenditure finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z: status 'attention'. Observed value 238.333 kcal (the mean of 6 complete usable active-day totals in kcal). Personal baseline value 241.667 kcal. Deviation from baseline -3.333 kcal (-1.4% relative to baseline). Personal daily target missed on: 2026-10-18 (observed 170 < target 200 kcal). Progressive reduction from 2026-10-12 through 2026-10-16: 5 consecutive daily totals decreased from 300 to 200 kcal. Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "status": "attention",
+        "unit": "kcal",
+        "observed_value": 238.33333333333334,
+        "baseline_id": "022e2799-0314-5793-9117-5a3ea4efa34c",
+        "baseline_value": 241.66666666666666,
+        "absolute_deviation": -3.3333333333333144,
+        "relative_deviation": -0.013793103448275784,
+        "relative_deviation_percent": -1.4,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 6 complete usable active-day totals in kcal",
+          "missed_daily_targets": [
+            "2026-10-18 (observed 170 < target 200 kcal)"
+          ],
+          "configured_daily_target": 200.0,
+          "configured_weekly_target": 1200.0,
+          "progressive_reduction": {
+            "from_date": "2026-10-12",
+            "through_date": "2026-10-16",
+            "consecutive_days": 5,
+            "from_value": 300.0,
+            "to_value": 200.0
+          }
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 6 complete usable active-day totals in kcal; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Personal daily minimum target missed on: 2026-10-18 (observed 170 < target 200 kcal). Configured daily target: 200.0; weekly target: 1200.0 kcal. Day-specific targets are shown [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 7/7. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "d68759f7-e9f5-5b1e-a839-2f41928a06fc"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F5",
+      "kind": "evaluation",
+      "domain": "physical_activity",
+      "metric": null,
+      "statement": "Stored physical_activity evaluation 2 of 2 (window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z, mission phase in_flight): overall status 'attention'; window data quality 'degraded' (flags: missing_data); produced by algorithm physical_activity_monitor 0.1.0. Status per metric: exercise_duration 'attention'; active_energy_expenditure 'attention'.",
+      "data": {
+        "evaluation_id": "706de4ba-68b4-5d31-b65b-997d46b9646d",
+        "status": "attention",
+        "status_per_metric": {
+          "exercise_duration": "attention",
+          "active_energy_expenditure": "attention"
+        },
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-26T00:00:00Z",
+        "algorithm": {
+          "name": "physical_activity_monitor",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "degraded",
+          "score": null,
+          "completeness": 0.8571428571428571,
+          "flags": [
+            "missing_data"
+          ],
+          "notes": "Confirmed complete usable UTC metric-days: 24/28. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 0/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 0/1. Completeness describes d [...]"
+        },
+        "summary": "SIMULATED DATA: this evaluation includes synthetic measurements. Physical activity: attention. 14 UTC day(s), 2 ISO week(s); 4 progressive reduction run(s). Findings describe configured activity review signals and recording limits, not diagnoses or medical risk. Mission context supplied by the caller: SIMULATED declining adherence, planned rest, partial and missing records."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "706de4ba-68b4-5d31-b65b-997d46b9646d"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F6",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "exercise_duration finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z: status 'attention'. Observed value 37 min (the mean of 10 complete usable active-day totals in min). Personal baseline value 52.5 min. Deviation from baseline -15.5 min (-29.5% relative to baseline). Personal daily target missed on: 2026-10-18 (observed 35 < target 40 min); 2026-10-19 (observed 30 < target 40 min); 2026-10-20 (observed 25 < target 40 min); 2026-10-21 (observed 20 < target 40 min); 2026-10-25 (observed 10 < target 40 min). Progressive reduction from 2026-10-12 through 2026-10-16: 5 consecutive daily totals decreased from 60 to 40 min. Records behind this finding: data quality 'degraded' (flags: missing_data).",
+      "data": {
+        "evaluation_id": "706de4ba-68b4-5d31-b65b-997d46b9646d",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "status": "attention",
+        "unit": "min",
+        "observed_value": 37.0,
+        "baseline_id": "d408761d-d425-5f61-93c7-0c7dc533a074",
+        "baseline_value": 52.5,
+        "absolute_deviation": -15.5,
+        "relative_deviation": -0.29523809523809524,
+        "relative_deviation_percent": -29.5,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 10 complete usable active-day totals in min",
+          "missed_daily_targets": [
+            "2026-10-18 (observed 35 < target 40 min)",
+            "2026-10-19 (observed 30 < target 40 min)",
+            "2026-10-20 (observed 25 < target 40 min)",
+            "2026-10-21 (observed 20 < target 40 min)",
+            "2026-10-25 (observed 10 < target 40 min)"
+          ],
+          "configured_daily_target": 40.0,
+          "configured_weekly_target": 240.0,
+          "progressive_reduction": {
+            "from_date": "2026-10-12",
+            "through_date": "2026-10-16",
+            "consecutive_days": 5,
+            "from_value": 60.0,
+            "to_value": 40.0
+          }
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 10 complete usable active-day totals in min; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Personal daily minimum target missed on: 2026-10-18 (observed 35 < target 40 min), 2026-10-19 (observed 30 < target 40 min), 2026-10-20 (observed 25 < target 40 min), 2026-10-21 [...]",
+        "data_quality": {
+          "status": "degraded",
+          "score": null,
+          "completeness": 0.8571428571428571,
+          "flags": [
+            "missing_data"
+          ],
+          "notes": "Confirmed complete usable UTC days: 12/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 0/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "706de4ba-68b4-5d31-b65b-997d46b9646d"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F7",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "active_energy_expenditure finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z: status 'attention'. Observed value 185 kcal (the mean of 10 complete usable active-day totals in kcal). Personal baseline value 241.667 kcal. Deviation from baseline -56.667 kcal (-23.4% relative to baseline). Personal daily target missed on: 2026-10-18 (observed 170 < target 200 kcal); 2026-10-19 (observed 150 < target 200 kcal); 2026-10-20 (observed 120 < target 200 kcal); 2026-10-21 (observed 100 < target 200 kcal); 2026-10-25 (observed 50 < target 200 kcal). Progressive reduction from 2026-10-12 through 2026-10-16: 5 consecutive daily totals decreased from 300 to 200 kcal. Records behind this finding: data quality 'degraded' (flags: missing_data).",
+      "data": {
+        "evaluation_id": "706de4ba-68b4-5d31-b65b-997d46b9646d",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "status": "attention",
+        "unit": "kcal",
+        "observed_value": 185.0,
+        "baseline_id": "022e2799-0314-5793-9117-5a3ea4efa34c",
+        "baseline_value": 241.66666666666666,
+        "absolute_deviation": -56.66666666666666,
+        "relative_deviation": -0.23448275862068962,
+        "relative_deviation_percent": -23.4,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 10 complete usable active-day totals in kcal",
+          "missed_daily_targets": [
+            "2026-10-18 (observed 170 < target 200 kcal)",
+            "2026-10-19 (observed 150 < target 200 kcal)",
+            "2026-10-20 (observed 120 < target 200 kcal)",
+            "2026-10-21 (observed 100 < target 200 kcal)",
+            "2026-10-25 (observed 50 < target 200 kcal)"
+          ],
+          "configured_daily_target": 200.0,
+          "configured_weekly_target": 1200.0,
+          "progressive_reduction": {
+            "from_date": "2026-10-12",
+            "through_date": "2026-10-16",
+            "consecutive_days": 5,
+            "from_value": 300.0,
+            "to_value": 200.0
+          }
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 10 complete usable active-day totals in kcal; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Personal daily minimum target missed on: 2026-10-18 (observed 170 < target 200 kcal), 2026-10-19 (observed 150 < target 200 kcal), 2026-10-20 (observed 120 < target 200 kcal), [...]",
+        "data_quality": {
+          "status": "degraded",
+          "score": null,
+          "completeness": 0.8571428571428571,
+          "flags": [
+            "missing_data"
+          ],
+          "notes": "Confirmed complete usable UTC days: 12/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 0/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Session sim-mission-v1-02:sim-activity-session-10 is open or lacks linke [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations",
+        "resource_id": "706de4ba-68b4-5d31-b65b-997d46b9646d"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F8",
+      "kind": "baseline",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "Personal baseline of exercise_duration (mission phase in_flight, status 'established'): median 52.5 min, mean 52.5 min, standard deviation 2.611 min, median absolute deviation 2.5 min, minimum 50 min, maximum 55 min; computed from 12 samples in the reference window 2026-09-28T00:00:00Z to 2026-10-12T00:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "d408761d-d425-5f61-93c7-0c7dc533a074",
+        "status": "established",
+        "unit": "min",
+        "mission_phase": "in_flight",
+        "sample_count": 12,
+        "window_start": "2026-09-28T00:00:00Z",
+        "window_end": "2026-10-12T00:00:00Z",
+        "statistics": {
+          "mean": 52.5,
+          "standard_deviation": 2.6111648393354674,
+          "median": 52.5,
+          "median_absolute_deviation": 2.5,
+          "minimum": 50.0,
+          "maximum": 55.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "12 records in the window: 12 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 12 of 12 (no measuring range is configured for their device). Simulated (synthetic) records: 12 of 12. Completeness is not assessed: no expected sampling interval is configured for exercise_duration. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 12 values spanning 13 days were used. API aggregation basis: complete_act [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/baselines",
+        "resource_id": "d408761d-d425-5f61-93c7-0c7dc533a074"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F9",
+      "kind": "baseline",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "Personal baseline of active_energy_expenditure (mission phase in_flight, status 'established'): median 245 kcal, mean 241.667 kcal, standard deviation 14.035 kcal, median absolute deviation 10 kcal, minimum 220 kcal, maximum 260 kcal; computed from 12 samples in the reference window 2026-09-28T00:00:00Z to 2026-10-12T00:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "022e2799-0314-5793-9117-5a3ea4efa34c",
+        "status": "established",
+        "unit": "kcal",
+        "mission_phase": "in_flight",
+        "sample_count": 12,
+        "window_start": "2026-09-28T00:00:00Z",
+        "window_end": "2026-10-12T00:00:00Z",
+        "statistics": {
+          "mean": 241.66666666666666,
+          "standard_deviation": 14.03458930534474,
+          "median": 245.0,
+          "median_absolute_deviation": 10.0,
+          "minimum": 220.0,
+          "maximum": 260.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "12 records in the window: 12 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 12 of 12 (no measuring range is configured for their device). Simulated (synthetic) records: 12 of 12. Completeness is not assessed: no expected sampling interval is configured for active_energy_expenditure. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 12 values spanning 13 days were used. API aggregation basis: comp [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/baselines",
+        "resource_id": "022e2799-0314-5793-9117-5a3ea4efa34c"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F10",
+      "kind": "measurement_series",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "Stored exercise_duration records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T00:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 60 min (acceptable); 2026-10-13: 55 min (acceptable); 2026-10-14: 50 min (acceptable); 2026-10-15: 45 min (acceptable); 2026-10-16: 40 min (acceptable); 2026-10-18: 35 min (acceptable); 2026-10-19: 30 min (acceptable); 2026-10-20: 25 min (acceptable); 2026-10-21: 20 min (acceptable); 2026-10-22: 15 min (acceptable); 2026-10-25: 10 min (acceptable). The latest stored finding for this metric has status 'attention'.",
+      "data": {
+        "unit": "min",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "latest_finding_status": "attention",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-00-exercise_duration",
+            "measured_at": "2026-10-12T09:00:00Z",
+            "value": 60.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-01-exercise_duration",
+            "measured_at": "2026-10-13T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-02-exercise_duration",
+            "measured_at": "2026-10-14T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-03-exercise_duration",
+            "measured_at": "2026-10-15T09:00:00Z",
+            "value": 45.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-04-exercise_duration",
+            "measured_at": "2026-10-16T09:00:00Z",
+            "value": 40.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-06-exercise_duration",
+            "measured_at": "2026-10-18T09:00:00Z",
+            "value": 35.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-07-exercise_duration",
+            "measured_at": "2026-10-19T09:00:00Z",
+            "value": 30.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-08-exercise_duration",
+            "measured_at": "2026-10-20T09:00:00Z",
+            "value": 25.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-09-exercise_duration",
+            "measured_at": "2026-10-21T09:00:00Z",
+            "value": 20.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-10-exercise_duration",
+            "measured_at": "2026-10-22T09:00:00Z",
+            "value": 15.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-13-exercise_duration",
+            "measured_at": "2026-10-25T09:00:00Z",
+            "value": 10.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F11",
+      "kind": "measurement_series",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "Stored active_energy_expenditure records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T00:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 300 kcal (acceptable); 2026-10-13: 280 kcal (acceptable); 2026-10-14: 260 kcal (acceptable); 2026-10-15: 220 kcal (acceptable); 2026-10-16: 200 kcal (acceptable); 2026-10-18: 170 kcal (acceptable); 2026-10-19: 150 kcal (acceptable); 2026-10-20: 120 kcal (acceptable); 2026-10-21: 100 kcal (acceptable); 2026-10-25: 50 kcal (acceptable). The latest stored finding for this metric has status 'attention'.",
+      "data": {
+        "unit": "kcal",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "latest_finding_status": "attention",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-00-active_energy_expenditure",
+            "measured_at": "2026-10-12T09:00:00Z",
+            "value": 300.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-01-active_energy_expenditure",
+            "measured_at": "2026-10-13T09:00:00Z",
+            "value": 280.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-02-active_energy_expenditure",
+            "measured_at": "2026-10-14T09:00:00Z",
+            "value": 260.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-03-active_energy_expenditure",
+            "measured_at": "2026-10-15T09:00:00Z",
+            "value": 220.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-04-active_energy_expenditure",
+            "measured_at": "2026-10-16T09:00:00Z",
+            "value": 200.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-06-active_energy_expenditure",
+            "measured_at": "2026-10-18T09:00:00Z",
+            "value": 170.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-07-active_energy_expenditure",
+            "measured_at": "2026-10-19T09:00:00Z",
+            "value": 150.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-08-active_energy_expenditure",
+            "measured_at": "2026-10-20T09:00:00Z",
+            "value": 120.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-09-active_energy_expenditure",
+            "measured_at": "2026-10-21T09:00:00Z",
+            "value": 100.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-02:current:sim-activity-13-active_energy_expenditure",
+            "measured_at": "2026-10-25T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F12",
+      "kind": "quality_overview",
+      "domain": null,
+      "metric": null,
+      "statement": "Data quality status of the 45 stored measurements in scope: acceptable: 45.",
+      "data": {
+        "measurement_count": 45,
+        "status_counts": {
+          "acceptable": 45
+        },
+        "problem_records_by_metric": {}
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "data_quality"
+    }
+  ],
+  "citations": [
+    {
+      "evidence_id": "LIT-DEMONTIS2017-07",
+      "source_type": "peer_reviewed_article",
+      "publisher": "Frontiers in Physiology",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Physical exercise programs to protect the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "summary": "Recovery after return depends on mission length. Despite encouraging results for cardiac performance, studies cited in the review found that current exercise does not prevent substantial loss in calf muscles: muscle volume and force declined after six months on the station.",
+      "text_kind": "independent_summary",
+      "sha256": "baec0e49c0c981ccaf1b0b98d0f27b388863bdb490c4edd7b3e7ad74ab0bc23e",
+      "source_paragraph_sha256": "ed25c1232d7a345d347abab2894f1985975c3a16e4f14bd6b6011ccb206dcf7d",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 15.3145
+    },
+    {
+      "evidence_id": "LIT-DEMONTIS2017-06",
+      "source_type": "peer_reviewed_article",
+      "publisher": "Frontiers in Physiology",
+      "document_title": "Human Pathophysiological Adaptations to the Space Environment",
+      "section": "Physical exercise programs to protect the musculoskeletal system",
+      "url": "https://doi.org/10.3389/fphys.2017.00547",
+      "authors": "Demontis GC et al.",
+      "year": 2017,
+      "license": "CC BY",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5539130/fullTextXML",
+      "summary": "Exercise programs before, during and after flight are the main countermeasure protecting muscle and bone, and equipment has advanced from the rowing ergometer of Skylab to the motorised treadmill of the International Space Station.",
+      "text_kind": "independent_summary",
+      "sha256": "7fec7c0c7b8e3fcd8c6ccbef1b1a292890b508b1df63bf8aaed40ab324cdc8f1",
+      "source_paragraph_sha256": "c6a66397b89f8e249184863e3e925e17b78abd9b49fd4b252197de1edf5af6e9",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 15.1984
+    }
+  ],
+  "dataset_evidence": {
+    "status": "not_requested",
+    "topics": [],
+    "reason": "The question does not ask for NASA dataset context.",
+    "items": [],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
+  "data_provenance": {
+    "crew_data_kind": "simulated",
+    "measurement_sources": {
+      "simulated": 45
+    },
+    "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
+  },
+  "data_access": {
+    "read_only": true,
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/metrics",
+        "status": 200,
+        "item_count": 28
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/evaluations?domain=physical_activity",
+        "status": 200,
+        "item_count": 2
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/baselines",
+        "status": 200,
+        "item_count": 7
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-02/measurements",
+        "status": 200,
+        "item_count": 171
+      }
+    ]
+  },
+  "generation": {
+    "mode": "generative",
+    "generative": true,
+    "fallback_reason": null,
+    "primary_model": "qwen3.5:4b",
+    "question_kind": "interpretive",
+    "answer_profile": "full",
+    "reply_language": "en",
+    "context_turns": 0,
+    "attempts": 1,
+    "model_runs": [
+      {
+        "role": "primary",
+        "model": "qwen3.5:4b",
+        "attempt": 1,
+        "accepted": true,
+        "duration_ms": 13415.8,
+        "load_ms": 6.0,
+        "prompt_tokens": 4080,
+        "output_tokens": 869,
+        "prompt_eval_ms": 1042.0,
+        "output_eval_ms": 12295.5,
+        "rejected_sentences": 1
+      },
+      {
+        "role": "specialist",
+        "model": "medgemma1.5:4b",
+        "attempt": 1,
+        "accepted": true,
+        "duration_ms": 11294.1,
+        "load_ms": 3075.1,
+        "prompt_tokens": 1102,
+        "output_tokens": 108,
+        "prompt_eval_ms": null,
+        "output_eval_ms": null,
+        "rejected_sentences": null
+      }
+    ],
+    "specialist": {
+      "configured": "medgemma",
+      "consulted": true,
+      "reason": "A reading interprets a flagged screening result.",
+      "evidence_status": "used",
+      "evidence": [
+        {
+          "evidence_id": "S1",
+          "document_id": "bone-muscle-loss-countermeasures",
+          "document_title": "Bone Loss, Muscle Atrophy and Exercise Countermeasures",
+          "section": "What can and cannot be measured in flight",
+          "sources": [
+            "https://www.nasa.gov/wp-content/uploads/2026/02/ochmo-mtb-013-bone-loss.pdf",
+            "https://humanresearchroadmap.nasa.gov/evidence/reports/Bone%20Fracture%20Evidence%20Report_07-18-2024.pdf",
+            "https://doi.org/10.1002/jbmr.1647",
+            "https://doi.org/10.1007/s00198-012-2243-z",
+            "https://journals.physiology.org/doi/10.1152/japplphysiol.91578.2008",
+            "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-031-exercise-overview.pdf",
+            "https://www.nasa.gov/wp-content/uploads/2025/09/ochmo-mtb-006-shoulder-injury.pdf",
+            "https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf",
+            "https://www.nasa.gov/reference/zero-t2/"
+          ],
+          "similarity": 0.752,
+          "knowledge_base": "rag/knowledge_base"
+        }
+      ],
+      "decision": "consulted",
+      "model": "medgemma1.5:4b",
+      "duration_ms": 11345.5,
+      "findings": [
+        {
+          "statement_id": "I1",
+          "verdict": "unsupported",
+          "comment": "The facts state the attention status indicates a trigger, not a physiological event.",
+          "applied": "interpretation removed"
+        },
+        {
+          "statement_id": "I2",
+          "verdict": "unsupported",
+          "comment": "The facts state no physiological conclusion is possible regarding bone density or muscle strength.",
+          "applied": "interpretation removed"
+        }
+      ],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
+    },
+    "timings_ms": {
+      "backend_read_ms": 32.9,
+      "facts_and_retrieval_ms": 2.0,
+      "dataset_evidence_ms": 0.0,
+      "generation_ms": 13472.2,
+      "specialist_ms": 11345.5,
+      "assembly_and_audit_ms": 11358.8,
+      "total_ms": 24866.2
+    }
+  },
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "numeric_grounding",
+        "passed": true,
+        "detail": "All numbers and dates in 17 sentences appear in the cited sources."
+      },
+      {
+        "name": "status_consistency",
+        "passed": true,
+        "detail": "Every status named in a sentence is the status of the facts it cites."
+      },
+      {
+        "name": "references",
+        "passed": true,
+        "detail": "Every cited fact and passage exists."
+      },
+      {
+        "name": "citation_authenticity",
+        "passed": true,
+        "detail": "2 citations match the stored corpus summary, digests and source URL."
+      },
+      {
+        "name": "source_attribution",
+        "passed": true,
+        "detail": "No sentence presents NASA as the speaker; sources are disclosed in citations."
+      },
+      {
+        "name": "evidence_scope_separation",
+        "passed": true,
+        "detail": "Crew observations and general evidence are in separate lists."
+      },
+      {
+        "name": "insufficient_data_handling",
+        "passed": true,
+        "detail": "No physiological reading rests on insufficient data."
+      },
+      {
+        "name": "medical_language",
+        "passed": true,
+        "detail": "No diagnostic or treatment wording was found."
+      },
+      {
+        "name": "synthetic_data_labelling",
+        "passed": true,
+        "detail": "Crew data is labelled 'simulated'."
+      },
+      {
+        "name": "read_only_access",
+        "passed": true,
+        "detail": "Only GET requests were sent to the backend."
+      },
+      {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-02 only."
+      },
+      {
+        "name": "generation_disclosure",
+        "passed": true,
+        "detail": "Generation mode is declared as 'generative'."
+      },
+      {
+        "name": "untrusted_text_screening",
+        "passed": true,
+        "detail": "No instruction-like text was found in retrieved passages or backend text."
+      }
+    ],
+    "rejected_statements": [
+      {
+        "section": "interpretations",
+        "text": "The algorithm returned an attention status because the observed values for exercise duration and energy expenditure deviated significantly from the established personal baselines.",
+        "reasons": [
+          "unsupported claim wording: 'deviated significantly'"
+        ]
+      }
+    ]
+  },
+  "disclaimer": "Research prototype, not a medical device. This explanation supports a review by a person. It is not a diagnosis and it does not recommend any treatment."
+}

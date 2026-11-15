@@ -1,0 +1,1493 @@
+{
+  "schema_version": "0.2.0",
+  "generated_at": "2026-11-15T18:41:13.825564Z",
+  "crew_member_id": "sim-mission-v1-01",
+  "domains": [
+    "physical_activity",
+    "sleep"
+  ],
+  "question": "Is there NASA research data on heart rate in bed rest tilt tests?",
+  "status_summary": "physical_activity: latest stored status 'nominal' (window ending 2026-10-26T00:00:00Z); sleep: latest stored status 'nominal' (window ending 2026-10-26T12:00:00Z).",
+  "headline": "Research summaries describe how wearable sensors monitor sleep and activity during bed rest.",
+  "headline_origin": "model",
+  "observations": [
+    {
+      "id": "O1",
+      "text": "The latest evaluation windows show nominal status for physical activity and sleep metrics.",
+      "origin": "model",
+      "fact_ids": [
+        "F2",
+        "F5",
+        "F8",
+        "F11"
+      ],
+      "evidence_ids": []
+    }
+  ],
+  "evidence_context": [
+    {
+      "id": "E1",
+      "text": "Long-term head-down bed rest is used as a valid analog for studying cardiovascular and musculoskeletal systems.",
+      "origin": "model",
+      "fact_ids": [],
+      "evidence_ids": [
+        "LIT-SCOTT2021-04"
+      ]
+    },
+    {
+      "id": "E2",
+      "text": "Investigations monitor sleep quality using headbands that provide feedback on heart rate and awakenings.",
+      "origin": "model",
+      "fact_ids": [],
+      "evidence_ids": [
+        "NASA-SLEEP-STATION-03"
+      ]
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "I1",
+      "text": "The algorithm returned nominal status because observed values matched personal baselines.",
+      "origin": "model",
+      "fact_ids": [
+        "F9",
+        "F10",
+        "F12",
+        "F13"
+      ],
+      "evidence_ids": [],
+      "kind": "screening_signal",
+      "confidence": "low"
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "U1",
+      "text": "All crew data in this explanation is simulated. It shows how the software behaves, not how a person responds to spaceflight.",
+      "origin": "rule",
+      "fact_ids": [
+        "F1"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "U2",
+      "text": "The cited summaries of published sources are general context about spaceflight. They do not describe this crew member and do not validate the screening settings.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U3",
+      "text": "No stored result explained here concerns cardiovascular function or muscle strength. Cited summaries on these subjects are background only and cannot be applied to this crew member.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U4",
+      "text": "The research datasets listed in this answer come from terrestrial bed-rest studies of volunteers, not from this crew member, and provide no reference values for this crew member.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U5",
+      "text": "Some variables of those datasets have unresolved units, so none of their values can be compared with anything.",
+      "origin": "rule",
+      "fact_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "U6",
+      "text": "The specific impact of bed rest on individual heart rate variability remains unknown.",
+      "origin": "model",
+      "fact_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "suggested_checks": [],
+  "human_review": {
+    "recommended": false,
+    "reasons": [],
+    "fact_ids": []
+  },
+  "facts": [
+    {
+      "id": "F1",
+      "kind": "provenance",
+      "domain": null,
+      "metric": null,
+      "statement": "All 188 stored measurements in scope have source 'simulated': they are synthetic demonstration data, not recordings of a person.",
+      "data": {
+        "measurement_count": 188,
+        "sources": {
+          "simulated": 188
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "data_quality"
+    },
+    {
+      "id": "F2",
+      "kind": "evaluation",
+      "domain": "physical_activity",
+      "metric": null,
+      "statement": "Stored physical_activity evaluation 1 of 4 (window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z, mission phase in_flight): overall status 'nominal'; window data quality 'not_assessed'; produced by algorithm physical_activity_monitor 0.1.0. Status per metric: exercise_duration 'nominal'; active_energy_expenditure 'nominal'.",
+      "data": {
+        "evaluation_id": "9df86cb7-4864-59ff-9f51-bd4227898024",
+        "status": "nominal",
+        "status_per_metric": {
+          "exercise_duration": "nominal",
+          "active_energy_expenditure": "nominal"
+        },
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-19T00:00:00Z",
+        "algorithm": {
+          "name": "physical_activity_monitor",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC metric-days: 14/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        },
+        "summary": "SIMULATED DATA: this evaluation includes synthetic measurements. Physical activity: nominal. 7 UTC day(s), 1 ISO week(s); 0 progressive reduction run(s). Findings describe configured activity review signals and recording limits, not diagnoses or medical risk. Mission context supplied by the caller: SIMULATED complete additive recording and explicit personal plan."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "9df86cb7-4864-59ff-9f51-bd4227898024"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F3",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "exercise_duration finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z: status 'nominal'. Observed value 52.5 min (the mean of 6 complete usable active-day totals in min). Personal baseline value 52.5 min. Deviation from baseline 0 min (0% relative to baseline). Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "9df86cb7-4864-59ff-9f51-bd4227898024",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "status": "nominal",
+        "unit": "min",
+        "observed_value": 52.5,
+        "baseline_id": "02a9d953-e09e-5063-87c1-ed89a34499b0",
+        "baseline_value": 52.5,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 6 complete usable active-day totals in min",
+          "configured_daily_target": 40.0,
+          "configured_weekly_target": 240.0
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 6 complete usable active-day totals in min; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Configured daily target: 40.0; weekly target: 240.0 min. Day-specific targets are shown in daily details. No population exercise prescription is applied. Established baseline 02a [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 7/7. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "9df86cb7-4864-59ff-9f51-bd4227898024"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F4",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "active_energy_expenditure finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-19T00:00:00Z: status 'nominal'. Observed value 241.667 kcal (the mean of 6 complete usable active-day totals in kcal). Personal baseline value 241.667 kcal. Deviation from baseline 0 kcal (0% relative to baseline). Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "9df86cb7-4864-59ff-9f51-bd4227898024",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-19T00:00:00Z",
+        "status": "nominal",
+        "unit": "kcal",
+        "observed_value": 241.66666666666666,
+        "baseline_id": "fdb96b8e-7ab5-5af5-80c4-abc6ed585410",
+        "baseline_value": 241.66666666666666,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 6 complete usable active-day totals in kcal",
+          "configured_daily_target": 200.0,
+          "configured_weekly_target": 1200.0
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 6 complete usable active-day totals in kcal; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Configured daily target: 200.0; weekly target: 1200.0 kcal. Day-specific targets are shown in daily details. No population exercise prescription is applied. Established baseline [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 7/7. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "9df86cb7-4864-59ff-9f51-bd4227898024"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F5",
+      "kind": "evaluation",
+      "domain": "sleep",
+      "metric": null,
+      "statement": "Stored sleep evaluation 2 of 4 (window 2026-10-12T12:00:00Z to 2026-10-19T12:00:00Z, mission phase in_flight): overall status 'nominal'; window data quality 'acceptable'; produced by algorithm sleep_monitoring_trends 0.1.0. Status per metric: sleep_duration 'nominal'; sleep_efficiency 'nominal'.",
+      "data": {
+        "evaluation_id": "4fc47da3-2805-50fa-8b03-bdef52703abd",
+        "status": "nominal",
+        "status_per_metric": {
+          "sleep_duration": "nominal",
+          "sleep_efficiency": "nominal"
+        },
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-19T12:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-19T12:00:00Z",
+        "algorithm": {
+          "name": "sleep_monitoring_trends",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": null,
+          "completeness": null,
+          "flags": [],
+          "notes": "Per-metric Data Quality Engine assessments are attached to findings. Mixed unusable/usable metrics yield degraded window quality; only the affected metric is suppressed. Scores and sample completeness are not pooled."
+        },
+        "summary": "SIMULATED DATA. Non-clinical sleep screen. Attention metrics: 0; insufficient-data metrics: 0. Nominal means no configured statistical signal; this is not a diagnosis."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "4fc47da3-2805-50fa-8b03-bdef52703abd"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F6",
+      "kind": "finding",
+      "domain": "sleep",
+      "metric": "sleep_duration",
+      "statement": "sleep_duration finding of the sleep evaluation for the window 2026-10-12T12:00:00Z to 2026-10-19T12:00:00Z: status 'nominal'. Observed value 480 min (the median of included nightly values). Personal baseline value 480 min. Deviation from baseline 0 min (0% relative to baseline). Included 7 of 7 night buckets (coverage 1). Theil-Sen slope 0 min/day. Fitted change over the window 0 min. No configured trend pattern detected. Records behind this finding: data quality 'acceptable'.",
+      "data": {
+        "evaluation_id": "4fc47da3-2805-50fa-8b03-bdef52703abd",
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-19T12:00:00Z",
+        "status": "nominal",
+        "unit": "min",
+        "observed_value": 480.0,
+        "baseline_id": "fc88743b-db27-5883-a71c-b41f05739671",
+        "baseline_value": 480.0,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "included_nights": 7,
+          "expected_nights": 7,
+          "coverage": 1.0,
+          "missing_nights": [],
+          "longest_missing_run": 0,
+          "elapsed_span_days": 6,
+          "trend_slope_per_day": 0.0,
+          "trend_slope_unit": "min/day",
+          "trend_fitted_change": 0.0,
+          "decreasing_transition_fraction": 0.0,
+          "detected_pattern": null,
+          "aggregation": "the median of included nightly values"
+        },
+        "algorithm_explanation": "SIMULATED DATA. Included 7/7 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=6 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 min/day; fitted change=+0 min; decreasing transition fraction=0. Trend gates: absolute slope >= 5 min/day and absolute fitted change >= 30 min. Duration also requires a negative slope and decreasing transition fraction >= 0.75. No configured trend pattern detected.",
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "7 records in the window: 7 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 7 of 7 (no measuring range is configured for their device). Simulated (synthetic) records: 7 of 7. Completeness is not assessed: no expected sampling interval is configured for sleep_duration."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "4fc47da3-2805-50fa-8b03-bdef52703abd"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F7",
+      "kind": "finding",
+      "domain": "sleep",
+      "metric": "sleep_efficiency",
+      "statement": "sleep_efficiency finding of the sleep evaluation for the window 2026-10-12T12:00:00Z to 2026-10-19T12:00:00Z: status 'nominal'. Observed value 92 % (the median of included nightly values). Personal baseline value 92 %. Deviation from baseline 0 percentage points (0% relative to baseline). Included 7 of 7 night buckets (coverage 1). Theil-Sen slope 0 percentage points/day. Fitted change over the window 0 percentage points. No configured trend pattern detected. Records behind this finding: data quality 'acceptable'.",
+      "data": {
+        "evaluation_id": "4fc47da3-2805-50fa-8b03-bdef52703abd",
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-19T12:00:00Z",
+        "status": "nominal",
+        "unit": "%",
+        "observed_value": 92.0,
+        "baseline_id": "2aed437f-72ab-5a06-a0ad-a190c85908a3",
+        "baseline_value": 92.0,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "included_nights": 7,
+          "expected_nights": 7,
+          "coverage": 1.0,
+          "missing_nights": [],
+          "longest_missing_run": 0,
+          "elapsed_span_days": 6,
+          "trend_slope_per_day": 0.0,
+          "trend_slope_unit": "percentage points/day",
+          "trend_fitted_change": 0.0,
+          "decreasing_transition_fraction": 0.0,
+          "detected_pattern": null,
+          "aggregation": "the median of included nightly values"
+        },
+        "algorithm_explanation": "SIMULATED DATA. Included 7/7 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=6 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 percentage points/day; fitted change=+0 percentage points; decreasing transition fraction=0. Trend gates: absolute slope >= 0.5 percentage points/day and absolute fitted change >= 3 percentage points. No configured trend pattern detected.",
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "7 records in the window: 7 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 7 of 7 (no measuring range is configured for their device). Simulated (synthetic) records: 7 of 7. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "4fc47da3-2805-50fa-8b03-bdef52703abd"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F8",
+      "kind": "evaluation",
+      "domain": "physical_activity",
+      "metric": null,
+      "statement": "Stored physical_activity evaluation 3 of 4 (window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z, mission phase in_flight): overall status 'nominal'; window data quality 'not_assessed'; produced by algorithm physical_activity_monitor 0.1.0. Status per metric: exercise_duration 'nominal'; active_energy_expenditure 'nominal'.",
+      "data": {
+        "evaluation_id": "c158d557-2345-5ad9-910b-5c2efcc48e79",
+        "status": "nominal",
+        "status_per_metric": {
+          "exercise_duration": "nominal",
+          "active_energy_expenditure": "nominal"
+        },
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-26T00:00:00Z",
+        "algorithm": {
+          "name": "physical_activity_monitor",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC metric-days: 28/28. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        },
+        "summary": "SIMULATED DATA: this evaluation includes synthetic measurements. Physical activity: nominal. 14 UTC day(s), 2 ISO week(s); 0 progressive reduction run(s). Findings describe configured activity review signals and recording limits, not diagnoses or medical risk. Mission context supplied by the caller: SIMULATED complete additive recording and explicit personal plan."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "c158d557-2345-5ad9-910b-5c2efcc48e79"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F9",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "exercise_duration finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z: status 'nominal'. Observed value 52.5 min (the mean of 12 complete usable active-day totals in min). Personal baseline value 52.5 min. Deviation from baseline 0 min (0% relative to baseline). Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "c158d557-2345-5ad9-910b-5c2efcc48e79",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "status": "nominal",
+        "unit": "min",
+        "observed_value": 52.5,
+        "baseline_id": "02a9d953-e09e-5063-87c1-ed89a34499b0",
+        "baseline_value": 52.5,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 12 complete usable active-day totals in min",
+          "configured_daily_target": 40.0,
+          "configured_weekly_target": 240.0
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 12 complete usable active-day totals in min; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Configured daily target: 40.0; weekly target: 240.0 min. Day-specific targets are shown in daily details. No population exercise prescription is applied. Established baseline 02 [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 14/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "c158d557-2345-5ad9-910b-5c2efcc48e79"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F10",
+      "kind": "finding",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "active_energy_expenditure finding of the physical_activity evaluation for the window 2026-10-12T00:00:00Z to 2026-10-26T00:00:00Z: status 'nominal'. Observed value 241.667 kcal (the mean of 12 complete usable active-day totals in kcal). Personal baseline value 241.667 kcal. Deviation from baseline 0 kcal (0% relative to baseline). Records behind this finding: data quality 'not_assessed'.",
+      "data": {
+        "evaluation_id": "c158d557-2345-5ad9-910b-5c2efcc48e79",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T00:00:00Z",
+        "status": "nominal",
+        "unit": "kcal",
+        "observed_value": 241.66666666666666,
+        "baseline_id": "fdb96b8e-7ab5-5af5-80c4-abc6ed585410",
+        "baseline_value": 241.66666666666666,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "aggregation": "the mean of 12 complete usable active-day totals in kcal",
+          "configured_daily_target": 200.0,
+          "configured_weekly_target": 1200.0
+        },
+        "algorithm_explanation": "SIMULATED DATA: this evaluation includes synthetic measurements. Observed value is the mean of 12 complete usable active-day totals in kcal; partial days, rest and operational exceptions are excluded. Daily and weekly details retain known subtotals. Measurement quality is not fully assessed; no quality score was inferred. Configured daily target: 200.0; weekly target: 1200.0 kcal. Day-specific targets are shown in daily details. No population exercise prescription is applied. Established baselin [...]",
+        "data_quality": {
+          "status": "not_assessed",
+          "score": null,
+          "completeness": 1.0,
+          "flags": [],
+          "notes": "Confirmed complete usable UTC days: 14/14. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated. Confirmed complete usable UTC days: 1/1. Completeness describes day coverage, not sensor sample completeness. No quality score was estimated."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "c158d557-2345-5ad9-910b-5c2efcc48e79"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F11",
+      "kind": "evaluation",
+      "domain": "sleep",
+      "metric": null,
+      "statement": "Stored sleep evaluation 4 of 4 (window 2026-10-12T12:00:00Z to 2026-10-26T12:00:00Z, mission phase in_flight): overall status 'nominal'; window data quality 'acceptable'; produced by algorithm sleep_monitoring_trends 0.1.0. Status per metric: sleep_duration 'nominal'; sleep_efficiency 'nominal'.",
+      "data": {
+        "evaluation_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519",
+        "status": "nominal",
+        "status_per_metric": {
+          "sleep_duration": "nominal",
+          "sleep_efficiency": "nominal"
+        },
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "mission_phase": "in_flight",
+        "evaluated_at": "2026-10-26T12:00:00Z",
+        "algorithm": {
+          "name": "sleep_monitoring_trends",
+          "version": "0.1.0"
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": null,
+          "completeness": null,
+          "flags": [],
+          "notes": "Per-metric Data Quality Engine assessments are attached to findings. Mixed unusable/usable metrics yield degraded window quality; only the affected metric is suppressed. Scores and sample completeness are not pooled."
+        },
+        "summary": "SIMULATED DATA. Non-clinical sleep screen. Attention metrics: 0; insufficient-data metrics: 0. Nominal means no configured statistical signal; this is not a diagnosis."
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F12",
+      "kind": "finding",
+      "domain": "sleep",
+      "metric": "sleep_duration",
+      "statement": "sleep_duration finding of the sleep evaluation for the window 2026-10-12T12:00:00Z to 2026-10-26T12:00:00Z: status 'nominal'. Observed value 480 min (the median of included nightly values). Personal baseline value 480 min. Deviation from baseline 0 min (0% relative to baseline). Included 14 of 14 night buckets (coverage 1). Theil-Sen slope 0 min/day. Fitted change over the window 0 min. No configured trend pattern detected. Records behind this finding: data quality 'acceptable'.",
+      "data": {
+        "evaluation_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519",
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "status": "nominal",
+        "unit": "min",
+        "observed_value": 480.0,
+        "baseline_id": "fc88743b-db27-5883-a71c-b41f05739671",
+        "baseline_value": 480.0,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "included_nights": 14,
+          "expected_nights": 14,
+          "coverage": 1.0,
+          "missing_nights": [],
+          "longest_missing_run": 0,
+          "elapsed_span_days": 13,
+          "trend_slope_per_day": 0.0,
+          "trend_slope_unit": "min/day",
+          "trend_fitted_change": 0.0,
+          "decreasing_transition_fraction": 0.0,
+          "detected_pattern": null,
+          "aggregation": "the median of included nightly values"
+        },
+        "algorithm_explanation": "SIMULATED DATA. Included 14/14 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=13 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 min/day; fitted change=+0 min; decreasing transition fraction=0. Trend gates: absolute slope >= 5 min/day and absolute fitted change >= 30 min. Duration also requires a negative slope and decreasing transition fraction >= 0.75. No configured trend pattern detected.",
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "14 records in the window: 14 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 14 of 14 (no measuring range is configured for their device). Simulated (synthetic) records: 14 of 14. Completeness is not assessed: no expected sampling interval is configured for sleep_duration."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F13",
+      "kind": "finding",
+      "domain": "sleep",
+      "metric": "sleep_efficiency",
+      "statement": "sleep_efficiency finding of the sleep evaluation for the window 2026-10-12T12:00:00Z to 2026-10-26T12:00:00Z: status 'nominal'. Observed value 92 % (the median of included nightly values). Personal baseline value 92 %. Deviation from baseline 0 percentage points (0% relative to baseline). Included 14 of 14 night buckets (coverage 1). Theil-Sen slope 0 percentage points/day. Fitted change over the window 0 percentage points. No configured trend pattern detected. Records behind this finding: data quality 'acceptable'.",
+      "data": {
+        "evaluation_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519",
+        "window_start": "2026-10-12T12:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "status": "nominal",
+        "unit": "%",
+        "observed_value": 92.0,
+        "baseline_id": "2aed437f-72ab-5a06-a0ad-a190c85908a3",
+        "baseline_value": 92.0,
+        "absolute_deviation": 0.0,
+        "relative_deviation": 0.0,
+        "relative_deviation_percent": 0.0,
+        "details_parsed_from_explanation": {
+          "included_nights": 14,
+          "expected_nights": 14,
+          "coverage": 1.0,
+          "missing_nights": [],
+          "longest_missing_run": 0,
+          "elapsed_span_days": 13,
+          "trend_slope_per_day": 0.0,
+          "trend_slope_unit": "percentage points/day",
+          "trend_fitted_change": 0.0,
+          "decreasing_transition_fraction": 0.0,
+          "detected_pattern": null,
+          "aggregation": "the median of included nightly values"
+        },
+        "algorithm_explanation": "SIMULATED DATA. Included 14/14 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=13 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 percentage points/day; fitted change=+0 percentage points; decreasing transition fraction=0. Trend gates: absolute slope >= 0.5 percentage points/day and absolute fitted change >= 3 percentage points. No configured trend pattern detected.",
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "14 records in the window: 14 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 14 of 14 (no measuring range is configured for their device). Simulated (synthetic) records: 14 of 14. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency."
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "resource_id": "b7b9b3f1-5d4b-5933-a591-0b019c35b519"
+      },
+      "interpretation_role": "screening_signal"
+    },
+    {
+      "id": "F14",
+      "kind": "baseline",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "Personal baseline of exercise_duration (mission phase in_flight, status 'established'): median 52.5 min, mean 52.5 min, standard deviation 2.611 min, median absolute deviation 2.5 min, minimum 50 min, maximum 55 min; computed from 12 samples in the reference window 2026-09-28T00:00:00Z to 2026-10-12T00:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "02a9d953-e09e-5063-87c1-ed89a34499b0",
+        "status": "established",
+        "unit": "min",
+        "mission_phase": "in_flight",
+        "sample_count": 12,
+        "window_start": "2026-09-28T00:00:00Z",
+        "window_end": "2026-10-12T00:00:00Z",
+        "statistics": {
+          "mean": 52.5,
+          "standard_deviation": 2.6111648393354674,
+          "median": 52.5,
+          "median_absolute_deviation": 2.5,
+          "minimum": 50.0,
+          "maximum": 55.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "12 records in the window: 12 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 12 of 12 (no measuring range is configured for their device). Simulated (synthetic) records: 12 of 12. Completeness is not assessed: no expected sampling interval is configured for exercise_duration. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 12 values spanning 13 days were used. API aggregation basis: complete_act [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/baselines",
+        "resource_id": "02a9d953-e09e-5063-87c1-ed89a34499b0"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F15",
+      "kind": "baseline",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "Personal baseline of active_energy_expenditure (mission phase in_flight, status 'established'): median 245 kcal, mean 241.667 kcal, standard deviation 14.035 kcal, median absolute deviation 10 kcal, minimum 220 kcal, maximum 260 kcal; computed from 12 samples in the reference window 2026-09-28T00:00:00Z to 2026-10-12T00:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "fdb96b8e-7ab5-5af5-80c4-abc6ed585410",
+        "status": "established",
+        "unit": "kcal",
+        "mission_phase": "in_flight",
+        "sample_count": 12,
+        "window_start": "2026-09-28T00:00:00Z",
+        "window_end": "2026-10-12T00:00:00Z",
+        "statistics": {
+          "mean": 241.66666666666666,
+          "standard_deviation": 14.03458930534474,
+          "median": 245.0,
+          "median_absolute_deviation": 10.0,
+          "minimum": 220.0,
+          "maximum": 260.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "12 records in the window: 12 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 12 of 12 (no measuring range is configured for their device). Simulated (synthetic) records: 12 of 12. Completeness is not assessed: no expected sampling interval is configured for active_energy_expenditure. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 12 values spanning 13 days were used. API aggregation basis: comp [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/baselines",
+        "resource_id": "fdb96b8e-7ab5-5af5-80c4-abc6ed585410"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F16",
+      "kind": "baseline",
+      "domain": "sleep",
+      "metric": "sleep_duration",
+      "statement": "Personal baseline of sleep_duration (mission phase in_flight, status 'established'): median 480 min, mean 480 min, standard deviation 3.922 min, median absolute deviation 5 min, minimum 475 min, maximum 485 min; computed from 14 samples in the reference window 2026-09-28T12:00:00Z to 2026-10-12T12:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "fc88743b-db27-5883-a71c-b41f05739671",
+        "status": "established",
+        "unit": "min",
+        "mission_phase": "in_flight",
+        "sample_count": 14,
+        "window_start": "2026-09-28T12:00:00Z",
+        "window_end": "2026-10-12T12:00:00Z",
+        "statistics": {
+          "mean": 480.0,
+          "standard_deviation": 3.9223227027636804,
+          "median": 480.0,
+          "median_absolute_deviation": 5.0,
+          "minimum": 475.0,
+          "maximum": 485.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "14 records in the window: 14 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 14 of 14 (no measuring range is configured for their device). Simulated (synthetic) records: 14 of 14. Completeness is not assessed: no expected sampling interval is configured for sleep_duration. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 14 values spanning 13 days were used. API aggregation basis: measurement. Es [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/baselines",
+        "resource_id": "fc88743b-db27-5883-a71c-b41f05739671"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F17",
+      "kind": "baseline",
+      "domain": "sleep",
+      "metric": "sleep_efficiency",
+      "statement": "Personal baseline of sleep_efficiency (mission phase in_flight, status 'established'): median 92 %, mean 92 %, standard deviation 0.784 %, median absolute deviation 1 %, minimum 91 %, maximum 93 %; computed from 14 samples in the reference window 2026-09-28T12:00:00Z to 2026-10-12T12:00:00Z; reference data quality 'acceptable'.",
+      "data": {
+        "baseline_id": "2aed437f-72ab-5a06-a0ad-a190c85908a3",
+        "status": "established",
+        "unit": "%",
+        "mission_phase": "in_flight",
+        "sample_count": 14,
+        "window_start": "2026-09-28T12:00:00Z",
+        "window_end": "2026-10-12T12:00:00Z",
+        "statistics": {
+          "mean": 92.0,
+          "standard_deviation": 0.7844645405527362,
+          "median": 92.0,
+          "median_absolute_deviation": 1.0,
+          "minimum": 91.0,
+          "maximum": 93.0
+        },
+        "data_quality": {
+          "status": "acceptable",
+          "score": 1.0,
+          "completeness": null,
+          "flags": [],
+          "notes": "14 records in the window: 14 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 14 of 14 (no measuring range is configured for their device). Simulated (synthetic) records: 14 of 14. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 14 values spanning 13 days were used. API aggregation basis: measurement. [...]"
+        }
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/baselines",
+        "resource_id": "2aed437f-72ab-5a06-a0ad-a190c85908a3"
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F18",
+      "kind": "measurement_series",
+      "domain": "physical_activity",
+      "metric": "exercise_duration",
+      "statement": "Stored exercise_duration records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T12:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 50 min (acceptable); 2026-10-13: 55 min (acceptable); 2026-10-14: 50 min (acceptable); 2026-10-15: 55 min (acceptable); 2026-10-16: 50 min (acceptable); 2026-10-18: 55 min (acceptable); 2026-10-19: 50 min (acceptable); 2026-10-20: 55 min (acceptable); 2026-10-21: 50 min (acceptable); 2026-10-22: 55 min (acceptable); 2026-10-23: 50 min (acceptable); 2026-10-25: 55 min (acceptable). The latest stored finding for this metric has status 'nominal'.",
+      "data": {
+        "unit": "min",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "latest_finding_status": "nominal",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-00-exercise_duration",
+            "measured_at": "2026-10-12T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-01-exercise_duration",
+            "measured_at": "2026-10-13T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-02-exercise_duration",
+            "measured_at": "2026-10-14T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-03-exercise_duration",
+            "measured_at": "2026-10-15T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-04-exercise_duration",
+            "measured_at": "2026-10-16T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-06-exercise_duration",
+            "measured_at": "2026-10-18T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-07-exercise_duration",
+            "measured_at": "2026-10-19T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-08-exercise_duration",
+            "measured_at": "2026-10-20T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-09-exercise_duration",
+            "measured_at": "2026-10-21T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-10-exercise_duration",
+            "measured_at": "2026-10-22T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-11-exercise_duration",
+            "measured_at": "2026-10-23T09:00:00Z",
+            "value": 50.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-13-exercise_duration",
+            "measured_at": "2026-10-25T09:00:00Z",
+            "value": 55.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F19",
+      "kind": "measurement_series",
+      "domain": "physical_activity",
+      "metric": "active_energy_expenditure",
+      "statement": "Stored active_energy_expenditure records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T12:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 220 kcal (acceptable); 2026-10-13: 250 kcal (acceptable); 2026-10-14: 230 kcal (acceptable); 2026-10-15: 260 kcal (acceptable); 2026-10-16: 240 kcal (acceptable); 2026-10-18: 250 kcal (acceptable); 2026-10-19: 220 kcal (acceptable); 2026-10-20: 250 kcal (acceptable); 2026-10-21: 230 kcal (acceptable); 2026-10-22: 260 kcal (acceptable); 2026-10-23: 240 kcal (acceptable); 2026-10-25: 250 kcal (acceptable). The latest stored finding for this metric has status 'nominal'.",
+      "data": {
+        "unit": "kcal",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "latest_finding_status": "nominal",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-00-active_energy_expenditure",
+            "measured_at": "2026-10-12T09:00:00Z",
+            "value": 220.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-01-active_energy_expenditure",
+            "measured_at": "2026-10-13T09:00:00Z",
+            "value": 250.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-02-active_energy_expenditure",
+            "measured_at": "2026-10-14T09:00:00Z",
+            "value": 230.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-03-active_energy_expenditure",
+            "measured_at": "2026-10-15T09:00:00Z",
+            "value": 260.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-04-active_energy_expenditure",
+            "measured_at": "2026-10-16T09:00:00Z",
+            "value": 240.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-06-active_energy_expenditure",
+            "measured_at": "2026-10-18T09:00:00Z",
+            "value": 250.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-07-active_energy_expenditure",
+            "measured_at": "2026-10-19T09:00:00Z",
+            "value": 220.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-08-active_energy_expenditure",
+            "measured_at": "2026-10-20T09:00:00Z",
+            "value": 250.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-09-active_energy_expenditure",
+            "measured_at": "2026-10-21T09:00:00Z",
+            "value": 230.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-10-active_energy_expenditure",
+            "measured_at": "2026-10-22T09:00:00Z",
+            "value": 260.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-11-active_energy_expenditure",
+            "measured_at": "2026-10-23T09:00:00Z",
+            "value": 240.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-current-13-active_energy_expenditure",
+            "measured_at": "2026-10-25T09:00:00Z",
+            "value": 250.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F20",
+      "kind": "measurement_series",
+      "domain": "sleep",
+      "metric": "sleep_duration",
+      "statement": "Stored sleep_duration records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T12:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 480 min (acceptable); 2026-10-13: 480 min (acceptable); 2026-10-14: 480 min (acceptable); 2026-10-15: 480 min (acceptable); 2026-10-16: 480 min (acceptable); 2026-10-17: 480 min (acceptable); 2026-10-18: 480 min (acceptable); 2026-10-19: 480 min (acceptable); 2026-10-20: 480 min (acceptable); 2026-10-21: 480 min (acceptable); 2026-10-22: 480 min (acceptable); 2026-10-23: 480 min (acceptable); 2026-10-24: 480 min (acceptable); 2026-10-25: 480 min (acceptable). The latest stored finding for this metric has status 'nominal'.",
+      "data": {
+        "unit": "min",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "latest_finding_status": "nominal",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-00-sleep_duration",
+            "measured_at": "2026-10-12T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-01-sleep_duration",
+            "measured_at": "2026-10-13T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-02-sleep_duration",
+            "measured_at": "2026-10-14T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-03-sleep_duration",
+            "measured_at": "2026-10-15T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-04-sleep_duration",
+            "measured_at": "2026-10-16T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-05-sleep_duration",
+            "measured_at": "2026-10-17T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-06-sleep_duration",
+            "measured_at": "2026-10-18T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-07-sleep_duration",
+            "measured_at": "2026-10-19T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-08-sleep_duration",
+            "measured_at": "2026-10-20T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-09-sleep_duration",
+            "measured_at": "2026-10-21T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-10-sleep_duration",
+            "measured_at": "2026-10-22T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-11-sleep_duration",
+            "measured_at": "2026-10-23T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-12-sleep_duration",
+            "measured_at": "2026-10-24T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-13-sleep_duration",
+            "measured_at": "2026-10-25T22:00:00Z",
+            "value": 480.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F21",
+      "kind": "measurement_series",
+      "domain": "sleep",
+      "metric": "sleep_efficiency",
+      "statement": "Stored sleep_efficiency records with a start time between 2026-10-12T00:00:00Z and 2026-10-26T12:00:00Z, oldest first, as date: value (data quality): 2026-10-12: 92 % (acceptable); 2026-10-13: 92 % (acceptable); 2026-10-14: 92 % (acceptable); 2026-10-15: 92 % (acceptable); 2026-10-16: 92 % (acceptable); 2026-10-17: 92 % (acceptable); 2026-10-18: 92 % (acceptable); 2026-10-19: 92 % (acceptable); 2026-10-20: 92 % (acceptable); 2026-10-21: 92 % (acceptable); 2026-10-22: 92 % (acceptable); 2026-10-23: 92 % (acceptable); 2026-10-24: 92 % (acceptable); 2026-10-25: 92 % (acceptable). The latest stored finding for this metric has status 'nominal'.",
+      "data": {
+        "unit": "%",
+        "window_start": "2026-10-12T00:00:00Z",
+        "window_end": "2026-10-26T12:00:00Z",
+        "latest_finding_status": "nominal",
+        "missing_nights_in_latest_finding": [],
+        "omitted_older_records": 0,
+        "points": [
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-00-sleep_efficiency",
+            "measured_at": "2026-10-12T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-01-sleep_efficiency",
+            "measured_at": "2026-10-13T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-02-sleep_efficiency",
+            "measured_at": "2026-10-14T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-03-sleep_efficiency",
+            "measured_at": "2026-10-15T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-04-sleep_efficiency",
+            "measured_at": "2026-10-16T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-05-sleep_efficiency",
+            "measured_at": "2026-10-17T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-06-sleep_efficiency",
+            "measured_at": "2026-10-18T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-07-sleep_efficiency",
+            "measured_at": "2026-10-19T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-08-sleep_efficiency",
+            "measured_at": "2026-10-20T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-09-sleep_efficiency",
+            "measured_at": "2026-10-21T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-10-sleep_efficiency",
+            "measured_at": "2026-10-22T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-11-sleep_efficiency",
+            "measured_at": "2026-10-23T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-12-sleep_efficiency",
+            "measured_at": "2026-10-24T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          },
+          {
+            "measurement_id": "sim-mission-v1-01:current:sim-stable-13-sleep_efficiency",
+            "measured_at": "2026-10-25T22:00:00Z",
+            "value": 92.0,
+            "quality_status": "acceptable"
+          }
+        ]
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "context"
+    },
+    {
+      "id": "F22",
+      "kind": "quality_overview",
+      "domain": null,
+      "metric": null,
+      "statement": "Data quality status of the 188 stored measurements in scope: acceptable: 188.",
+      "data": {
+        "measurement_count": 188,
+        "status_counts": {
+          "acceptable": 188
+        },
+        "problem_records_by_metric": {}
+      },
+      "source": {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "resource_id": null
+      },
+      "interpretation_role": "data_quality"
+    }
+  ],
+  "citations": [
+    {
+      "evidence_id": "LIT-SCOTT2021-04",
+      "source_type": "peer_reviewed_article",
+      "publisher": "Frontiers in Physiology",
+      "document_title": "The Role of Long-Term Head-Down Bed Rest in Understanding Inter-Individual Variation in Response to the Spaceflight Environment: A Perspective Review",
+      "section": "Role of Head-Down Bed Rest in Understanding IV in Spaceflight",
+      "url": "https://doi.org/10.3389/fphys.2021.614619",
+      "authors": "Scott JPR et al.",
+      "year": 2021,
+      "license": "CC BY",
+      "verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7904881/fullTextXML",
+      "summary": "Long-term head-down bed rest is the leading ground-based method for studying prolonged unloading and disuse. Gravity is still present and space radiation is absent, so it does not model every body system, but for the cardiovascular and musculoskeletal systems it is regarded as a valid analog.",
+      "text_kind": "independent_summary",
+      "sha256": "dfb5319acdd44f30e675326d31a9534481f6630a098559901e74b3b2b9caacee",
+      "source_paragraph_sha256": "8360d3a0b7bf3ea2d27ff8ef2a43cdbf6bbc250651d05e299b01209532df5fb3",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 9.0216
+    },
+    {
+      "evidence_id": "NASA-SLEEP-STATION-03",
+      "source_type": "nasa_web_page",
+      "publisher": "NASA",
+      "document_title": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "section": "Science in Space: Week of Sept. 15, 2023 - Sleep on Station",
+      "url": "https://www.nasa.gov/humans-in-space/science-in-space-week-of-sept-15-2023-sleep-on-station/",
+      "authors": null,
+      "year": null,
+      "license": null,
+      "verification_url": null,
+      "summary": "The ESA Dreams investigation uses a dry-EEG headband to monitor sleep quality over several nights wherever the astronaut sleeps. Feedback available to the crew member includes heart rate, the number of awakenings, sleep stages and how long they slept, and research teams receive the raw data.",
+      "text_kind": "independent_summary",
+      "sha256": "c2a826c39665d92bb8516d330487e412c2fe2770ac0840ed2e6c828c50e38667",
+      "source_paragraph_sha256": "a2525a0a1c56d9c07e56db4f46de76eec65ee0af3063f8401486bf87d50556d2",
+      "source_checked_on": "2026-11-15",
+      "scope": "general_evidence",
+      "relevance_score": 8.9949
+    }
+  ],
+  "dataset_evidence": {
+    "status": "ok",
+    "topics": [
+      "heart_rate",
+      "cardiovascular_adaptation"
+    ],
+    "reason": "Requested because the question names: heart_rate, cardiovascular_adaptation.",
+    "items": [
+      {
+        "evidence_id": "nasa-evidence-v1-3cf137ee647d2aa29abdab89ac02d2d60d0da3bba0f3a98b51b048f5de8d7a28",
+        "dataset_id": "nasa-lsda-mr001g-utmb-campaign-3-tilt",
+        "title": "UTMB Bedrest Campaign 3 Tilt",
+        "nasa_source_url": "https://nlsp.nasa.gov/search/data/details/f4a134da-7131-55f8-a0a1-e67d56509432?dataType=DATASETS",
+        "topic": "heart_rate",
+        "study_population": "Human terrestrial bed-rest volunteers; neither in-flight astronauts nor synthetic crew.",
+        "study_context": "terrestrial_bed_rest_analogue",
+        "evidence_scope": "scientific_context_only",
+        "crew_telemetry": false,
+        "clinically_validated": false,
+        "nasa_endorsement": false,
+        "redistribution_status": "unconfirmed",
+        "source_verification": "not_configured",
+        "variables": [
+          {
+            "source_column": "HR",
+            "description": "Reported heart-rate candidate; acquisition method unspecified.",
+            "canonical_unit": null,
+            "unit_verification": "unresolved"
+          },
+          {
+            "source_column": "HR (Dinamap)",
+            "description": "Source-labeled Dinamap heart-rate channel.",
+            "canonical_unit": null,
+            "unit_verification": "unresolved"
+          },
+          {
+            "source_column": "AVE HR",
+            "description": "Averaged heart-rate candidate; window and channel are unspecified.",
+            "canonical_unit": null,
+            "unit_verification": "unresolved"
+          }
+        ],
+        "context": [
+          "The Tilt export describes supine and tilt testing in terrestrial bed rest.",
+          "Heart-rate channels remain separate; equivalent acquisition and averaging are not established.",
+          "The importer annotates questionable pressure pairs and keeps both source values.",
+          "Protocol context does not establish a direction or magnitude of cardiovascular adaptation.",
+          "Counts cover present HR/BP columns; absent columns create no cells."
+        ],
+        "limitations": [
+          "Human terrestrial bed-rest volunteers are not synthetic crew members or astronauts in flight.",
+          "Descriptive evidence establishes no causation, clinical norms, thresholds or NASA validation.",
+          "Calendar dates do not supply aware measurement instants or observation boundaries.",
+          "Missing observations do not establish sensor failure, nonadherence or physiological decline.",
+          "Source records, participant IDs, notes, dates and individual results remain private.",
+          "Redistribution rights remain unconfirmed. Public access is not a blanket reuse license.",
+          "Physiological statistics are withheld; structural counts describe data validation only.",
+          "Source-unit verification is unresolved for every selected MR001G channel.",
+          "Do not normalize to bpm/mmHg or make quantitative clinical comparisons until units and protocol are established.",
+          "Dates, relative steps, missing context and catalog discrepancies require review.",
+          "Broader campaign enrollment and demographics do not establish export membership.",
+          "The selected Tilt dataset excludes the experiment's separate hormonal exports."
+        ]
+      }
+    ],
+    "failures": [],
+    "notice": "NASA dataset evidence describes terrestrial bed-rest studies of volunteers. It is research context only: not crew telemetry, not a reference range and not a clinical assessment. Structural counts from the adapter are not shown."
+  },
+  "data_provenance": {
+    "crew_data_kind": "simulated",
+    "measurement_sources": {
+      "simulated": 188
+    },
+    "crew_data_notice": "All crew measurements are simulated (source: simulated). No astronaut data.",
+    "evidence_notice": "Citations are summaries, written by the OrbitVitals team, of paragraphs on public NASA web pages and in open-access peer-reviewed articles, with the source URL or DOI. They are not the sources' text, and neither NASA nor the authors or publishers reviewed or endorsed them. They give general context about spaceflight; they are not measurements of this crew member."
+  },
+  "data_access": {
+    "read_only": true,
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/metrics",
+        "status": 200,
+        "item_count": 28
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/evaluations",
+        "status": 200,
+        "item_count": 4
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/baselines",
+        "status": 200,
+        "item_count": 7
+      },
+      {
+        "method": "GET",
+        "path": "/crew-members/sim-mission-v1-01/measurements",
+        "status": 200,
+        "item_count": 188
+      },
+      {
+        "method": "GET",
+        "path": "/nasa-evidence?topic=heart_rate",
+        "status": 200,
+        "item_count": 1
+      },
+      {
+        "method": "GET",
+        "path": "/nasa-evidence?topic=cardiovascular_adaptation",
+        "status": 200,
+        "item_count": 1
+      }
+    ]
+  },
+  "generation": {
+    "mode": "generative",
+    "generative": true,
+    "fallback_reason": null,
+    "primary_model": "qwen3.5:4b",
+    "question_kind": "general",
+    "answer_profile": "general",
+    "reply_language": "en",
+    "context_turns": 0,
+    "attempts": 1,
+    "model_runs": [
+      {
+        "role": "primary",
+        "model": "qwen3.5:4b",
+        "attempt": 1,
+        "accepted": true,
+        "duration_ms": 7497.1,
+        "load_ms": 4.0,
+        "prompt_tokens": 5125,
+        "output_tokens": 414,
+        "prompt_eval_ms": 1362.1,
+        "output_eval_ms": 6080.8,
+        "rejected_sentences": 1
+      }
+    ],
+    "specialist": {
+      "configured": "medgemma",
+      "consulted": false,
+      "reason": "The question is about general knowledge, not this crew member's results.",
+      "evidence_status": "not_used",
+      "evidence": [],
+      "decision": "general_question",
+      "model": null,
+      "duration_ms": null,
+      "findings": [],
+      "notice": "A specialist verdict is a language model's opinion about the readings. It is not a validated clinical assessment."
+    },
+    "timings_ms": {
+      "backend_read_ms": 45.3,
+      "facts_and_retrieval_ms": 2.5,
+      "dataset_evidence_ms": 64.3,
+      "generation_ms": 7572.7,
+      "assembly_and_audit_ms": 19.4,
+      "total_ms": 7704.3
+    }
+  },
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "numeric_grounding",
+        "passed": true,
+        "detail": "All numbers and dates in 12 sentences appear in the cited sources."
+      },
+      {
+        "name": "status_consistency",
+        "passed": true,
+        "detail": "Every status named in a sentence is the status of the facts it cites."
+      },
+      {
+        "name": "references",
+        "passed": true,
+        "detail": "Every cited fact and passage exists."
+      },
+      {
+        "name": "citation_authenticity",
+        "passed": true,
+        "detail": "2 citations match the stored corpus summary, digests and source URL."
+      },
+      {
+        "name": "source_attribution",
+        "passed": true,
+        "detail": "No sentence presents NASA as the speaker; sources are disclosed in citations."
+      },
+      {
+        "name": "evidence_scope_separation",
+        "passed": true,
+        "detail": "Crew observations and general evidence are in separate lists."
+      },
+      {
+        "name": "insufficient_data_handling",
+        "passed": true,
+        "detail": "No physiological reading rests on insufficient data."
+      },
+      {
+        "name": "medical_language",
+        "passed": true,
+        "detail": "No diagnostic or treatment wording was found."
+      },
+      {
+        "name": "synthetic_data_labelling",
+        "passed": true,
+        "detail": "Crew data is labelled 'simulated'."
+      },
+      {
+        "name": "read_only_access",
+        "passed": true,
+        "detail": "Only GET requests were sent to the backend."
+      },
+      {
+        "name": "capability_claims",
+        "passed": true,
+        "detail": "No sentence claims memory of earlier exchanges or an action the agent cannot take."
+      },
+      {
+        "name": "crew_identity",
+        "passed": true,
+        "detail": "Every request, fact and sentence concerns sim-mission-v1-01 only."
+      },
+      {
+        "name": "generation_disclosure",
+        "passed": true,
+        "detail": "Generation mode is declared as 'generative'."
+      },
+      {
+        "name": "untrusted_text_screening",
+        "passed": true,
+        "detail": "No instruction-like text was found in retrieved passages or backend text."
+      }
+    ],
+    "rejected_statements": [
+      {
+        "section": "evidence_context",
+        "text": "NASA research indicates wearable sensors can record heart rate and breathing during sleep without waking the wearer.",
+        "reasons": [
+          "source attribution: 'NASA research indicates' presents NASA as the speaker",
+          "source attribution: 'NASA' is not named in the cited summary"
+        ]
+      }
+    ]
+  },
+  "disclaimer": "Research prototype, not a medical device. This explanation supports a review by a person. It is not a diagnosis and it does not recommend any treatment."
+}

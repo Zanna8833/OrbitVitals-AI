@@ -111,7 +111,7 @@ def test_unsafe_specialist_comment_is_withheld(comment: str) -> None:
     finding = response.generation.specialist.findings[0]
     assert finding.comment is None
     assert "comment withheld by the verifier" in finding.applied
-    assert not any("Specialist review" in item.text for item in response.uncertainties)
+    assert not any("Second-opinion model" in item.text for item in response.uncertainties)
     assert response.verification.passed
 
 
@@ -122,9 +122,14 @@ def test_failing_specialist_does_not_break_the_answer(specialist: ScriptedSpecia
     response = _explain_noor(specialist)
 
     assert response.generation.mode == "generative"
-    assert response.generation.specialist.consulted is False
-    assert "could not be consulted" in response.generation.specialist.reason
+    info = response.generation.specialist
+    assert info.consulted is False
+    assert info.decision in {"failed", "unavailable"}
+    assert "specialist review did not occur" in info.reason
+    assert any("specialist review did not occur" in item.text for item in response.uncertainties)
+    assert not any(run.role == "specialist" for run in response.generation.model_runs)
     assert len(response.interpretations) == 1
+    assert response.verification.passed
 
 
 def test_specialist_is_not_called_without_a_physiological_reading() -> None:

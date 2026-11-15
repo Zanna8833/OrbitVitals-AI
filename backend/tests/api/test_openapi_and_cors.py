@@ -20,6 +20,7 @@ def test_openapi_generation_contains_implemented_paths_and_valid_component_schem
     expected = {
         f"{PREFIX}/health": {"get"},
         f"{PREFIX}/metrics": {"get"},
+        f"{PREFIX}/nasa-evidence": {"get"},
         f"{PREFIX}/measurements": {"post"},
         f"{PREFIX}/crew-members/{{crew_member_id}}/measurements": {"get"},
         f"{PREFIX}/crew-members/{{crew_member_id}}/baselines": {"get", "post"},
