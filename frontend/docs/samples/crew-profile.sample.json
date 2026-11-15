@@ -1,0 +1,10 @@
+{
+  "crewId": "crew-a",
+  "displayName": "Commander (imported)",
+  "role": "Commander",
+  "missionStartDate": "2026-10-31",
+  "note": "SAMPLE FILE with invented values: no real person. Proposed format, to be confirmed by the team.",
+  "sex": "male",
+  "ageYears": 42,
+  "heightCm": 180
+}

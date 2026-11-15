@@ -1,0 +1,177 @@
+import type { SleepAidPlanEntry } from '../domain/types'
+import { coverageOf, isPlanned, nightLabel } from '../domain/sleepPlan'
+import { initialsOf } from '../domain/overview'
+import { MISSION_ACTIVITIES, activityAfterNight, involves } from '../domain/missionPlan'
+
+export interface SleepGridCrew {
+  id: string
+  displayName: string
+}
+
+/**
+ * Nights as columns, crew members as rows, coverage at the bottom.
+ * The viewer's own future nights are toggles; everything else is read-only.
+ * A night where nobody would stay without a sleeping pill is marked with a shape,
+ * a word and a tint — never colour alone.
+ */
+export function SleepGrid({
+  nights,
+  today,
+  crew,
+  entries,
+  me,
+  busyNight,
+  onToggle,
+  missionStart,
+  editAll = false,
+}: {
+  nights: string[]
+  today: string
+  crew: SleepGridCrew[]
+  entries: SleepAidPlanEntry[]
+  me: string | null
+  busyNight?: string | null
+  onToggle?: (night: string, crewId: string) => void
+  /** Every crew member's future nights are editable (crew-wide edit mode). */
+  editAll?: boolean
+  /** Shows the (simulated) activity of the following morning above each night. */
+  missionStart?: string
+}) {
+  const ids = crew.map((c) => c.id)
+  const ordered = me ? [...crew.filter((c) => c.id === me), ...crew.filter((c) => c.id !== me)] : crew
+  const cover = nights.map((n) => coverageOf(entries, ids, n))
+  return (
+    <div className="sleep-grid-wrap">
+      <table className="sleep-grid">
+        <caption className="sr-only">Planned sleeping-pill nights per crew member, and how many stay without one</caption>
+        <thead>
+          <tr>
+            <th scope="col" className="sg-corner">
+              <span className="sr-only">Crew member</span>
+            </th>
+            {nights.map((n, i) => {
+              const l = nightLabel(n)
+              return (
+                <th key={n} scope="col" className={`sg-day${n === today ? ' is-today' : ''}${n < today ? ' is-past' : ''}${cover[i].uncovered ? ' is-uncovered' : ''}`}>
+                  <span className="sg-weekday">{l.weekday}</span>
+                  <span className="sg-date">{l.day}</span>
+                  {n === today && <span className="sr-only">(tonight)</span>}
+                </th>
+              )
+            })}
+          </tr>
+          {missionStart && MISSION_ACTIVITIES.length > 0 && (
+            <tr className="sg-activity-row">
+              <th scope="row" className="sg-person sg-foot-label">
+                Next morning
+              </th>
+              {nights.map((n) => {
+                const a = activityAfterNight(n, missionStart)
+                if (!a) return <td key={n} className={n < today ? 'is-past' : undefined} />
+                const who = a.crew.length ? a.crew.map((id) => crew.find((c) => c.id === id)?.displayName ?? id).join(', ') : 'Whole crew'
+                const mine = !!me && involves(a, me)
+                const text = `Morning after: ${a.label}, ${a.startUtc} UTC · ${who}`
+                return (
+                  <td key={n} className={n < today ? 'is-past' : undefined}>
+                    <span className={`sg-activity${mine ? ' is-mine' : ''}`} title={text}>
+                      {a.short}
+                      <span className="sr-only">: {text}</span>
+                    </span>
+                  </td>
+                )
+              })}
+            </tr>
+          )}
+        </thead>
+        <tbody>
+          {ordered.map((c) => (
+            <tr key={c.id}>
+              <th scope="row" className="sg-person">
+                <span className="avatar avatar-small">{initialsOf(c.displayName)}</span>
+                <span className="sg-name">{c.displayName}</span>
+                {c.id === me && <span className="pill tone-blue">You</span>}
+              </th>
+              {nights.map((n, i) => {
+                const planned = isPlanned(entries, c.id, n)
+                const editable = (c.id === me || editAll) && n >= today && !!onToggle
+                const whose = c.id === me ? '' : ` for ${c.displayName}`
+                const label = `${planned ? 'Remove' : 'Plan'} a sleeping pill${whose} on the night of ${nightLabel(n).weekday} ${nightLabel(n).day} ${nightLabel(n).month}`
+                const cls = `sg-cell${n < today ? ' is-past' : ''}${cover[i].uncovered ? ' is-uncovered' : ''}`
+                return (
+                  <td key={n} className={cls}>
+                    {editable ? (
+                      <button
+                        type="button"
+                        className={`sg-toggle${planned ? ' is-planned' : ''}`}
+                        aria-pressed={planned}
+                        aria-label={label}
+                        title={label}
+                        disabled={busyNight === n}
+                        onClick={() => onToggle!(n, c.id)}
+                      >
+                        {planned ? <PillIcon /> : <span className="sg-plus" aria-hidden="true">+</span>}
+                      </button>
+                    ) : planned ? (
+                      <span className="sg-mark" title="Sleeping pill planned">
+                        <PillIcon />
+                        <span className="sr-only">Sleeping pill planned</span>
+                      </span>
+                    ) : (
+                      <span className="sg-empty" aria-hidden="true" />
+                    )}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" className="sg-person sg-foot-label">
+              Without a sleeping pill
+            </th>
+            {cover.map((c) => (
+              <td
+                key={c.night}
+                title={
+                  c.available
+                    ? `Ready to respond: ${crew.filter((m) => !c.planned.includes(m.id)).map((m) => m.displayName).join(', ')}`
+                    : 'Nobody without a sleeping pill'
+                } className={`sg-cover${c.uncovered ? ' is-uncovered' : ''}${c.night < today ? ' is-past' : ''}`}>
+                {c.uncovered ? (
+                  <span className="sg-warn" title="Nobody without a sleeping pill">
+                    <svg width="9" height="8" viewBox="0 0 11 10" aria-hidden="true">
+                      <path d="M5.5 0.8 10.4 9.2H0.6Z" fill="currentColor" />
+                    </svg>
+                    {c.available}/{c.total}
+                    <span className="sr-only">: nobody without a sleeping pill</span>
+                  </span>
+                ) : (
+                  <span className="sg-ok">
+                    {c.available}/{c.total}
+                  </span>
+                )}
+              </td>
+            ))}
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  )
+}
+
+export const Moon = ({ size = 13 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor" />
+  </svg>
+)
+
+/** A capsule: explicit about what is planned, quiet in the grid. */
+export const PillIcon = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+    <g transform="rotate(-45 12 12)">
+      <rect x="3.5" y="8" width="17" height="8" rx="4" fill="none" stroke="currentColor" strokeWidth="1.9" />
+      <path d="M12 8h4.5a4 4 0 0 1 0 8H12Z" fill="currentColor" />
+    </g>
+  </svg>
+)
