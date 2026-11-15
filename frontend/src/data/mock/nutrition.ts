@@ -35,15 +35,18 @@ const DAY: Item[] = [
 ]
 
 /** Seven previous days in full and today until `now` (UTC). Deterministic. */
-export function seedIntake(crewId: string, nowIso: string): IntakeEntry[] {
+export function seedIntake(crewId: string, nowIso: string, missionDay = 8): IntakeEntry[] {
   const today = nowIso.slice(0, 10)
   const out: IntakeEntry[] = []
   const skip = crewId === 'crew-b' ? new Set(['16:00', '21:00']) : new Set<string>()
-  for (let back = 7; back >= 0; back--) {
+  for (let back = Math.max(7, missionDay - 1); back >= 0; back--) {
+    // Days before the last week: the same menu with a little day-to-day variety (one snack or drink less some days).
+    const lighter = back > 7 ? DAY.length - 1 - ((back * 3 + crewId.length) % 4) : -1
     const date = new Date(Date.parse(`${today}T00:00:00Z`) - back * 86_400_000).toISOString().slice(0, 10)
     DAY.forEach(([time, foodId, servings, label, values], i) => {
       if (back === 0 && `${date}T${time}:00Z` > nowIso) return
       if (back % 3 === 1 && skip.has(time)) return
+      if (i === lighter) return
       out.push({
         id: `seed-${crewId}-${date}-${i}`,
         crewId,

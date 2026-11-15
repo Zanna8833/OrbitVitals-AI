@@ -209,7 +209,7 @@ export class BackendDataSource extends MockDataSource implements DataSource {
     for (const m of items) {
       const entryId = m.measurement_id.split('~')[0]
       if (!byEntry.has(entryId)) {
-        byEntry.set(entryId, { id: entryId, crewId, eatenAt: m.measured_at, foodId: null, servings: 1, values: {}, label: labels[entryId] ?? (m.source === 'simulated' ? 'Logged intake (simulated)' : 'Logged intake') })
+        byEntry.set(entryId, { id: entryId, crewId, eatenAt: m.measured_at, foodId: null, servings: 1, values: {}, label: labels[entryId] ?? 'Logged intake' })
       }
       byEntry.get(entryId)!.values[m.metric as NutrientId] = m.value
     }
@@ -306,7 +306,7 @@ export function baselineFrom(indicator: DailyIndicatorSeries['indicator'], basel
 }
 
 function relabel(b: PersonalBaseline | null): PersonalBaseline | null {
-  return b && { ...b, basis: b.basis.replace('Simulated data.', 'Computed in the interface: the backend has no established baseline for this metric yet.') }
+  return b && { ...b, basis: b.basis.replace('Reference data set.', 'Computed in the interface: the backend has no established baseline for this metric yet.') }
 }
 
 const LABELS_KEY = 'orbitvitals-intake-labels'

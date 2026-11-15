@@ -1,11 +1,12 @@
+import { useEffect, useRef } from 'react'
 import { MISSION_PLAN, phaseOf } from '../domain/missionPlan'
 import { useAppState } from '../state/AppState'
 
 /**
  * Where the crew is in the mission: day counter and, when mission control has
  * provided a plan (src/mission.config.ts), the current phase. With `today`,
- * the bar can be dragged back to any past day that has data (1…today) to see
- * the astronauts as they were; future days cannot be chosen.
+ * a row of days (1…today) and two arrows let the viewer open any past day to
+ * see the astronauts as they were; future days cannot be chosen.
  */
 export function MissionTimeline({ day, today }: { day: number; today?: number }) {
   const { setViewDay } = useAppState()
@@ -13,6 +14,12 @@ export function MissionTimeline({ day, today }: { day: number; today?: number })
   const phase = phaseOf(day)
   const interactive = today !== undefined && today > 1
   const past = interactive && day < today
+  const stripRef = useRef<HTMLDivElement>(null)
+  const go = (d: number) => setViewDay(today === undefined || d >= today ? null : Math.max(1, d))
+  // Keep the chosen day in sight inside the strip.
+  useEffect(() => {
+    stripRef.current?.querySelector<HTMLElement>('.day-pill.is-on')?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [day])
   const pct = lengthDays ? Math.min(100, Math.max(0, ((day - 0.5) / lengthDays) * 100)) : 0
   return (
     <div className={`mission${phase ? '' : ' is-compact'}${interactive ? ' is-interactive' : ''}${past ? ' is-past' : ''}`} role="group" aria-label={`Mission day ${day}${lengthDays ? ` of ${lengthDays}` : ''}${phase ? `, ${phase.label}` : ''}${past ? ', past day' : ''}.`}>
@@ -41,30 +48,27 @@ export function MissionTimeline({ day, today }: { day: number; today?: number })
         </div>
       )}
       {interactive && (
-        <div className="mission-scrub">
-          <span className="mission-phase-label">
-            <strong>{phase ? phase.label : past ? `${today - day} ${today - day === 1 ? 'day' : 'days'} ago` : 'Today'}</strong>
-            {past ? (
-              <button type="button" className="text-button mission-today" onClick={() => setViewDay(null)}>
-                Back to today
+        <div className="day-picker" role="group" aria-label="Choose a mission day to view">
+          <button type="button" className="day-step" aria-label="Previous day" disabled={day <= 1} onClick={() => go(day - 1)}>
+            ‹
+          </button>
+          <div className="day-strip" ref={stripRef}>
+            {Array.from({ length: today }, (_, i) => i + 1).map((d) => (
+              <button
+                key={d}
+                type="button"
+                className={`day-pill${d === day ? ' is-on' : ''}${d === today ? ' is-today' : ''}`}
+                aria-pressed={d === day}
+                aria-label={d === today ? `Mission day ${d}, today` : `Mission day ${d}`}
+                onClick={() => go(d)}
+              >
+                {d === today ? 'Today' : d}
               </button>
-            ) : (
-              <span className="mission-phase-day">drag to look back</span>
-            )}
-          </span>
-          <input
-            type="range"
-            className="mission-range"
-            min={1}
-            max={today}
-            value={day}
-            aria-label="Mission day to view"
-            aria-valuetext={`Mission day ${day}${past ? '' : ', today'}`}
-            onChange={(e) => {
-              const d = Number(e.target.value)
-              setViewDay(d >= today ? null : d)
-            }}
-          />
+            ))}
+          </div>
+          <button type="button" className="day-step" aria-label="Next day" disabled={day >= today} onClick={() => go(day + 1)}>
+            ›
+          </button>
         </div>
       )}
     </div>

@@ -20,10 +20,12 @@ import { formatClock } from '../../domain/time'
 import { href } from '../../hooks/useRoute'
 import { useMutation } from '../../hooks/useMutation'
 import { useAppState } from '../../state/AppState'
+import { missionDayOf } from '../../domain/time'
 import { Ring } from '../../components/Ring'
 import { FormError } from '../../components/Common'
 import { useToast } from '../../components/Toast'
 import { Segmented, Sheet } from '../../components/ui'
+import { dayPossessive } from '../../state/pastView'
 
 export interface NutritionData {
   profile: NutritionProfile
@@ -58,6 +60,7 @@ export function NutritionCard({ data, mission, crewId, onLogFood }: { data: Nutr
   const s = summarize(totalsOf(todayEntries(data, mission.now), data.foods), data.profile, true)
   const addWater = useAddWater(crewId, mission)
   const missing = s.micros.filter((m) => m.state === 'below' || m.state === 'unknown').map((m) => m.def.label)
+  const past = useAppState().viewDay !== null
   return (
     <section className="card nutrition-card" aria-labelledby="nutrition-h">
       <div className="nutrition-head">
@@ -68,7 +71,7 @@ export function NutritionCard({ data, mission, crewId, onLogFood }: { data: Nutr
             </svg>
           </span>
           <span>
-            <span className="eyebrow">Nutrition · today</span>
+            <span className="eyebrow">{past ? `Nutrition · day ${missionDayOf(mission.now, mission.missionStartDate)}` : 'Nutrition · today'}</span>
             <h2 id="nutrition-h">Reach 100% of every daily need</h2>
           </span>
         </a>
@@ -179,6 +182,7 @@ type NutritionSheet = 'food' | 'values' | 'create' | null
 
 export function NutritionPage({ data, mission, crewId, sheet, setSheet }: { data: NutritionData; mission: MissionStatus; crewId: string; sheet: NutritionSheet; setSheet: (s: NutritionSheet) => void }) {
   const [view, setView] = useState<View>('today')
+  const past = useAppState().viewDay !== null
   const [editing, setEditing] = useState(false)
   const addWater = useAddWater(crewId, mission)
   const today = todayEntries(data, mission.now)
@@ -203,7 +207,7 @@ export function NutritionPage({ data, mission, crewId, sheet, setSheet }: { data
             value={view}
             onChange={setView}
             options={[
-              { value: 'today', label: 'Today so far' },
+              { value: 'today', label: past ? `Day ${missionDayOf(mission.now, mission.missionStartDate)}` : 'Today so far' },
               { value: 'week', label: 'Average, last 7 days' },
             ]}
           />
@@ -315,7 +319,7 @@ function IntakeLog({ entries, foods, crewId }: { entries: IntakeEntry[]; foods: 
   return (
     <section className="card intake-log" aria-labelledby="log-h">
       <h2 id="log-h" className="side-title">
-        Today’s log <span className="muted">· {entries.length}</span>
+        {dayPossessive()} log <span className="muted">· {entries.length}</span>
       </h2>
       {sorted.length ? (
         <ul className="intake-list">

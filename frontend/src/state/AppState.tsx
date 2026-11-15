@@ -1,8 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { config } from '../config'
 import { createDataSource, DEFAULT_SCENARIO_ID, type DataSource } from '../data'
+import { DataSourceError } from '../data/DataSource'
 import { startPolling } from './poller'
 import { demoModeOn, setDemoModeStored } from './demoMode'
+import { setPastView } from './pastView'
 
 export interface AutoRefresh {
   /** Seconds between reloads; 0 means auto-refresh is disabled by configuration. */
@@ -40,7 +42,10 @@ export function AppStateProvider({ children, refreshIntervalS = config.refreshIn
   const [demo, setDemoRaw] = useState(demoModeOn)
   const [viewDay, setViewDayRaw] = useState<number | null>(null)
   // A new data source (and, in replay, a clock restarting at 10:30) for each scenario or mode.
-  const dataSource = useMemo(() => createDataSource(scenarioId, { replay, demo }), [scenarioId, replay, demo])
+  const viewDayRef = useRef<number | null>(null)
+  viewDayRef.current = viewDay
+  setPastView(viewDay !== null)
+  const dataSource = useMemo(() => readOnlyWhilePast(createDataSource(scenarioId, { replay, demo }), () => viewDayRef.current !== null), [scenarioId, replay, demo])
   const setDemo = useCallback((on: boolean) => {
     setDemoModeStored(on)
     setDemoRaw(on)
@@ -89,4 +94,20 @@ export function useAppState(): AppState {
   const v = useContext(Ctx)
   if (!v) throw new Error('useAppState must be used inside AppStateProvider')
   return v
+}
+
+/** Methods that change stored data: refused while a past mission day is shown, so history stays read only. */
+const WRITES = new Set<string>(['updateEventStatus', 'addAnnotation', 'sendCrewMessage', 'submitCheckIn', 'shareWithMedicalTeam', 'setSleepAidPlan', 'recordMeasurements', 'saveNutritionProfile', 'importDaily', 'addIntake', 'removeIntake', 'saveCustomFood'])
+
+function readOnlyWhilePast(ds: DataSource, isPast: () => boolean): DataSource {
+  return new Proxy(ds, {
+    get(target, prop, receiver) {
+      const v = Reflect.get(target, prop, receiver)
+      if (typeof v !== 'function') return v
+      if (typeof prop === 'string' && WRITES.has(prop))
+        return (...args: unknown[]) =>
+          isPast() ? Promise.reject(new DataSourceError('bad_request', 'Past mission days are read only. Go back to today to make changes.', 400)) : v.apply(target, args)
+      return v.bind(target)
+    },
+  })
 }

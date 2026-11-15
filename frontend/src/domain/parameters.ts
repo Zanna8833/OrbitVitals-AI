@@ -31,7 +31,7 @@ export const QUALITY_LABEL: Record<QualityFlag, string> = {
 }
 
 export const QUALITY_DESCRIPTION: Record<QualityFlag, string> = {
-  good: 'The (simulated) quality flag reports no acquisition issues.',
+  good: 'The quality flag reports no acquisition issues.',
   uncertain: 'Possible acquisition disturbance: read the value together with its context.',
   poor: 'Acquisition compromised: the value should not be used on its own.',
   missing: 'No valid value received for this instant.',

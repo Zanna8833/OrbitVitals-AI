@@ -15,6 +15,7 @@ import { List, Row, Sheet, Symbol } from '../../components/ui'
 import { INDICATOR_CONTEXT } from './indicatorText'
 import { useToast } from '../../components/Toast'
 import type { useShare } from './shareSync'
+import { dayPossessive, dayWord } from '../../state/pastView'
 
 /* ------------------------------------------------------------------ */
 /* Indicator detail                                                    */
@@ -97,7 +98,7 @@ export function IndicatorSheet({
 
 export function statusText(e: IndicatorEvaluation): string {
   if (!e.latest) return 'No readings yet'
-  if (e.repeatSuggested) return e.measuredToday ? 'Today’s reading is uncertain' : 'No reading today'
+  if (e.repeatSuggested) return e.measuredToday ? `${dayPossessive()} reading is uncertain` : `No reading ${dayWord()}`
   if (e.position === null) return 'Usual range not available yet'
   if (e.position === 'within') return 'Within your usual range'
   const side = e.position === 'above' ? 'Higher' : 'Lower'

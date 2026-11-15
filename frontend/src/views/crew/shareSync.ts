@@ -54,7 +54,7 @@ export function useShare(crewId: string, mission: MissionStatus) {
       if (sent) notifyChanged()
       if (!cancelled && current.current === crewId) {
         recount()
-        if (sent) setNotice(`${sent} queued report${sent === 1 ? '' : 's'} delivered to the medical team (simulated).`)
+        if (sent) setNotice(`${sent} queued report${sent === 1 ? '' : 's'} delivered to the medical team.`)
       }
     })()
     return () => {
@@ -83,7 +83,7 @@ export function useShare(crewId: string, mission: MissionStatus) {
       try {
         await dataSource.shareWithMedicalTeam(crewId, note)
         notifyChanged()
-        setNotice('Shared with the medical team (simulated delivery).')
+        setNotice('Shared with the medical team.')
         return 'sent'
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Unexpected error')

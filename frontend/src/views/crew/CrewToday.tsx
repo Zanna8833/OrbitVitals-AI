@@ -25,7 +25,7 @@ import { MetricGlyph } from '../../components/MetricGlyph'
 import { QualityGlyph } from '../../components/StatusGlyphs'
 import { Sparkline } from '../../components/Sparkline'
 import { toneOf } from '../../components/tone'
-import { List, Row, SectionTitle, Segmented, Sheet, SimTag, Symbol } from '../../components/ui'
+import { List, Row, SectionTitle, Segmented, Sheet, Symbol } from '../../components/ui'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { useTightness } from '../../hooks/useTightness'
@@ -36,6 +36,7 @@ import { sliceToDay, viewMission } from '../../domain/viewDay'
 import { useAppState } from '../../state/AppState'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
 import { FoodSheet, NutritionCard, NutritionPage, loadNutrition } from './Nutrition'
+import { dayPossessive } from '../../state/pastView'
 
 /** Shown inside the single Health rectangle on the home screen. */
 const DEFAULT_TILES: DailyIndicatorId[] = ['resting_hr', 'sleep_duration', 'resting_spo2', 'hrv_rmssd', 'bp_systolic', 'resting_resp_rate']
@@ -47,7 +48,6 @@ const ALL_TILES: DailyIndicatorId[] = [
 /** Where the day-to-day values come from: backend, imported file, or demo generator — and whether they are simulated. */
 function DataOriginTag({ daily }: { daily: Live['daily'] }) {
   const origin = daily[0]?.origin ?? 'demo'
-  const simulated = daily.some((d) => d.simulated && d.days.some((x) => x.value !== null))
   return (
     <span className="origin-tags">
       {origin === 'import' && (
@@ -55,7 +55,6 @@ function DataOriginTag({ daily }: { daily: Live['daily'] }) {
           Imported data
         </span>
       )}
-      {simulated && <SimTag>{origin === 'demo' ? 'Sample data' : 'Simulated records'}</SimTag>}
     </span>
   )
 }
@@ -203,6 +202,7 @@ function TodayBody({
   const offline = mission.link.state === 'offline'
 
   const today = missionDayOf(mission.now, mission.missionStartDate)
+  const past = today < actualDay
   const evaluations = live.daily.map((s) => evaluateIndicator(s, today))
   const byId = (id: DailyIndicatorId) => evaluations.find((e) => e.series.indicator === id)
   const summary = summarizeHealth(evaluations)
@@ -291,7 +291,7 @@ function TodayBody({
               ‹ Today
             </a>
           )}
-          <h1>{PAGE_TITLE[page]}</h1>
+          <h1>{page === 'home' && past ? `Day ${today}` : PAGE_TITLE[page]}</h1>
           <p className="eyebrow">
             {page === 'health'
               ? `Mission day ${today} · compared with your own usual range`
@@ -318,11 +318,13 @@ function TodayBody({
               <div className="data-card-text">
                 <p className="eyebrow">Your data</p>
                 <h2 id="data-h">
-                  {live.snapshot.device.lastReceivedAt
+                  {past
+                    ? `Mission day ${missionDayOf(mission.now, mission.missionStartDate)} · ${formatDate(mission.now)}`
+                    : live.snapshot.device.lastReceivedAt
                     ? `Last reading ${formatDate(live.snapshot.device.lastReceivedAt)}, ${formatClock(live.snapshot.device.lastReceivedAt, false)} UTC`
                     : 'No reading received yet'}
                 </h2>
-                {live.snapshot.device.lastReceivedAt && <p className="data-card-sub">{formatAge(live.snapshot.device.lastReceivedAt, mission.now)}</p>}
+                {past ? <p className="data-card-sub">Read only: what was stored that day</p> : live.snapshot.device.lastReceivedAt && <p className="data-card-sub">{formatAge(live.snapshot.device.lastReceivedAt, mission.now)}</p>}
               </div>
               <button type="button" className="btn btn-small" onClick={() => setSheet({ type: 'measure', id: null })}>
                 Add a reading
@@ -989,7 +991,7 @@ function Summary({
             A change from your own pattern, not a diagnosis.
             <span className="summary-more">
               {others.length ? ` Also changed: ${others.join(', ')}.` : ''}
-              {repeat ? ` Today’s ${DAILY_INDICATORS[repeat.series.indicator].label.toLowerCase()} reading needs repeating.` : ''}
+              {repeat ? ` ${dayPossessive()} ${DAILY_INDICATORS[repeat.series.indicator].label.toLowerCase()} reading needs repeating.` : ''}
             </span>
           </p>
           <div className="button-row">
@@ -1012,7 +1014,7 @@ function Summary({
       </span>
       <div className="summary-body">
         <p className="attention-label">To check</p>
-        <h2 id="hl-h">Today’s {DAILY_INDICATORS[id].label.toLowerCase()} reading needs repeating</h2>
+        <h2 id="hl-h">{dayPossessive()} {DAILY_INDICATORS[id].label.toLowerCase()} reading needs repeating</h2>
         <p>It is missing or its signal was uncertain. Your last reliable value is still shown.</p>
         <div className="button-row">
           <button type="button" className="btn btn-primary" onClick={() => onMeasure(id)}>

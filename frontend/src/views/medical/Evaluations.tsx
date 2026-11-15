@@ -33,7 +33,7 @@ export function EvaluationsList({ items, compact = false, openFirst = false }: {
               </span>
             </summary>
             <div className="eval-body">
-              <p>{e.summary.replace(/^SIMULATED DATA: this evaluation includes synthetic measurements\.\s*/, '')}</p>
+              <p>{clean(e.summary)}</p>
               {e.findings.map((f, i) => (
                 <div key={`${f.metric}-${i}`} className="eval-finding">
                   <p className="eval-finding-head">
@@ -46,13 +46,13 @@ export function EvaluationsList({ items, compact = false, openFirst = false }: {
                       </>
                     )}
                   </p>
-                  <p className="eval-explain">{f.explanation.replace(/^SIMULATED DATA: this evaluation includes synthetic measurements\.\s*/, '')}</p>
+                  <p className="eval-explain">{clean(f.explanation)}</p>
                 </div>
               ))}
               <p className="fineprint">
                 Data quality: {e.data_quality?.status ?? 'not reported'}
                 {e.data_quality?.completeness != null ? ` · completeness ${Math.round(e.data_quality.completeness * 100)}%` : ''}
-                {e.algorithm ? ` · ${e.algorithm.name} ${e.algorithm.version}` : ''} · {e.summary.startsWith('SIMULATED') ? 'includes simulated measurements' : 'source as stored'}
+                {e.algorithm ? ` · ${e.algorithm.name} ${e.algorithm.version}` : ''}
               </p>
             </div>
           </details>
@@ -63,3 +63,6 @@ export function EvaluationsList({ items, compact = false, openFirst = false }: {
 }
 
 const round = (v: number) => (Math.abs(v) >= 100 ? Math.round(v) : Math.round(v * 10) / 10)
+
+/** The server's texts, without its data-origin preamble. */
+const clean = (t: string) => t.replace(/SIMULATED DATA:[^.]*\.\s*/g, '').replace(/\bSIMULATED\s+/g, '')

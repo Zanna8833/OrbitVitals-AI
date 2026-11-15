@@ -2,6 +2,7 @@ import { type CSSProperties, useId, useLayoutEffect, useRef, useState, type Keyb
 import type { DailyIndicatorId, DailyIndicatorSeries, DailyValue } from '../domain/types'
 import { DAILY_INDICATORS, QUALITY_LABEL, formatDailyValue } from '../domain/parameters'
 import { linear, niceDomain, niceTicks } from './chartScale'
+import { useAppState } from '../state/AppState'
 
 /** Smallest visible y-span per indicator, so small day-to-day noise is not magnified. */
 const MIN_SPAN: Record<DailyIndicatorId, number> = {
@@ -42,6 +43,7 @@ export function DailyTrendChart({ series, height = 132, mini = false, legend = t
   const base = series.baseline
   const firstDay = days[0]?.missionDay ?? 1
   const lastDay = days[days.length - 1]?.missionDay ?? 1
+  const pastView = useAppState().viewDay !== null
 
   const vals = valid.map((d) => d.value)
   if (base) vals.push(base.low, base.high)
@@ -275,7 +277,7 @@ export function DailyTrendChart({ series, height = 132, mini = false, legend = t
           )}
           {!mini && xTicks.map((d) => (
             <text key={d} x={x(d)} y={height - 6} className={`tick${hovered?.missionDay === d ? ' tick-active' : ''}`} textAnchor="middle">
-              {d === lastDay ? 'Today' : d}
+              {d === lastDay && !pastView ? 'Today' : d}
             </text>
           ))}
           {!mini && <text x={margin.left - 8} y={height - 6} className="tick" textAnchor="end">Day</text>}
@@ -297,7 +299,7 @@ export function DailyTrendChart({ series, height = 132, mini = false, legend = t
           <div className="tooltip daily-tooltip">
             <div className="tt-time">
               Mission day {hovered.missionDay}
-              {hovered.missionDay === lastDay ? ' · today' : ''} · {hovered.date}
+              {hovered.missionDay === lastDay && !pastView ? ' · today' : ''} · {hovered.date}
             </div>
             {hovered.value === null ? (
               <div className="tt-value">No reading</div>

@@ -6028,6 +6028,55 @@ select option:disabled {
   font-weight: 600;
 }
 
+/* Mission-day picker: arrows + a row of days (replaces the drag bar). */
+.day-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 440px;
+}
+.day-strip {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+  padding: 2px;
+}
+.day-strip::-webkit-scrollbar { display: none; }
+.day-pill,
+.day-step {
+  flex: 0 0 auto;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--fill-2);
+  color: var(--ink-2, inherit);
+  font: inherit;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.day-step { background: transparent; font-size: 20px; line-height: 1; padding: 0 6px; color: var(--tint); }
+.day-step:disabled { color: var(--sep-strong); cursor: default; }
+.day-pill:hover { background: var(--fill); }
+.day-pill.is-today { font-weight: 600; }
+.day-pill.is-on { background: var(--tint); color: var(--tint-ink); }
+.day-pill:focus-visible, .day-step:focus-visible { outline: 2px solid var(--tint); outline-offset: -2px; }
+
+/* Past mission day: actions are not offered at all (read only). */
+.today.is-past-view .summary-body .btn,
+.today.is-past-view .nutrition-actions,
+.today.is-past-view .data-card .btn,
+.today.is-past-view .log-actions,
+.today.is-past-view .month-add {
+  display: none;
+}
+
 @media (min-width: 1024px) and (min-height: 620px) {
   .assistant-page .assistant-chat {
     min-height: 0;
@@ -6776,4 +6825,21 @@ select option:disabled {
 .cognition-home:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
+}
+
+/* Hover and focus rings drawn inside the shape, so a container edge can never cut them. */
+.tile:hover {
+  box-shadow: inset 0 0 0 1px var(--sep-strong), var(--shadow);
+}
+.tile.is-selected,
+.tile.is-selected:hover {
+  box-shadow: inset 0 0 0 2px var(--tone), var(--shadow);
+}
+.tile:focus-visible,
+.ichip:focus-visible,
+.mini-row:focus-visible,
+.astro-chip:focus-visible,
+.domain-chip:focus-visible {
+  outline: 2px solid var(--tint);
+  outline-offset: -2px;
 }

@@ -148,13 +148,13 @@ function SettingsMenu() {
           <p className="popover-label">Server</p>
           <p className="popover-note popover-source">
             <span className={`server-dot is-${server}`} aria-hidden="true" />
-            {demo ? 'Demo mode: sample data, the server is not used' : server === 'checking' ? 'Checking the connection…' : server === 'ok' ? 'Connected to the OrbitVitals server' : 'The OrbitVitals server is not reachable'}
+            {demo ? 'Training scenarios on: live data are not used' : server === 'checking' ? 'Checking the connection…' : server === 'ok' ? 'Connected to the OrbitVitals server' : 'The OrbitVitals server is not reachable'}
           </p>
           <hr />
           <label className="popover-toggle">
             <span>
-              Demo mode
-              <small>Scenarios on sample data, separate from the server</small>
+              Training scenarios
+              <small>Rehearse situations such as a lost ground link, apart from live data</small>
             </span>
             <input type="checkbox" role="switch" checked={demo} disabled={config.dataSource === 'mock'} onChange={(e) => setDemo(e.target.checked)} />
           </label>
@@ -238,8 +238,8 @@ export function Footer({ showAssistant = true }: { showAssistant?: boolean }) {
 function DemoBadge() {
   const { demo } = useAppState()
   return demo ? (
-    <span className="demo-badge" title="Demo mode: built-in scenarios on sample data, the server is not used">
-      Demo
+    <span className="demo-badge" title="Training scenarios are on: live data are not used">
+      Training
     </span>
   ) : null
 }

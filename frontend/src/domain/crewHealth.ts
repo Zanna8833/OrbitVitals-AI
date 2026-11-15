@@ -1,5 +1,6 @@
 import type { CheckIn, DailyIndicatorSeries, DailyValue } from './types'
 import { CHECK_IN_QUESTIONS, DAILY_INDICATORS } from './parameters'
+import { isPastView } from '../state/pastView'
 
 /**
  * "My health": the crew member evaluates their own daily indicators against
@@ -143,7 +144,7 @@ export function healthOptions({
     options.push({
       id: 'repeat_measure',
       title: `Repeat today’s reading: ${joinNames(toRepeat.map((e) => DAILY_INDICATORS[e.series.indicator].label.toLowerCase()))}`,
-      detail: 'Today’s reading is missing or uncertain. Take a new one from Take a measurement.',
+      detail: isPastView() ? 'That day’s reading was missing or uncertain.' : 'Today’s reading is missing or uncertain. Take a new one from Take a measurement.',
       emphasised: false,
     })
   }

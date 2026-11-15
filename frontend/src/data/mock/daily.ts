@@ -117,7 +117,7 @@ export function baselineOf(indicator: DailyIndicatorId, days: DailyValue[]): Per
     high: round(indicator, m + half),
     fromDay: BASELINE_DAYS.from,
     toDay: BASELINE_DAYS.to,
-    basis: `Your usual range: the middle value of your good-quality readings on mission days ${BASELINE_DAYS.from}–${BASELINE_DAYS.to}, plus or minus a margin for normal day-to-day variation. A personal comparison, not a clinical reference. Simulated data.`,
+    basis: `Your usual range: the middle value of your good-quality readings on mission days ${BASELINE_DAYS.from}–${BASELINE_DAYS.to}, plus or minus a margin for normal day-to-day variation. A personal comparison, not a clinical reference. Reference data set.`,
   }
 }
 

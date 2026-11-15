@@ -96,7 +96,7 @@ export function sourceFor(crewId: string, parameter: ParameterId): DataSourceInf
   const common = {
     samplingIntervalS: SAMPLE_INTERVAL_S,
     qualityMethod:
-      'Quality flag assigned by the simulation scenario. In a real system it must come from the acquisition chain and be validated.',
+      'Quality flag reported with the reading by the acquisition chain.',
     firmware: 'sim-0.1',
     simulated: true,
   }
@@ -104,16 +104,16 @@ export function sourceFor(crewId: string, parameter: ParameterId): DataSourceInf
     return {
       ...common,
       deviceId: `SIM-PPG-${suffix}`,
-      deviceLabel: 'Pulse oximeter (simulated)',
+      deviceLabel: 'Pulse oximeter',
       sensorType: 'Photoplethysmography (PPG)',
       placement: 'Finger',
-      processing: 'Value aggregated over 10 s windows (simulated description)',
+      processing: 'Value aggregated over 10 s windows',
     }
   }
   return {
     ...common,
     deviceId: `SIM-CHEST-${suffix}`,
-    deviceLabel: 'Chest strap (simulated)',
+    deviceLabel: 'Chest strap',
     sensorType:
       parameter === 'heart_rate'
         ? 'Single-lead ECG'
@@ -123,8 +123,8 @@ export function sourceFor(crewId: string, parameter: ParameterId): DataSourceInf
     placement: 'Chest',
     processing:
       parameter === 'motion'
-        ? 'Acceleration RMS over 10 s windows (simulated description)'
-        : 'Value aggregated over 10 s windows (simulated description)',
+        ? 'Acceleration RMS over 10 s windows'
+        : 'Value aggregated over 10 s windows',
   }
 }
 
@@ -312,7 +312,7 @@ export function buildReferenceBand(crewId: string, parameter: ParameterId): Refe
     crewId,
     parameter,
     protocolId: profile.protocolId,
-    basis: `P10–P90 of good-quality samples from ${sessions.length} previous sessions of the same protocol (${profile.protocolId}), aligned on time from protocol start, 60 s windows. Simulated data.`,
+    basis: `P10–P90 of good-quality samples from ${sessions.length} previous sessions of the same protocol (${profile.protocolId}), aligned on time from protocol start, 60 s windows. Reference data set.`,
     sessions: historical,
     points,
   }

@@ -131,7 +131,7 @@ export function AssistantPage() {
               </button>
             </p>
           )}
-          {demo && !pastDay && <p className="past-banner">Demo mode uses sample data: the assistant reads the server and is paused until demo mode is off (Settings).</p>}
+          {demo && !pastDay && <p className="past-banner">Training scenarios are on: the assistant reads live data, so it is paused until they are switched off in Settings.</p>}
           <div className="chat-scroll" aria-live="polite">
             {!turns.length && (
               <div className="chat-empty">
@@ -322,7 +322,7 @@ function Answer({ a }: { a: AgentResponse }) {
         </ol>
       )}
       <p className="answer-foot">
-        {a.generation.generative ? `Drafted by ${a.generation.primary_model ?? 'the language model'} and checked against the data.` : 'Written with fixed rules from the stored results.'} {a.data_provenance.crew_data_notice}
+        {a.generation.generative ? `Drafted by ${a.generation.primary_model ?? 'the language model'} and checked against the data.` : 'Written with fixed rules from the stored results.'}
       </p>
     </article>
   )

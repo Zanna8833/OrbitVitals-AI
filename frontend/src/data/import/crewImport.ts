@@ -254,7 +254,7 @@ export function parseMeasurementsCsv(text: string, crewId: string, missionStartD
       indicator: id,
       unit: DAILY_INDICATORS[id].unit,
       days,
-      baseline: baseline ? { ...baseline, basis: baseline.basis.replace('Simulated data.', `Imported from ${fileName}.`) } : null,
+      baseline: baseline ? { ...baseline, basis: baseline.basis.replace('Reference data set.', `Imported from ${fileName}.`) } : null,
       source: `Imported from ${fileName}`,
       simulated: false,
       origin: 'import' as const,

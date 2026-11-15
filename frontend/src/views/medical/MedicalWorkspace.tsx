@@ -23,7 +23,7 @@ import { SleepGrid } from '../../components/SleepGrid'
 import { ErrorState, FormError, Loading } from '../../components/Common'
 import { EventKindBadge } from '../../components/EventKindBadge'
 import { useToast } from '../../components/Toast'
-import { List, Row, Segmented, SimTag } from '../../components/ui'
+import { List, Row, Segmented } from '../../components/ui'
 import { EvaluationsList } from './Evaluations'
 import { loadNutrition } from '../crew/Nutrition'
 
@@ -87,7 +87,6 @@ export function MedicalCrew() {
   if (!state.data) return <ErrorState error={state.error!} />
   const { mission, crew, events, members, plan, actualDay } = state.data
   const day = missionDayOf(mission.now, mission.missionStartDate)
-  const simulated = members.some((m) => m.daily.some((s) => s.simulated && s.days.some((d) => d.value !== null)))
   const name = (id: string) => crew.find((c) => c.id === id)?.displayName ?? id
   const flagged = members.flatMap((m) => latestByDomain(m.evaluations).filter(needsReview).map((e) => ({ crewId: m.crew.id, e })))
   const pending = events.filter((e) => e.status !== 'reviewed')
@@ -100,7 +99,7 @@ export function MedicalCrew() {
 
   return (
     <div className="today medical-ws" ref={rootRef} data-tight={tight || undefined}>
-      <MedicalHeader title="Medical" eyebrow={<>{formatDate(mission.now)} · {formatClock(mission.now, false)} UTC {simulated && <SimTag>Simulated records</SimTag>}</>} mission={mission} crew={crew} current={null} actualDay={actualDay} />
+      <MedicalHeader title="Medical" eyebrow={<>{formatDate(mission.now)} · {formatClock(mission.now, false)} UTC</>} mission={mission} crew={crew} current={null} actualDay={actualDay} />
       <div className="today-grid">
         <div className="today-col">
           <section className="card ws-card" aria-labelledby="rev-h">
@@ -236,7 +235,7 @@ export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: st
     <div className="today medical-ws" ref={rootRef} data-tight={tight || undefined}>
       <MedicalHeader
         title={me?.displayName ?? 'Astronaut'}
-        eyebrow={snapshot.device.lastReceivedAt ? `Last reading ${formatDate(snapshot.device.lastReceivedAt)}, ${formatClock(snapshot.device.lastReceivedAt, false)} UTC · ${formatAge(snapshot.device.lastReceivedAt, mission.now)}` : 'No reading received yet'}
+        eyebrow={viewDay !== null ? `Mission day ${missionDayOf(mission.now, mission.missionStartDate)} · ${formatDate(mission.now)} · read only` : snapshot.device.lastReceivedAt ? `Last reading ${formatDate(snapshot.device.lastReceivedAt)}, ${formatClock(snapshot.device.lastReceivedAt, false)} UTC · ${formatAge(snapshot.device.lastReceivedAt, mission.now)}` : 'No reading received yet'}
         mission={mission}
         crew={crew}
         current={crewId}

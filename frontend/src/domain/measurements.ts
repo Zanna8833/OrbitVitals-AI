@@ -23,7 +23,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Finger pulse oximeter',
     expected: 'SpO₂ (%)',
     preparation: ['Use the assigned device and follow its instructions.', 'Check that the sensor is positioned and reporting.', 'Remain still while the device acquires its reading.'],
-    action: 'Simulate oximeter reading', duration: 'Short spot measurement',
+    action: 'Start oximeter reading', duration: 'Short spot measurement',
   },
   {
     indicator: 'resting_hr',
@@ -32,7 +32,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Chest ECG / heart-rate sensor',
     expected: 'Heart rate (bpm)',
     preparation: ['Use the assigned sensor and follow its instructions.', 'Ensure the sensor reports contact and signal quality.', 'Record the activity context, particularly if you have been exercising.'],
-    action: 'Simulate heart-rate reading', duration: 'Short resting measurement',
+    action: 'Start heart-rate reading', duration: 'Short resting measurement',
   },
   {
     indicator: 'bp_systolic',
@@ -42,7 +42,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Digital blood pressure cuff',
     expected: 'Systolic / diastolic (mmHg)',
     preparation: ['Use the assigned cuff and its validated operating instructions.', 'Check fit, placement, and acquisition status.', 'Record whether this is a scheduled resting check or an additional reading.'],
-    action: 'Simulate blood pressure capture', duration: 'Short paired measurement',
+    action: 'Start blood pressure capture', duration: 'Short paired measurement',
   },
   {
     indicator: 'body_temperature',
@@ -51,7 +51,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Digital thermometer',
     expected: 'Body temperature (°C)',
     preparation: ['Use the assigned thermometer and its operating instructions.', 'Check that the device confirms a completed reading.', 'Record the activity context with the result.'],
-    action: 'Simulate thermometer capture', duration: 'Short spot measurement',
+    action: 'Start thermometer capture', duration: 'Short spot measurement',
   },
   {
     indicator: 'body_mass',
@@ -60,7 +60,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Assigned mass measurement device',
     expected: 'Mass (kg)',
     preparation: ['Follow the device-specific procedure approved for the mission.', 'Check that the instrument has completed its acquisition.', 'Review the saved result and its timestamp.'],
-    action: 'Simulate mass capture', duration: 'Periodic measurement',
+    action: 'Start mass capture', duration: 'Periodic measurement',
   },
   {
     indicator: 'sleep_duration',
@@ -70,7 +70,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Wrist sleep wearable',
     expected: 'Estimated sleep (hours)',
     preparation: ['This is an import of last night’s wearable estimate, not a spot measurement.', 'Check that the wearable contains a completed night of data.', 'Review the timestamp and estimate quality before saving.'],
-    action: 'Simulate wearable import', duration: 'Completed overnight recording',
+    action: 'Start wearable import', duration: 'Completed overnight recording',
   },
   {
     indicator: 'hrv_rmssd',
@@ -79,7 +79,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Resting ECG / PPG capture',
     expected: 'RMSSD (ms)',
     preparation: ['Sit or rest still for the duration of the capture.', 'Check that the sensor reports good contact.', 'Avoid measuring right after exercise or a meal, so readings are comparable.'],
-    action: 'Simulate HRV capture', duration: 'A few minutes at rest',
+    action: 'Start HRV capture', duration: 'A few minutes at rest',
   },
   {
     indicator: 'resting_resp_rate',
@@ -88,7 +88,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Respiration sensor (chest belt or wearable)',
     expected: 'Breaths per minute',
     preparation: ['Rest quietly and breathe normally.', 'Check that the sensor is in place and reporting.', 'Movement can disturb the estimate: stay still.'],
-    action: 'Simulate respiration capture', duration: 'Short resting measurement',
+    action: 'Start respiration capture', duration: 'Short resting measurement',
   },
   {
     indicator: 'activity_minutes',
@@ -98,7 +98,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
     kind: 'Treadmill, cycle ergometer or resistive device',
     expected: 'Duration (min) and active energy (kcal)',
     preparation: ['Log the session after you finish it.', 'Use the duration and energy reported by the device.', 'Planned rest days are not missing data: leave them empty.'],
-    action: 'Simulate session import', duration: 'After each session',
+    action: 'Start session import', duration: 'After each session',
   },
 ]
 

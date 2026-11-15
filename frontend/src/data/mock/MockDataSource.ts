@@ -42,7 +42,7 @@ import { ISS_FOODS, type Food, type IntakeEntry, type NutritionProfile } from '.
 import { NUTRITION_PROFILES, seedIntake } from './nutrition'
 import type { BackendEvaluation } from '../../domain/metricCatalog'
 
-const PSEUDONYM_NOTE = 'Pseudonymised identity — simulated data'
+const PSEUDONYM_NOTE = 'Pseudonymised identity'
 
 const at = (offsetS: number) => toIso(toMs(SESSION_START) + offsetS * 1000)
 
@@ -60,7 +60,7 @@ function initialEvents(s: Scenario): ReviewEvent[] {
       trigger: {
         ruleId: 'DEMO-PR-01',
         description:
-          'Demo rule: 60 s median of good-quality samples above the upper limit (P90) of the personal historical range for the same protocol. This is not a clinical threshold.',
+          'Rule: 60 s median of good-quality samples above the upper limit (P90) of the personal historical range for the same protocol. This is not a clinical threshold.',
         simulated: true,
       },
       annotations: [],
@@ -78,7 +78,7 @@ function initialEvents(s: Scenario): ReviewEvent[] {
       trigger: {
         ruleId: 'DEMO-SQ-01',
         description:
-          'Demo rule: more than 60 consecutive seconds of uncertain, poor or missing samples on the same parameter.',
+          'Rule: more than 60 consecutive seconds of uncertain, poor or missing samples on the same parameter.',
         simulated: true,
       },
       annotations: [],
@@ -96,7 +96,7 @@ function initialEvents(s: Scenario): ReviewEvent[] {
       status: 'open',
       trigger: {
         ruleId: 'DEMO-ST-01',
-        description: 'Demo rule: no sample received from the device for more than 5 minutes.',
+        description: 'Rule: no sample received from the device for more than 5 minutes.',
         simulated: true,
       },
       annotations: [],
@@ -322,7 +322,7 @@ export class MockDataSource implements DataSource {
     const tpl = CREW_MESSAGE_TEMPLATES.find((t) => t.id === templateId)
     if (!tpl) throw new DataSourceError('bad_request', 'Unknown message template', 400)
     if (this.linkLostAt(this.simNow())) {
-      throw new DataSourceError('unavailable', 'No link with the crew: message not sent (simulation).', 503)
+      throw new DataSourceError('unavailable', 'No link with the crew: message not sent', 503)
     }
     const msg: CrewMessage = {
       id: this.nextId('MSG'),
@@ -384,7 +384,7 @@ export class MockDataSource implements DataSource {
     const profile = this.requireCrew(crewId)
     const now = this.simNow()
     if (this.linkLostAt(now)) {
-      throw new DataSourceError('unavailable', 'No link with the ground: not sent. Try again when the link is back (simulation).', 503)
+      throw new DataSourceError('unavailable', 'No link with the ground: not sent. Try again when the link is back', 503)
     }
     const clean = note.trim().slice(0, 500)
     const event: ReviewEvent = {
@@ -440,7 +440,7 @@ export class MockDataSource implements DataSource {
   private intake: IntakeEntry[] | null = null
 
   private intakeLog(): IntakeEntry[] {
-    if (!this.intake) this.intake = storedIntake() ?? (this.samples ? CREW_PROFILES.flatMap((p) => seedIntake(p.id, this.simNow())) : [])
+    if (!this.intake) this.intake = storedIntake() ?? (this.samples ? CREW_PROFILES.flatMap((p) => seedIntake(p.id, this.simNow(), missionDayOf(this.simNow()))) : [])
     return this.intake
   }
 
