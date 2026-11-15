@@ -28,6 +28,19 @@ class MetricType(StrEnum):
     ENERGY_INTAKE = "energy_intake"
     PROTEIN_INTAKE = "protein_intake"
     FLUID_INTAKE = "fluid_intake"
+    VITAMIN_A_INTAKE = "vitamin_a_intake"
+    VITAMIN_C_INTAKE = "vitamin_c_intake"
+    VITAMIN_D_INTAKE = "vitamin_d_intake"
+    VITAMIN_K_INTAKE = "vitamin_k_intake"
+    VITAMIN_B12_INTAKE = "vitamin_b12_intake"
+    FOLATE_INTAKE = "folate_intake"
+    CALCIUM_INTAKE = "calcium_intake"
+    PHOSPHORUS_INTAKE = "phosphorus_intake"
+    SODIUM_INTAKE = "sodium_intake"
+    POTASSIUM_INTAKE = "potassium_intake"
+    IRON_INTAKE = "iron_intake"
+    MAGNESIUM_INTAKE = "magnesium_intake"
+    ZINC_INTAKE = "zinc_intake"
     BODY_MASS = "body_mass"
 
 
@@ -127,6 +140,84 @@ _DEFINITIONS = (
         domain=HealthDomain.NUTRITION,
         unit="mL",
         description="Fluid intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.VITAMIN_A_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="ug",
+        description="Dietary vitamin A intake, as retinol activity equivalents.",
+    ),
+    MetricDefinition(
+        metric=MetricType.VITAMIN_C_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary vitamin C intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.VITAMIN_D_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="ug",
+        description="Dietary vitamin D intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.VITAMIN_K_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="ug",
+        description="Dietary vitamin K intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.VITAMIN_B12_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="ug",
+        description="Dietary vitamin B12 intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.FOLATE_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="ug",
+        description="Dietary folate intake, as dietary folate equivalents.",
+    ),
+    MetricDefinition(
+        metric=MetricType.CALCIUM_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary calcium intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.PHOSPHORUS_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary phosphorus intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.SODIUM_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary sodium intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.POTASSIUM_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary potassium intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.IRON_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary iron intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.MAGNESIUM_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary magnesium intake.",
+    ),
+    MetricDefinition(
+        metric=MetricType.ZINC_INTAKE,
+        domain=HealthDomain.NUTRITION,
+        unit="mg",
+        description="Dietary zinc intake.",
     ),
     MetricDefinition(
         metric=MetricType.BODY_MASS,

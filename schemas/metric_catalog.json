@@ -86,6 +86,84 @@
       "description": "Fluid intake."
     },
     {
+      "metric": "vitamin_a_intake",
+      "domain": "nutrition",
+      "unit": "ug",
+      "description": "Dietary vitamin A intake, as retinol activity equivalents."
+    },
+    {
+      "metric": "vitamin_c_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary vitamin C intake."
+    },
+    {
+      "metric": "vitamin_d_intake",
+      "domain": "nutrition",
+      "unit": "ug",
+      "description": "Dietary vitamin D intake."
+    },
+    {
+      "metric": "vitamin_k_intake",
+      "domain": "nutrition",
+      "unit": "ug",
+      "description": "Dietary vitamin K intake."
+    },
+    {
+      "metric": "vitamin_b12_intake",
+      "domain": "nutrition",
+      "unit": "ug",
+      "description": "Dietary vitamin B12 intake."
+    },
+    {
+      "metric": "folate_intake",
+      "domain": "nutrition",
+      "unit": "ug",
+      "description": "Dietary folate intake, as dietary folate equivalents."
+    },
+    {
+      "metric": "calcium_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary calcium intake."
+    },
+    {
+      "metric": "phosphorus_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary phosphorus intake."
+    },
+    {
+      "metric": "sodium_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary sodium intake."
+    },
+    {
+      "metric": "potassium_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary potassium intake."
+    },
+    {
+      "metric": "iron_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary iron intake."
+    },
+    {
+      "metric": "magnesium_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary magnesium intake."
+    },
+    {
+      "metric": "zinc_intake",
+      "domain": "nutrition",
+      "unit": "mg",
+      "description": "Dietary zinc intake."
+    },
+    {
       "metric": "body_mass",
       "domain": "nutrition",
       "unit": "kg",

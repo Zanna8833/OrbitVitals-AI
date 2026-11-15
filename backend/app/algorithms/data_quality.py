@@ -80,6 +80,19 @@ DEFINITION_BOUNDS: dict[MetricType, tuple[float | None, float | None]] = {
     MetricType.ENERGY_INTAKE: (0.0, None),  # an amount of energy taken in
     MetricType.PROTEIN_INTAKE: (0.0, None),  # an amount of mass
     MetricType.FLUID_INTAKE: (0.0, None),  # an amount of volume
+    MetricType.VITAMIN_A_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.VITAMIN_C_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.VITAMIN_D_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.VITAMIN_K_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.VITAMIN_B12_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.FOLATE_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.CALCIUM_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.PHOSPHORUS_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.SODIUM_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.POTASSIUM_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.IRON_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.MAGNESIUM_INTAKE: (0.0, None),  # an amount of a nutrient
+    MetricType.ZINC_INTAKE: (0.0, None),  # an amount of a nutrient
     MetricType.BODY_MASS: (0.0, None),  # a mass
 }
 

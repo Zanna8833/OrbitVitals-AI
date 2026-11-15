@@ -1,1 +1,1 @@
-"""Nutrition domain. Intentionally empty: nothing is implemented yet."""
+"""Nutrition domain: daily intake of energy, protein, fluid, vitamins and minerals."""
