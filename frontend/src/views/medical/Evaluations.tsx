@@ -15,14 +15,14 @@ const STATUS: Record<string, string> = { nominal: 'Nominal', attention: 'Attenti
  * summary, each finding's explanation, data quality and algorithm. "Attention"
  * is a review signal, never a diagnosis (docs/frontend-integration.md).
  */
-export function EvaluationsList({ items, compact = false }: { items: BackendEvaluation[]; compact?: boolean }) {
+export function EvaluationsList({ items, compact = false, openFirst = false }: { items: BackendEvaluation[]; compact?: boolean; openFirst?: boolean }) {
   if (!items.length) return <p className="list-empty">No evaluation stored on the backend for this crew member.</p>
   const sorted = [...items].sort((a, b) => (a.window_end < b.window_end ? 1 : -1))
   return (
     <ul className={`eval-list${compact ? ' is-compact' : ''}`}>
       {sorted.map((e) => (
         <li key={e.evaluation_id} className={`eval is-${e.status}`}>
-          <details>
+          <details open={openFirst && sorted.length === 1 ? true : undefined}>
             <summary>
               <span className={`eval-status is-${e.status}`}>{STATUS[e.status] ?? e.status}</span>
               <span className="eval-title">

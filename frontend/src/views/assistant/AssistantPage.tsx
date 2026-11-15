@@ -5,6 +5,7 @@ import { href } from '../../hooks/useRoute'
 import { useQuery } from '../../hooks/useQuery'
 import { lastAstronaut } from '../../state/lastAstronaut'
 import { Segmented } from '../../components/ui'
+import { BackLink } from '../../components/BackLink'
 import { agentHealth, askAgent, type AgentDomain, type AgentHealth, type AgentResponse } from './agentClient'
 
 type Topic = 'all' | AgentDomain
@@ -95,9 +96,7 @@ export function AssistantPage() {
     <div className="today assistant-page">
       <header className="today-head">
         <div className="today-title">
-          <a className="back-link-inline" href={href.crewHome()}>
-            ‹ Back
-          </a>
+          <BackLink fallback={href.crewHome()} />
           <h1>Assistant</h1>
           <p className="eyebrow">Explains the results stored in OrbitVitals · no diagnosis</p>
         </div>

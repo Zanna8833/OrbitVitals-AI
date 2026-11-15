@@ -11,11 +11,10 @@ import { useQuery } from '../../hooks/useQuery'
 import { useMutation } from '../../hooks/useMutation'
 import { useTightness } from '../../hooks/useTightness'
 import { useBoxSize } from '../../hooks/useLayout'
-import { useCognitionAvailable } from '../../hooks/useCognition'
 import { href } from '../../hooks/useRoute'
-import { config } from '../../config'
 import { useAppState } from '../../state/AppState'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
+import { BackLink } from '../../components/BackLink'
 import { MissionTimeline } from '../../components/MissionTimeline'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { CheckInChart, CompletenessMap, DeviationChart, EvaluationTimeline, IndicatorChip, MATRIX_INDICATORS, NutritionBullets, StatusMatrix } from '../../components/MedicalCharts'
@@ -39,15 +38,11 @@ function latestByDomain(items: BackendEvaluation[]): BackendEvaluation[] {
 const needsReview = (e: BackendEvaluation) => e.status === 'attention' || e.status === 'alert'
 
 /** Same header as the crew side: title, mission day, and the Crew / Astronaut switch. */
-export function MedicalHeader({ title, eyebrow, mission, crew, current, back }: { title: string; eyebrow: ReactNode; mission: MissionStatus; crew: CrewMember[]; current: string | null; back?: { href: string; label: string } }) {
+export function MedicalHeader({ title, eyebrow, mission, crew, current, back }: { title: string; eyebrow: ReactNode; mission: MissionStatus; crew: CrewMember[]; current: string | null; back?: { href: string; label?: string } }) {
   return (
     <header className="today-head">
       <div className="today-title">
-        {back && (
-          <a className="back-link-inline" href={back.href}>
-            ‹ {back.label}
-          </a>
-        )}
+        {back && <BackLink fallback={back.href} label={back.label} />}
         <h1>{title}</h1>
         <p className="eyebrow">{eyebrow}</p>
       </div>
@@ -168,12 +163,9 @@ export function MedicalCrew() {
 }
 
 function CognitionLink() {
-  const ok = useCognitionAvailable()
-  return ok === false ? (
-    <span className="muted ws-note">Cognition battery not installed</span>
-  ) : (
-    <a className="btn btn-small" href={config.cognitionUrl} target="_blank" rel="noopener">
-      Cognition results ↗
+  return (
+    <a className="btn btn-small" href={href.cognition()} title="Opens the battery: choose Ground research for the results">
+      Cognition results
     </a>
   )
 }
@@ -239,6 +231,7 @@ export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: st
         mission={mission}
         crew={crew}
         current={crewId}
+        back={{ href: href.medical(), label: 'Back' }}
       />
       <div className="today-grid">
         <div className="today-col">
@@ -347,14 +340,17 @@ export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: st
 
             {tab === 'evaluations' && (
               <div className="ws-evals">
-                <EvaluationTimeline items={evaluations} nowIso={mission.now} selected={evalSel} onSelect={setEvalSel} />
-                <div className="ws-scroll">
-                  <EvaluationsList items={evalSel ? evaluations.filter((e) => e.evaluation_id === evalSel) : evaluations} />
-                  {evalSel && (
-                    <button type="button" className="text-button" onClick={() => setEvalSel(null)}>
-                      Show all evaluations
+                <EvaluationTimeline items={evaluations} nowIso={mission.now} selected={evalSel} onSelect={(id) => setEvalSel((cur) => (cur === id ? null : id))} />
+                {evalSel && (
+                  <p className="filter-bar">
+                    <span>Showing 1 of {evaluations.length} evaluations</span>
+                    <button type="button" className="btn btn-small" onClick={() => setEvalSel(null)}>
+                      Show all
                     </button>
-                  )}
+                  </p>
+                )}
+                <div className="ws-scroll">
+                  <EvaluationsList items={evalSel ? evaluations.filter((e) => e.evaluation_id === evalSel) : evaluations} openFirst={!!evalSel} />
                 </div>
               </div>
             )}

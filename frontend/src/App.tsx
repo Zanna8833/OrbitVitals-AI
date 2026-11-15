@@ -9,6 +9,7 @@ import { AppStateProvider } from './state/AppState'
 import { CrewToday } from './views/crew/CrewToday'
 import { MedicalView } from './views/medical/MedicalView'
 import { AssistantPage } from './views/assistant/AssistantPage'
+import { CognitionPage } from './views/cognition/CognitionPage'
 import { ToastProvider } from './components/Toast'
 
 const loadMissionStatus = (ds: DataSource) => ds.getMissionStatus()
@@ -20,6 +21,8 @@ function Shell() {
   }, [])
   const route = useRoute()
   const mission = useQuery(loadMissionStatus)
+  // The cognition battery runs full screen, like on the station laptop.
+  if (route.view === 'cognition') return <CognitionPage />
 
   return (
     <div className={`app app-${route.view}`}>
