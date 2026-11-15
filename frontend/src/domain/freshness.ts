@@ -18,8 +18,11 @@ export const FRESHNESS_RULES = {
 export function computeFreshness(lastIso: string | null, nowIso: string, samplingIntervalS: number): Freshness {
   if (!lastIso) return 'none'
   const ageS = (toMs(nowIso) - toMs(lastIso)) / 1000
-  if (ageS > FRESHNESS_RULES.staleAfterS) return 'stale'
-  if (ageS > samplingIntervalS * FRESHNESS_RULES.delayedAfterIntervals) return 'delayed'
+  // Live signals (seconds apart) use the fixed thresholds; daily readings scale with their cadence.
+  const staleS = Math.max(FRESHNESS_RULES.staleAfterS, samplingIntervalS * 2)
+  const delayedS = samplingIntervalS >= 3600 ? samplingIntervalS * 1.25 : samplingIntervalS * FRESHNESS_RULES.delayedAfterIntervals
+  if (ageS > staleS) return 'stale'
+  if (ageS > delayedS) return 'delayed'
   return 'current'
 }
 

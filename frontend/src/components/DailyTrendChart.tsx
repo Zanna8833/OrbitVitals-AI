@@ -123,7 +123,8 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
   const missing = days.filter((d) => d.value === null)
   // Y labels at least 16 px apart: on a short chart only the bottom and top remain.
   const allYTicks = niceTicks(y0, y1, 3)
-  const yTicks = allYTicks.length > 2 && plotH / (allYTicks.length - 1) < 16 ? [allYTicks[0], allYTicks[allYTicks.length - 1]] : allYTicks
+  const yTicks =
+    plotH < 28 ? allYTicks.slice(-1) : allYTicks.length > 2 && plotH / (allYTicks.length - 1) < 16 ? [allYTicks[0], allYTicks[allYTicks.length - 1]] : allYTicks
   // Label placement: nothing overlaps (≈6 px per character at 11 px).
   const streakText = streak ? `${streak.to - streak.from + 1} days ${streak.side} usual` : ''
   const baselineTextEnd = base ? Math.max(margin.left + 2, x(base.fromDay) - dayStep / 2 + 2) + `Baseline days ${base.fromDay}–${base.toDay}`.length * 6 : 0
@@ -336,7 +337,8 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
             : ''}
         </div>
       </div>
-      {!mini && <figcaption className="daily-chart-foot">
+      {/* On very short charts the legend gives way to the plot; the full chart is in Details. */}
+      {!mini && height >= 96 && <figcaption className="daily-chart-foot">
         <span>
           <span className="swatch swatch-band" aria-hidden="true" /> Usual range
           {base ? ` from baseline days ${base.fromDay}–${base.toDay}` : ' — not available yet'}

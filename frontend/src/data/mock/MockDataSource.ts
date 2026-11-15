@@ -37,7 +37,7 @@ import { getScenario, type Scenario } from './scenarios'
 import { fixedClock, type SimClock } from './clock'
 import { MISSION_START_DATE, generateDailyIndicators, missionDayOf, seedCheckIns } from './daily'
 import { withDemoMeasurements, type DeviceMeasurement } from '../../domain/measurements'
-import { storeCheckIns, storedCheckIns, storeCrewReport, storedCrewReports, measurementsFor, storeMeasurement, storeSleepAidPlan, storedSleepAidPlan, storedImports, storedIntake, storeIntake, storedCustomFoods, storeCustomFoods } from '../../state/crewLocal'
+import { storeCheckIns, storedCheckIns, storeCrewReport, storedCrewReports, measurementsFor, storeMeasurement, storeSleepAidPlan, storedSleepAidPlan, storedImports, storedIntake, storeIntake, storedCustomFoods, storeCustomFoods, storedProfiles, storeProfile, storeImport } from '../../state/crewLocal'
 import { ISS_FOODS, type Food, type IntakeEntry, type NutritionProfile } from '../../domain/nutrition'
 import { NUTRITION_PROFILES, seedIntake } from './nutrition'
 import type { BackendEvaluation } from '../../domain/metricCatalog'
@@ -121,9 +121,13 @@ export class MockDataSource implements DataSource {
   private clock: SimClock
 
   /** `clock` is the simulated server clock: fixed at 10:40 UTC by default, or a live replay. */
-  constructor(scenarioId: string, latencyMs = 60, clock: SimClock = fixedClock) {
+  /** false: no generated sample content (events, check-ins, sleep plan, food log); only what users enter. */
+  protected readonly samples: boolean
+
+  constructor(scenarioId: string, latencyMs = 60, clock: SimClock = fixedClock, samples = true) {
     this.scenario = getScenario(scenarioId)
-    this.events = [...initialEvents(this.scenario), ...storedCrewReports()]
+    this.samples = samples
+    this.events = [...(samples ? initialEvents(this.scenario) : []), ...storedCrewReports()]
     this.latencyMs = latencyMs
     this.clock = clock
   }
@@ -346,7 +350,7 @@ export class MockDataSource implements DataSource {
   private checkInsOf(crewId: string): CheckIn[] {
     if (!this.checkIns.has(crewId)) {
       const saved = storedCheckIns()[crewId]
-      this.checkIns.set(crewId, saved ?? seedCheckIns(crewId, this.simNow(), this.scenario.flags))
+      this.checkIns.set(crewId, saved ?? (this.samples ? seedCheckIns(crewId, this.simNow(), this.scenario.flags) : []))
     }
     return this.checkIns.get(crewId)!
   }
@@ -411,7 +415,7 @@ export class MockDataSource implements DataSource {
   private sleepPlan: SleepAidPlanEntry[] | null = null
 
   private plan(): SleepAidPlanEntry[] {
-    if (!this.sleepPlan) this.sleepPlan = storedSleepAidPlan() ?? seedSleepAidPlan(this.simNow())
+    if (!this.sleepPlan) this.sleepPlan = storedSleepAidPlan() ?? (this.samples ? seedSleepAidPlan(this.simNow()) : [])
     return this.sleepPlan
   }
 
@@ -436,17 +440,32 @@ export class MockDataSource implements DataSource {
   private intake: IntakeEntry[] | null = null
 
   private intakeLog(): IntakeEntry[] {
-    if (!this.intake) this.intake = storedIntake() ?? CREW_PROFILES.flatMap((p) => seedIntake(p.id, this.simNow()))
+    if (!this.intake) this.intake = storedIntake() ?? (this.samples ? CREW_PROFILES.flatMap((p) => seedIntake(p.id, this.simNow())) : [])
     return this.intake
   }
 
   async getNutritionProfile(crewId: string): Promise<NutritionProfile> {
     this.requireCrew(crewId)
-    const base = NUTRITION_PROFILES[crewId]
-    const imported = storedImports()[crewId]
-    const series = imported?.series ?? generateDailyIndicators(crewId, this.simNow(), this.scenario.flags)
-    const mass = [...(series.find((s) => s.indicator === 'body_mass')?.days ?? [])].reverse().find((d) => d.value !== null)?.value ?? 75
-    return this.delay({ ...base, ...(imported?.nutrition ?? {}), bodyMassKg: mass, source: imported?.nutrition ? 'Imported profile + latest body mass' : 'Simulated profile + latest body mass' })
+    const daily = await this.getDailyIndicators(crewId)
+    const latest = [...(daily.find((s) => s.indicator === 'body_mass')?.days ?? [])].reverse().find((d) => d.value !== null)?.value ?? null
+    const saved = storedProfiles()[crewId]
+    const mass = latest ?? saved?.bodyMassKg ?? 75
+    if (saved) return this.delay({ ...saved, bodyMassKg: mass, source: latest !== null ? 'Your profile · latest body mass' : saved.bodyMassKg ? 'Your profile' : 'Your profile · no body-mass reading yet, 75 kg used' })
+    const imported = storedImports()[crewId]?.nutrition
+    const base = this.samples ? NUTRITION_PROFILES[crewId] : { sex: 'male' as const, ageYears: 40, heightM: 1.75, menstruating: false }
+    return this.delay({ ...base, ...(imported ?? {}), bodyMassKg: mass, source: imported ? 'Imported profile' : this.samples ? 'Sample profile' : 'Profile not set: standard values' })
+  }
+
+  async saveNutritionProfile(crewId: string, profile: Omit<NutritionProfile, 'bodyMassKg' | 'source'>): Promise<void> {
+    this.requireCrew(crewId)
+    storeProfile(crewId, profile)
+    return this.delay(undefined)
+  }
+
+  async importDaily(crewId: string, series: DailyIndicatorSeries[], meta: { displayName: string | null; files: string[] }): Promise<void> {
+    this.requireCrew(crewId)
+    storeImport({ crewId, displayName: meta.displayName, role: null, series, files: meta.files, importedAt: new Date().toISOString() })
+    return this.delay(undefined)
   }
 
   async listIntake(crewId: string, from: string, to: string): Promise<IntakeEntry[]> {

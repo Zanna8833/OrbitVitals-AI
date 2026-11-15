@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { lastAstronaut } from './state/lastAstronaut'
 import { Empty } from './components/Common'
 import { Footer, NavBar } from './components/NavBar'
 import type { DataSource } from './data'
@@ -12,6 +14,10 @@ import { ToastProvider } from './components/Toast'
 const loadMissionStatus = (ds: DataSource) => ds.getMissionStatus()
 
 function Shell() {
+  // Opening the app without a link resumes the astronaut used last in this session.
+  useEffect(() => {
+    if (!window.location.hash && lastAstronaut()) window.location.replace(href.crewHome())
+  }, [])
   const route = useRoute()
   const mission = useQuery(loadMissionStatus)
 
@@ -29,7 +35,7 @@ function Shell() {
         {route.view === 'not_found' && (
           <div className="page page-narrow">
             <Empty>
-              Page not found. <a href={href.crew()}>Go to Today</a>
+              Page not found. <a href={href.crewHome()}>Go to the crew</a>
             </Empty>
           </div>
         )}

@@ -1,18 +1,17 @@
 import { useState, type FormEvent } from 'react'
 import type { DataSource } from '../../data'
-import type { CheckIn, CheckInInput, CheckInScore, DailyIndicatorId, DailyIndicatorSeries, MissionStatus } from '../../domain/types'
+import type { CheckIn, CheckInInput, CheckInScore, DailyIndicatorId, MissionStatus } from '../../domain/types'
 import { CHECK_IN_QUESTIONS, DAILY_INDICATORS, QUALITY_LABEL, formatDailyValue } from '../../domain/parameters'
 import type { IndicatorEvaluation } from '../../domain/crewHealth'
-import { MEASUREMENT_DEVICES, MEASUREMENT_GROUPS, NOT_TRACKED_EXAMS, measurementValue, type DemoSignal, type DeviceMeasurement } from '../../domain/measurements'
+import { MEASUREMENT_DEVICES, MEASUREMENT_GROUPS, NOT_TRACKED_EXAMS, type DeviceMeasurement } from '../../domain/measurements'
 import { formatUtc } from '../../domain/time'
 import { useMutation } from '../../hooks/useMutation'
 import { useAppState } from '../../state/AppState'
-import { measurementsFor } from '../../state/crewLocal'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { MetricGlyph } from '../../components/MetricGlyph'
 import { toneOf } from '../../components/tone'
 import { FormError } from '../../components/Common'
-import { List, Row, Segmented, Sheet, SimTag, Symbol } from '../../components/ui'
+import { List, Row, Sheet, Symbol } from '../../components/ui'
 import { INDICATOR_CONTEXT } from './indicatorText'
 import { useToast } from '../../components/Toast'
 import type { useShare } from './shareSync'
@@ -75,7 +74,7 @@ export function IndicatorSheet({
               <dd>{e.series.source}</dd>
             </div>
           </dl>
-          <p className="fineprint">Compared with your own first mission days, not with medical thresholds. Simulated data.</p>
+          <p className="fineprint">Compared with your own first mission days, not with medical thresholds.</p>
           {(canMeasure || changed) && (
             <div className="button-row">
               {canMeasure && (
@@ -186,61 +185,50 @@ export function MeasureSheet({
   open,
   crewId,
   mission,
-  daily,
   initial,
   onClose,
 }: {
   open: boolean
   crewId: string
   mission: MissionStatus
-  daily: DailyIndicatorSeries[]
   initial: DailyIndicatorId | null
   onClose: () => void
 }) {
   const startsWithDevice = !!initial && MEASUREMENT_DEVICES.some((d) => d.indicator === initial)
   return (
     <Sheet open={open} title="Take a measurement" onClose={onClose}>
-      {open && <MeasureFlow key={initial ?? 'none'} crewId={crewId} mission={mission} daily={daily} initial={startsWithDevice ? initial : null} onDone={onClose} />}
+      {open && <MeasureFlow key={initial ?? 'none'} crewId={crewId} mission={mission} initial={startsWithDevice ? initial : null} onDone={onClose} />}
     </Sheet>
   )
 }
 
-function MeasureFlow({ crewId, mission, daily, initial, onDone }: { crewId: string; mission: MissionStatus; daily: DailyIndicatorSeries[]; initial: DailyIndicatorId | null; onDone: () => void }) {
-  const { dataSource, notifyChanged } = useAppState()
+function MeasureFlow({ crewId, mission, initial, onDone }: { crewId: string; mission: MissionStatus; initial: DailyIndicatorId | null; onDone: () => void }) {
+  const { notifyChanged } = useAppState()
   const toast = useToast()
   const [step, setStep] = useState<Step>(initial ? 'prepare' : 'choose')
   const [selected, setSelected] = useState<DailyIndicatorId>(initial ?? 'resting_spo2')
-  const [signal, setSignal] = useState<DemoSignal>('clear')
   const [context, setContext] = useState('Routine morning check')
-  const [mode, setMode] = useState<'device' | 'manual'>(dataSource.kind === 'mock' ? 'device' : 'manual')
   const [typed, setTyped] = useState<Record<string, string>>({})
   const [results, setResults] = useState<DeviceMeasurement[]>([])
   const save = useMutation((ds: DataSource, items: DeviceMeasurement[]) => ds.recordMeasurements(crewId, items))
   const device = MEASUREMENT_DEVICES.find((d) => d.indicator === selected)!
   const ids = [device.indicator, ...(device.also ?? [])]
-  const simulationAvailable = dataSource.kind === 'mock'
+  // No instrument is connected to the browser: readings are typed from the instrument's display.
 
   const reading = (indicator: DailyIndicatorId, value: number, manual: boolean, n: number, at: number): DeviceMeasurement => ({
-    id: `MEAS-${crewId}-${Date.now()}-${n}-${Math.random().toString(36).slice(2, 6)}`,
+    id: `MEAS-${crewId}-${at}-${n}-${Math.random().toString(36).slice(2, 6)}`,
     crewId,
     indicator,
     value,
-    quality: !manual && signal === 'motion' ? 'uncertain' : 'good',
+    quality: 'good',
     simulated: true,
-    deviceLabel: manual ? `${device.kind} · typed by hand` : device.kind,
+    deviceLabel: device.kind,
     acquiredAt: mission.now,
     savedAtMs: at,
-    signal: manual ? 'clear' : signal,
+    signal: 'clear',
     context,
     manual,
   })
-
-  const acquire = () => {
-    const previous = measurementsFor(crewId)
-    const at = Date.now()
-    setResults(ids.map((id, n) => reading(id, measurementValue(id, daily, previous.filter((m) => m.indicator === id).length), false, n, at)))
-    setStep('result')
-  }
   const parsed = ids.map((id) => {
     const raw = (typed[id] ?? '').replace(',', '.').trim()
     const v = raw === '' ? null : Number(raw)
@@ -267,7 +255,7 @@ function MeasureFlow({ crewId, mission, daily, initial, onDone }: { crewId: stri
     return (
       <div className="stack">
         <p className="body-text muted">
-          Every measurement the crew can take on board. {simulationAvailable ? 'Device readings are simulated in this demo; you can also type a value by hand.' : 'Type the value shown by the instrument.'}
+          Every measurement taken on board. Choose the instrument, follow its steps and type the value it shows.
         </p>
         {MEASUREMENT_GROUPS.map((g) => (
           <section key={g} className="measure-group" aria-label={g}>
@@ -310,53 +298,27 @@ function MeasureFlow({ crewId, mission, daily, initial, onDone }: { crewId: stri
           </span>
           <p className="detail-title">{device.name}</p>
         </div>
-        <Segmented
-          label="How to record"
-          value={mode}
-          onChange={setMode}
-          options={[
-            { value: 'device', label: simulationAvailable ? 'From the device (simulated)' : 'From the device' },
-            { value: 'manual', label: 'Type the value' },
-          ]}
-        />
-        {mode === 'device' ? (
-          <>
-            <ol className="steps">
-              {device.preparation.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ol>
-            <div className="field">
-              <span className="field-label">Simulated signal</span>
-              <Segmented
-                label="Simulated signal"
-                value={signal}
-                onChange={setSignal}
-                options={[
-                  { value: 'clear', label: 'Stable' },
-                  { value: 'motion', label: 'With movement' },
-                ]}
+        <ol className="steps">
+          {device.preparation.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+        <div className="manual-grid">
+          {ids.map((id) => (
+            <label key={id} className="field">
+              <span className="field-label">
+                {DAILY_INDICATORS[id].label} ({DAILY_INDICATORS[id].unit})
+              </span>
+              <input
+                inputMode="decimal"
+                value={typed[id] ?? ''}
+                placeholder={id === device.indicator ? 'Required' : 'Optional'}
+                onChange={(e) => setTyped((t) => ({ ...t, [id]: e.target.value }))}
               />
-            </div>
-          </>
-        ) : (
-          <div className="manual-grid">
-            {ids.map((id) => (
-              <label key={id} className="field">
-                <span className="field-label">
-                  {DAILY_INDICATORS[id].label} ({DAILY_INDICATORS[id].unit})
-                </span>
-                <input
-                  inputMode="decimal"
-                  value={typed[id] ?? ''}
-                  placeholder={id === device.indicator ? 'Required' : 'Optional'}
-                  onChange={(e) => setTyped((t) => ({ ...t, [id]: e.target.value }))}
-                />
-              </label>
-            ))}
-            {manualError && <p className="form-error">“{manualError.raw}” is not a number.</p>}
-          </div>
-        )}
+            </label>
+          ))}
+          {manualError && <p className="form-error">“{manualError.raw}” is not a number.</p>}
+        </div>
         <label className="field">
           <span className="field-label">Context</span>
           <select value={context} onChange={(e) => setContext(e.target.value)}>
@@ -366,15 +328,9 @@ function MeasureFlow({ crewId, mission, daily, initial, onDone }: { crewId: stri
             <option>Additional measurement requested</option>
           </select>
         </label>
-        {mode === 'device' ? (
-          <button type="button" className="btn btn-primary btn-block" disabled={!simulationAvailable} onClick={acquire}>
-            {simulationAvailable ? 'Start simulated reading' : 'No device connected: type the value'}
-          </button>
-        ) : (
-          <button type="button" className="btn btn-primary btn-block" disabled={!manualReady} onClick={useTyped}>
-            Review
-          </button>
-        )}
+        <button type="button" className="btn btn-primary btn-block" disabled={!manualReady} onClick={useTyped}>
+          Review
+        </button>
         <p className="fineprint">Nothing is saved until you confirm.</p>
       </div>
     )
@@ -403,11 +359,11 @@ function MeasureFlow({ crewId, mission, daily, initial, onDone }: { crewId: stri
             ))}
           </div>
           <p className={`detail-status${main.quality === 'good' ? '' : ' is-attention'}`}>
-            {main.manual ? 'Typed by hand' : main.quality === 'good' ? 'Signal not flagged' : 'Signal uncertain — consider repeating'}
+            {main.manual ? 'Entered from the instrument' : main.quality === 'good' ? 'Signal not flagged' : 'Signal uncertain — consider repeating'}
           </p>
           <p className="detail-meta">
             {formatUtc(main.acquiredAt, false)} · {main.context}
-            {main.manual ? '' : ' · simulated'}
+
           </p>
         </div>
         <FormError message={save.error} />
@@ -452,7 +408,6 @@ export function ShareSheet({ open, onClose, sharing, summary }: { open: boolean;
           </span>
           <p className="detail-title">{done === 'sent' ? 'Shared' : 'Saved for later'}</p>
           <p className="body-text muted">{sharing.notice}</p>
-          <SimTag>Simulated delivery</SimTag>
           <button type="button" className="btn btn-primary btn-block" onClick={close}>
             Done
           </button>
@@ -461,9 +416,6 @@ export function ShareSheet({ open, onClose, sharing, summary }: { open: boolean;
         <form className="stack" onSubmit={submit}>
           <p className="body-text">
             The team will see your daily trends and check-ins{summary ? ` — including ${summary}` : ''}. Sharing is your choice.
-          </p>
-          <p className="sim-note">
-            <SimTag>Simulated delivery</SimTag> In this demo the report goes to the Medical view of this same browser, not to a real ground station.
           </p>
           {sharing.offline && (
             <p className="notice notice-link">

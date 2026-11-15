@@ -58,7 +58,7 @@ export function MethodSheet({ topic, onClose }: { topic: MethodTopic | null; onC
           <p className="method-why">Why: interview with F. Ongaro (the hard part is telling whether a change is real, and what can be done).</p>
         </section>
         <p className="fineprint">
-          Demo settings: the 3-day rule and the baseline days are prototype choices, to be validated with the medical team. Data are simulated.
+          Settings to confirm with the medical team: the 3-day rule and the baseline days.
         </p>
       </div>
     </Sheet>

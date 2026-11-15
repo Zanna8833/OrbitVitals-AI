@@ -5,7 +5,8 @@ import type { DeviceMeasurement } from '../domain/measurements'
  * Offline-only DEMO persistence. This is NOT secure storage and MUST NOT be used
  * with real health information. All entries in the prototype are synthetic.
  */
-const prefix = 'orbitvitals-demo-v2:'
+// Separate stores: sample data (development) never mixes with what users enter on the platform.
+const prefix = import.meta.env.VITE_DATA_SOURCE === 'mock' ? 'orbitvitals-demo-v2:' : 'orbitvitals:'
 const memoryFallback = new Map<string, string>()
 
 export function localPersistenceAvailable(): boolean {
@@ -104,7 +105,7 @@ export function storeCrewReport(event: ReviewEvent) {
 }
 
 export function resetCrewDemoData() {
-  for (const key of ['outbox', 'rechecks', 'crew-reports', 'check-ins', 'device-measurements', 'sleep-aid-plan', 'imports', 'intake', 'custom-foods']) {
+  for (const key of ['outbox', 'rechecks', 'crew-reports', 'check-ins', 'device-measurements', 'sleep-aid-plan', 'imports', 'intake', 'custom-foods', 'profiles']) {
     try { window.localStorage.removeItem(prefix + key) } catch { /* unavailable */ }
     memoryFallback.delete(prefix + key)
   }
@@ -185,4 +186,16 @@ export function storedCustomFoods(): import('../domain/nutrition').Food[] {
 
 export function storeCustomFoods(foods: import('../domain/nutrition').Food[]) {
   write('custom-foods', foods)
+}
+
+/** Body profile for the nutrition requirements, entered by the crew or imported from the profile JSON. */
+export type StoredProfile = Omit<import('../domain/nutrition').NutritionProfile, 'bodyMassKg' | 'source'> & { bodyMassKg?: number }
+
+export function storedProfiles(): Record<string, StoredProfile> {
+  const v = read<Record<string, StoredProfile>>('profiles', {})
+  return v && typeof v === 'object' ? v : {}
+}
+
+export function storeProfile(crewId: string, profile: StoredProfile) {
+  write('profiles', { ...storedProfiles(), [crewId]: profile })
 }

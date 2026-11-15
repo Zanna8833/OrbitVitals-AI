@@ -13,7 +13,7 @@ import { EventStatusChip } from '../../components/StatusGlyphs'
 import { Sparkline } from '../../components/Sparkline'
 import { toneOf } from '../../components/tone'
 import { MetricGlyph } from '../../components/MetricGlyph'
-import { Segmented, Sheet, SimTag } from '../../components/ui'
+import { Segmented, Sheet } from '../../components/ui'
 import { loadSession, type SessionData } from '../sessionData'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { useToast } from '../../components/Toast'
@@ -39,7 +39,7 @@ export function EventPane({ eventId }: { eventId: string }) {
   if (state.status === 'loading') return <Loading />
   if (!state.data) {
     const notFound = state.error instanceof DataSourceError && state.error.code === 'not_found'
-    return <ErrorState error={state.error!} title={notFound ? 'This item is not available in the current scenario' : 'Unable to load the item'} />
+    return <ErrorState error={state.error!} title={notFound ? 'This item is no longer available' : 'Unable to load the item'} />
   }
   return <EventBody key={state.data.event.id} data={state.data} />
 }
@@ -598,7 +598,6 @@ function ReviewCard({
       <form onSubmit={send} className="message-form action-block">
         <p className="section-label action-label">
           <label htmlFor={`tpl-${event.id}`}>Message to {crewName}</label>
-          <SimTag title="Delivered to the crew view of this demo, not over a real link">Simulated delivery</SimTag>
         </p>
         <div className="inline-form">
           <select id={`tpl-${event.id}`} value={templateId} onChange={(e) => setTemplateId(e.target.value)} disabled={offline}>

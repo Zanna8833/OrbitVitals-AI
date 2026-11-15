@@ -179,6 +179,7 @@ type NutritionSheet = 'food' | 'values' | 'create' | null
 
 export function NutritionPage({ data, mission, crewId, sheet, setSheet }: { data: NutritionData; mission: MissionStatus; crewId: string; sheet: NutritionSheet; setSheet: (s: NutritionSheet) => void }) {
   const [view, setView] = useState<View>('today')
+  const [editing, setEditing] = useState(false)
   const addWater = useAddWater(crewId, mission)
   const today = todayEntries(data, mission.now)
   const totals = useMemo(() => {
@@ -206,8 +207,11 @@ export function NutritionPage({ data, mission, crewId, sheet, setSheet }: { data
               { value: 'week', label: 'Average, last 7 days' },
             ]}
           />
-          <p className="fineprint">
-            Targets for {data.profile.sex === 'male' ? 'a man' : 'a woman'}, {data.profile.ageYears} y, {data.profile.heightM.toFixed(2)} m, {data.profile.bodyMassKg.toFixed(1)} kg · {data.profile.source}
+          <p className={`fineprint profile-line${data.profile.source.startsWith('Profile not set') ? ' is-unset' : ''}`}>
+            Targets for {data.profile.sex === 'male' ? 'a man' : 'a woman'}, {data.profile.ageYears} y, {data.profile.heightM.toFixed(2)} m, {data.profile.bodyMassKg.toFixed(1)} kg · {data.profile.source}{' '}
+            <button type="button" className="text-button" onClick={() => setEditing(true)}>
+              {data.profile.source.startsWith('Profile not set') ? 'Set your profile' : 'Edit'}
+            </button>
           </p>
         </div>
         <div className="essentials">
@@ -258,6 +262,7 @@ export function NutritionPage({ data, mission, crewId, sheet, setSheet }: { data
       <FoodSheet open={sheet === 'food'} foods={data.foods} crewId={crewId} mission={mission} onClose={() => setSheet(null)} onCreate={() => setSheet('create')} />
       <ValuesSheet open={sheet === 'values'} crewId={crewId} mission={mission} onClose={() => setSheet(null)} />
       <CreateFoodSheet open={sheet === 'create'} onClose={() => setSheet('food')} />
+      <ProfileSheet open={editing} profile={data.profile} crewId={crewId} onClose={() => setEditing(false)} />
     </div>
   )
 }
@@ -565,6 +570,66 @@ function CreateFoodSheet({ open, onClose }: { open: boolean; onClose: () => void
           Save food
         </button>
       </form>
+    </Sheet>
+  )
+}
+
+/** Sex, age and height: what the NASA requirements depend on, besides body mass (read from the latest measurement). */
+function ProfileSheet({ open, profile, crewId, onClose }: { open: boolean; profile: NutritionProfile; crewId: string; onClose: () => void }) {
+  const { notifyChanged } = useAppState()
+  const toast = useToast()
+  const [sex, setSex] = useState(profile.sex)
+  const [age, setAge] = useState(String(profile.ageYears))
+  const [height, setHeight] = useState(String(Math.round(profile.heightM * 100)))
+  const [menstruating, setMenstruating] = useState(profile.menstruating)
+  const save = useMutation((ds: DataSource, p: Omit<NutritionProfile, 'bodyMassKg' | 'source'>) => ds.saveNutritionProfile(crewId, p))
+  const ageN = Number(age)
+  const heightN = Number(height.replace(',', '.'))
+  const valid = Number.isInteger(ageN) && ageN >= 19 && ageN <= 90 && heightN >= 120 && heightN <= 230
+  const submit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!valid) return
+    if (await save.run({ sex, ageYears: ageN, heightM: heightN / 100, menstruating: sex === 'female' && menstruating })) {
+      notifyChanged()
+      toast('Profile saved: targets updated')
+      onClose()
+    }
+  }
+  return (
+    <Sheet open={open} title="Your profile" onClose={onClose}>
+      {open && (
+        <form className="stack" onSubmit={submit}>
+          <p className="body-text muted">The daily requirements depend on these values and on your latest body mass ({profile.bodyMassKg.toFixed(1)} kg).</p>
+          <div className="field">
+            <span className="field-label">Sex</span>
+            <Segmented label="Sex" value={sex} onChange={setSex} options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} />
+          </div>
+          <div className="manual-grid">
+            <label className="field">
+              <span className="field-label">Age (years)</span>
+              <input inputMode="numeric" value={age} onChange={(e) => setAge(e.target.value)} />
+            </label>
+            <label className="field">
+              <span className="field-label">Height (cm)</span>
+              <input inputMode="decimal" value={height} onChange={(e) => setHeight(e.target.value)} />
+            </label>
+          </div>
+          {sex === 'female' && (
+            <label className="popover-toggle">
+              <span>
+                Menstruating
+                <small>Raises the iron requirement to at least 18 mg (under 50 years)</small>
+              </span>
+              <input type="checkbox" role="switch" checked={menstruating} onChange={(e) => setMenstruating(e.target.checked)} />
+            </label>
+          )}
+          {!valid && <p className="form-error">Age 19–90 and height 120–230 cm (the NASA equations are for adults).</p>}
+          <FormError message={save.error} />
+          <button type="submit" className="btn btn-primary btn-block" disabled={!valid || save.busy}>
+            Save
+          </button>
+        </form>
+      )}
     </Sheet>
   )
 }

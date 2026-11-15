@@ -54,7 +54,7 @@ export function LinkBanner({ mission, audience }: { mission: MissionStatus; audi
       <span className="notice-text">
         {audience === 'surgeon'
           ? 'You are seeing the last data received, not the current state. Messages to the crew cannot be sent.'
-          : 'Your readings stay on this device. Reports you share are queued and sent when the link returns (simulated).'}
+          : 'Your readings stay on this device. Reports you share are queued and sent when the link returns.'}
       </span>
     </div>
   )

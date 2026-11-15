@@ -9,7 +9,7 @@ describe('summarizeOverview', () => {
     const snapshots = await Promise.all(crew.map((c) => ds.getCrewSnapshot(c.id)))
     const s = summarizeOverview(snapshots, events, mission.now)
     expect(s).toMatchObject({ toReview: 3, inReview: 0, crewTotal: 3, upToDate: 2 })
-    expect(s.notUpToDate).toEqual([{ name: 'Crew C', lastReceivedAt: '2026-11-14T10:22:00Z', freshness: 'stale' }])
+    expect(s.notUpToDate).toEqual([{ name: 'Astronaut C', lastReceivedAt: '2026-11-14T10:22:00Z', freshness: 'stale' }])
   })
 
   it('excludes reviewed events and counts those in review', async () => {
@@ -24,6 +24,7 @@ describe('summarizeOverview', () => {
 describe('initialsOf', () => {
   it('uses the pseudonym letter for "Crew X" and initials otherwise', () => {
     expect(initialsOf('Crew A')).toBe('A')
+    expect(initialsOf('Astronaut B')).toBe('B')
     expect(initialsOf('Maria Rossi')).toBe('MR')
     expect(initialsOf('Solo')).toBe('S')
   })

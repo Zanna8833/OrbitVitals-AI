@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run cognition && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b",
-    "demo": "vite build && node tools/build-offline.cjs",
     "cognition": "npm --prefix ../cognition-frontend ci && npm --prefix ../cognition-frontend run build -- --base ./ --outDir ../frontend/public/cognition --emptyOutDir",
-    "build:all": "npm run cognition && npm run build"
+    "build:app": "tsc -b && vite build",
+    "dev:sample": "vite --mode sample"
   },
   "dependencies": {
     "react": "^19.3.1",

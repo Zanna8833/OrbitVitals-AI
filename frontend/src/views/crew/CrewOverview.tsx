@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import type { DataSource } from '../../data'
 import { DAILY_INDICATORS } from '../../domain/parameters'
 import { checkedInOn, evaluateIndicator, summarizeHealth } from '../../domain/crewHealth'
-import { formatDate, missionDayOf } from '../../domain/time'
+import { formatDate, joinNames, missionDayOf } from '../../domain/time'
 import { addDays, coverageOf, isPlanned, nightLabel, nightsFrom, readyOn } from '../../domain/sleepPlan'
 import { activityAfterNight, involves } from '../../domain/missionPlan'
 import { summarize, totalsOf } from '../../domain/nutrition'
@@ -72,7 +72,6 @@ export function CrewOverview() {
                 <span className="avatar">{initialsOf(m.crew.displayName)}</span>
                 <span className="astro-name">
                   <strong>{m.crew.displayName}</strong>
-                  <small>{m.crew.note}</small>
                 </span>
                 <span className="astro-open">Open ›</span>
               </div>
@@ -138,7 +137,7 @@ export function CrewOverview() {
       <section className={`card crew-strip${uncovered.length ? ' is-attention' : ''}`} aria-label="Shared by the crew">
         <div>
           <span className="astro-label">Ready tonight</span>
-          <strong>{ready.length ? ready.map((id) => crew.find((c) => c.id === id)?.displayName ?? id).join(' and ') : 'Nobody without a sleeping pill'}</strong>
+          <strong>{ready.length ? joinNames(ready.map((id) => crew.find((c) => c.id === id)?.displayName ?? id)) : 'Nobody without a sleeping pill'}</strong>
         </div>
         <div>
           <span className="astro-label">Next 7 nights</span>

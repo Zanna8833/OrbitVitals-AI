@@ -31,10 +31,10 @@ export function summarizeOverview(snapshots: CrewSnapshot[], events: ReviewEvent
   }
 }
 
-/** "Crew A" → "A", "Maria Rossi" → "MR". Pseudonyms only in this prototype. */
+/** "Astronaut A" → "A", "Maria Rossi" → "MR". */
 export function initialsOf(displayName: string): string {
   const words = displayName.trim().split(/\s+/)
-  if (words.length > 1 && /^crew$/i.test(words[0])) return words.slice(1).join('').slice(0, 2).toUpperCase()
+  if (words.length > 1 && /^(crew|astronaut)$/i.test(words[0])) return words.slice(1).join('').slice(0, 2).toUpperCase()
   return words
     .slice(0, 2)
     .map((w) => w[0] ?? '')

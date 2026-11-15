@@ -23,7 +23,7 @@ export function SleepPane({ crew, entries, tonight, missionStart }: { crew: Crew
         <h1>Sleeping-pill plan</h1>
         <p className="why explain">
           <strong>Why it is here · </strong>
-          Each crew member plans the nights they intend to use a sleeping pill. Demo rule: at least {SLEEP_COVER_RULE.minWithoutSleepAid} crew member stays
+          Each crew member plans the nights they intend to use a sleeping pill. Crew rule: at least {SLEEP_COVER_RULE.minWithoutSleepAid} crew member stays
           without one every night, ready for an emergency.
         </p>
       </header>

@@ -63,7 +63,7 @@ interface CrewProfile {
 export const CREW_PROFILES: CrewProfile[] = [
   {
     id: 'crew-a',
-    displayName: 'Crew A',
+    displayName: 'Astronaut A',
     protocolId: PROTOCOL_EXERCISE,
     rest: { heart_rate: 60, spo2: 98, resp_rate: 12, motion: 0.02 },
     peak: { heart_rate: 136, spo2: 97, resp_rate: 25, motion: 0.34 },
@@ -71,7 +71,7 @@ export const CREW_PROFILES: CrewProfile[] = [
   },
   {
     id: 'crew-b',
-    displayName: 'Crew B',
+    displayName: 'Astronaut B',
     protocolId: PROTOCOL_EXERCISE,
     rest: { heart_rate: 66, spo2: 97.6, resp_rate: 14, motion: 0.02 },
     peak: { heart_rate: 131, spo2: 97, resp_rate: 27, motion: 0.37 },
@@ -79,7 +79,7 @@ export const CREW_PROFILES: CrewProfile[] = [
   },
   {
     id: 'crew-c',
-    displayName: 'Crew C',
+    displayName: 'Astronaut C',
     protocolId: PROTOCOL_OPERATIONAL,
     rest: { heart_rate: 64, spo2: 97.8, resp_rate: 13, motion: 0.03 },
     peak: { heart_rate: 92, spo2: 97.5, resp_rate: 17, motion: 0.18 },

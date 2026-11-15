@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { DAILY_INDICATORS } from '../domain/parameters'
 import { parseMeasurementsCsv, parseProfileJson, BASELINE_NOTE, type CrewProfileInput, type MeasurementsImport } from '../data/import/crewImport'
-import { CREW_PROFILES } from '../data/mock/generator'
-import { removeImport, storedImports, storeImport } from '../state/crewLocal'
+import { removeImport, storedImports } from '../state/crewLocal'
+import { useCallback } from 'react'
+import type { DataSource } from '../data'
+import { useQuery } from '../hooks/useQuery'
+import { useMutation } from '../hooks/useMutation'
+import { config } from '../config'
+import { FormError } from './Common'
 import { useAppState } from '../state/AppState'
 import { useToast } from './Toast'
 import { Sheet } from './ui'
@@ -17,17 +22,20 @@ interface Picked {
 const download = (name: string, text: string, type: string) => `data:${type};charset=utf-8,${encodeURIComponent(text)}` + `#${name}`
 
 /**
- * Loads a crew member's general profile (JSON) and day-to-day measurements
- * (CSV) — the formats the team's data arrive in. Everything is parsed in the
- * browser and kept only in this browser; nothing is uploaded.
+ * Loads an astronaut's general profile (JSON) and day-to-day measurements
+ * (CSV) — the formats the team's data arrive in. Parsed in the browser,
+ * previewed, then sent to the OrbitVitals server.
  */
 export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { notifyChanged } = useAppState()
   const toast = useToast()
+  const crewQuery = useQuery(useCallback((ds: DataSource) => ds.listCrew(), []))
+  const crew = crewQuery.data ?? []
   const [profileFile, setProfileFile] = useState<Picked | null>(null)
   const [csvFile, setCsvFile] = useState<Picked | null>(null)
-  const [target, setTarget] = useState(CREW_PROFILES[0].id)
+  const [targetChoice, setTarget] = useState<string | null>(null)
   const [, setTick] = useState(0)
+  const target = targetChoice ?? crew[0]?.id ?? ''
 
   let profile: CrewProfileInput | null = null
   let profileError: string | null = null
@@ -38,7 +46,7 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
       profileError = e instanceof Error ? e.message : String(e)
     }
   }
-  const crewId = profile?.crewId && CREW_PROFILES.some((p) => p.id === profile!.crewId) ? profile.crewId : target
+  const crewId = profile?.crewId && crew.some((p) => p.id === profile!.crewId) ? profile.crewId : target
   let result: MeasurementsImport | null = null
   let csvError: string | null = null
   if (csvFile) {
@@ -63,23 +71,17 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
     reset()
     onClose()
   }
-  const apply = () => {
+  const importing = useMutation((ds: DataSource, id: string) =>
+    Promise.all([
+      ds.importDaily(id, result!.series, { displayName: profile?.displayName ?? null, files: [profileFile?.name, csvFile?.name].filter(Boolean) as string[] }),
+      profile?.sex && profile.ageYears && profile.heightM ? ds.saveNutritionProfile(id, { sex: profile.sex, ageYears: profile.ageYears, heightM: profile.heightM, menstruating: false }) : Promise.resolve(),
+    ]),
+  )
+  const apply = async () => {
     if (!result) return
-    storeImport({
-      crewId,
-      displayName: profile?.displayName ?? null,
-      role: profile?.role ?? null,
-      series: result.series,
-      nutrition: profile
-        ? Object.fromEntries(
-            Object.entries({ sex: profile.sex, ageYears: profile.ageYears, heightM: profile.heightM }).filter(([, v]) => v !== null),
-          )
-        : undefined,
-      files: [profileFile?.name, csvFile?.name].filter(Boolean) as string[],
-      importedAt: new Date().toISOString(),
-    })
+    if (!(await importing.run(crewId))) return
     notifyChanged()
-    toast(`Imported ${result.series.length} indicators for ${profile?.displayName ?? crewId}`)
+    toast(`Imported ${result.series.length} indicators for ${crew.find((c) => c.id === crewId)?.displayName ?? crewId}`)
     close()
   }
   const noBaseline = result?.series.filter((s) => !s.baseline).map((s) => DAILY_INDICATORS[s.indicator].label) ?? []
@@ -92,7 +94,7 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
       wide
       footer={
         <div className="button-row">
-          <button type="button" className="btn btn-primary" disabled={!ready} onClick={apply}>
+          <button type="button" className="btn btn-primary" disabled={!ready || importing.busy} onClick={() => void apply()}>
             Import
           </button>
           <button type="button" className="btn" onClick={close}>
@@ -102,9 +104,10 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
       }
     >
       <div className="stack import-sheet">
+        <FormError message={importing.error} />
         <p className="body-text muted">
-          General profile as <strong>JSON</strong>, measurements as <strong>CSV</strong> (one row per day, or one row per reading). Files are read in this
-          browser only: nothing is uploaded.
+          General profile as <strong>JSON</strong>, measurements as <strong>CSV</strong> (one row per day, or one row per reading). Check the preview, then
+          import: the readings are added to the astronaut's record.
         </p>
         <div className="import-grid">
           <label className="field import-drop">
@@ -132,29 +135,17 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
         </div>
         <div className="import-row">
           <label className="field import-target">
-            <span className="field-label">Crew member</span>
+            <span className="field-label">Astronaut</span>
             <select value={crewId} disabled={!!profile?.crewId && crewId === profile.crewId} onChange={(e) => setTarget(e.target.value)}>
-              {CREW_PROFILES.map((p) => (
+              {crew.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.id}
-                  {existing[p.id] ? ' (has imported data)' : ''}
+                  {p.displayName}
                 </option>
               ))}
             </select>
           </label>
           <p className="fineprint import-samples">
-            No files yet?{' '}
-            <button
-              type="button"
-              className="text-button"
-              onClick={() => {
-                setProfileFile({ name: 'crew-profile.sample.json', text: sampleProfile })
-                setCsvFile({ name: 'measurements.sample.csv', text: sampleCsv })
-              }}
-            >
-              Use the sample files
-            </button>{' '}
-            · download{' '}
+            File format examples:{' '}
             <a className="text-button" download="crew-profile.sample.json" href={download('crew-profile.sample.json', sampleProfile, 'application/json')}>
               JSON
             </a>{' '}
@@ -193,7 +184,7 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
             )}
           </section>
         )}
-        {Object.keys(existing).length > 0 && (
+        {config.dataSource === 'mock' && Object.keys(existing).length > 0 && (
           <p className="fineprint">
             Imported data in use for {Object.keys(existing).join(', ')}.{' '}
             <button
@@ -203,14 +194,14 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
                 for (const id of Object.keys(existing)) removeImport(id)
                 notifyChanged()
                 setTick((t) => t + 1)
-                toast('Back to the simulated data')
+                toast('Imported data removed')
               }}
             >
-              Remove and go back to simulated data
+              Remove imported data
             </button>
           </p>
         )}
-        <p className="fineprint">Proposed format, to be confirmed with the team: see docs/FRONTEND_DATA_CONTRACT.md and docs/samples/.</p>
+        <p className="fineprint">Accepted columns and formats: frontend/docs/FRONTEND_DATA_CONTRACT.md.</p>
       </div>
     </Sheet>
   )

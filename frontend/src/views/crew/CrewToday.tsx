@@ -5,12 +5,12 @@ import { DAILY_INDICATORS, PARAMETER_ORDER, formatDailyValue } from '../../domai
 import { checkedInOn, describeCheckIn, evaluateIndicator, summarizeHealth, type IndicatorEvaluation } from '../../domain/crewHealth'
 import { describeCollection, describeSensors } from '../../domain/crewStatus'
 import { describeActivityProgress, describeNextStep } from '../../domain/crewGuidance'
-import { formatClock, formatDate, formatDuration, missionDayOf, toIso, toMs } from '../../domain/time'
+import { formatAge, formatClock, formatDate, formatDuration, joinNames, missionDayOf, toIso, toMs } from '../../domain/time'
 import { useQuery } from '../../hooks/useQuery'
 import { href, type CrewPage } from '../../hooks/useRoute'
 import { useMutation } from '../../hooks/useMutation'
 import { addDays, coverageOf, isPlanned, nightLabel, nightsFrom, readyOn, suggestNight, wouldUncover } from '../../domain/sleepPlan'
-import { activityAfterNight, involves } from '../../domain/missionPlan'
+import { MISSION_ACTIVITIES, activityAfterNight, involves } from '../../domain/missionPlan'
 import { Moon, PillIcon, SleepGrid } from '../../components/SleepGrid'
 import { AddPlanSheet, DaySheet, SleepMonth, monthOf, shiftMonth } from '../../components/SleepMonth'
 import { useToast } from '../../components/Toast'
@@ -31,6 +31,7 @@ import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
 import { config } from '../../config'
+import { rememberAstronaut } from '../../state/lastAstronaut'
 import { CrewOverview } from './CrewOverview'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
 import { FoodSheet, NutritionCard, NutritionPage, loadNutrition } from './Nutrition'
@@ -45,20 +46,15 @@ const ALL_TILES: DailyIndicatorId[] = [
 /** Where the day-to-day values come from: backend, imported file, or demo generator — and whether they are simulated. */
 function DataOriginTag({ daily }: { daily: Live['daily'] }) {
   const origin = daily[0]?.origin ?? 'demo'
-  const simulated = daily.some((d) => d.simulated)
+  const simulated = daily.some((d) => d.simulated && d.days.some((x) => x.value !== null))
   return (
     <span className="origin-tags">
-      {origin === 'backend' && (
-        <span className="state-tag is-works" title="Values read from the OrbitVitals backend (/api/v1)">
-          Backend
-        </span>
-      )}
       {origin === 'import' && (
         <span className="state-tag is-works" title={daily[0]?.source}>
           Imported data
         </span>
       )}
-      {simulated && <SimTag>{origin === 'backend' ? 'Simulated records' : 'Simulated'}</SimTag>}
+      {simulated && <SimTag>{origin === 'demo' ? 'Sample data' : 'Simulated records'}</SimTag>}
     </span>
   )
 }
@@ -175,6 +171,9 @@ export function CrewToday({ crewId, page = 'home' }: { crewId: string | null; pa
 }
 
 function AstronautArea({ crewId, page }: { crewId: string; page: CrewPage }) {
+  useEffect(() => {
+    rememberAstronaut(crewId, page)
+  }, [crewId, page])
   const state = useQuery(useCallback((ds: DataSource) => loadToday(ds, crewId), [crewId]))
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
@@ -312,6 +311,25 @@ function TodayBody({
           {/* During an activity the Now card already carries the link status. */}
           {!progress?.current && <LinkBanner mission={mission} audience="crew" />}
 
+          {/* Outside a live session: when the latest reading arrived, and a shortcut to add one. */}
+          {!progress?.current && (
+            <section className="card data-card" aria-labelledby="data-h">
+              <p className="eyebrow">Your data</p>
+              <h2 id="data-h">
+                {live.snapshot.device.lastReceivedAt
+                  ? `Last reading ${formatDate(live.snapshot.device.lastReceivedAt)}, ${formatClock(live.snapshot.device.lastReceivedAt, false)} UTC`
+                  : 'No reading received yet'}
+              </h2>
+              <p className="data-card-sub">
+                {live.snapshot.device.lastReceivedAt ? `${formatAge(live.snapshot.device.lastReceivedAt, mission.now)} · ` : ''}
+                Compared with your own usual range, day by day.
+              </p>
+              <button type="button" className="btn btn-small" onClick={() => setSheet({ type: 'measure', id: null })}>
+                Add a reading
+              </button>
+            </section>
+          )}
+
           {/* Now: only while a scheduled activity is in progress */}
           {progress?.current && (
             <section className="card now-card" aria-labelledby="now-h">
@@ -382,7 +400,7 @@ function TodayBody({
           {message && !(progress?.current && asked) && (
             <div className="message">
               <span className="message-from">
-                Medical team · {formatClock(message.createdAt, false)} UTC <SimTag>Simulated message</SimTag>
+                Medical team · {formatClock(message.createdAt, false)} UTC
               </span>
               <p>{message.text}</p>
             </div>
@@ -405,7 +423,7 @@ function TodayBody({
                 </Symbol>
               }
               title="Take a measurement"
-              subtitle={lastCapture ? `Last: ${describeCapture(memberId, lastCapture)}` : 'Guided, simulated reading'}
+              subtitle={lastCapture ? `Last: ${describeCapture(memberId, lastCapture)}` : 'Vital signs, sleep, exercise, body mass'}
               onClick={() => setSheet({ type: 'measure', id: null })}
             />
             <Row
@@ -580,11 +598,10 @@ function TodayBody({
         open={sheet?.type === 'measure'}
         crewId={memberId}
         mission={mission}
-        daily={live.daily}
         initial={sheet?.type === 'measure' ? sheet.id : null}
         onClose={() => setSheet(null)}
       />
-      <ShareSheet open={sheet?.type === 'share'} onClose={() => setSheet(null)} sharing={sharing} summary={changedNames.length ? `the change in ${changedNames.join(' and ')}` : ''} />
+      <ShareSheet open={sheet?.type === 'share'} onClose={() => setSheet(null)} sharing={sharing} summary={changedNames.length ? `the change in ${joinNames(changedNames)}` : ''} />
       <MethodSheet topic={sheet?.type === 'method' ? sheet.topic : null} onClose={() => setSheet(null)} />
       <SleepConfirmSheet
         night={sheet?.type === 'sleep-confirm' ? sheet.night : null}
@@ -645,7 +662,7 @@ function SleepConfirmSheet({
         <div className="stack">
           {uncovers && (
             <p className="body-text">
-              {others.join(' and ')} already planned a sleeping pill for the night of <strong>{fullNight(night)}</strong>. If you add yours, nobody on board
+              {joinNames(others)} already planned a sleeping pill for the night of <strong>{fullNight(night)}</strong>. If you add yours, nobody on board
               would stay without one.
             </p>
           )}
@@ -653,14 +670,13 @@ function SleepConfirmSheet({
             <p className="sleep-activity-note">
               <span className="sg-activity is-mine">{activity.short}</span>
               <span>
-                Next morning: <strong>{activity.label}</strong> at {activity.startUtc} UTC, and you take part. Check the timing with your flight surgeon.{' '}
-                <SimTag>Simulated timeline</SimTag>
+                Next morning: <strong>{activity.label}</strong> at {activity.startUtc} UTC, and you take part. Check the timing with your flight surgeon.
               </span>
             </p>
           )}
           <p className="body-text muted">
             {uncovers
-              ? 'The crew agreed that at least one person stays without a sleeping pill every night, ready for an emergency (demo rule — the real rule is set by the medical team).'
+              ? 'The crew agreed that at least one person stays without a sleeping pill every night, ready for an emergency (crew rule, set with the medical team).'
               : 'OrbitVitals only coordinates the plan: whether and what to take stays with you and the medical team.'}
           </p>
           {alternative && (
@@ -758,7 +774,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
           {view === 'month' ? (
             <>
               <li>
-                <span className="day-pill">B</span> sleeping pill planned (<span className="day-pill is-me">A</span> you)
+                <span className="day-pill">B</span> sleeping pill planned · <span className="day-pill is-me">A</span> you
               </li>
               <li>
                 <span className="sg-warn">▲</span> nobody left ready
@@ -777,9 +793,11 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
               </li>
             </>
           )}
-          <li>
-            <span className="sg-activity is-mine">EVA</span> activity next morning (yours in blue) <SimTag>Simulated timeline</SimTag>
-          </li>
+          {MISSION_ACTIVITIES.length > 0 && (
+            <li>
+              <span className="sg-activity is-mine">EVA</span> activity next morning (yours in blue)
+            </li>
+          )}
         </ul>
         <FormError message={error} />
         <DaySheet night={day} today={tonight} crew={crew} entries={entries} me={memberId} missionStart={missionStart} busy={!!busyNight} onSet={onSet} onClose={() => setDay(null)} />
@@ -791,7 +809,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
           <p className="sleep-ready">
             {ready.length ? (
               <>
-                <strong>{ready.join(' and ')}</strong> {ready.length === 1 ? 'stays' : 'stay'} ready to respond.
+                <strong>{joinNames(ready)}</strong> {ready.length === 1 ? 'stays' : 'stay'} ready to respond.
               </>
             ) : (
               <strong className="attention-text">Nobody stays without a sleeping pill.</strong>
@@ -856,7 +874,7 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
           <p className="eyebrow">How it works</p>
           <ul className="plain-list">
             <li>Only the night is recorded: no medicine name and no dose.</li>
-            <li>Demo rule: at least one crew member without a sleeping pill every night. The real rule is set by the medical team.</li>
+            <li>Crew rule: at least one crew member without a sleeping pill every night, as agreed with the medical team.</li>
             <li>Your flight surgeon sees the same plan.</li>
           </ul>
         </section>
@@ -883,7 +901,8 @@ function TrendCard({
   if (!e) return null
   const id = e.series.indicator
   const def = DAILY_INDICATORS[id]
-  const chartH = fit ? Math.max(64, size.height - 33) : 170
+  // The legend below the plot needs ~34 px; under ~130 px the plot keeps the whole height.
+  const chartH = fit ? (size.height - 34 >= 96 ? size.height - 34 : Math.max(54, size.height - 6)) : 170
   return (
     <section className={`card trend-card tone-${toneOf(id)}`} aria-labelledby="trend-h">
       <div className="trend-head">

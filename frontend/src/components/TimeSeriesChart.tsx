@@ -488,10 +488,10 @@ export function ChartLegend({ showBand, showHighlight }: { showBand: boolean; sh
         <svg width="22" height="10" aria-hidden="true">
           <line x1="11" x2="11" y1="0" y2="10" className="now-line" />
         </svg>
-        Simulated now
+        Now
       </li>
       <li className="legend-note legend-strip">
-        Strip below each chart, quality of every sample (simulated flag):
+        Strip below each chart, quality of every sample:
         {(['good', 'uncertain', 'poor', 'missing'] as const).map((q) => (
           <span key={q}>
             <svg width="14" height="8" aria-hidden="true">

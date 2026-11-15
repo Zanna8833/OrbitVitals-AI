@@ -1,3 +1,4 @@
+import { lastAstronaut } from '../state/lastAstronaut'
 import { useEffect, useState } from 'react'
 
 /**
@@ -18,7 +19,7 @@ export type Route =
 export type MedicalSelection = { type: 'event'; id: string } | { type: 'crew'; id: string } | { type: 'sleep' } | null
 
 export function parseRoute(hash: string): Route {
-  const path = hash.replace(/^#/, '') || '/crew/crew-a'
+  const path = hash.replace(/^#/, '') || '/crew'
   const parts = path.split('/').filter(Boolean).map(decodeURIComponent)
   const [area, a, b] = parts
   // 'health' was the former "My health" tab: it now means the Health page. Other old tabs open the home.
@@ -39,6 +40,11 @@ export function parseRoute(hash: string): Route {
 export const href = {
   crew: (crewId?: string, page: CrewPage = 'home') =>
     `#/crew${crewId ? `/${encodeURIComponent(crewId)}${page === 'home' ? '' : `/${page}`}` : ''}`,
+  /** The crew area as the user left it: the last astronaut and page, else the crew overview. */
+  crewHome: () => {
+    const last = lastAstronaut()
+    return last ? href.crew(last.crewId, last.page) : href.crew()
+  },
   medical: () => '#/medical',
   event: (eventId: string) => `#/medical/event/${encodeURIComponent(eventId)}`,
   medicalCrew: (crewId: string) => `#/medical/crew/${encodeURIComponent(crewId)}`,
