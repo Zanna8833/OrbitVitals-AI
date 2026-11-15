@@ -18,7 +18,7 @@ const M = { left: 40, right: 52, top: 22, bottom: 24 }
  * readings are hollow orange rings; missing days break the line. A data table
  * is available, and the summary is exposed to screen readers.
  */
-export function DailyTrendChart({ series, height = 132, mini = false }: { series: DailyIndicatorSeries; height?: number; mini?: boolean }) {
+export function DailyTrendChart({ series, height = 132, mini = false, legend = true }: { series: DailyIndicatorSeries; height?: number; mini?: boolean; legend?: boolean }) {
   const def = DAILY_INDICATORS[series.indicator]
   const margin = mini ? { left: 8, right: 9, top: 9, bottom: 6 } : M
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -338,7 +338,7 @@ export function DailyTrendChart({ series, height = 132, mini = false }: { series
         </div>
       </div>
       {/* On very short charts the legend gives way to the plot; the full chart is in Details. */}
-      {!mini && height >= 96 && <figcaption className="daily-chart-foot">
+      {!mini && legend && height >= 96 && <figcaption className="daily-chart-foot">
         <span>
           <span className="swatch swatch-band" aria-hidden="true" /> Usual range
           {base ? ` from baseline days ${base.fromDay}–${base.toDay}` : ' — not available yet'}
