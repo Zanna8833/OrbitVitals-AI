@@ -52,7 +52,8 @@ Configuration is in `.env.example`: server and assistant addresses, which server
 | **Astronaut · Health** | `…/health` | All 11 day-to-day indicators of the server's metric catalog. |
 | **Astronaut · Nutrition** | `…/nutrition` | All 16 nutrients against NASA requirements (JSC-67378, same rules as `backend/app/domains/nutrition`), today or 7-day mean; log station foods, typed values or the crew's own foods; profile for the requirements. |
 | **Astronaut · Sleep plan** | `…/sleep` | Phone-style month calendar of sleeping-pill nights: tap a day to change it, *+ Add* for one night or a repeating series; at least one person stays ready every night. |
-| **Medical** | `#/medical` | Review list (server evaluations needing attention, reports shared by the crew), each astronaut's evaluations, day-to-day changes and nutrition, the crew's sleep plan, cognition results. |
+| **Medical · Crew** | `#/medical` | To review (server evaluations needing attention, reports shared by the crew), tonight's readiness, a **status matrix** (astronauts × 12 indicators, latest reliable value coloured by distance from each astronaut's own usual range) and a **data-completeness map** (last 21 days). Click a cell to open that astronaut on that indicator. |
+| **Medical · Astronaut** | `#/medical/crew/crew-b` | Status by area (server evaluations), shared items, a message to the astronaut, check-in trends; tabs **Trends** (12 indicators, daily chart against the usual range, daily distance in range units with a data-quality strip), **Evaluations** (timeline of evaluation windows by area, findings), **Nutrition** (7-day mean against NASA requirements), **Sleep**. |
 | **Assistant** | `#/assistant` | Questions about one astronaut and one area, answered from stored results, with limits, suggested checks and NASA sources. |
 
 The header switch moves between *Crew* and each astronaut; *Crew*, the logo and *Back* return to the astronaut and page used last.

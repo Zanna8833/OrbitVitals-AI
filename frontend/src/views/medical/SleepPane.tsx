@@ -18,15 +18,11 @@ export function SleepPane({ crew, entries, tonight, missionStart }: { crew: Crew
   const uncovered = upcoming.filter((c) => c.uncovered)
   return (
     <article className="pane pane-fit">
-      <header className="pane-header">
-        <p className="eyebrow">Crew schedule</p>
-        <h1>Sleeping-pill plan</h1>
-        <p className="why explain">
+      <p className="why explain sleep-why">
           <strong>Why it is here · </strong>
           Each crew member plans the nights they intend to use a sleeping pill. Crew rule: at least {SLEEP_COVER_RULE.minWithoutSleepAid} crew member stays
           without one every night, ready for an emergency.
         </p>
-      </header>
       <div className="pane-grid">
         <div className="pane-main">
           <section className="card sleep-plan-card" aria-label="Sleeping-pill calendar">
