@@ -206,9 +206,9 @@ export function SectionTitle({ children, action, id }: { children: ReactNode; ac
  * Marks anything that is simulated in this prototype (data, ground link,
  * deliveries to the medical team). Shape + word, never colour alone.
  */
-export function SimTag({ children = 'Reference', title }: { children?: ReactNode; title?: string }) {
+export function SimTag({ children = 'Synthetic data', title }: { children?: ReactNode; title?: string }) {
   return (
-    <span className="sim-tag" title={title ?? 'Records from the reference data set'}>
+    <span className="sim-tag" title={title ?? 'Physiological values in this platform are synthetic (simulated)'}>
       {children}
     </span>
   )

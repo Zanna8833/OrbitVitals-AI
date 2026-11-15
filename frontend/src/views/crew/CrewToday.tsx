@@ -25,7 +25,7 @@ import { MetricGlyph } from '../../components/MetricGlyph'
 import { QualityGlyph } from '../../components/StatusGlyphs'
 import { Sparkline } from '../../components/Sparkline'
 import { toneOf } from '../../components/tone'
-import { List, Row, SectionTitle, Segmented, Sheet, Symbol } from '../../components/ui'
+import { List, Row, SectionTitle, Segmented, Sheet, Symbol, SimTag } from '../../components/ui'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { useTightness } from '../../hooks/useTightness'
@@ -55,6 +55,7 @@ function DataOriginTag({ daily }: { daily: Live['daily'] }) {
           Imported data
         </span>
       )}
+      {origin !== 'import' && <SimTag title="Physiological values in this platform are synthetic (simulated), not from real crew members">Synthetic data</SimTag>}
     </span>
   )
 }

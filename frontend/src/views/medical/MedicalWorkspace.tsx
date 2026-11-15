@@ -23,7 +23,7 @@ import { SleepGrid } from '../../components/SleepGrid'
 import { ErrorState, FormError, Loading } from '../../components/Common'
 import { EventKindBadge } from '../../components/EventKindBadge'
 import { useToast } from '../../components/Toast'
-import { List, Row, Segmented } from '../../components/ui'
+import { List, Row, Segmented, SimTag } from '../../components/ui'
 import { EvaluationsList } from './Evaluations'
 import { loadNutrition } from '../crew/Nutrition'
 
@@ -99,7 +99,7 @@ export function MedicalCrew() {
 
   return (
     <div className="today medical-ws" ref={rootRef} data-tight={tight || undefined}>
-      <MedicalHeader title="Medical" eyebrow={<>{formatDate(mission.now)} · {formatClock(mission.now, false)} UTC</>} mission={mission} crew={crew} current={null} actualDay={actualDay} />
+      <MedicalHeader title="Medical" eyebrow={<>{formatDate(mission.now)} · {formatClock(mission.now, false)} UTC <SimTag title="Physiological values in this platform are synthetic (simulated), not from real crew members">Synthetic data</SimTag></>} mission={mission} crew={crew} current={null} actualDay={actualDay} />
       <div className="today-grid">
         <div className="today-col">
           <section className="card ws-card" aria-labelledby="rev-h">

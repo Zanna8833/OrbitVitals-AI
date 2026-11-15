@@ -66,6 +66,7 @@ The header switch moves between *Crew* and each astronaut; *Crew*, the logo and 
 
 - **On the server:** measurements (including those typed in *Take a measurement* and imported files), the food log (as nutrition measurements), baselines and evaluations.
 - **In the browser, for now:** check-ins, the sleeping-pill plan, messages between the crew and the medical team, shared reports, custom foods and the nutrition profile. The server has no endpoints for these yet; they are the next integration step.
+- Physiological values are synthetic and tagged *Synthetic data* (crew health and medical header).
 - Past mission days (day picker in the header) are read only: the interface refuses any change while one is shown.
 
 Before real operational use: authentication and roles, durable server storage (the current API keeps data in memory), audit trail and secure storage for health data.
