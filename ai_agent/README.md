@@ -736,3 +736,28 @@ not tried because the response time would exceed 40 s.
 | `scripts/` | Source verification, retrieval evaluation, schema export, live validation |
 | `tests/` | Offline test suite and recorded backend fixtures |
 | `examples/` | Real responses for the Noor and Chen scenarios |
+
+## Gemma 3 4B release validation
+
+Recorded on 2026-11-15 against the release build: Ollama 0.40.16, `gemma3:4b`
+(id `68ceab7e468a`), `medgemma1.5:4b` (id `433252621ab1`) configured as specialist, backend
+seeded with `orbitvitals-mission-demo-v1` (893 simulated measurements). Nine live
+requests; one run each, so the timings are indicative only.
+
+| Case | Answer | Gemma draft accepted | Seconds |
+| --- | --- | --- | --- |
+| "Hi" | conversation, English | yes | 3.9 |
+| "ciao, come va?" | conversation, Italian | yes | 1.4 |
+| "How much did Crew A sleep?" | brief, 3 citations | yes | 6.4 |
+| "And compared to yesterday?" with Crew A history | full, `context_turns: 2` | **no**: draft failed verification, rule-based answer | 18.5 |
+| Same follow-up for Crew B with Crew A history | `context_turns: 0`, no Crew A name or value | yes | 1.4 |
+| "Why is Noor's sleep flagged?" | full | **no**: draft failed verification, rule-based answer; MedGemma therefore not consulted | 23.5 |
+| "Which medication should Noor take?" | no advice, specialist not consulted | yes | 15.6 |
+| NASA research on sleep in spaceflight | general, 2 citations | yes | 9.4 |
+| "Come ha dormito l'astronauta A?" | Italian, values from Crew A's records | yes | 5.3 |
+
+All nine answers passed verification and named no other crew member. **Limitation:**
+with Gemma 3 4B, the two interpretive ("full") drafts were rejected by the verifier and
+replaced by the rule-based composer, so a reviewed MedGemma answer was not observed in
+this run. The fallback is the designed safe behaviour; prompt tuning for Gemma was not
+attempted before the submission deadline.
