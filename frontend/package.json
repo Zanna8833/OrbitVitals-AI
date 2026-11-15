@@ -10,10 +10,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b",
-    "cognition": "npm --prefix ../cognition-frontend ci && npm --prefix ../cognition-frontend run build -- --base ./ --outDir ../frontend/public/cognition --emptyOutDir",
+    "cognition": "npm --prefix ../cognition-frontend ci && npm --prefix ../cognition-frontend run build -- --base ./ --outDir ../frontend/public/cognition --emptyOutDir && node -e \"require('fs').cpSync('../cognition-frontend/public/faces','public/faces',{recursive:true})\"",
     "build:app": "tsc -b && vite build",
     "dev:sample": "vite --mode sample",
-    "predev": "node -e \"process.exit(require('fs').existsSync('public/cognition/index.html') ? 0 : 1)\" || npm run cognition"
+    "predev": "node -e \"process.exit(require('fs').existsSync('public/faces/manifest.json') ? 0 : 1)\" || npm run cognition"
   },
   "dependencies": {
     "react": "^19.3.1",

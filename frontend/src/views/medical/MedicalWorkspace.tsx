@@ -136,7 +136,6 @@ export function MedicalCrew() {
               <a className="btn btn-small" href={href.medicalSleep()}>
                 Sleeping-pill plan
               </a>
-              <CognitionLink />
             </div>
           </section>
         </div>
@@ -162,13 +161,6 @@ export function MedicalCrew() {
   )
 }
 
-function CognitionLink() {
-  return (
-    <a className="btn btn-small" href={href.cognition()} title="Opens the battery: choose Ground research for the results">
-      Cognition results
-    </a>
-  )
-}
 
 /* ================================================================== */
 /* Medical · Astronaut                                                  */

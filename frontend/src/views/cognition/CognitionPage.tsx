@@ -1,33 +1,45 @@
 import { useEffect, useRef } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 // The team's cognition battery (cognition-frontend/), used as it is: not copied, not modified.
-import CognitionApp from '../../../../cognition-frontend/src/App'
+import CrewStation from '../../../../cognition-frontend/src/CrewStation'
 import cognitionCss from '../../../../cognition-frontend/src/index.css?inline'
-import { config } from '../../config'
 import { href } from '../../hooks/useRoute'
-import { useCognitionAvailable } from '../../hooks/useCognition'
-import { BackLink } from '../../components/BackLink'
+
+/** Leaves the battery: out of full screen, back to the astronaut's home page. */
+function goHome() {
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => undefined)
+  window.location.hash = href.crewHome()
+}
 
 /**
- * The cognition battery inside OrbitVitals, full screen.
- *
- * When the battery's own build is installed next to the app (npm run cognition,
- * included in npm run build) it is shown as is, with the face photographs of the
- * emotion test. Otherwise the same code runs embedded in an isolated shadow
- * DOM, so its styles cannot touch OrbitVitals; the emotion test then uses the
- * drawn faces the battery provides for that case.
+ * The cognition battery, full screen: straight to the test (crew member,
+ * mission day, tests to run, short survey, then the tests). The Home button
+ * stays on top at every step, during the tests too. The battery runs in an
+ * isolated shadow DOM, so its styles cannot touch OrbitVitals.
  */
 export function CognitionPage() {
-  const built = useCognitionAvailable()
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // Esc leaves full screen (browser); a second Esc goes home.
+      if (e.key === 'Escape' && !document.fullscreenElement) goHome()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
   return (
     <div className="cognition-page">
-      {built === null ? null : built ? <iframe className="cognition-frame" src={config.cognitionUrl} title="Cognition battery" /> : <EmbeddedBattery />}
-      <BackLink fallback={href.crewHome()} label="Back to OrbitVitals" className="cognition-close" />
+      <Battery />
+      <button type="button" className="cognition-home" onClick={goHome} aria-label="Back to the OrbitVitals home page">
+        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3.5 11 12 4l8.5 7M6 9.5V20h4.5v-5.5h3V20H18V9.5" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Home
+      </button>
     </div>
   )
 }
 
-function EmbeddedBattery() {
+function Battery() {
   const host = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = host.current
@@ -40,11 +52,11 @@ function EmbeddedBattery() {
     mount.className = 'cog-root'
     shadow.replaceChildren(style, mount)
     let root: Root | null = createRoot(mount)
-    root.render(<CognitionApp />)
+    // "Back" on the first screen and "Close" at the end return to OrbitVitals.
+    root.render(<CrewStation onExit={goHome} />)
     return () => {
       const r = root
       root = null
-      // Unmount after the current render, as React requires.
       setTimeout(() => r?.unmount(), 0)
     }
   }, [])
