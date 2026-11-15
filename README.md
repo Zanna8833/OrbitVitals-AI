@@ -44,9 +44,14 @@ NASA Space Apps Challenge 2026.
 | Server (default, Demo mode off) | FastAPI + the synthetic seed `orbitvitals-mission-demo-v1`: 893 simulated measurements, 36 personal baselines, 13 evaluations for Astronauts A, B and C | Dashboard and Assistant, from the same stored records |
 | Training scenarios (Settings → Demo mode) | The frontend's built-in deterministic synthetic scenario | Training and walkthroughs; the Assistant is paused |
 
-The two synthetic datasets are different: the built-in training scenario (for example
-Astronaut A on mission day 15: resting heart rate 65 bpm, HRV 47 ms, sleep 6.0 h) is
-**not yet served by FastAPI** in this release. See [Known limitations](#known-limitations).
+**Approved scenario on FastAPI (Demo off).** `python -m app.demo_seed.approved` seeds a
+fresh API with the observations of the approved frontend scenario (Astronaut A on mission
+day 15: resting heart rate 65 bpm, HRV 47 ms, sleep 6.0 h), exported unchanged from the
+frontend generators by `integrations/approved-demo/export_observations.mjs`: 8,055
+simulated observations for days 1-15, nutrition included. Data quality, personal baselines
+(mission days 1-7) and a sleep evaluation (days 8-15) are computed by the backend engines,
+not copied from the interface. See [integrations/approved-demo](integrations/approved-demo/README.md)
+for what matches and what remains different.
 
 **NASA research data.** The backend contains reproducible, read-only analysis tools for
 two NASA archived terrestrial analogue studies (UTMB Bedrest Campaign 1 actigraphy and
@@ -69,8 +74,9 @@ cd backend
 py -3.11 -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements-dev.txt
 uvicorn app.main:app --host 127.0.0.1 --port 8000
-# in a second terminal, from backend/ with the venv active:
-python -m app.demo_seed seed --base-url http://127.0.0.1:8000/api/v1
+# in a second terminal, from backend/ with the venv active, ONE of:
+python -m app.demo_seed.approved --base-url http://127.0.0.1:8000/api/v1   # approved scenario
+python -m app.demo_seed seed --base-url http://127.0.0.1:8000/api/v1       # alternate seed
 
 # 3. Assistant service on :8100
 cd ai_agent
@@ -83,6 +89,8 @@ uvicorn orbit_agent.api:app --host 127.0.0.1 --port 8100
 # 4. Dashboard on :5173 (proxies /api to :8000 and /agent to :8100)
 cd frontend
 npm ci
+# with the approved scenario: its mission clock and day 1
+$env:VITE_AS_OF = "2026-11-14T10:40:00Z"; $env:VITE_MISSION_START = "2026-10-31"
 npm run dev
 ```
 
@@ -100,8 +108,12 @@ cd frontend; npx tsc -b; npx vitest run; npx vite build
 
 ## Known limitations
 
-- The training scenario's synthetic values are not yet served by FastAPI; server mode
-  shows the backend seed (different synthetic values and dates).
+- With the approved scenario on FastAPI, every plotted daily value and nutrition total
+  matches Demo mode; backend-computed quality flags, some usual ranges and demo-only
+  workflow items (review events, device-offline scenario, sleep-aid plan) still differ.
+  Details in [integrations/approved-demo](integrations/approved-demo/README.md).
+- Vital-sign evaluations are not computed by the backend, so the Assistant reports the
+  stored heart-rate readings' quality but no vital-sign status.
 - The Assistant answers from the latest stored results; it is paused for past mission
   days and in Demo mode.
 - MR001G source units and dataset-specific redistribution terms remain unresolved.
