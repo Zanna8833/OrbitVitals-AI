@@ -1,0 +1,6 @@
+# Development and test dependencies. Installs the runtime dependencies too.
+-r requirements.txt
+# HTTP client used by FastAPI's TestClient.
+httpx2==2.16.0
+pytest==9.2.0
+ruff==0.17.5

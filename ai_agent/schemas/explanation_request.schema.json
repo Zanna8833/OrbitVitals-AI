@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "crew_member_id": {
+      "description": "Opaque crew ID.",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Crew Member Id",
+      "type": "string"
+    },
+    "domain": {
+      "anyOf": [
+        {
+          "enum": [
+            "vital_signs",
+            "sleep",
+            "physical_activity",
+            "nutrition"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Restrict the explanation to one health domain.",
+      "title": "Domain"
+    },
+    "question": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional question from the operator.",
+      "title": "Question"
+    },
+    "mode": {
+      "default": "auto",
+      "description": "`auto` uses the local model when it is available. `deterministic` never calls a model.",
+      "enum": [
+        "auto",
+        "deterministic"
+      ],
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "required": [
+    "crew_member_id"
+  ],
+  "title": "ExplanationRequest",
+  "type": "object"
+}
