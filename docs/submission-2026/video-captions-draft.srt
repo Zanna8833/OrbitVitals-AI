@@ -1,0 +1,33 @@
+1
+00:00:00,000 --> 00:00:03,000
+OrbitVitals helps astronauts review
+changing health data.
+
+2
+00:00:03,000 --> 00:00:07,000
+Meet Noor: simulated records, checked for
+data quality.
+
+3
+00:00:07,000 --> 00:00:11,000
+Her personal median reference is eight
+hours.
+
+4
+00:00:11,000 --> 00:00:17,000
+Two nights are insufficient. Five prompt
+review.
+
+5
+00:00:17,000 --> 00:00:21,000
+After nine, seven recorded nights show a
+continuing reduction.
+
+6
+00:00:21,000 --> 00:00:24,000
+Two nights are missing.
+
+7
+00:00:24,000 --> 00:00:29,000
+Review the record with a flight surgeon.
+No diagnosis is made.

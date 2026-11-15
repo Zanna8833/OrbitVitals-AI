@@ -1,0 +1,212 @@
+{
+  "artifact_kind": "dependency_attribution_inventory_not_a_license_audit",
+  "review_date": "2026-11-15",
+  "python_dependencies": [
+    {
+      "name": "fastapi",
+      "pinned_version": "0.162.7",
+      "source": "backend/requirements.txt"
+    },
+    {
+      "name": "pydantic",
+      "pinned_version": "2.14.3",
+      "source": "backend/requirements.txt"
+    },
+    {
+      "name": "pydantic-settings",
+      "pinned_version": "2.16.3",
+      "source": "backend/requirements.txt"
+    },
+    {
+      "name": "uvicorn[standard]",
+      "pinned_version": "0.54.0",
+      "source": "backend/requirements.txt"
+    },
+    {
+      "name": "httpx2",
+      "pinned_version": "2.16.0",
+      "source": "backend/requirements-dev.txt"
+    },
+    {
+      "name": "jsonschema",
+      "pinned_version": "4.26.0",
+      "source": "backend/requirements-dev.txt"
+    },
+    {
+      "name": "pytest",
+      "pinned_version": "9.2.0",
+      "source": "backend/requirements-dev.txt"
+    },
+    {
+      "name": "ruff",
+      "pinned_version": "0.17.5",
+      "source": "backend/requirements-dev.txt"
+    }
+  ],
+  "node_direct_dependencies": [
+    {
+      "name": "@orbitvitals/frontend-bridge",
+      "declared": "file:../integrations/frontend-bridge",
+      "resolved_version": null,
+      "lock_license_field": null,
+      "category": "dependencies",
+      "source": "frontend/package.json",
+      "note": "Local bridge package; version is recorded in its own package.json."
+    },
+    {
+      "name": "react",
+      "declared": "^19.3.1",
+      "resolved_version": "19.3.1",
+      "lock_license_field": "MIT",
+      "category": "dependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "react-dom",
+      "declared": "^19.3.1",
+      "resolved_version": "19.3.1",
+      "lock_license_field": "MIT",
+      "category": "dependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "@testing-library/react",
+      "declared": "16.3.0",
+      "resolved_version": "16.3.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "@types/node",
+      "declared": "^24.19.2",
+      "resolved_version": "24.19.2",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "@types/react",
+      "declared": "^19.3.0",
+      "resolved_version": "19.3.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "@types/react-dom",
+      "declared": "^19.3.0",
+      "resolved_version": "19.3.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "@vitejs/plugin-react",
+      "declared": "^6.1.2",
+      "resolved_version": "6.3.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "jsdom",
+      "declared": "27.0.1",
+      "resolved_version": "27.0.1",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "oxlint",
+      "declared": "^1.90.0",
+      "resolved_version": "1.93.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "typescript",
+      "declared": "~7.0.2",
+      "resolved_version": "7.0.2",
+      "lock_license_field": "Apache-2.0",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "vite",
+      "declared": "^8.3.6",
+      "resolved_version": "8.3.8",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "vitest",
+      "declared": "^5.1.0",
+      "resolved_version": "5.1.0",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "frontend/package.json",
+      "note": null
+    },
+    {
+      "name": "ajv",
+      "declared": "8.20.0",
+      "resolved_version": "8.20.0",
+      "lock_license_field": "MIT",
+      "category": "dependencies",
+      "source": "integrations/frontend-bridge/package.json",
+      "note": null
+    },
+    {
+      "name": "ajv-formats",
+      "declared": "3.0.1",
+      "resolved_version": "3.0.1",
+      "lock_license_field": "MIT",
+      "category": "dependencies",
+      "source": "integrations/frontend-bridge/package.json",
+      "note": null
+    },
+    {
+      "name": "prettier",
+      "declared": "3.6.2",
+      "resolved_version": "3.6.2",
+      "lock_license_field": "MIT",
+      "category": "devDependencies",
+      "source": "integrations/frontend-bridge/package.json",
+      "note": null
+    },
+    {
+      "name": "typescript",
+      "declared": "5.9.3",
+      "resolved_version": "5.9.3",
+      "lock_license_field": "Apache-2.0",
+      "category": "devDependencies",
+      "source": "integrations/frontend-bridge/package.json",
+      "note": null
+    }
+  ],
+  "lockfiles": [
+    {
+      "path": "frontend/package-lock.json",
+      "sha256": "00f739f8411a9d86d2a75038dc567bb5f4df760d734ea873ac12c70ba952edcd"
+    },
+    {
+      "path": "integrations/frontend-bridge/package-lock.json",
+      "sha256": "d432c57425a0bf362111f5bd6b32e712e442fb06131cc607363c5f749e90f6f4"
+    }
+  ],
+  "transitive_license_review": "pending; retain lockfiles and installed distribution notices"
+}

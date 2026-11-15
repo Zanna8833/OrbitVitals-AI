@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "baseline_id": "544f923a-eb02-52a0-83bf-7b177b3570f9",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "mission_phase": "in_flight",
+      "status": "established",
+      "window_start": "2026-09-28T12:00:00Z",
+      "window_end": "2026-10-12T12:00:00Z",
+      "sample_count": 14,
+      "statistics": {
+        "mean": 480,
+        "standard_deviation": 3.9223227027636804,
+        "median": 480,
+        "median_absolute_deviation": 5,
+        "minimum": 475,
+        "maximum": 485
+      },
+      "data_quality": {
+        "status": "acceptable",
+        "score": 1,
+        "completeness": null,
+        "flags": [],
+        "notes": "14 records in the window: 14 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 14 of 14 (no measuring range is configured for their device). Simulated (synthetic) records: 14 of 14. Completeness is not assessed: no expected sampling interval is configured for sleep_duration. The configured criteria for an established baseline are met (at least 10 values and values spanning at least 9 days); 14 values spanning 13 days were used. API aggregation basis: measurement. Establishment policy source: SIMULATED app.scenarios.fixtures.baseline_policy; docs/scientific-scenarios.md; not clinical validation. ",
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-10-12T12:00:00Z"
+      },
+      "algorithm": {
+        "name": "personal_baseline",
+        "version": "0.1.0"
+      },
+      "computed_at": "2026-10-12T12:00:00Z"
+    }
+  ]
+}

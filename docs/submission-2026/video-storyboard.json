@@ -1,0 +1,51 @@
+{
+  "artifact_kind": "storyboard_draft_not_a_recorded_video",
+  "language": "en",
+  "planned_duration_seconds": 29,
+  "official_maximum_seconds": 30,
+  "persistent_caption": "SIMULATED DATA | Research prototype | Not a medical device",
+  "shots": [
+    {
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "narration": "OrbitVitals helps astronauts review changing health data.",
+      "shot": "Approved Demo 6 Today layout. Open on Crew B; keep the design and simulation notice visible.",
+      "evidence": "demo6-adapter-mapping.md"
+    },
+    {
+      "start_seconds": 3,
+      "end_seconds": 7,
+      "narration": "Meet Noor: simulated records, checked for data quality.",
+      "shot": "Select the existing sleep card. Show the actual quality assessment; do not imply missing cadence was assessed.",
+      "evidence": "evidence/noor-sleep-evaluations.json"
+    },
+    {
+      "start_seconds": 7,
+      "end_seconds": 11,
+      "narration": "Her personal median reference is eight hours.",
+      "shot": "Show the actual selected 480 min median reference from 14 synthetic in-flight observations. Caption: personal reference, not a target.",
+      "evidence": "evidence/noor-sleep-baselines.json"
+    },
+    {
+      "start_seconds": 11,
+      "end_seconds": 17,
+      "narration": "Two nights are insufficient. Five prompt review.",
+      "shot": "Show the actual two- and five-night stored results in the approved interface. Preserve the distinction between the latest nightly value and window median.",
+      "evidence": "evidence/noor-sleep-evaluations.json"
+    },
+    {
+      "start_seconds": 17,
+      "end_seconds": 24,
+      "narration": "After nine, seven recorded nights show a continuing reduction. Two nights are missing.",
+      "shot": "Reveal the real nine-night chart and its gaps. Brief caption: median 430 min; slope -15 min/day. Keep the engine explanation visible or open its existing evidence disclosure.",
+      "evidence": "evidence/noor-nine-night-observations.csv"
+    },
+    {
+      "start_seconds": 24,
+      "end_seconds": 29,
+      "narration": "Review the record with a flight surgeon. No diagnosis is made.",
+      "shot": "End on actual evidence and a human-review caption. Do not click an unavailable HTTP messaging action or show a sent confirmation. Credit NASA HRP sleep-risk context.",
+      "evidence": "science-and-validation.md"
+    }
+  ]
+}

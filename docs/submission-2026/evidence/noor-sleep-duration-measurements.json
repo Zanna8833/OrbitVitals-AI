@@ -1,0 +1,487 @@
+{
+  "items": [
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-00-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 475,
+      "measured_at": "2026-09-28T22:00:00Z",
+      "interval_end": "2026-09-29T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-01-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-09-29T22:00:00Z",
+      "interval_end": "2026-09-30T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-02-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 485,
+      "measured_at": "2026-09-30T22:00:00Z",
+      "interval_end": "2026-10-01T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-03-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-10-01T22:00:00Z",
+      "interval_end": "2026-10-02T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-04-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 475,
+      "measured_at": "2026-10-02T22:00:00Z",
+      "interval_end": "2026-10-03T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-05-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 485,
+      "measured_at": "2026-10-03T22:00:00Z",
+      "interval_end": "2026-10-04T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-06-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-10-04T22:00:00Z",
+      "interval_end": "2026-10-05T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-07-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 475,
+      "measured_at": "2026-10-05T22:00:00Z",
+      "interval_end": "2026-10-06T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-08-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-10-06T22:00:00Z",
+      "interval_end": "2026-10-07T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-09-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 485,
+      "measured_at": "2026-10-07T22:00:00Z",
+      "interval_end": "2026-10-08T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-10-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-10-08T22:00:00Z",
+      "interval_end": "2026-10-09T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-11-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 475,
+      "measured_at": "2026-10-09T22:00:00Z",
+      "interval_end": "2026-10-10T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-12-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 485,
+      "measured_at": "2026-10-10T22:00:00Z",
+      "interval_end": "2026-10-11T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:reference:sim-reference-13-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 480,
+      "measured_at": "2026-10-11T22:00:00Z",
+      "interval_end": "2026-10-12T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-00-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 490,
+      "measured_at": "2026-10-12T22:00:00Z",
+      "interval_end": "2026-10-13T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-01-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 475,
+      "measured_at": "2026-10-13T22:00:00Z",
+      "interval_end": "2026-10-14T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-03-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 445,
+      "measured_at": "2026-10-15T22:00:00Z",
+      "interval_end": "2026-10-16T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-04-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 430,
+      "measured_at": "2026-10-16T22:00:00Z",
+      "interval_end": "2026-10-17T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-05-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 415,
+      "measured_at": "2026-10-17T22:00:00Z",
+      "interval_end": "2026-10-18T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-07-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 385,
+      "measured_at": "2026-10-19T22:00:00Z",
+      "interval_end": "2026-10-20T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    },
+    {
+      "measurement_id": "sim-mission-v1-02:current:sim-sleep-restriction-08-sleep_duration",
+      "crew_member_id": "sim-mission-v1-02",
+      "metric": "sleep_duration",
+      "unit": "min",
+      "value": 370,
+      "measured_at": "2026-10-20T22:00:00Z",
+      "interval_end": "2026-10-21T07:00:00Z",
+      "source": "simulated",
+      "device_id": "sim-mission-v1-02:simulated-device",
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": null,
+        "algorithm": {
+          "name": "data_quality",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-11-14T23:42:58.671144Z"
+      }
+    }
+  ]
+}

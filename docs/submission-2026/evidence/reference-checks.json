@@ -1,0 +1,75 @@
+{
+  "artifact_kind": "source_retrieval_record_not_a_rules_contract",
+  "review_date": "2026-11-15",
+  "retrieved_at_utc": "2026-11-14T23:51:37.463957+00:00",
+  "sources": [
+    {
+      "source_id": "submission_guide",
+      "url": "https://www.spaceappschallenge.org/resources/project-submission-guide/",
+      "http_status": 200,
+      "sha256": "76ef9dcbc57f8d9a9db6c10de1948ae2dcca5432262b93b907f72f1c9aa79aac",
+      "terms_observed": {
+        "30-second": true,
+        "7-slide": true,
+        "November 15": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    },
+    {
+      "source_id": "judging_guide",
+      "url": "https://www.spaceappschallenge.org/resources/judging-awards-guide/",
+      "http_status": 200,
+      "sha256": "9fab162209238aed02b03e6837959f93e4e38094fc0d14e29cc8a3d1dbc287c5",
+      "terms_observed": {
+        "2026": true,
+        "Relevance": true,
+        "Validity": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    },
+    {
+      "source_id": "challenge",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/",
+      "http_status": 200,
+      "sha256": "07f5df26b6f63057779f538c5489a9c46b2be2781b1bd93eab58e77977ec879b",
+      "terms_observed": {
+        "astronauts": true,
+        "health": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    },
+    {
+      "source_id": "nasa_sleep",
+      "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/",
+      "http_status": 200,
+      "sha256": "634a391e290fcb44cc2af33caaeae9fd1bd7b160f06fc0d519ddb6865c5564ce",
+      "terms_observed": {
+        "sleep": true,
+        "stressors": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    },
+    {
+      "source_id": "nist_outliers",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm",
+      "http_status": 200,
+      "sha256": "6975f0c0742a5ef2ddfc0e35ea107089c6b7e4fb6d54aeb606bef5e3cf5c9ef9",
+      "terms_observed": {
+        "0.6745": true,
+        "3.5": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    },
+    {
+      "source_id": "nist_theil_sen",
+      "url": "https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ts_fit.htm",
+      "http_status": 200,
+      "sha256": "33c20375aaf0d34abb8822d68fe08ceb6b399835e6bd5c4d64a525c045f88142",
+      "terms_observed": {
+        "median": true,
+        "slope": true
+      },
+      "method": "direct HTTPS read; no authentication"
+    }
+  ]
+}

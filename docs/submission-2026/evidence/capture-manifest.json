@@ -1,0 +1,92 @@
+{
+  "artifact_kind": "submission_evidence_manifest_not_an_api_contract",
+  "data_kind": "simulated",
+  "review_date": "2026-11-15",
+  "captured_at_utc": "2026-11-14T23:42:59.362Z",
+  "source_commit": "036df2095426bc901a4b3f4c55e0b99bcb665784",
+  "branch": "feature/frontend-bridge",
+  "capture_command": "node --experimental-strip-types docs/submission-2026/capture-evidence.mjs",
+  "api_mode": "owned_ephemeral_loopback_fastapi",
+  "shared_port_8000_used": false,
+  "server_settings": {
+    "source": "integrations/frontend-bridge/tests/server.py",
+    "env_file_loaded": false,
+    "data_quality_expected_intervals": {},
+    "sensor_ranges_configured": false,
+    "sleep_policy_source": "existing mission seeder; actual policy preserved in evaluation summaries"
+  },
+  "seed_checks_passed": true,
+  "crew_resources": [
+    {
+      "crew_member_id": "sim-mission-v1-01",
+      "measurements": 188,
+      "baselines": 7,
+      "evaluations": 4
+    },
+    {
+      "crew_member_id": "sim-mission-v1-02",
+      "measurements": 171,
+      "baselines": 7,
+      "evaluations": 5
+    },
+    {
+      "crew_member_id": "sim-mission-v1-03",
+      "measurements": 139,
+      "baselines": 7,
+      "evaluations": 4
+    }
+  ],
+  "noor_checkpoints": [
+    {
+      "checkpoint": "sleep-day-02",
+      "window_end": "2026-10-14T12:00:00+00:00",
+      "evaluation_id": "21aa712c-e1d1-5697-8209-f1949e219cec",
+      "result_status": "insufficient_data",
+      "included_nights_for_display": 2,
+      "expected_nights_for_display": 2,
+      "note": "Night counts are bridge display diagnostics, not API Data Quality completeness."
+    },
+    {
+      "checkpoint": "sleep-day-05",
+      "window_end": "2026-10-17T12:00:00+00:00",
+      "evaluation_id": "4614322e-a935-5499-847d-86d627d3194d",
+      "result_status": "attention",
+      "included_nights_for_display": 4,
+      "expected_nights_for_display": 5,
+      "note": "Night counts are bridge display diagnostics, not API Data Quality completeness."
+    },
+    {
+      "checkpoint": "sleep-day-09",
+      "window_end": "2026-10-21T12:00:00+00:00",
+      "evaluation_id": "e7a80a5d-1cef-5e85-8533-641ff2a1294f",
+      "result_status": "attention",
+      "included_nights_for_display": 7,
+      "expected_nights_for_display": 9,
+      "note": "Night counts are bridge display diagnostics, not API Data Quality completeness."
+    }
+  ],
+  "approved_reference": {
+    "filename": "OrbitVitals_Demo (6).html",
+    "sha256": "e7503c35c970967d59f63e1b44b125d61a572ada51ca42130e8aa5c7eefe8f8b",
+    "visual_acceptance": "not_run"
+  },
+  "ai_assistance": "OpenAI Codex assisted this capture script and submission text. The existing deterministic synthetic fixtures and code were developed in an AI-assisted workflow. Full team disclosures are recorded separately; no astronaut data or generated media are created by this capture.",
+  "files": {
+    "noor-sleep-evaluations.json": {
+      "sha256": "cdb14efc0153af90158c052c5fedc5f9d8fd71b697794a5526e5f0a327c27a5f",
+      "bytes": 22573
+    },
+    "noor-sleep-baselines.json": {
+      "sha256": "b412241c40e496bffdeedcccc709a2d0cc993f8cb5d4c03ca758f2e0e7028082",
+      "bytes": 1659
+    },
+    "noor-sleep-duration-measurements.json": {
+      "sha256": "ba4b11fd9ef5a77b7a7ba54c96919724ffebbd1d334be595fd504d02be529d5c",
+      "bytes": 14930
+    },
+    "noor-nine-night-observations.csv": {
+      "sha256": "24ff8e481f3bd676e27971d72c2d5a4b3d65f74df7b86c5b7e1e887007a5a271",
+      "bytes": 389
+    }
+  }
+}

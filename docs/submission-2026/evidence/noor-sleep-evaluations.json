@@ -1,0 +1,229 @@
+{
+  "items": [
+    {
+      "evaluation_id": "21aa712c-e1d1-5697-8209-f1949e219cec",
+      "crew_member_id": "sim-mission-v1-02",
+      "domain": "sleep",
+      "mission_phase": "in_flight",
+      "window_start": "2026-10-12T12:00:00Z",
+      "window_end": "2026-10-14T12:00:00Z",
+      "status": "insufficient_data",
+      "summary": "SIMULATED DATA. Non-clinical sleep screen. Attention metrics: 0; insufficient-data metrics: 2. Nominal means no configured statistical signal; this is not a diagnosis. Policy: {\"duration\": {\"minimum_observation_deviation\": 60.0, \"minimum_slope_per_day\": 5.0, \"minimum_total_change\": 30.0}, \"efficiency\": {\"minimum_observation_deviation\": 5.0, \"minimum_slope_per_day\": 0.5, \"minimum_total_change\": 3.0}, \"maximum_consecutive_missing_nights\": 2, \"minimum_coverage\": 0.6, \"minimum_decreasing_fraction\": 0.75, \"minimum_nights\": 4, \"minimum_span_days\": 3.0, \"night_start_hour_utc\": 12, \"policy_id\": \"simulated-mission-sleep-v1\"}",
+      "findings": [
+        {
+          "metric": "sleep_duration",
+          "unit": "min",
+          "status": "insufficient_data",
+          "observed_value": 482.5,
+          "baseline_id": "544f923a-eb02-52a0-83bf-7b177b3570f9",
+          "baseline_value": 480,
+          "absolute_deviation": 2.5,
+          "relative_deviation": 0.005208333333333333,
+          "explanation": "SIMULATED DATA. Included 2/2 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=1 days. Observed value is the median of included nightly values. Theil-Sen slope=-15 min/day; fitted change=-15 min; decreasing transition fraction=1. Trend gates: absolute slope >= 5 min/day and absolute fitted change >= 30 min. Duration also requires a negative slope and decreasing transition fraction >= 0.75. Insufficient trend data: too_few_nights, time_span_below_minimum. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_duration: outside_window. Included simulated observations: 2. Compared with supplied baseline median 480 min; signed deviation +2.5. Absolute-deviation threshold >= 60 min was not met. Baseline deviations, if reported, are descriptive only for this incomplete window. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "2 records in the window: 2 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 2 of 2 (no measuring range is configured for their device). Simulated (synthetic) records: 2 of 2. Completeness is not assessed: no expected sampling interval is configured for sleep_duration.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-14T12:00:00Z"
+          }
+        },
+        {
+          "metric": "sleep_efficiency",
+          "unit": "%",
+          "status": "insufficient_data",
+          "observed_value": 92,
+          "baseline_id": "ffd51503-5c00-5a3b-b009-4b42de3e95ef",
+          "baseline_value": 92,
+          "absolute_deviation": 0,
+          "relative_deviation": 0,
+          "explanation": "SIMULATED DATA. Included 2/2 complete night buckets; coverage=1; missing nights=none; longest missing run=0; elapsed span=1 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 percentage points/day; fitted change=+0 percentage points; decreasing transition fraction=0. Trend gates: absolute slope >= 0.5 percentage points/day and absolute fitted change >= 3 percentage points. Insufficient trend data: too_few_nights, time_span_below_minimum. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_efficiency: outside_window. Included simulated observations: 2. Compared with supplied baseline median 92 %; signed deviation +0. Absolute-deviation threshold >= 5 percentage points was not met. Baseline deviations, if reported, are descriptive only for this incomplete window. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "2 records in the window: 2 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 2 of 2 (no measuring range is configured for their device). Simulated (synthetic) records: 2 of 2. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-14T12:00:00Z"
+          }
+        }
+      ],
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": "Per-metric Data Quality Engine assessments are attached to findings. Mixed unusable/usable metrics yield degraded window quality; only the affected metric is suppressed. Scores and sample completeness are not pooled.",
+        "algorithm": {
+          "name": "api_quality_rollup",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-10-14T12:00:00Z"
+      },
+      "algorithm": {
+        "name": "sleep_monitoring_trends",
+        "version": "0.1.0"
+      },
+      "evaluated_at": "2026-10-14T12:00:00Z"
+    },
+    {
+      "evaluation_id": "4614322e-a935-5499-847d-86d627d3194d",
+      "crew_member_id": "sim-mission-v1-02",
+      "domain": "sleep",
+      "mission_phase": "in_flight",
+      "window_start": "2026-10-12T12:00:00Z",
+      "window_end": "2026-10-17T12:00:00Z",
+      "status": "attention",
+      "summary": "SIMULATED DATA. Non-clinical sleep screen. Attention metrics: 1; insufficient-data metrics: 0. Nominal means no configured statistical signal; this is not a diagnosis. Policy: {\"duration\": {\"minimum_observation_deviation\": 60.0, \"minimum_slope_per_day\": 5.0, \"minimum_total_change\": 30.0}, \"efficiency\": {\"minimum_observation_deviation\": 5.0, \"minimum_slope_per_day\": 0.5, \"minimum_total_change\": 3.0}, \"maximum_consecutive_missing_nights\": 2, \"minimum_coverage\": 0.6, \"minimum_decreasing_fraction\": 0.75, \"minimum_nights\": 4, \"minimum_span_days\": 3.0, \"night_start_hour_utc\": 12, \"policy_id\": \"simulated-mission-sleep-v1\"}",
+      "findings": [
+        {
+          "metric": "sleep_duration",
+          "unit": "min",
+          "status": "attention",
+          "observed_value": 460,
+          "baseline_id": "544f923a-eb02-52a0-83bf-7b177b3570f9",
+          "baseline_value": 480,
+          "absolute_deviation": -20,
+          "relative_deviation": -0.041666666666666664,
+          "explanation": "SIMULATED DATA. Included 4/5 complete night buckets; coverage=0.8; missing nights=2026-10-14; longest missing run=1; elapsed span=4 days. Observed value is the median of included nightly values. Theil-Sen slope=-15 min/day; fitted change=-60 min; decreasing transition fraction=1. Trend gates: absolute slope >= 5 min/day and absolute fitted change >= 30 min. Duration also requires a negative slope and decreasing transition fraction >= 0.75. Configured statistical pattern detected: progressive_duration_reduction. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_duration: outside_window. Included simulated observations: 4. Compared with supplied baseline median 480 min; signed deviation -20. Absolute-deviation threshold >= 60 min was not met. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "4 records in the window: 4 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 4 of 4 (no measuring range is configured for their device). Simulated (synthetic) records: 4 of 4. Completeness is not assessed: no expected sampling interval is configured for sleep_duration.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-17T12:00:00Z"
+          }
+        },
+        {
+          "metric": "sleep_efficiency",
+          "unit": "%",
+          "status": "nominal",
+          "observed_value": 92,
+          "baseline_id": "ffd51503-5c00-5a3b-b009-4b42de3e95ef",
+          "baseline_value": 92,
+          "absolute_deviation": 0,
+          "relative_deviation": 0,
+          "explanation": "SIMULATED DATA. Included 4/5 complete night buckets; coverage=0.8; missing nights=2026-10-14; longest missing run=1; elapsed span=4 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 percentage points/day; fitted change=+0 percentage points; decreasing transition fraction=0. Trend gates: absolute slope >= 0.5 percentage points/day and absolute fitted change >= 3 percentage points. No configured trend pattern detected. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_efficiency: outside_window. Included simulated observations: 4. Compared with supplied baseline median 92 %; signed deviation +0. Absolute-deviation threshold >= 5 percentage points was not met. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "4 records in the window: 4 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 4 of 4 (no measuring range is configured for their device). Simulated (synthetic) records: 4 of 4. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-17T12:00:00Z"
+          }
+        }
+      ],
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": "Per-metric Data Quality Engine assessments are attached to findings. Mixed unusable/usable metrics yield degraded window quality; only the affected metric is suppressed. Scores and sample completeness are not pooled.",
+        "algorithm": {
+          "name": "api_quality_rollup",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-10-17T12:00:00Z"
+      },
+      "algorithm": {
+        "name": "sleep_monitoring_trends",
+        "version": "0.1.0"
+      },
+      "evaluated_at": "2026-10-17T12:00:00Z"
+    },
+    {
+      "evaluation_id": "e7a80a5d-1cef-5e85-8533-641ff2a1294f",
+      "crew_member_id": "sim-mission-v1-02",
+      "domain": "sleep",
+      "mission_phase": "in_flight",
+      "window_start": "2026-10-12T12:00:00Z",
+      "window_end": "2026-10-21T12:00:00Z",
+      "status": "attention",
+      "summary": "SIMULATED DATA. Non-clinical sleep screen. Attention metrics: 1; insufficient-data metrics: 0. Nominal means no configured statistical signal; this is not a diagnosis. Policy: {\"duration\": {\"minimum_observation_deviation\": 60.0, \"minimum_slope_per_day\": 5.0, \"minimum_total_change\": 30.0}, \"efficiency\": {\"minimum_observation_deviation\": 5.0, \"minimum_slope_per_day\": 0.5, \"minimum_total_change\": 3.0}, \"maximum_consecutive_missing_nights\": 2, \"minimum_coverage\": 0.6, \"minimum_decreasing_fraction\": 0.75, \"minimum_nights\": 4, \"minimum_span_days\": 3.0, \"night_start_hour_utc\": 12, \"policy_id\": \"simulated-mission-sleep-v1\"}",
+      "findings": [
+        {
+          "metric": "sleep_duration",
+          "unit": "min",
+          "status": "attention",
+          "observed_value": 430,
+          "baseline_id": "544f923a-eb02-52a0-83bf-7b177b3570f9",
+          "baseline_value": 480,
+          "absolute_deviation": -50,
+          "relative_deviation": -0.10416666666666667,
+          "explanation": "SIMULATED DATA. Included 7/9 complete night buckets; coverage=0.777778; missing nights=2026-10-14, 2026-10-18; longest missing run=1; elapsed span=8 days. Observed value is the median of included nightly values. Theil-Sen slope=-15 min/day; fitted change=-120 min; decreasing transition fraction=1. Trend gates: absolute slope >= 5 min/day and absolute fitted change >= 30 min. Duration also requires a negative slope and decreasing transition fraction >= 0.75. Configured statistical pattern detected: progressive_duration_reduction. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_duration: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_duration: outside_window. Included simulated observations: 7. Compared with supplied baseline median 480 min; signed deviation -50. Absolute-deviation threshold >= 60 min was not met. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "7 records in the window: 7 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 7 of 7 (no measuring range is configured for their device). Simulated (synthetic) records: 7 of 7. Completeness is not assessed: no expected sampling interval is configured for sleep_duration.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-21T12:00:00Z"
+          }
+        },
+        {
+          "metric": "sleep_efficiency",
+          "unit": "%",
+          "status": "nominal",
+          "observed_value": 92,
+          "baseline_id": "ffd51503-5c00-5a3b-b009-4b42de3e95ef",
+          "baseline_value": 92,
+          "absolute_deviation": 0,
+          "relative_deviation": 0,
+          "explanation": "SIMULATED DATA. Included 7/9 complete night buckets; coverage=0.777778; missing nights=2026-10-14, 2026-10-18; longest missing run=1; elapsed span=8 days. Observed value is the median of included nightly values. Theil-Sen slope=+0 percentage points/day; fitted change=+0 percentage points; decreasing transition fraction=0. Trend gates: absolute slope >= 0.5 percentage points/day and absolute fitted change >= 3 percentage points. No configured trend pattern detected. Excluded records: sim-mission-v1-02:reference:sim-reference-00-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-01-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-02-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-03-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-04-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-05-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-06-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-07-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-08-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-09-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-10-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-11-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-12-sleep_efficiency: outside_window, sim-mission-v1-02:reference:sim-reference-13-sleep_efficiency: outside_window. Included simulated observations: 7. Compared with supplied baseline median 92 %; signed deviation +0. Absolute-deviation threshold >= 5 percentage points was not met. Non-clinical screening only; nominal means no configured signal detected, and does not establish adequate sleep or health.",
+          "data_quality": {
+            "status": "acceptable",
+            "score": 1,
+            "completeness": null,
+            "flags": [],
+            "notes": "7 records in the window: 7 acceptable, 0 degraded, 0 unusable. Records not checked against a sensor range: 7 of 7 (no measuring range is configured for their device). Simulated (synthetic) records: 7 of 7. Completeness is not assessed: no expected sampling interval is configured for sleep_efficiency.",
+            "algorithm": {
+              "name": "data_quality",
+              "version": "0.1.0"
+            },
+            "assessed_at": "2026-10-21T12:00:00Z"
+          }
+        }
+      ],
+      "data_quality": {
+        "status": "acceptable",
+        "score": null,
+        "completeness": null,
+        "flags": [],
+        "notes": "Per-metric Data Quality Engine assessments are attached to findings. Mixed unusable/usable metrics yield degraded window quality; only the affected metric is suppressed. Scores and sample completeness are not pooled.",
+        "algorithm": {
+          "name": "api_quality_rollup",
+          "version": "0.1.0"
+        },
+        "assessed_at": "2026-10-21T12:00:00Z"
+      },
+      "algorithm": {
+        "name": "sleep_monitoring_trends",
+        "version": "0.1.0"
+      },
+      "evaluated_at": "2026-10-21T12:00:00Z"
+    }
+  ]
+}

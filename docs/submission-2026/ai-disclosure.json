@@ -1,0 +1,70 @@
+{
+  "artifact_kind": "submission_disclosure_metadata_not_an_api_contract",
+  "review_date": "2026-11-15",
+  "confirmation_source": "Andrea's explicit team confirmation in the submission-preparation conversation",
+  "contributors": [
+    {
+      "name": "Andrea",
+      "roles": [
+        "project coordination",
+        "repository management",
+        "backend integration",
+        "AI development orchestration",
+        "testing",
+        "final submission preparation"
+      ]
+    },
+    {
+      "name": "Marco",
+      "roles": [
+        "scientific research",
+        "physiological and cognitive monitoring modules",
+        "dataset review",
+        "scientific validation work",
+        "separate MedGemma development"
+      ],
+      "validation_boundary": "Contributor responsibility does not establish clinical validation."
+    },
+    {
+      "name": "Silvio",
+      "roles": ["React/TypeScript frontend development", "UI/UX design", "visual implementation"]
+    }
+  ],
+  "development_tools": [
+    { "name": "OpenAI Codex", "use_confirmed": true, "exact_model_versions_across_sessions": null },
+    { "name": "ChatGPT", "use_confirmed": true, "exact_model_versions_across_sessions": null },
+    {
+      "name": "Anthropic Claude Code",
+      "use_confirmed": true,
+      "exact_model_versions_across_sessions": null
+    },
+    {
+      "name": "Qwen 3.5 4B through Ollama",
+      "use_confirmed": true,
+      "hosting": "local",
+      "exact_tag_digest_quantization_and_runtime_version": null
+    }
+  ],
+  "medgemma": {
+    "reported_version": "1.5",
+    "owner": "Marco",
+    "development_status": "separate_workstream",
+    "integration_status": "pending_confirmation",
+    "final_contribution_status": "pending_confirmation",
+    "used_in_captured_statistical_sleep_runtime": false,
+    "exact_checkpoint": null
+  },
+  "additional_tools_inventory": "pending_confirmation",
+  "project_wide_generated_media_inventory": "pending_confirmation",
+  "media_generated_for_this_package": [],
+  "package_assistance": "OpenAI Codex assisted the English drafting and evidence-verification support. Captured evaluations are actual deterministic engine outputs, not generated substitutes.",
+  "local_event": {
+    "status": "pending_verification",
+    "name": null,
+    "time_zone": null,
+    "project_url": null
+  },
+  "public_demo_url": null,
+  "public_final_project_url": null,
+  "final_team_approval": "pending"
+}

@@ -1,0 +1,10 @@
+night_bucket_start_utc,observed_value_min,record_state
+2026-10-12T12:00:00.000Z,490,observed
+2026-10-13T12:00:00.000Z,475,observed
+2026-10-14T12:00:00.000Z,,missing
+2026-10-15T12:00:00.000Z,445,observed
+2026-10-16T12:00:00.000Z,430,observed
+2026-10-17T12:00:00.000Z,415,observed
+2026-10-18T12:00:00.000Z,,missing
+2026-10-19T12:00:00.000Z,385,observed
+2026-10-20T12:00:00.000Z,370,observed
