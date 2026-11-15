@@ -279,3 +279,6 @@ desktop.ini
 /data/nasa/**/raw/
 /data/nasa/**/computed-*.json
 /data/nasa/**/download-receipt.json
+
+# Embedding cache of the RAG knowledge base
+index_cache/

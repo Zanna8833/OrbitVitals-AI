@@ -1,0 +1,31 @@
+[project]
+name = "orbitvitals-medical-assistant"
+version = "0.1.0"
+description = "Medical assistant for astronauts: contextual + hierarchical RAG with MedGemma 1.5 over protocols and crew data"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "rank_bm25",
+    "sentence-transformers",
+    "torch",
+]
+
+[project.optional-dependencies]
+# Only where MedGemma runs (GPU)
+model = ["transformers>=4.50", "accelerate"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/assistant"]
+
+# Locally torch CPU (no CUDA needed for the search); on a GPU machine install the CUDA build of torch.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
