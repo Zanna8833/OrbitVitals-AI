@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { DataSource } from '../../data'
 import type { DailyIndicatorId, MissionStatus } from '../../domain/types'
 import { DAILY_INDICATORS, PARAMETER_ORDER, formatDailyValue } from '../../domain/parameters'
@@ -28,6 +28,7 @@ import { toneOf } from '../../components/tone'
 import { List, Row, SectionTitle, Segmented, Sheet, SimTag, Symbol } from '../../components/ui'
 import { DailyTrendChart } from '../../components/DailyTrendChart'
 import { useBoxSize, useFitMode } from '../../hooks/useLayout'
+import { useTightness } from '../../hooks/useTightness'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
 import { config } from '../../config'
@@ -191,6 +192,8 @@ function TodayBody({
   live: Live
 }) {
   const [sheet, setSheet] = useState<Sheet>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const tight = useTightness(rootRef)
   const sharing = useShare(memberId, mission)
   const offline = mission.link.state === 'offline'
 
@@ -270,7 +273,7 @@ function TodayBody({
   const selectedEval = byId(selected)
 
   return (
-    <div className="today">
+    <div className="today" ref={rootRef} data-tight={tight || undefined}>
       <header className="today-head">
         <div className="today-title">
           {page !== 'home' && (
@@ -302,16 +305,15 @@ function TodayBody({
           {/* Outside a live session: when the latest reading arrived, and a shortcut to add one. */}
           {!progress?.current && (
             <section className="card data-card" aria-labelledby="data-h">
-              <p className="eyebrow">Your data</p>
-              <h2 id="data-h">
-                {live.snapshot.device.lastReceivedAt
-                  ? `Last reading ${formatDate(live.snapshot.device.lastReceivedAt)}, ${formatClock(live.snapshot.device.lastReceivedAt, false)} UTC`
-                  : 'No reading received yet'}
-              </h2>
-              <p className="data-card-sub">
-                {live.snapshot.device.lastReceivedAt ? `${formatAge(live.snapshot.device.lastReceivedAt, mission.now)} · ` : ''}
-                Compared with your own usual range, day by day.
-              </p>
+              <div className="data-card-text">
+                <p className="eyebrow">Your data</p>
+                <h2 id="data-h">
+                  {live.snapshot.device.lastReceivedAt
+                    ? `Last reading ${formatDate(live.snapshot.device.lastReceivedAt)}, ${formatClock(live.snapshot.device.lastReceivedAt, false)} UTC`
+                    : 'No reading received yet'}
+                </h2>
+                {live.snapshot.device.lastReceivedAt && <p className="data-card-sub">{formatAge(live.snapshot.device.lastReceivedAt, mission.now)}</p>}
+              </div>
               <button type="button" className="btn btn-small" onClick={() => setSheet({ type: 'measure', id: null })}>
                 Add a reading
               </button>
@@ -889,8 +891,8 @@ function TrendCard({
   if (!e) return null
   const id = e.series.indicator
   const def = DAILY_INDICATORS[id]
-  // The legend below the plot needs ~34 px; under ~130 px the plot keeps the whole height.
-  const chartH = fit ? (size.height - 34 >= 96 ? size.height - 34 : Math.max(54, size.height - 6)) : 170
+  // The plot takes the whole card; the legend and the data table are in Details.
+  const chartH = fit ? Math.max(54, size.height - 6) : 170
   return (
     <section className={`card trend-card tone-${toneOf(id)}`} aria-labelledby="trend-h">
       <div className="trend-head">
@@ -911,7 +913,7 @@ function TrendCard({
       </div>
       <PillarStrip p={pillarsOf(e.series, e)} indicator={id} onExplain={onExplain} />
       <div className="fill" ref={ref}>
-        <div className="fill-inner">{(size.height > 0 || !fit) && <DailyTrendChart key={id} series={e.series} height={chartH} />}</div>
+        <div className="fill-inner">{(size.height > 0 || !fit) && <DailyTrendChart key={id} series={e.series} height={chartH} legend={!fit} />}</div>
       </div>
     </section>
   )

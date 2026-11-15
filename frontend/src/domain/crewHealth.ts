@@ -143,7 +143,7 @@ export function healthOptions({
     options.push({
       id: 'repeat_measure',
       title: `Repeat today’s reading: ${joinNames(toRepeat.map((e) => DAILY_INDICATORS[e.series.indicator].label.toLowerCase()))}`,
-      detail: 'Today’s reading is missing or uncertain. Record a verification task; the prototype cannot take new readings.',
+      detail: 'Today’s reading is missing or uncertain. Take a new one from Take a measurement.',
       emphasised: false,
     })
   }

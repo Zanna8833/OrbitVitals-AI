@@ -5109,9 +5109,20 @@ a.card-head-link {
   background: var(--attention);
 }
 .data-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+.data-card-text {
   display: grid;
-  gap: 4px;
-  justify-items: start;
+  gap: 2px;
+  min-width: 0;
+}
+.data-card .btn {
+  flex: none;
 }
 .data-card .eyebrow {
   margin: 0;
@@ -5122,7 +5133,7 @@ a.card-head-link {
   font-weight: 650;
 }
 .data-card-sub {
-  margin: 0 0 6px;
+  margin: 0;
   font-size: 13px;
   color: var(--label-2);
 }
@@ -5856,6 +5867,68 @@ a.card-head-link {
 }
 @media (min-width: 1024px) and (min-height: 620px) and (max-height: 760px) {
   .today .trend-card .pillar-note {
+    display: none;
+  }
+}
+
+/* ---------- adaptive fit (hooks/useTightness.ts): secondary lines go before anything is cut ---------- */
+.today[data-tight] .data-card,
+.today[data-tight] .summary-more,
+.today[data-tight] .mini-row .row-subtitle,
+.today[data-tight] .review-group .group-label {
+  display: none;
+}
+.today[data-tight='2'] .now-nothing,
+.today[data-tight='3'] .now-nothing,
+.today[data-tight='4'] .now-nothing,
+.today[data-tight='2'] .trend-card .pillar-note,
+.today[data-tight='3'] .trend-card .pillar-note,
+.today[data-tight='4'] .trend-card .pillar-note,
+.today[data-tight='2'] .nutrition-note,
+.today[data-tight='3'] .nutrition-note,
+.today[data-tight='4'] .nutrition-note {
+  display: none;
+}
+.today[data-tight='3'] .now-card .phase-track,
+.today[data-tight='4'] .now-card .phase-track,
+.today[data-tight='3'] .home-tiles > :nth-child(n + 4),
+.today[data-tight='4'] .home-tiles > :nth-child(n + 4),
+.today[data-tight='3'] .ring-caption span,
+.today[data-tight='4'] .ring-caption span {
+  display: none;
+}
+@media (min-width: 1024px) and (min-height: 620px) {
+  .today[data-tight='4'] .today-col,
+  .today[data-tight='4'] .nutrition-main,
+  .today[data-tight='4'] .nutrition-side,
+  .today[data-tight='4'] .sleep-plan-card,
+  .today[data-tight='4'] .sleep-side {
+    overflow-y: auto;
+  }
+}
+/* Health page: the 11 indicators in two rows on laptop and desktop screens. */
+@media (min-width: 1200px) and (min-height: 620px) {
+  .today .tiles.tiles-all {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) and (min-height: 620px) {
+  .today[data-tight='4'] .health-page {
+    overflow-y: auto;
+  }
+}
+.mini-row .row-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+/* Narrow tiles (six per row): the value keeps its room, the mini trend gives way. */
+.today .tiles-all .tile {
+  container-type: inline-size;
+}
+@container (max-width: 205px) {
+  .tile .sparkline {
     display: none;
   }
 }

@@ -96,8 +96,8 @@ export function IndicatorSheet({
 }
 
 export function statusText(e: IndicatorEvaluation): string {
-  if (e.repeatSuggested) return 'Today’s reading is missing or uncertain'
   if (!e.latest) return 'No readings yet'
+  if (e.repeatSuggested) return e.measuredToday ? 'Today’s reading is uncertain' : 'No reading today'
   if (e.position === null) return 'Usual range not available yet'
   if (e.position === 'within') return 'Within your usual range'
   const side = e.position === 'above' ? 'Higher' : 'Lower'
