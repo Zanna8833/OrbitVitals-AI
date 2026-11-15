@@ -291,10 +291,30 @@ export function EvaluationTimeline({ items, nowIso, selected, onSelect }: { item
   const end = Math.max(t(nowIso), ...items.map((e) => t(e.window_end)))
   const w = Math.max(240, size.width)
   const L = 92
-  const rowH = 30
   const x = (ms: number) => L + ((ms - start) / Math.max(1, end - start)) * (w - L - 8)
-  const rows = DOMAINS.filter((d) => items.some((e) => e.domain === d.id))
-  const height = rows.length * rowH + 24
+  const domains = DOMAINS.filter((d) => items.some((e) => e.domain === d.id))
+  // Overlapping windows of the same area go on separate lanes, so every bar stays visible and clickable.
+  const LANE = 13
+  const rows = domains.map((d) => {
+    const lanes: number[] = []
+    const bars = items
+      .filter((e) => e.domain === d.id)
+      .sort((a, b) => (a.window_start < b.window_start ? -1 : a.window_start > b.window_start ? 1 : a.window_end < b.window_end ? -1 : 1))
+      .map((e) => {
+        let lane = lanes.findIndex((endMs) => endMs <= t(e.window_start))
+        if (lane < 0) lane = lanes.length
+        lanes[lane] = t(e.window_end)
+        return { e, lane }
+      })
+    return { ...d, bars, lanes: Math.max(1, lanes.length) }
+  })
+  const tops: number[] = []
+  let yAcc = 4
+  for (const r of rows) {
+    tops.push(yAcc)
+    yAcc += r.lanes * LANE + 10
+  }
+  const height = yAcc + 16
   const ticks = Array.from({ length: 5 }, (_, i) => start + ((end - start) * i) / 4)
   return (
     <div className="evtl" ref={ref}>
@@ -302,34 +322,34 @@ export function EvaluationTimeline({ items, nowIso, selected, onSelect }: { item
         <svg width={w} height={height} role="group" aria-label="Evaluation windows by area">
           {rows.map((r, i) => (
             <g key={r.id}>
-              <text x={0} y={i * rowH + 19} className="evtl-label">
+              <text x={0} y={tops[i] + (r.lanes * LANE) / 2 + 4} className="evtl-label">
                 {r.label}
               </text>
-              <line x1={L} x2={w - 8} y1={i * rowH + 15} y2={i * rowH + 15} className="grid" />
-              {items
-                .filter((e) => e.domain === r.id)
-                .sort((a, b) => (a.window_end < b.window_end ? -1 : 1))
-                .map((e, k, arr) => {
-                  const inset = (arr.length - 1 - k) * 3
-                  return (
-                    <rect
-                      key={e.evaluation_id}
-                      x={x(t(e.window_start))}
-                      y={i * rowH + 6 + inset}
-                      width={Math.max(4, x(t(e.window_end)) - x(t(e.window_start)))}
-                      height={Math.max(6, 18 - inset * 2)}
-                      rx={4}
-                      tabIndex={0}
-                      role="button"
-                      aria-label={`${r.label}, ${e.status.replace('_', ' ')}, ${formatDate(e.window_start)} to ${formatDate(e.window_end)}`}
-                      className={`evtl-bar is-${e.status}${selected === e.evaluation_id ? ' is-selected' : ''}`}
-                      onClick={() => onSelect(e.evaluation_id)}
-                      onKeyDown={(ev) => (ev.key === 'Enter' || ev.key === ' ') && onSelect(e.evaluation_id)}
-                    >
-                      <title>{`${e.status.replace('_', ' ')} · ${formatDate(e.window_start)} → ${formatDate(e.window_end)}`}</title>
-                    </rect>
-                  )
-                })}
+              <line x1={L} x2={w - 8} y1={tops[i] + r.lanes * LANE + 4} y2={tops[i] + r.lanes * LANE + 4} className="grid" />
+              {r.bars.map(({ e, lane }) => (
+                <rect
+                  key={e.evaluation_id}
+                  x={x(t(e.window_start))}
+                  y={tops[i] + lane * LANE}
+                  width={Math.max(4, x(t(e.window_end)) - x(t(e.window_start)))}
+                  height={LANE - 3}
+                  rx={3}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={selected === e.evaluation_id}
+                  aria-label={`${r.label}, ${e.status.replace('_', ' ')}, ${formatDate(e.window_start)} to ${formatDate(e.window_end)}`}
+                  className={`evtl-bar is-${e.status}${selected === e.evaluation_id ? ' is-selected' : ''}`}
+                  onClick={() => onSelect(e.evaluation_id)}
+                  onKeyDown={(ev) => {
+                    if (ev.key === 'Enter' || ev.key === ' ') {
+                      ev.preventDefault()
+                      onSelect(e.evaluation_id)
+                    }
+                  }}
+                >
+                  <title>{`${e.status.replace('_', ' ')} · ${formatDate(e.window_start)} → ${formatDate(e.window_end)}`}</title>
+                </rect>
+              ))}
             </g>
           ))}
           {ticks.map((ms, i) => (
@@ -337,7 +357,7 @@ export function EvaluationTimeline({ items, nowIso, selected, onSelect }: { item
               {formatDate(new Date(ms).toISOString()).replace(/ \d{4}$/, '')}
             </text>
           ))}
-          <line x1={x(t(nowIso))} x2={x(t(nowIso))} y1={0} y2={rows.length * rowH + 4} className="evtl-now" />
+          <line x1={x(t(nowIso))} x2={x(t(nowIso))} y1={0} y2={yAcc - 4} className="evtl-now" />
         </svg>
       )}
       <ul className="legend">

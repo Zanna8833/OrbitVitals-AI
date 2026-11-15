@@ -6614,3 +6614,46 @@ a.card-head-link {
   max-width: 100%;
   overflow-x: auto;
 }
+
+/* ---------- cognition battery (full screen) ---------- */
+.cognition-page {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+}
+.cognition-frame,
+.cognition-host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.cognition-close {
+  position: fixed;
+  left: 14px;
+  bottom: 12px;
+  z-index: 51;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #f2f2f2;
+  background: rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+}
+.cognition-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+}
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 6px 6px 12px;
+  border-radius: 10px;
+  background: var(--tint-soft);
+  font-size: 13px;
+  font-weight: 500;
+}

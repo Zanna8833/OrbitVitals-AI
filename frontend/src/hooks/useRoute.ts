@@ -14,6 +14,7 @@ export type Route =
   | { view: 'crew'; crewId: string | null; page: CrewPage }
   | { view: 'medical'; selection: MedicalSelection }
   | { view: 'assistant' }
+  | { view: 'cognition' }
   | { view: 'not_found'; path: string }
 
 export type MedicalSelection = { type: 'event'; id: string } | { type: 'crew'; id: string; metric?: string | null; tab?: string | null } | { type: 'sleep' } | null
@@ -32,6 +33,7 @@ export function parseRoute(hash: string): Route {
     return { view: 'medical', selection: null }
   }
   if (area === 'assistant') return { view: 'assistant' }
+  if (area === 'cognition') return { view: 'cognition' }
   // Legacy routes.
   if (area === 'surgeon') return { view: 'medical', selection: a ? { type: 'crew', id: a } : null }
   if (area === 'events' && a) return { view: 'medical', selection: { type: 'event', id: a } }
@@ -51,6 +53,7 @@ export const href = {
   medicalCrew: (crewId: string, metric?: string) => `#/medical/crew/${encodeURIComponent(crewId)}${metric ? `/${encodeURIComponent(metric)}` : ''}`,
   medicalSleep: () => '#/medical/sleep',
   assistant: () => '#/assistant',
+  cognition: () => '#/cognition',
   /** Kept for older call sites. */
   surgeon: (crewId?: string) => (crewId ? `#/medical/crew/${encodeURIComponent(crewId)}` : '#/medical'),
 }

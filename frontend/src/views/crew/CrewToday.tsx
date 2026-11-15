@@ -31,8 +31,6 @@ import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { useTightness } from '../../hooks/useTightness'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
-import { config } from '../../config'
-import { useCognitionAvailable } from '../../hooks/useCognition'
 import { rememberAstronaut } from '../../state/lastAstronaut'
 import { CrewOverview } from './CrewOverview'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
@@ -63,25 +61,15 @@ function DataOriginTag({ daily }: { daily: Live['daily'] }) {
 
 /** The team's cognition battery is a separate full-screen app: opened in its own tab, results go to the ground. */
 function CognitionRow() {
-  const available = useCognitionAvailable()
-  const body = (
-    <>
+  return (
+    <a className="mini-row" href={href.cognition()} title="The team's cognition battery, full screen">
       <Symbol tone="rest">
         <BrainIcon />
       </Symbol>
       <span className="row-text">
-        <span className="row-title">Cognition tests ↗</span>
-        <span className="row-subtitle">{available === false ? 'Not installed: npm run cognition' : '10-test battery'}</span>
+        <span className="row-title">Cognition tests</span>
+        <span className="row-subtitle">10-test battery</span>
       </span>
-    </>
-  )
-  return available === false ? (
-    <div className="mini-row is-disabled" title="Build it with: npm run cognition">
-      {body}
-    </div>
-  ) : (
-    <a className="mini-row" href={config.cognitionUrl} target="_blank" rel="noopener" title="Opens the team's cognition battery in a new tab">
-      {body}
     </a>
   )
 }

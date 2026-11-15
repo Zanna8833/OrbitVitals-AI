@@ -9,6 +9,9 @@ const agent = process.env.VITE_AGENT_ORIGIN ?? 'http://127.0.0.1:8100'
 
 export default defineConfig({
   plugins: [react()],
+  // The cognition battery (../cognition-frontend) is bundled in: one React for both.
+  resolve: { dedupe: ['react', 'react-dom'] },
+  build: { chunkSizeWarningLimit: 800 },
   server: { proxy: { '/api': backend, '/agent': agent } },
   preview: { proxy: { '/api': backend, '/agent': agent } },
   test: {

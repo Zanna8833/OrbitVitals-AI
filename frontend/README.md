@@ -8,7 +8,7 @@ This folder is the web interface. It works with the team's services in this repo
 |---|---|---|---|
 | OrbitVitals server (FastAPI) | `../backend` | 8000 | measurements, data quality, personal baselines, evaluations |
 | Assistant (agent) | `../ai_agent` | 8100 | explanations of stored results with NASA sources |
-| Cognition battery | `../cognition-frontend` | built into `public/cognition/` | the 10-test cognitive battery |
+| Cognition battery | `../cognition-frontend` | bundled in (`#/cognition`) | the 10-test cognitive battery, used as it is |
 
 ## Run it
 
@@ -40,6 +40,8 @@ On Windows, prefer `npm ci` to `npm install` (it keeps `package-lock.json` uncha
 | `npm test` | unit and contract tests (Vitest) |
 | `npm run lint` | lint (oxlint) |
 | `npm run dev:sample` | offline development with generated sample data (never for delivery) |
+
+The cognition battery opens full screen at `#/cognition`. Its code is bundled into OrbitVitals unchanged (isolated, so its styles cannot affect the app), so it always works; when its own build with the face photographs is present (`npm run cognition`, part of `npm run build`), that build is shown instead.
 
 Configuration is in `.env.example`: server and assistant addresses, which server crew members are Astronaut A/B/C (`VITE_BACKEND_CREW`), and optionally "now" and mission day 1. The mission plan (phases and activities such as spacewalks) is set by mission control in `src/mission.config.ts`; when empty, the header shows only the mission day.
 

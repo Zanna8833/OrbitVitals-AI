@@ -41,7 +41,7 @@ function MedicalFrame({ selection }: { selection: Exclude<MedicalSelection, null
         mission={mission}
         crew={crew}
         current={null}
-        back={{ href: href.medical(), label: 'Crew' }}
+        back={{ href: href.medical(), label: 'Back' }}
       />
       <div className="ws-pane">
         {selection.type === 'event' && <EventPane key={selection.id} eventId={selection.id} />}
