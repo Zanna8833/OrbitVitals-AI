@@ -86,7 +86,7 @@ function DayScrubber({ day, today, onPreview, onCommit }: { day: number; today: 
   }
   const shown = drag?.d ?? day
   const thumb = drag ? drag.x : pctOf(day)
-  const labels = [...new Set([1, ...Array.from({ length: Math.floor(today / 7) }, (_, i) => (i + 1) * 7).filter((d) => today - d >= 3), today])]
+  const labels = [...new Set([1, ...Array.from({ length: Math.floor(today / 7) }, (_, i) => (i + 1) * 7).filter((d) => pctOf(d) <= 72), today])]
   return (
     <div className="scrub">
       <div
@@ -124,12 +124,18 @@ function DayScrubber({ day, today, onPreview, onCommit }: { day: number; today: 
           {drag && <span className="scrub-bubble">{shown === today ? 'Today' : `Day ${shown}`}</span>}
         </span>
       </div>
-      <div className="scrub-labels" aria-hidden="true">
-        {labels.map((d) => (
-          <span key={d} style={{ left: `${pctOf(d)}%` }} className={d === today ? 'is-today' : ''}>
-            {d === today ? 'Today' : d}
-          </span>
-        ))}
+      <div className="scrub-labels">
+        {labels.map((d) =>
+          d === today ? (
+            <button key={d} type="button" className="scrub-today" style={{ left: `${pctOf(d)}%` }} disabled={day === today} title="Back to today" onClick={() => onCommit(today)}>
+              Today
+            </button>
+          ) : (
+            <span key={d} style={{ left: `${pctOf(d)}%` }} aria-hidden="true">
+              {d}
+            </span>
+          ),
+        )}
       </div>
     </div>
   )
