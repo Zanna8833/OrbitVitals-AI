@@ -16,17 +16,18 @@ export type Route =
   | { view: 'assistant' }
   | { view: 'not_found'; path: string }
 
-export type MedicalSelection = { type: 'event'; id: string } | { type: 'crew'; id: string } | { type: 'sleep' } | null
+export type MedicalSelection = { type: 'event'; id: string } | { type: 'crew'; id: string; metric?: string | null; tab?: string | null } | { type: 'sleep' } | null
 
 export function parseRoute(hash: string): Route {
   const path = hash.replace(/^#/, '') || '/crew'
-  const parts = path.split('/').filter(Boolean).map(decodeURIComponent)
+  // A query (?tab=…) belongs to the page, not to the route.
+  const parts = path.split('?')[0].split('/').filter(Boolean).map(decodeURIComponent)
   const [area, a, b] = parts
   // 'health' was the former "My health" tab: it now means the Health page. Other old tabs open the home.
   if (area === 'crew') return { view: 'crew', crewId: a ?? null, page: !a ? 'crew' : b === 'health' || b === 'sleep' || b === 'nutrition' ? b : 'home' }
   if (area === 'medical') {
     if (a === 'event' && b) return { view: 'medical', selection: { type: 'event', id: b } }
-    if (a === 'crew' && b) return { view: 'medical', selection: { type: 'crew', id: b } }
+    if (a === 'crew' && b) return { view: 'medical', selection: { type: 'crew', id: b, metric: parts[3] ?? null, tab: new URLSearchParams(path.split('?')[1] ?? '').get('tab') } }
     if (a === 'sleep') return { view: 'medical', selection: { type: 'sleep' } }
     return { view: 'medical', selection: null }
   }
@@ -47,7 +48,7 @@ export const href = {
   },
   medical: () => '#/medical',
   event: (eventId: string) => `#/medical/event/${encodeURIComponent(eventId)}`,
-  medicalCrew: (crewId: string) => `#/medical/crew/${encodeURIComponent(crewId)}`,
+  medicalCrew: (crewId: string, metric?: string) => `#/medical/crew/${encodeURIComponent(crewId)}${metric ? `/${encodeURIComponent(metric)}` : ''}`,
   medicalSleep: () => '#/medical/sleep',
   assistant: () => '#/assistant',
   /** Kept for older call sites. */

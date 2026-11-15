@@ -42,6 +42,14 @@ Following team feedback (*"merge heart and the rest into one rectangle that open
 
 The team's research note states that crews are sometimes all under sleep aids at once (a figure of about 16% was quoted). **The source has not been verified here**: cite it in the submission only after checking it, and do not show the figure in the interface.
 
+## Medical, rebuilt like the crew side (team feedback, 15 Nov night)
+
+Same header, same switch (*Crew · Astronaut A/B/C*), same cards — more technical content, still one screen.
+
+- **Crew:** *To review* and tonight's readiness on the left; on the right a **status matrix** and a **data-completeness map**. The matrix shows, for each astronaut and indicator, the latest reliable value and its distance from the astronaut's own usual range in **range units** (0 = usual median, ±1 = edge of the usual range); colour has three steps (within, outside, far outside) and every cell also carries the number, an arrow and the days outside. No clinical threshold is used anywhere.
+- **Astronaut:** status by area from the server's evaluations (a chip opens the evaluation), shared items, a predefined message, check-in trends. Tabs: **Trends** (12 compact indicator chips, then the daily chart and a deviation chart with a data-quality strip, sharing the available height), **Evaluations** (a timeline of evaluation windows per area; selecting a bar shows its findings), **Nutrition** (bullet bars: 7-day mean as a share of the NASA minimum, iron against its limit), **Sleep** (the crew plan).
+- Review items and the crew sleep plan open in the same frame, with *‹ Crew* to go back. Logic for range units and completeness: `src/domain/deviation.ts` (tested).
+
 ## From prototype to platform (team feedback, 15 Nov evening)
 
 - **No demo chrome.** The Demo menu, scenario switching, the "what is simulated" table and the offline demo file are gone. The interface talks to the OrbitVitals server by default; generated sample data remain only for offline development (`npm run dev:sample`). A gear menu holds *Settings*: server status, appearance, import of crew files, refresh.

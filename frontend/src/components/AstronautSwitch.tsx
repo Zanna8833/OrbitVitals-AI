@@ -5,11 +5,24 @@ import { initialsOf } from '../domain/overview'
  * Crew-level and per-astronaut views, side by side: "Crew" shows everyone,
  * each name opens that astronaut's own area (on the same page type).
  */
-export function AstronautSwitch({ crew, current, page = 'home' }: { crew: { id: string; displayName: string }[]; current: string | null; page?: CrewPage }) {
+export function AstronautSwitch({
+  crew,
+  current,
+  page = 'home',
+  area = 'crew',
+}: {
+  crew: { id: string; displayName: string }[]
+  current: string | null
+  page?: CrewPage
+  /** Medical: the same switch opens the medical views. */
+  area?: 'crew' | 'medical'
+}) {
   const target: CrewPage = page === 'crew' ? 'home' : page
+  const crewHref = area === 'medical' ? href.medical() : href.crew()
+  const astroHref = (id: string) => (area === 'medical' ? href.medicalCrew(id) : href.crew(id, target))
   return (
     <nav className="astronaut-switch" aria-label="Crew and astronauts">
-      <a href={href.crew()} className="astro-chip astro-crew" aria-current={current === null ? 'page' : undefined}>
+      <a href={crewHref} className="astro-chip astro-crew" aria-current={current === null ? 'page' : undefined}>
         <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="8" cy="9" r="3" fill="currentColor" />
           <circle cx="16" cy="9" r="3" fill="currentColor" opacity="0.6" />
@@ -18,7 +31,7 @@ export function AstronautSwitch({ crew, current, page = 'home' }: { crew: { id: 
         Crew
       </a>
       {crew.map((c) => (
-        <a key={c.id} href={href.crew(c.id, target)} className="astro-chip" aria-current={current === c.id ? 'page' : undefined}>
+        <a key={c.id} href={astroHref(c.id)} className="astro-chip" aria-current={current === c.id ? 'page' : undefined}>
           <span className="avatar avatar-tiny" aria-hidden="true">
             {initialsOf(c.displayName)}
           </span>
