@@ -4,6 +4,7 @@ import { config } from '../../config'
 import { href } from '../../hooks/useRoute'
 import { useQuery } from '../../hooks/useQuery'
 import { lastAstronaut } from '../../state/lastAstronaut'
+import { useAppState } from '../../state/AppState'
 import { Segmented } from '../../components/ui'
 import { BackLink } from '../../components/BackLink'
 import { agentHealth, askAgent, type AgentDomain, type AgentHealth, type AgentResponse } from './agentClient'
@@ -44,17 +45,20 @@ interface Turn {
 export function AssistantPage() {
   const crewQuery = useQuery(useCallback((ds: DataSource) => ds.listCrew(), []))
   const crew = crewQuery.data ?? []
-  const [who, setWho] = useState<string | null>(null)
   const [topic, setTopic] = useState<Topic>('all')
   const [question, setQuestion] = useState('')
   const [turns, setTurns] = useState<Turn[]>([])
   const [busy, setBusy] = useState(false)
   const [health, setHealth] = useState<AgentHealth | null | 'down'>(null)
   const endRef = useRef<HTMLDivElement>(null)
-  const selected = who ?? lastAstronaut()?.crewId ?? crew[0]?.id ?? null
+  const { demo, viewDay, setViewDay } = useAppState()
+  // The assistant answers each astronaut about their own data only.
+  const selected = lastAstronaut()?.crewId ?? crew[0]?.id ?? null
   const backendId = config.backendCrew.find((c) => c.id === selected)?.backendId ?? null
   const name = crew.find((c) => c.id === selected)?.displayName ?? ''
-  const available = config.dataSource === 'http'
+  // It reads the server's latest results: not in demo mode, and not for a past day (that would answer with another day's data).
+  const pastDay = viewDay !== null
+  const available = config.dataSource === 'http' && !demo && !pastDay
 
   useEffect(() => {
     if (!available) return
@@ -104,22 +108,30 @@ export function AssistantPage() {
       <div className="assistant-grid">
         <section className="card assistant-chat" aria-label="Conversation">
           <div className="assistant-context">
-            <label className="field assistant-who">
+            <div className="field assistant-who">
               <span className="field-label">About</span>
-              <select value={selected ?? ''} onChange={(e) => setWho(e.target.value)}>
-                {crew.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.displayName}
-                  </option>
-                ))}
-              </select>
-            </label>
+              <span className="assistant-me">
+                <span className="avatar avatar-tiny" aria-hidden="true">
+                  {name.replace(/^Astronaut\s+/, '').slice(0, 2)}
+                </span>
+                {name || '—'}
+              </span>
+            </div>
             <div className="field">
               <span className="field-label">Topic</span>
               <Segmented size="small" label="Topic" value={topic} onChange={setTopic} options={TOPICS} />
             </div>
           </div>
 
+          {pastDay && (
+            <p className="past-banner" role="status">
+              You are viewing mission day {viewDay}. The assistant answers only from today’s stored results, so it is paused for past days.{' '}
+              <button type="button" className="text-button" onClick={() => setViewDay(null)}>
+                Back to today
+              </button>
+            </p>
+          )}
+          {demo && !pastDay && <p className="past-banner">Demo mode uses sample data: the assistant reads the server and is paused until demo mode is off (Settings).</p>}
           <div className="chat-scroll" aria-live="polite">
             {!turns.length && (
               <div className="chat-empty">
@@ -139,12 +151,17 @@ export function AssistantPage() {
                 </div>
                 {t.error ? (
                   <div className="answer answer-error" role="alert">
-                    {t.error}
+                    <strong>No answer this time.</strong> {t.error} Nothing was changed; try again in a moment.
+                    <button type="button" className="text-button" onClick={() => void ask(t.question)} disabled={busy || !available}>
+                      Try again
+                    </button>
                   </div>
                 ) : t.answer ? (
                   <Answer a={t.answer} />
                 ) : (
-                  <div className="answer answer-loading">Reading the data…</div>
+                  <div className="answer answer-loading" role="status">
+                    <span className="spinner" aria-hidden="true" /> Reading {t.who}’s stored results…
+                  </div>
                 )}
               </div>
             ))}

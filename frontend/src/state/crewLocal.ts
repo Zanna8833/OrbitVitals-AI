@@ -6,12 +6,14 @@ import type { DeviceMeasurement } from '../domain/measurements'
  * with real health information. All entries in the prototype are synthetic.
  */
 // Separate stores: sample data (development) never mixes with what users enter on the platform.
-const prefix = import.meta.env.VITE_DATA_SOURCE === 'mock' ? 'orbitvitals-demo-v2:' : 'orbitvitals:'
+// Separate stores: demo-mode sample data never mixes with what users enter on the platform.
+const prefix = () => (demoModeOn() ? 'orbitvitals-demo-v2:' : 'orbitvitals:')
+import { demoModeOn } from './demoMode'
 const memoryFallback = new Map<string, string>()
 
 export function localPersistenceAvailable(): boolean {
   try {
-    const key = prefix + 'storage-check'
+    const key = prefix() + 'storage-check'
     window.localStorage.setItem(key, '1')
     window.localStorage.removeItem(key)
     return true
@@ -35,11 +37,11 @@ export interface Recheck {
 
 function read<T>(key: string, fallback: T): T {
   try {
-    const raw = window.localStorage.getItem(prefix + key)
+    const raw = window.localStorage.getItem(prefix() + key)
     return raw ? (JSON.parse(raw) as T) : fallback
   } catch {
     try {
-      const item = memoryFallback.get(prefix + key)
+      const item = memoryFallback.get(prefix() + key)
       return item ? JSON.parse(item) as T : fallback
     } catch { return fallback }
   }
@@ -47,10 +49,10 @@ function read<T>(key: string, fallback: T): T {
 
 function write<T>(key: string, value: T) {
   try {
-    window.localStorage.setItem(prefix + key, JSON.stringify(value))
+    window.localStorage.setItem(prefix() + key, JSON.stringify(value))
   } catch {
     // When storage is blocked, keep the demo working only for this open page.
-    memoryFallback.set(prefix + key, JSON.stringify(value))
+    memoryFallback.set(prefix() + key, JSON.stringify(value))
   }
 }
 
@@ -106,8 +108,8 @@ export function storeCrewReport(event: ReviewEvent) {
 
 export function resetCrewDemoData() {
   for (const key of ['outbox', 'rechecks', 'crew-reports', 'check-ins', 'device-measurements', 'sleep-aid-plan', 'imports', 'intake', 'custom-foods', 'profiles']) {
-    try { window.localStorage.removeItem(prefix + key) } catch { /* unavailable */ }
-    memoryFallback.delete(prefix + key)
+    try { window.localStorage.removeItem(prefix() + key) } catch { /* unavailable */ }
+    memoryFallback.delete(prefix() + key)
   }
 }
 

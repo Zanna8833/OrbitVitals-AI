@@ -43,7 +43,8 @@ function Shell() {
           </div>
         )}
       </main>
-      <Footer showAssistant={route.view !== 'assistant'} />
+      {/* The assistant is for the astronauts: not offered in the medical area. */}
+      <Footer showAssistant={route.view === 'crew'} />
     </div>
   )
 }

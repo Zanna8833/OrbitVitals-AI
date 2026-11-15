@@ -13,6 +13,7 @@ import { useTightness } from '../../hooks/useTightness'
 import { useBoxSize } from '../../hooks/useLayout'
 import { href } from '../../hooks/useRoute'
 import { useAppState } from '../../state/AppState'
+import { sliceToDay, viewMission } from '../../domain/viewDay'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
 import { BackLink } from '../../components/BackLink'
 import { MissionTimeline } from '../../components/MissionTimeline'
@@ -22,7 +23,7 @@ import { SleepGrid } from '../../components/SleepGrid'
 import { ErrorState, FormError, Loading } from '../../components/Common'
 import { EventKindBadge } from '../../components/EventKindBadge'
 import { useToast } from '../../components/Toast'
-import { List, Row, Segmented } from '../../components/ui'
+import { List, Row, Segmented, SimTag } from '../../components/ui'
 import { EvaluationsList } from './Evaluations'
 import { loadNutrition } from '../crew/Nutrition'
 
@@ -38,7 +39,7 @@ function latestByDomain(items: BackendEvaluation[]): BackendEvaluation[] {
 const needsReview = (e: BackendEvaluation) => e.status === 'attention' || e.status === 'alert'
 
 /** Same header as the crew side: title, mission day, and the Crew / Astronaut switch. */
-export function MedicalHeader({ title, eyebrow, mission, crew, current, back }: { title: string; eyebrow: ReactNode; mission: MissionStatus; crew: CrewMember[]; current: string | null; back?: { href: string; label?: string } }) {
+export function MedicalHeader({ title, eyebrow, mission, crew, current, back, actualDay }: { title: string; eyebrow: ReactNode; mission: MissionStatus; crew: CrewMember[]; current: string | null; back?: { href: string; label?: string }; actualDay?: number }) {
   return (
     <header className="today-head">
       <div className="today-title">
@@ -46,7 +47,7 @@ export function MedicalHeader({ title, eyebrow, mission, crew, current, back }: 
         <h1>{title}</h1>
         <p className="eyebrow">{eyebrow}</p>
       </div>
-      <MissionTimeline day={missionDayOf(mission.now, mission.missionStartDate)} />
+      <MissionTimeline day={missionDayOf(mission.now, mission.missionStartDate)} today={actualDay} />
       <AstronautSwitch crew={crew} current={current} area="medical" />
     </header>
   )
@@ -56,24 +57,37 @@ export function MedicalHeader({ title, eyebrow, mission, crew, current, back }: 
 /* Medical · Crew                                                       */
 /* ================================================================== */
 
-async function loadCrewView(ds: DataSource) {
-  const [mission, crew, events] = await Promise.all([ds.getMissionStatus(), ds.listCrew(), ds.listEvents()])
+/** Evaluations whose window ended by the viewed day. */
+const byDay = (items: BackendEvaluation[], nowIso: string) => items.filter((e) => e.window_end <= nowIso)
+
+async function loadCrewView(ds: DataSource, viewDay: number | null) {
+  const [real, crew, events] = await Promise.all([ds.getMissionStatus(), ds.listCrew(), ds.listEvents()])
+  const view = viewMission(real, viewDay)
+  const mission = view.mission
   const tonight = mission.now.slice(0, 10)
   const [members, plan] = await Promise.all([
-    Promise.all(crew.map(async (c) => ({ crew: c, daily: await ds.getDailyIndicators(c.id), evaluations: await ds.listEvaluations(c.id).catch(() => []) }))),
+    Promise.all(
+      crew.map(async (c) => ({
+        crew: c,
+        daily: sliceToDay(await ds.getDailyIndicators(c.id), view.day),
+        evaluations: byDay(await ds.listEvaluations(c.id).catch(() => []), mission.now),
+      })),
+    ),
     ds.listSleepAidPlan(tonight, addDays(tonight, 6)),
   ])
-  return { mission, crew, events, members, plan }
+  return { mission, crew, events: view.past ? [] : events, members, plan, actualDay: view.actualDay }
 }
 
 export function MedicalCrew() {
-  const state = useQuery(useCallback((ds: DataSource) => loadCrewView(ds), []))
+  const { viewDay } = useAppState()
+  const state = useQuery(useCallback((ds: DataSource) => loadCrewView(ds, viewDay), [viewDay]))
   const rootRef = useRef<HTMLDivElement>(null)
   const tight = useTightness(rootRef)
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
-  const { mission, crew, events, members, plan } = state.data
+  const { mission, crew, events, members, plan, actualDay } = state.data
   const day = missionDayOf(mission.now, mission.missionStartDate)
+  const simulated = members.some((m) => m.daily.some((s) => s.simulated && s.days.some((d) => d.value !== null)))
   const name = (id: string) => crew.find((c) => c.id === id)?.displayName ?? id
   const flagged = members.flatMap((m) => latestByDomain(m.evaluations).filter(needsReview).map((e) => ({ crewId: m.crew.id, e })))
   const pending = events.filter((e) => e.status !== 'reviewed')
@@ -86,7 +100,7 @@ export function MedicalCrew() {
 
   return (
     <div className="today medical-ws" ref={rootRef} data-tight={tight || undefined}>
-      <MedicalHeader title="Medical" eyebrow={`${formatDate(mission.now)} · ${formatClock(mission.now, false)} UTC`} mission={mission} crew={crew} current={null} />
+      <MedicalHeader title="Medical" eyebrow={<>{formatDate(mission.now)} · {formatClock(mission.now, false)} UTC {simulated && <SimTag>Simulated records</SimTag>}</>} mission={mission} crew={crew} current={null} actualDay={actualDay} />
       <div className="today-grid">
         <div className="today-col">
           <section className="card ws-card" aria-labelledby="rev-h">
@@ -168,24 +182,27 @@ export function MedicalCrew() {
 
 type Tab = 'trends' | 'evaluations' | 'nutrition' | 'sleep'
 
-async function loadAstronaut(ds: DataSource, crewId: string) {
-  const [mission, crew] = await Promise.all([ds.getMissionStatus(), ds.listCrew()])
+async function loadAstronaut(ds: DataSource, crewId: string, viewDay: number | null) {
+  const [real, crew] = await Promise.all([ds.getMissionStatus(), ds.listCrew()])
+  const view = viewMission(real, viewDay)
+  const mission = view.mission
   const tonight = mission.now.slice(0, 10)
   const [daily, evaluations, checkIns, events, messages, plan, snapshot, nutrition] = await Promise.all([
-    ds.getDailyIndicators(crewId),
-    ds.listEvaluations(crewId).catch(() => [] as BackendEvaluation[]),
-    ds.listCheckIns(crewId),
-    ds.listEvents({ crewId }),
+    ds.getDailyIndicators(crewId).then((d) => sliceToDay(d, view.day)),
+    ds.listEvaluations(crewId).then((e) => byDay(e, mission.now)).catch(() => [] as BackendEvaluation[]),
+    ds.listCheckIns(crewId).then((c) => c.filter((x) => x.missionDay <= view.day)),
+    ds.listEvents({ crewId }).then((e) => (view.past ? [] : e)),
     ds.listCrewMessages(crewId),
     ds.listSleepAidPlan(addDays(tonight, -3), addDays(tonight, 10)),
     ds.getCrewSnapshot(crewId),
     loadNutrition(ds, crewId, mission.now),
   ])
-  return { mission, crew, daily, evaluations, checkIns, events, messages, plan, snapshot, nutrition }
+  return { mission, crew, daily, evaluations, checkIns, events, messages, plan, snapshot, nutrition, actualDay: view.actualDay }
 }
 
 export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: string; metric: string | null; tab: string | null }) {
-  const state = useQuery(useCallback((ds: DataSource) => loadAstronaut(ds, crewId), [crewId]))
+  const { viewDay } = useAppState()
+  const state = useQuery(useCallback((ds: DataSource) => loadAstronaut(ds, crewId, viewDay), [crewId, viewDay]))
   const rootRef = useRef<HTMLDivElement>(null)
   const tight = useTightness(rootRef)
   const [tab, setTab] = useState<Tab>(tabParam === 'evaluations' || tabParam === 'nutrition' || tabParam === 'sleep' ? tabParam : 'trends')
@@ -194,7 +211,7 @@ export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: st
   const [chartsRef, chartsBox] = useBoxSize<HTMLDivElement>()
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
-  const { mission, crew, daily, evaluations, checkIns, events, messages, plan, snapshot, nutrition } = state.data
+  const { mission, crew, daily, evaluations, checkIns, events, messages, plan, snapshot, nutrition, actualDay } = state.data
   const me = crew.find((c) => c.id === crewId)
   const day = missionDayOf(mission.now, mission.missionStartDate)
   const cells = MATRIX_INDICATORS.map((m) => latestCell(daily.find((s) => s.indicator === m.id)!))
@@ -224,6 +241,7 @@ export function MedicalAstronaut({ crewId, metric, tab: tabParam }: { crewId: st
         crew={crew}
         current={crewId}
         back={{ href: href.medical(), label: 'Back' }}
+        actualDay={actualDay}
       />
       <div className="today-grid">
         <div className="today-col">

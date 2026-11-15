@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { MissionStatus } from '../domain/types'
 import { formatUtc } from '../domain/time'
 import { config } from '../config'
+import { SCENARIOS } from '../data'
 import { href, type Route } from '../hooks/useRoute'
 import { useAppState } from '../state/AppState'
 import { BrandMark } from './Icons'
@@ -28,6 +29,7 @@ export function NavBar({ route, mission, missionStale }: { route: Route; mission
           </a>
         </nav>
         <div className="navbar-trailing">
+          <DemoBadge />
           {mission && <LinkStatus mission={mission} stale={missionStale} />}
           <SettingsMenu />
         </div>
@@ -84,7 +86,7 @@ export function applyStoredTheme() {
 }
 
 function SettingsMenu() {
-  const { dataSource, notifyChanged } = useAppState()
+  const { dataSource, notifyChanged, demo, setDemo, scenarioId, setScenarioId } = useAppState()
   const [open, setOpen] = useState(false)
   const [importing, setImporting] = useState(false)
   const [theme, setTheme] = useState<Theme>(readTheme)
@@ -146,9 +148,34 @@ function SettingsMenu() {
           <p className="popover-label">Server</p>
           <p className="popover-note popover-source">
             <span className={`server-dot is-${server}`} aria-hidden="true" />
-            {server === 'checking' ? 'Checking the connection…' : server === 'ok' ? 'Connected to the OrbitVitals server' : 'The OrbitVitals server is not reachable'}
-            {config.dataSource === 'mock' && ' · offline sample data (development)'}
+            {demo ? 'Demo mode: sample data, the server is not used' : server === 'checking' ? 'Checking the connection…' : server === 'ok' ? 'Connected to the OrbitVitals server' : 'The OrbitVitals server is not reachable'}
           </p>
+          <hr />
+          <label className="popover-toggle">
+            <span>
+              Demo mode
+              <small>Scenarios on sample data, separate from the server</small>
+            </span>
+            <input type="checkbox" role="switch" checked={demo} disabled={config.dataSource === 'mock'} onChange={(e) => setDemo(e.target.checked)} />
+          </label>
+          {demo && (
+            <>
+              <p className="popover-label" id="scenario-label">
+                Scenario
+              </p>
+              <div className="popover-list" role="radiogroup" aria-labelledby="scenario-label">
+                {SCENARIOS.map((s) => (
+                  <button key={s.id} type="button" role="radio" aria-checked={s.id === scenarioId} className="popover-option" onClick={() => setScenarioId(s.id)}>
+                    <span className="check" aria-hidden="true">
+                      {s.id === scenarioId ? '✓' : ''}
+                    </span>
+                    {s.label.replace(/^\d · /, '')}
+                  </button>
+                ))}
+              </div>
+              <p className="popover-note">{SCENARIOS.find((s) => s.id === scenarioId)?.description}</p>
+            </>
+          )}
           <hr />
           <p className="popover-label">Appearance</p>
           <Segmented
@@ -205,4 +232,14 @@ export function Footer({ showAssistant = true }: { showAssistant?: boolean }) {
       )}
     </footer>
   )
+}
+
+/** Always visible while demo mode is on, so sample scenarios are never mistaken for real data. */
+function DemoBadge() {
+  const { demo } = useAppState()
+  return demo ? (
+    <span className="demo-badge" title="Demo mode: built-in scenarios on sample data, the server is not used">
+      Demo
+    </span>
+  ) : null
 }

@@ -46,7 +46,7 @@ export const href = {
   /** The crew area as the user left it: the last astronaut and page, else the crew overview. */
   crewHome: () => {
     const last = lastAstronaut()
-    return last ? href.crew(last.crewId, last.page) : href.crew()
+    return href.crew(last?.crewId ?? 'crew-a', last?.page ?? 'home')
   },
   medical: () => '#/medical',
   event: (eventId: string) => `#/medical/event/${encodeURIComponent(eventId)}`,

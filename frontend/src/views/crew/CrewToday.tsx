@@ -31,8 +31,9 @@ import { useBoxSize, useFitMode } from '../../hooks/useLayout'
 import { useTightness } from '../../hooks/useTightness'
 import { CheckInSheet, IndicatorSheet, MeasureSheet, ShareSheet, statusText } from './Sheets'
 import { useShare } from './shareSync'
-import { rememberAstronaut } from '../../state/lastAstronaut'
-import { CrewOverview } from './CrewOverview'
+import { lastAstronaut, rememberAstronaut } from '../../state/lastAstronaut'
+import { sliceToDay, viewMission } from '../../domain/viewDay'
+import { useAppState } from '../../state/AppState'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
 import { FoodSheet, NutritionCard, NutritionPage, loadNutrition } from './Nutrition'
 
@@ -103,8 +104,11 @@ const AREAS: { label: string; icon: DailyIndicatorId }[] = [
   { label: 'Body', icon: 'body_mass' },
 ]
 
-async function loadToday(ds: DataSource, crewIdParam: string | null) {
-  const [mission, crew] = await Promise.all([ds.getMissionStatus(), ds.listCrew()])
+async function loadToday(ds: DataSource, crewIdParam: string | null, viewDay: number | null) {
+  const [real, crew] = await Promise.all([ds.getMissionStatus(), ds.listCrew()])
+  // A past mission day is read as it was at the end of that day (nothing after it).
+  const view = viewMission(real, viewDay)
+  const mission = view.mission
   const member = crew.find((c) => c.id === crewIdParam) ?? crew[0]
   if (!member) return { mission, crew, member: null }
   const from = toIso(toMs(mission.now) - 60 * 60 * 1000)
@@ -114,12 +118,12 @@ async function loadToday(ds: DataSource, crewIdParam: string | null) {
     ds.listCrewMessages(member.id),
     ds.getSeries(member.id, PARAMETER_ORDER, from, mission.now),
     ds.getActivities(member.id, from, mission.now),
-    ds.getDailyIndicators(member.id),
-    ds.listCheckIns(member.id),
+    ds.getDailyIndicators(member.id).then((d) => sliceToDay(d, view.day)),
+    ds.listCheckIns(member.id).then((c) => c.filter((x) => x.missionDay <= view.day)),
     ds.listSleepAidPlan(`${addDays(night, -31).slice(0, 7)}-01`, addDays(night, PLAN_HORIZON)),
   ])
   const nutrition = await loadNutrition(ds, member.id, mission.now)
-  return { mission, crew, member, live: { snapshot, messages, series, activities, daily, checkIns, sleepPlan, nutrition } }
+  return { mission, crew, member, actualDay: view.actualDay, live: { snapshot, messages, series, activities, daily, checkIns, sleepPlan, nutrition } }
 }
 
 type Sheet =
@@ -143,23 +147,32 @@ const setPlan = (ds: DataSource, crewId: string, night: string, planned: boolean
  * Tasks (check-in, measurement, share, details) open as sheets.
  */
 export function CrewToday({ crewId, page = 'home' }: { crewId: string | null; page?: CrewPage }) {
-  if (page === 'crew' || !crewId) return <CrewOverview />
+  // The crew area shows one astronaut's own data; the whole crew is in Medical.
+  if (page === 'crew' || !crewId) return <ResumeAstronaut />
   return <AstronautArea crewId={crewId} page={page} />
+}
+
+function ResumeAstronaut() {
+  useEffect(() => {
+    window.location.replace(href.crew(lastAstronaut()?.crewId ?? 'crew-a', lastAstronaut()?.page ?? 'home'))
+  }, [])
+  return <Loading />
 }
 
 function AstronautArea({ crewId, page }: { crewId: string; page: CrewPage }) {
   useEffect(() => {
     rememberAstronaut(crewId, page)
   }, [crewId, page])
-  const state = useQuery(useCallback((ds: DataSource) => loadToday(ds, crewId), [crewId]))
+  const { viewDay } = useAppState()
+  const state = useQuery(useCallback((ds: DataSource) => loadToday(ds, crewId, viewDay), [crewId, viewDay]))
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
-  const { mission, crew, member, live } = state.data
-  if (!member || !live) return <Empty>No crew member available.</Empty>
+  const { mission, crew, member, live, actualDay } = state.data
+  if (!member || !live || actualDay === undefined) return <Empty>No crew member available.</Empty>
   return (
     <>
       {state.status === 'error' && <RefreshErrorNotice error={state.error} />}
-      <TodayBody key={member.id} page={page} mission={mission} crew={crew} memberId={member.id} live={live} />
+      <TodayBody key={member.id} page={page} mission={mission} crew={crew} memberId={member.id} live={live} actualDay={actualDay} />
     </>
   )
 }
@@ -172,14 +185,18 @@ function TodayBody({
   crew,
   memberId,
   live,
+  actualDay,
 }: {
   page: CrewPage
   mission: MissionStatus
   crew: { id: string; displayName: string }[]
   memberId: string
   live: Live
+  /** Today's mission day (the selected day can be earlier). */
+  actualDay: number
 }) {
   const [sheet, setSheet] = useState<Sheet>(null)
+  const { setViewDay } = useAppState()
   const rootRef = useRef<HTMLDivElement>(null)
   const tight = useTightness(rootRef)
   const sharing = useShare(memberId, mission)
@@ -261,7 +278,12 @@ function TodayBody({
   const selectedEval = byId(selected)
 
   return (
-    <div className="today" ref={rootRef} data-tight={tight || undefined}>
+    <div className={`today${today < actualDay ? ' is-past-view' : ''}`} ref={rootRef} data-tight={tight || undefined}>
+      {today < actualDay && (
+        <p className="past-banner" role="status">
+          Viewing mission day {today} as it was: read only. <button type="button" className="text-button" onClick={() => setViewDay(null)}>Back to today</button>
+        </p>
+      )}
       <header className="today-head">
         <div className="today-title">
           {page !== 'home' && (
@@ -280,7 +302,7 @@ function TodayBody({
                 : formatDate(mission.now)}
           </p>
         </div>
-        {page === 'home' && <MissionTimeline day={today} />}
+        {page === 'home' && <MissionTimeline day={today} today={actualDay} />}
         <AstronautSwitch crew={crew} current={memberId} page={page} />
       </header>
 

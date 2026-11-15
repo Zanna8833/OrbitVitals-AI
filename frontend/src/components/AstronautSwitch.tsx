@@ -22,6 +22,7 @@ export function AstronautSwitch({
   const astroHref = (id: string) => (area === 'medical' ? href.medicalCrew(id) : href.crew(id, target))
   return (
     <nav className="astronaut-switch" aria-label="Crew and astronauts">
+      {area === 'medical' && (
       <a href={crewHref} className="astro-chip astro-crew" aria-current={current === null ? 'page' : undefined}>
         <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="8" cy="9" r="3" fill="currentColor" />
@@ -30,6 +31,7 @@ export function AstronautSwitch({
         </svg>
         Crew
       </a>
+      )}
       {crew.map((c) => (
         <a key={c.id} href={astroHref(c.id)} className="astro-chip" aria-current={current === c.id ? 'page' : undefined}>
           <span className="avatar avatar-tiny" aria-hidden="true">

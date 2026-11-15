@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { config } from '../config'
 import { createDataSource, DEFAULT_SCENARIO_ID, type DataSource } from '../data'
 import { startPolling } from './poller'
+import { demoModeOn, setDemoModeStored } from './demoMode'
 
 export interface AutoRefresh {
   /** Seconds between reloads; 0 means auto-refresh is disabled by configuration. */
@@ -21,6 +22,12 @@ interface AppState {
   revision: number
   notifyChanged: () => void
   autoRefresh: AutoRefresh
+  /** Demo mode (scenarios on sample data, separate from the backend). */
+  demo: boolean
+  setDemo: (on: boolean) => void
+  /** Mission day being viewed (null = today). Past days only: nothing is invented. */
+  viewDay: number | null
+  setViewDay: (day: number | null) => void
 }
 
 const Ctx = createContext<AppState | null>(null)
@@ -30,8 +37,17 @@ export function AppStateProvider({ children, refreshIntervalS = config.refreshIn
   const [revision, setRevision] = useState(0)
   const [paused, setPaused] = useState(false)
   const [replay, setReplayRaw] = useState(false)
+  const [demo, setDemoRaw] = useState(demoModeOn)
+  const [viewDay, setViewDayRaw] = useState<number | null>(null)
   // A new data source (and, in replay, a clock restarting at 10:30) for each scenario or mode.
-  const dataSource = useMemo(() => createDataSource(scenarioId, { replay }), [scenarioId, replay])
+  const dataSource = useMemo(() => createDataSource(scenarioId, { replay, demo }), [scenarioId, replay, demo])
+  const setDemo = useCallback((on: boolean) => {
+    setDemoModeStored(on)
+    setDemoRaw(on)
+    setViewDayRaw(null)
+    setRevision((r) => r + 1)
+  }, [])
+  const setViewDay = useCallback((day: number | null) => setViewDayRaw(day), [])
   const notifyChanged = useCallback(() => setRevision((r) => r + 1), [])
   const setScenarioId = useCallback((id: string) => {
     setScenarioIdRaw(id)
@@ -57,8 +73,12 @@ export function AppStateProvider({ children, refreshIntervalS = config.refreshIn
       revision,
       notifyChanged,
       autoRefresh: { intervalS: refreshIntervalS, paused, setPaused },
+      demo,
+      setDemo,
+      viewDay,
+      setViewDay,
     }),
-    [scenarioId, setScenarioId, replay, setReplay, dataSource, revision, notifyChanged, refreshIntervalS, paused],
+    [scenarioId, setScenarioId, replay, setReplay, dataSource, revision, notifyChanged, refreshIntervalS, paused, demo, setDemo, viewDay, setViewDay],
   )
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

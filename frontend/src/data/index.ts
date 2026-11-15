@@ -7,11 +7,13 @@ import { MockDataSource } from './mock/MockDataSource'
 export interface MockOptions {
   /** Live replay: the simulated clock advances in real time from 10:30 UTC (mock only). */
   replay: boolean
+  /** Demo mode: built-in scenarios on sample data, whatever the build uses. */
+  demo?: boolean
 }
 
 /** Chooses the data adapter from the build configuration (see src/config.ts). */
 export function createDataSource(scenarioId: string, mock: MockOptions = { replay: false }): DataSource {
-  if (config.dataSource === 'http') return new BackendDataSource(config.apiBaseUrl, config.backendCrew, { asOf: config.asOf, missionStart: config.missionStart })
+  if (config.dataSource === 'http' && !mock.demo) return new BackendDataSource(config.apiBaseUrl, config.backendCrew, { asOf: config.asOf, missionStart: config.missionStart })
   return new MockDataSource(scenarioId, undefined, mock.replay ? replayClock(Date.now()) : fixedClock)
 }
 
