@@ -12,6 +12,7 @@ import { useMutation } from '../../hooks/useMutation'
 import { addDays, coverageOf, isPlanned, nightLabel, nightsFrom, readyOn, suggestNight, wouldUncover } from '../../domain/sleepPlan'
 import { activityAfterNight, involves } from '../../domain/missionPlan'
 import { Moon, PillIcon, SleepGrid } from '../../components/SleepGrid'
+import { AddPlanSheet, DaySheet, SleepMonth, monthOf, shiftMonth } from '../../components/SleepMonth'
 import { useToast } from '../../components/Toast'
 import { MissionTimeline } from '../../components/MissionTimeline'
 import { PillarStrip, type MethodTopic } from '../../components/Pillars'
@@ -72,7 +73,7 @@ function CognitionRow() {
       </Symbol>
       <span className="row-text">
         <span className="row-title">Cognition tests ↗</span>
-        <span className="row-subtitle">{available === false ? 'Not in this build' : '10 tests · for the ground'}</span>
+        <span className="row-subtitle">{available === false ? 'Not in this build' : '10-test battery'}</span>
       </span>
     </>
   )
@@ -118,6 +119,8 @@ const PAGE_TITLE: Record<CrewPage, string> = { home: 'Today', health: 'Health', 
 /** Nights shown: a few past ones for context, then the next two weeks. */
 const PLAN_PAST = 3
 const PLAN_FUTURE = 11
+/** The month view can plan this many nights ahead. */
+const PLAN_HORIZON = 90
 /** The five areas a crew member can glance at when nothing needs attention. */
 const AREAS: { label: string; icon: DailyIndicatorId }[] = [
   { label: 'Heart', icon: 'resting_hr' },
@@ -140,7 +143,7 @@ async function loadToday(ds: DataSource, crewIdParam: string | null) {
     ds.getActivities(member.id, from, mission.now),
     ds.getDailyIndicators(member.id),
     ds.listCheckIns(member.id),
-    ds.listSleepAidPlan(addDays(night, -PLAN_PAST), addDays(night, PLAN_FUTURE - 1)),
+    ds.listSleepAidPlan(`${addDays(night, -31).slice(0, 7)}-01`, addDays(night, PLAN_HORIZON)),
   ])
   const nutrition = await loadNutrition(ds, member.id, mission.now)
   return { mission, crew, member, live: { snapshot, messages, series, activities, daily, checkIns, sleepPlan, nutrition } }
@@ -234,7 +237,7 @@ function TodayBody({
   const exerciseValue = (id: DailyIndicatorId) => live.daily.find((d) => d.indicator === id)?.days.find((d) => d.missionDay === today)?.value ?? null
   const exMin = exerciseValue('activity_minutes')
   const exKcal = exerciseValue('active_energy')
-  const exerciseToday = exMin !== null ? `${Math.round(exMin)} min${exKcal !== null ? ` · ${Math.round(exKcal)} kcal` : ''} today` : 'Log a session'
+  const exerciseToday = exMin !== null ? `${Math.round(exMin)} min${exKcal !== null ? ` · ${Math.round(exKcal)} kcal` : ''}` : 'Log a session'
   const uncoveredWeek = nightsFrom(tonight, 7).filter((n) => coverageOf(live.sleepPlan, crewIds, n).uncovered)
   // Indicators that need attention always get a tile on Today; the rest fill up to six.
   const homeTiles = [...new Set<DailyIndicatorId>([...flagged, ...DEFAULT_TILES])].slice(0, 6)
@@ -353,7 +356,7 @@ function TodayBody({
                       <QualityGlyph quality={s.level} /> {s.deviceLabel.replace(/\s*\(simulated\)$/, '')}: {s.text.toLowerCase()}
                     </li>
                   ))}
-                {!asked && <li className="muted">Nothing to do — carry on with your activity.</li>}
+                {!asked && <li className="muted now-nothing">Nothing to do — carry on with your activity.</li>}
               </ul>
               {asked && (
                 <div className="callout">
@@ -556,6 +559,11 @@ function TodayBody({
           missionStart={mission.missionStartDate}
           alternativeTo={alternativeTo}
           onMove={moveNight}
+          onSet={(who, night, planned) => void applyPlan(night, planned, who)}
+          onAddMany={async (who, nights) => {
+            for (const n of nights) await plan.run(who, n, true)
+            toast(`${nights.length === 1 ? '1 night' : `${nights.length} nights`} planned for ${nameOf(who)}`)
+          }}
         />
       )}
 
@@ -605,6 +613,8 @@ interface SleepProps {
   missionStart: string
   alternativeTo: (night: string) => string | null
   onMove: (from: string, to: string) => void
+  onSet: (crewId: string, night: string, planned: boolean) => void
+  onAddMany: (crewId: string, nights: string[]) => Promise<void>
 }
 
 const fullNight = (n: string) => `${nightLabel(n).weekday} ${nightLabel(n).day} ${nightLabel(n).month}`
@@ -677,8 +687,13 @@ function SleepConfirmSheet({
   )
 }
 
-function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggle, missionStart, alternativeTo, onMove }: SleepProps) {
+function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggle, missionStart, alternativeTo, onMove, onSet, onAddMany }: SleepProps) {
   const [editAll, setEditAll] = useState(false)
+  const [view, setView] = useState<'month' | 'weeks'>('month')
+  const [month, setMonth] = useState(monthOf(tonight))
+  const [day, setDay] = useState<string | null>(null)
+  const [adding, setAdding] = useState(false)
+  const lastPlannable = addDays(tonight, PLAN_HORIZON - 1)
   const nights = nightsFrom(addDays(tonight, -PLAN_PAST), PLAN_PAST + PLAN_FUTURE)
   const ids = crew.map((c) => c.id)
   const upcoming = nightsFrom(tonight, PLAN_FUTURE).map((n) => coverageOf(entries, ids, n))
@@ -692,35 +707,83 @@ function SleepPage({ memberId, crew, entries, tonight, busyNight, error, onToggl
       <section className="card sleep-plan-card" aria-label="Sleeping-pill calendar">
         <div className="sleep-intro-row">
           <p className="body-text muted sleep-intro">
-            Mark the nights you plan to take a <strong>sleeping pill</strong>. At least one person must stay without one every night, ready for an emergency.
+            Plan the nights you take a <strong>sleeping pill</strong>. Tap a day to change it, or <strong>+ Add</strong> to plan one or a series. At least one person stays without a pill every night, ready for an emergency.
           </p>
           <Segmented
             size="small"
-            label="Who can be edited"
-            value={editAll ? 'all' : 'mine'}
-            onChange={(v) => setEditAll(v === 'all')}
+            label="Calendar view"
+            value={view}
+            onChange={setView}
             options={[
-              { value: 'mine', label: 'My nights' },
-              { value: 'all', label: 'Edit whole crew' },
+              { value: 'month', label: 'Month' },
+              { value: 'weeks', label: 'Two weeks' },
             ]}
           />
         </div>
-        <SleepGrid nights={nights} today={tonight} crew={crew} entries={entries} me={memberId} busyNight={busyNight} onToggle={onToggle} missionStart={missionStart} editAll={editAll} />
+        {view === 'month' ? (
+          <SleepMonth
+            month={month}
+            onMonth={setMonth}
+            today={tonight}
+            crew={crew}
+            entries={entries}
+            me={memberId}
+            missionStart={missionStart}
+            onPick={setDay}
+            onAdd={() => setAdding(true)}
+            minMonth={shiftMonth(monthOf(tonight), -1)}
+            maxMonth={monthOf(lastPlannable)}
+          />
+        ) : (
+          <>
+            <div className="weeks-tools">
+              <Segmented
+                size="small"
+                label="Who can be edited"
+                value={editAll ? 'all' : 'mine'}
+                onChange={(v) => setEditAll(v === 'all')}
+                options={[
+                  { value: 'mine', label: 'My nights' },
+                  { value: 'all', label: 'Edit whole crew' },
+                ]}
+              />
+              <button type="button" className="btn btn-primary btn-small" onClick={() => setAdding(true)}>
+                + Add
+              </button>
+            </div>
+            <SleepGrid nights={nights} today={tonight} crew={crew} entries={entries} me={memberId} busyNight={busyNight} onToggle={onToggle} missionStart={missionStart} editAll={editAll} />
+          </>
+        )}
         <ul className="legend">
-          <li>
-            <span className="sg-mark legend-moon">
-              <PillIcon size={12} />
-            </span>{' '}
-            Sleeping pill planned
-          </li>
-          <li>
-            <span className="sg-warn">▲ 0/3</span> nobody left ready
-          </li>
+          {view === 'month' ? (
+            <>
+              <li>
+                <span className="day-pill">B</span> sleeping pill planned (<span className="day-pill is-me">A</span> you)
+              </li>
+              <li>
+                <span className="sg-warn">▲</span> nobody left ready
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <span className="sg-mark legend-moon">
+                  <PillIcon size={12} />
+                </span>{' '}
+                Sleeping pill planned
+              </li>
+              <li>
+                <span className="sg-warn">▲ 0/3</span> nobody left ready
+              </li>
+            </>
+          )}
           <li>
             <span className="sg-activity is-mine">EVA</span> activity next morning (yours in blue) <SimTag>Simulated timeline</SimTag>
           </li>
         </ul>
         <FormError message={error} />
+        <DaySheet night={day} today={tonight} crew={crew} entries={entries} me={memberId} missionStart={missionStart} busy={!!busyNight} onSet={onSet} onClose={() => setDay(null)} />
+        <AddPlanSheet open={adding} today={tonight} lastNight={lastPlannable} crew={crew} entries={entries} me={memberId} onAdd={onAddMany} onClose={() => setAdding(false)} />
       </section>
       <aside className="sleep-side" aria-label="Summary">
         <section className="card">
@@ -820,7 +883,7 @@ function TrendCard({
   if (!e) return null
   const id = e.series.indicator
   const def = DAILY_INDICATORS[id]
-  const chartH = fit ? Math.max(64, size.height - 30) : 170
+  const chartH = fit ? Math.max(64, size.height - 33) : 170
   return (
     <section className={`card trend-card tone-${toneOf(id)}`} aria-labelledby="trend-h">
       <div className="trend-head">
@@ -905,8 +968,10 @@ function Summary({
           </h2>
           <p>
             A change from your own pattern, not a diagnosis.
-            {others.length ? ` Also changed: ${others.join(', ')}.` : ''}
-            {repeat ? ` Today’s ${DAILY_INDICATORS[repeat.series.indicator].label.toLowerCase()} reading needs repeating.` : ''}
+            <span className="summary-more">
+              {others.length ? ` Also changed: ${others.join(', ')}.` : ''}
+              {repeat ? ` Today’s ${DAILY_INDICATORS[repeat.series.indicator].label.toLowerCase()} reading needs repeating.` : ''}
+            </span>
           </p>
           <div className="button-row">
             <button type="button" className="btn btn-primary" onClick={onShare}>
