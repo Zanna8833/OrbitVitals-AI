@@ -19,8 +19,8 @@ export interface BackendCrew {
   displayName: string
 }
 
-/** Default: the three crews created by the team's demo seeder (python -m app.demo_seed seed). */
-export const DEFAULT_BACKEND_CREW = 'crew-a=sim-mission-v1-01:Vega,crew-b=sim-mission-v1-02:Noor,crew-c=sim-mission-v1-03:Chen'
+/** Default: the three crew members created by the backend seeder (python -m app.demo_seed seed). */
+export const DEFAULT_BACKEND_CREW = 'crew-a=sim-mission-v1-01:Astronaut A,crew-b=sim-mission-v1-02:Astronaut B,crew-c=sim-mission-v1-03:Astronaut C'
 
 /** "crew-a=backend-id:Name,…" → mapping. Invalid parts are ignored. */
 export function parseBackendCrew(raw: string | undefined): BackendCrew[] {
@@ -33,12 +33,15 @@ export function parseBackendCrew(raw: string | undefined): BackendCrew[] {
 
 export const config = {
   /** mock (default): deterministic synthetic data · http: the team's FastAPI backend (backend/, /api/v1) */
-  dataSource: import.meta.env.VITE_DATA_SOURCE === 'http' ? ('http' as const) : ('mock' as const),
+  /** http (default): the OrbitVitals server. mock: generated sample data for offline development and tests only. */
+  dataSource: import.meta.env.VITE_DATA_SOURCE === 'mock' ? ('mock' as const) : ('http' as const),
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api/v1',
   /** Seconds between automatic reloads of the data; 0 = off. */
   refreshIntervalS: parseRefreshIntervalS(import.meta.env.VITE_REFRESH_INTERVAL_S),
   /** Which backend crew members appear as crew-a/b/c (http mode). */
   backendCrew: parseBackendCrew(import.meta.env.VITE_BACKEND_CREW),
+  /** The team's assistant service (ai_agent/, /agent/v1). */
+  agentBaseUrl: (import.meta.env.VITE_AGENT_BASE_URL as string | undefined) ?? '/agent/v1',
   /** Optional "now" for http mode (ISO). Default: the day of the latest stored measurement. */
   asOf: import.meta.env.VITE_AS_OF as string | undefined,
   /** The team's cognition battery (cognition-frontend), built next to this app by `npm run cognition`. */

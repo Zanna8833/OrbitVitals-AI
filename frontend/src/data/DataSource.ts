@@ -58,6 +58,10 @@ export interface DataSource {
 
   /* Nutrition: requirements depend on the profile; intake is logged by the crew. */
   getNutritionProfile(crewId: string): Promise<NutritionProfile>
+  /** Sex, age and height for the requirements (mass comes from the latest body-mass reading). */
+  saveNutritionProfile(crewId: string, profile: Omit<NutritionProfile, 'bodyMassKg' | 'source'>): Promise<void>
+  /** Day-to-day values from the team's files (CSV measurements, JSON profile). */
+  importDaily(crewId: string, series: DailyIndicatorSeries[], meta: { displayName: string | null; files: string[] }): Promise<void>
   /** Entries eaten in [from, to) (ISO timestamps), oldest first. */
   listIntake(crewId: string, from: string, to: string): Promise<IntakeEntry[]>
   addIntake(entry: IntakeEntry): Promise<IntakeEntry>

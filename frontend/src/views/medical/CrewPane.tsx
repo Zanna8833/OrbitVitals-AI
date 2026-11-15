@@ -59,7 +59,7 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
   const today = missionDayOf(now, session.mission.missionStartDate)
   const changes = daily
     .map((d) => evaluateIndicator(d, today, 'their'))
-    .filter((e) => e.series.indicator !== 'bp_diastolic' && ((e.position !== null && e.position !== 'within' && e.streakDays >= 3) || e.repeatSuggested))
+    .filter((e) => e.series.indicator !== 'bp_diastolic' && ((e.position !== null && e.position !== 'within' && e.streakDays >= 3) || (e.repeatSuggested && e.latest)))
   const pendingEvents = events.filter((e) => e.status !== 'reviewed')
   const shown: ParameterId[] = all ? PARAMETER_ORDER : ['heart_rate']
   const avail = size.height
@@ -86,7 +86,7 @@ export function CrewPane({ crewId, events }: { crewId: string; events: ReviewEve
   return (
     <article className="pane pane-fit">
       <header className="pane-header">
-        <p className="eyebrow">{s.activity ? s.activity.label : 'No scheduled activity'}</p>
+        <p className="eyebrow">{s.activity ? s.activity.label : 'Astronaut'}</p>
         <h1>{s.crew.displayName}</h1>
         <p className="pane-meta">
           <span className="freshness">

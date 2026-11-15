@@ -1,7 +1,7 @@
 import type { SleepAidPlanEntry } from '../domain/types'
 import { coverageOf, isPlanned, nightLabel } from '../domain/sleepPlan'
 import { initialsOf } from '../domain/overview'
-import { activityAfterNight, involves } from '../domain/missionPlan'
+import { MISSION_ACTIVITIES, activityAfterNight, involves } from '../domain/missionPlan'
 
 export interface SleepGridCrew {
   id: string
@@ -60,7 +60,7 @@ export function SleepGrid({
               )
             })}
           </tr>
-          {missionStart && (
+          {missionStart && MISSION_ACTIVITIES.length > 0 && (
             <tr className="sg-activity-row">
               <th scope="row" className="sg-person sg-foot-label">
                 Next morning
@@ -70,7 +70,7 @@ export function SleepGrid({
                 if (!a) return <td key={n} className={n < today ? 'is-past' : undefined} />
                 const who = a.crew.length ? a.crew.map((id) => crew.find((c) => c.id === id)?.displayName ?? id).join(', ') : 'Whole crew'
                 const mine = !!me && involves(a, me)
-                const text = `Morning after: ${a.label}, ${a.startUtc} UTC · ${who} (simulated timeline)`
+                const text = `Morning after: ${a.label}, ${a.startUtc} UTC · ${who}`
                 return (
                   <td key={n} className={n < today ? 'is-past' : undefined}>
                     <span className={`sg-activity${mine ? ' is-mine' : ''}`} title={text}>

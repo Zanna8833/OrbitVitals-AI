@@ -42,6 +42,17 @@ Following team feedback (*"merge heart and the rest into one rectangle that open
 
 The team's research note states that crews are sometimes all under sleep aids at once (a figure of about 16% was quoted). **The source has not been verified here**: cite it in the submission only after checking it, and do not show the figure in the interface.
 
+## From prototype to platform (team feedback, 15 Nov evening)
+
+- **No demo chrome.** The Demo menu, scenario switching, the "what is simulated" table and the offline demo file are gone. The interface talks to the OrbitVitals server by default; generated sample data remain only for offline development (`npm run dev:sample`). A gear menu holds *Settings*: server status, appearance, import of crew files, refresh.
+- **Crew → astronaut.** Astronauts are named *Astronaut A/B/C*. The header switch keeps *Crew* (everyone) and one chip per astronaut. *Crew* in the bar, the logo and *Back* from the assistant resume the astronaut and page used last, instead of the crew list.
+- **Assistant connected** to the team's agent (`ai_agent`, `/agent/v1/explanations`): pick the astronaut and the area, ask; the answer keeps the agent's structure (what the data show, how to read it, limits, checks for a person, NASA context with links) and says whether a language model or fixed rules wrote it.
+- **Medical review** lists the server evaluations that need attention next to the reports shared by the crew.
+- **Nutrition** has a profile (sex, age, height) for the requirements, and a barely-there green background so the slot reads as its own area.
+- **Take a measurement** shows the instrument's steps and the fields to type its value; nothing pretends to read a device.
+- **Mission plan** (phases, spacewalks…) comes from `src/mission.config.ts`; without it only the mission day is shown and no activity is invented.
+- **Fixes:** daily-cadence freshness (a reading from this morning is not "Not updated"), an effect that broke the assistant on recent Chromium (scrollIntoView now returns a promise), names joined as "A, B and C", one y label on very short charts.
+
 ## Full platform pass (team feedback, 15 Nov afternoon)
 
 - **Nutrition first.** A tinted slot at the top of Today, deliberately the most visible card: three rings (water, energy, vitamins & minerals on target), quick water buttons and *Log food*. NASA asks for 100% of each daily requirement, so the rings show what is still missing; anything above an upper limit (iron, sodium, phosphorus) turns orange. The Nutrition page lists all 16 nutrients. Targets use the backend rules (JSC-67378).

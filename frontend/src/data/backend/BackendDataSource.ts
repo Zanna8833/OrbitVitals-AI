@@ -40,7 +40,7 @@ export class BackendDataSource extends MockDataSource implements DataSource {
     crewMap: BackendCrew[],
     options: { asOf?: string; missionStart?: string; fetchFn?: typeof fetch; latencyMs?: number } = {},
   ) {
-    super('nominal', options.latencyMs ?? 0, () => this.nowIso)
+    super('nominal', options.latencyMs ?? 0, () => this.nowIso, false)
     this.base = baseUrl.replace(/\/$/, '')
     this.crewMap = crewMap
     this.fetchFn = options.fetchFn ?? ((input, init) => globalThis.fetch(input, init))
@@ -235,6 +235,33 @@ export class BackendDataSource extends MockDataSource implements DataSource {
     )
     rememberIntakeLabel(entry.id, entry.label)
     return entry
+  }
+
+  /** Imported days become manual-entry measurements on the backend (one per day and indicator). */
+  override async importDaily(crewId: string, series: DailyIndicatorSeries[], meta: { displayName: string | null; files: string[] }): Promise<void> {
+    const id = this.backendId(crewId)
+    const items: object[] = []
+    for (const s of series) {
+      const map = INDICATOR_METRIC[s.indicator]
+      const isSleep = map.metric === 'sleep_duration' || map.metric === 'sleep_efficiency'
+      for (const d of s.days) {
+        if (d.value === null || d.quality === 'missing') continue
+        const end = `${d.date}T07:00:00Z`
+        const minutes = s.indicator === 'sleep_duration' ? d.value * 60 : 480
+        items.push({
+          measurement_id: `import-${id}-${s.indicator}-${d.date}`.slice(0, 128),
+          crew_member_id: id,
+          metric: map.metric,
+          unit: map.unit,
+          value: Number((d.value / map.factor).toFixed(4)),
+          measured_at: isSleep ? new Date(Date.parse(end) - minutes * 60_000).toISOString() : `${d.date}T08:00:00Z`,
+          interval_end: isSleep ? end : null,
+          source: 'manual_entry',
+          device_id: `import:${(meta.files[0] ?? 'file').slice(0, 100)}`,
+        })
+      }
+    }
+    for (let i = 0; i < items.length; i += 1000) await this.post(items.slice(i, i + 1000))
   }
 
   override async removeIntake(): Promise<void> {

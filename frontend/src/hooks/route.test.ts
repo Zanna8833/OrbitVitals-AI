@@ -3,7 +3,7 @@ import { href, parseRoute } from './useRoute'
 
 describe('parseRoute', () => {
   it('parses the two areas', () => {
-    expect(parseRoute('')).toEqual({ view: 'crew', crewId: 'crew-a', page: 'home' })
+    expect(parseRoute('')).toEqual({ view: 'crew', crewId: null, page: 'crew' })
     expect(parseRoute('#/crew')).toEqual({ view: 'crew', crewId: null, page: 'crew' }) // crew overview
     expect(parseRoute(href.crew('crew-b'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'home' })
     expect(parseRoute(href.crew('crew-b', 'nutrition'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'nutrition' })

@@ -17,15 +17,25 @@ import { Moon } from '../../components/SleepGrid'
 import { addDays, coverageOf, nightsFrom } from '../../domain/sleepPlan'
 import { CrewPane } from './CrewPane'
 import { config } from '../../config'
+import type { BackendEvaluation } from '../../domain/metricCatalog'
+
+const DOMAIN_LABEL: Record<string, string> = { vital_signs: 'Vital signs', sleep: 'Sleep', physical_activity: 'Physical activity', nutrition: 'Nutrition', cognition: 'Cognition' }
 
 async function loadOverview(ds: DataSource) {
   const [mission, crew, events] = await Promise.all([ds.getMissionStatus(), ds.listCrew(), ds.listEvents()])
   const tonight = mission.now.slice(0, 10)
-  const [snapshots, sleepPlan] = await Promise.all([
+  const [snapshots, sleepPlan, evaluations] = await Promise.all([
     Promise.all(crew.map((c) => ds.getCrewSnapshot(c.id))),
     ds.listSleepAidPlan(addDays(tonight, -SLEEP_PAST), addDays(tonight, SLEEP_FUTURE - 1)),
+    Promise.all(crew.map((c) => ds.listEvaluations(c.id).catch(() => []))),
   ])
-  return { mission, events, snapshots, sleepPlan }
+  // The latest evaluation of each astronaut and domain that asks for a review.
+  const flagged = crew.flatMap((c, i) => {
+    const latest = new Map<string, BackendEvaluation>()
+    for (const e of evaluations[i]) if (!latest.has(e.domain) || latest.get(e.domain)!.window_end < e.window_end) latest.set(e.domain, e)
+    return [...latest.values()].filter((e) => e.status === 'attention' || e.status === 'alert').map((e) => ({ crewId: c.id, evaluation: e }))
+  })
+  return { mission, events, snapshots, sleepPlan, flagged }
 }
 
 /**
@@ -39,17 +49,25 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
 
   if (state.status === 'loading') return <Loading />
   if (!state.data) return <ErrorState error={state.error!} />
-  const { mission, events, snapshots, sleepPlan } = state.data
+  const { mission, events, snapshots, sleepPlan, flagged } = state.data
   const tonight = mission.now.slice(0, 10)
   const crewIds = snapshots.map((x) => x.crew.id)
   const uncovered = nightsFrom(tonight, SLEEP_FUTURE).filter((n) => coverageOf(sleepPlan, crewIds, n).uncovered)
   const pending = events.filter((e) => e.status !== 'reviewed')
+  const toReview = pending.length + flagged.length
   const listed = filter === 'open' ? pending : events
   const name = (id: string) => snapshots.find((s) => s.crew.id === id)?.crew.displayName ?? id
 
   // With nothing selected, desktop shows the first item to review (or the first crew member).
   const effective: MedicalSelection =
-    selection ?? (pending[0] ? { type: 'event', id: pending[0].id } : snapshots[0] ? { type: 'crew', id: snapshots[0].crew.id } : null)
+    selection ??
+    (pending[0]
+      ? { type: 'event', id: pending[0].id }
+      : flagged[0]
+        ? { type: 'crew', id: flagged[0].crewId }
+        : snapshots[0]
+          ? { type: 'crew', id: snapshots[0].crew.id }
+          : null)
 
   return (
     <div className={`split${selection ? ' has-selection' : ''}`}>
@@ -59,7 +77,7 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
             {formatDate(mission.now)} · {formatClock(mission.now, false)} UTC
           </p>
           <h1>Review</h1>
-          <p className="muted">{pending.length ? `${pending.length} item${pending.length === 1 ? '' : 's'} to review` : 'Nothing to review'}</p>
+          <p className="muted">{toReview ? `${toReview} item${toReview === 1 ? '' : 's'} to review` : 'Nothing to review'}</p>
         </div>
         {state.status === 'error' && <RefreshErrorNotice error={state.error} />}
         <LinkBanner mission={mission} audience="surgeon" />
@@ -71,18 +89,29 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
             value={filter}
             onChange={setFilter}
             options={[
-              { value: 'open', label: `To review (${pending.length})` },
-              { value: 'all', label: `All (${events.length})` },
+              { value: 'open', label: `To review (${toReview})` },
+              { value: 'all', label: `All (${events.length + flagged.length})` },
             ]}
           />
-          {listed.length ? (
-            <List label="Events">
+          {listed.length || flagged.length ? (
+            <List label="Items to review">
+              {flagged.map(({ crewId, evaluation: ev }) => (
+                <Row
+                  key={ev.evaluation_id}
+                  href={href.medicalCrew(crewId)}
+                  selected={effective?.type === 'crew' && effective.id === crewId && !selection?.type}
+                  leading={<span className="symbol tone-orange">▲</span>}
+                  title={`${DOMAIN_LABEL[ev.domain] ?? ev.domain} · ${ev.status === 'alert' ? 'alert' : 'attention'}`}
+                  subtitle={`${name(crewId)} · to ${formatDate(ev.window_end)}`}
+                  chevron={false}
+                />
+              ))}
               {listed.map((e) => (
                 <EventRow key={e.id} event={e} crewName={name(e.crewId)} now={mission.now} selected={effective?.type === 'event' && effective.id === e.id} />
               ))}
             </List>
           ) : (
-            <p className="list-empty">{events.length ? 'All items have been reviewed.' : 'No events in this scenario.'}</p>
+            <p className="list-empty">{events.length ? 'All items have been reviewed.' : 'Nothing to review.'}</p>
           )}
         </div>
 
@@ -129,7 +158,7 @@ export function MedicalView({ selection }: { selection: MedicalSelection }) {
             />
           </List>
         </div>
-        <p className="fineprint sidebar-note">Events come from demonstration rules on simulated data. They are not clinical alarms.</p>
+        <p className="fineprint sidebar-note">Items are review signals from OrbitVitals rules and the backend engines, not clinical alarms.</p>
       </aside>
 
       <section className="detail" aria-label="Selected item">

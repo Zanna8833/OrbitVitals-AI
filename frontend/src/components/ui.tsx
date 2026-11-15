@@ -208,7 +208,7 @@ export function SectionTitle({ children, action, id }: { children: ReactNode; ac
  */
 export function SimTag({ children = 'Simulated', title }: { children?: ReactNode; title?: string }) {
   return (
-    <span className="sim-tag" title={title ?? 'Simulated in this prototype: nothing leaves this browser'}>
+    <span className="sim-tag" title={title ?? 'These records are marked as simulated by their source'}>
       {children}
     </span>
   )

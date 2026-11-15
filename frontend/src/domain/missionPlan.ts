@@ -1,6 +1,8 @@
+import { config } from '../config'
+import { MISSION_CONFIG } from '../mission.config'
 /**
- * Mission phases for the timeline in the header. SIMULATED demo plan: a real
- * mission plan would come from mission control (see API_CONTRACT addendum).
+ * Mission phases and activities. The real plan comes from mission control
+ * (src/mission.config.ts); a sample plan is used only with offline sample data.
  */
 export interface MissionPhase {
   id: string
@@ -9,9 +11,8 @@ export interface MissionPhase {
   toDay: number
 }
 
-export const MISSION_PLAN: { lengthDays: number; phases: MissionPhase[]; simulated: true } = {
+const SAMPLE_PLAN: { lengthDays: number | null; phases: MissionPhase[] } = {
   lengthDays: 180,
-  simulated: true,
   phases: [
     { id: 'launch', label: 'Launch & docking', fromDay: 1, toDay: 2 },
     { id: 'adaptation', label: 'Adaptation', fromDay: 3, toDay: 14 },
@@ -20,8 +21,13 @@ export const MISSION_PLAN: { lengthDays: number; phases: MissionPhase[]; simulat
   ],
 }
 
-export function phaseOf(day: number): MissionPhase {
-  return MISSION_PLAN.phases.find((p) => day >= p.fromDay && day <= p.toDay) ?? MISSION_PLAN.phases[MISSION_PLAN.phases.length - 1]
+/** Sample plan only with the offline sample data (development); otherwise the mission's own plan (mission.config.ts). */
+export const MISSION_PLAN = config.dataSource === 'mock' ? SAMPLE_PLAN : { lengthDays: MISSION_CONFIG.lengthDays, phases: MISSION_CONFIG.phases }
+
+export function phaseOf(day: number): MissionPhase | null {
+  const phases = MISSION_PLAN.phases
+  if (!phases.length) return null
+  return phases.find((p) => day >= p.fromDay && day <= p.toDay) ?? phases[phases.length - 1]
 }
 
 /**
@@ -39,12 +45,14 @@ export interface MissionActivity {
   crew: string[]
 }
 
-export const MISSION_ACTIVITIES: MissionActivity[] = [
+const SAMPLE_ACTIVITIES: MissionActivity[] = [
   { day: 17, label: 'Spacewalk', short: 'EVA', startUtc: '06:00', crew: ['crew-a', 'crew-b'] },
   { day: 20, label: 'Cargo vehicle docking', short: 'Dock', startUtc: '04:40', crew: [] },
   { day: 23, label: 'Periodic medical checks', short: 'Med', startUtc: '08:30', crew: [] },
   { day: 25, label: 'Spacewalk', short: 'EVA', startUtc: '05:30', crew: ['crew-b', 'crew-c'] },
 ]
+
+export const MISSION_ACTIVITIES: MissionActivity[] = config.dataSource === 'mock' ? SAMPLE_ACTIVITIES : MISSION_CONFIG.activities
 
 const DAY_MS = 86_400_000
 
