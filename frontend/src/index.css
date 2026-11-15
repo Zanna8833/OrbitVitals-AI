@@ -6127,6 +6127,39 @@ select option:disabled {
 .scrub-labels span:last-child { transform: translateX(-100%); }
 .scrub-labels .is-today { color: var(--tint); font-weight: 600; }
 
+/* Who is being looked at: name in the page title and a halo on the selected astronaut. */
+.today-title h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.who-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px 0 6px;
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--tint) 10%, var(--card));
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--tint) 45%, transparent), 0 0 0 6px color-mix(in srgb, var(--tint) 10%, transparent);
+  color: var(--tint);
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.who-badge .avatar { width: 24px; height: 24px; font-size: 11px; background: var(--tint); }
+.who-sep { color: var(--label-3); font-weight: 400; }
+.astro-chip[aria-current='page'] {
+  background: var(--card);
+  color: var(--tint);
+  font-weight: 650;
+  box-shadow: 0 0 0 1.5px var(--tint), 0 0 0 5px color-mix(in srgb, var(--tint) 16%, transparent), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.astro-chip[aria-current='page'] .avatar { background: var(--tint); }
+.astronaut-switch { gap: 6px; padding: 5px; }
+
 @media (min-width: 1024px) and (min-height: 620px) {
   .assistant-page .assistant-chat {
     min-height: 0;

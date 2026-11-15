@@ -34,6 +34,7 @@ import { useShare } from './shareSync'
 import { lastAstronaut, rememberAstronaut } from '../../state/lastAstronaut'
 import { sliceToDay, viewMission } from '../../domain/viewDay'
 import { useAppState } from '../../state/AppState'
+import { initialsOf } from '../../domain/overview'
 import { AstronautSwitch } from '../../components/AstronautSwitch'
 import { FoodSheet, NutritionCard, NutritionPage, loadNutrition } from './Nutrition'
 import { dayPossessive } from '../../state/pastView'
@@ -292,7 +293,14 @@ function TodayBody({
               ‹ Today
             </a>
           )}
-          <h1>{page === 'home' && past ? `Day ${today}` : PAGE_TITLE[page]}</h1>
+          <h1>
+            <span className="who-badge" title="Astronaut you are looking at">
+              <span className="avatar avatar-tiny" aria-hidden="true">{initialsOf(crew.find((c) => c.id === memberId)?.displayName ?? '')}</span>
+              {crew.find((c) => c.id === memberId)?.displayName ?? 'Astronaut'}
+            </span>
+            <span className="who-sep" aria-hidden="true">·</span>
+            {page === 'home' && past ? `Day ${today}` : PAGE_TITLE[page]}
+          </h1>
           <p className="eyebrow">
             {page === 'health'
               ? `Mission day ${today} · compared with your own usual range`
