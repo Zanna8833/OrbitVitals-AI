@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
-import type { DataSource } from '../../data'
+import { DEFAULT_SCENARIO_ID, type DataSource } from '../../data'
 import { config } from '../../config'
 import { href } from '../../hooks/useRoute'
 import { useQuery } from '../../hooks/useQuery'
@@ -39,7 +39,7 @@ export function AssistantPage() {
   const [question, setQuestion] = useState('')
   const [health, setHealth] = useState<AgentHealth | null | 'down'>(null)
   const endRef = useRef<HTMLDivElement>(null)
-  const { demo, viewDay, setViewDay } = useAppState()
+  const { demo, viewDay, setViewDay, scenarioId } = useAppState()
   // The assistant answers each astronaut about their own data only.
   const selected = lastAstronaut()?.crewId ?? crew[0]?.id ?? null
   const backendId = config.backendCrew.find((c) => c.id === selected)?.backendId ?? null
@@ -49,7 +49,12 @@ export function AssistantPage() {
   const busy = turns.some((t) => t.status === 'pending')
   // It reads the server's latest results: not in demo mode, and not for a past day (that would answer with another day's data).
   const pastDay = viewDay !== null
-  const available = config.dataSource === 'http' && !demo && !pastDay
+  // Demo mode shows the approved training scenario on sample data. The assistant answers
+  // there only when the server holds the same approved observations
+  // (python -m app.demo_seed.approved); otherwise it stays paused, never using other records.
+  const sampleData = demo || config.dataSource === 'mock'
+  const seed = useApprovedSeed(backendId, sampleData && scenarioId === DEFAULT_SCENARIO_ID && !pastDay)
+  const available = !pastDay && (sampleData ? scenarioId === DEFAULT_SCENARIO_ID && seed === 'ok' : true)
 
   useEffect(() => {
     if (!available) return
@@ -112,7 +117,15 @@ export function AssistantPage() {
               </button>
             </p>
           )}
-          {demo && !pastDay && <p className="past-banner">Training scenarios are on: the assistant reads live data, so it is paused until they are switched off in Settings.</p>}
+          {demo && !pastDay && !available && (
+            <p className="past-banner">
+              {scenarioId !== DEFAULT_SCENARIO_ID
+                ? 'This training scenario has no matching records on the OrbitVitals server, so the assistant is paused.'
+                : seed === 'checking'
+                  ? 'Checking that the OrbitVitals server holds the training data set…'
+                  : 'The OrbitVitals server does not hold the training data set (python -m app.demo_seed.approved), so the assistant is paused rather than answering from other records.'}
+            </p>
+          )}
           <div className="chat-scroll" aria-live="polite">
             {!turns.length && (
               <div className="chat-empty">
@@ -216,6 +229,26 @@ export function AssistantPage() {
       </div>
     </div>
   )
+}
+
+/** Device id of the approved training observations (backend/app/demo_seed/approved_observations.json). */
+const APPROVED_DEVICE = 'orbitvitals-approved-demo-v1'
+
+/** Whether the server holds the approved training observations for this crew member. */
+function useApprovedSeed(backendId: string | null, enabled: boolean): 'checking' | 'ok' | 'missing' {
+  const [state, setState] = useState<'checking' | 'ok' | 'missing'>('checking')
+  useEffect(() => {
+    if (!enabled || !backendId) return
+    let alive = true
+    fetch(`${config.apiBaseUrl.replace(/\/$/, '')}/crew-members/${encodeURIComponent(backendId)}/measurements`, { headers: { Accept: 'application/json' } })
+      .then((r) => (r.ok ? (r.json() as Promise<{ items?: { device_id?: string | null }[] }>) : Promise.reject(new Error(String(r.status)))))
+      .then((b) => alive && setState(b.items?.some((m) => m.device_id === APPROVED_DEVICE) ? 'ok' : 'missing'))
+      .catch(() => alive && setState('missing'))
+    return () => {
+      alive = false
+    }
+  }, [backendId, enabled])
+  return state
 }
 
 function Answer({ a }: { a: AgentResponse }) {
