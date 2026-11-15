@@ -11,7 +11,7 @@ export interface SleepGridCrew {
 /**
  * Nights as columns, crew members as rows, coverage at the bottom.
  * The viewer's own future nights are toggles; everything else is read-only.
- * A night where nobody would stay without a sleep aid is marked with a shape,
+ * A night where nobody would stay without a sleeping pill is marked with a shape,
  * a word and a tint — never colour alone.
  */
 export function SleepGrid({
@@ -23,6 +23,7 @@ export function SleepGrid({
   busyNight,
   onToggle,
   missionStart,
+  editAll = false,
 }: {
   nights: string[]
   today: string
@@ -30,7 +31,9 @@ export function SleepGrid({
   entries: SleepAidPlanEntry[]
   me: string | null
   busyNight?: string | null
-  onToggle?: (night: string) => void
+  onToggle?: (night: string, crewId: string) => void
+  /** Every crew member's future nights are editable (crew-wide edit mode). */
+  editAll?: boolean
   /** Shows the (simulated) activity of the following morning above each night. */
   missionStart?: string
 }) {
@@ -40,7 +43,7 @@ export function SleepGrid({
   return (
     <div className="sleep-grid-wrap">
       <table className="sleep-grid">
-        <caption className="sr-only">Planned sleep-aid nights per crew member, and how many stay without one</caption>
+        <caption className="sr-only">Planned sleeping-pill nights per crew member, and how many stay without one</caption>
         <thead>
           <tr>
             <th scope="col" className="sg-corner">
@@ -90,8 +93,9 @@ export function SleepGrid({
               </th>
               {nights.map((n, i) => {
                 const planned = isPlanned(entries, c.id, n)
-                const editable = c.id === me && n >= today && !!onToggle
-                const label = `${planned ? 'Remove' : 'Plan'} a sleep aid for the night of ${nightLabel(n).weekday} ${nightLabel(n).day} ${nightLabel(n).month}`
+                const editable = (c.id === me || editAll) && n >= today && !!onToggle
+                const whose = c.id === me ? '' : ` for ${c.displayName}`
+                const label = `${planned ? 'Remove' : 'Plan'} a sleeping pill${whose} on the night of ${nightLabel(n).weekday} ${nightLabel(n).day} ${nightLabel(n).month}`
                 const cls = `sg-cell${n < today ? ' is-past' : ''}${cover[i].uncovered ? ' is-uncovered' : ''}`
                 return (
                   <td key={n} className={cls}>
@@ -103,14 +107,14 @@ export function SleepGrid({
                         aria-label={label}
                         title={label}
                         disabled={busyNight === n}
-                        onClick={() => onToggle!(n)}
+                        onClick={() => onToggle!(n, c.id)}
                       >
-                        {planned ? <Moon /> : <span className="sg-plus" aria-hidden="true">+</span>}
+                        {planned ? <PillIcon /> : <span className="sg-plus" aria-hidden="true">+</span>}
                       </button>
                     ) : planned ? (
-                      <span className="sg-mark" title="Sleep aid planned">
-                        <Moon />
-                        <span className="sr-only">Sleep aid planned</span>
+                      <span className="sg-mark" title="Sleeping pill planned">
+                        <PillIcon />
+                        <span className="sr-only">Sleeping pill planned</span>
                       </span>
                     ) : (
                       <span className="sg-empty" aria-hidden="true" />
@@ -124,7 +128,7 @@ export function SleepGrid({
         <tfoot>
           <tr>
             <th scope="row" className="sg-person sg-foot-label">
-              Without a sleep aid
+              Without a sleeping pill
             </th>
             {cover.map((c) => (
               <td
@@ -132,15 +136,15 @@ export function SleepGrid({
                 title={
                   c.available
                     ? `Ready to respond: ${crew.filter((m) => !c.planned.includes(m.id)).map((m) => m.displayName).join(', ')}`
-                    : 'Nobody without a sleep aid'
+                    : 'Nobody without a sleeping pill'
                 } className={`sg-cover${c.uncovered ? ' is-uncovered' : ''}${c.night < today ? ' is-past' : ''}`}>
                 {c.uncovered ? (
-                  <span className="sg-warn" title="Nobody without a sleep aid">
+                  <span className="sg-warn" title="Nobody without a sleeping pill">
                     <svg width="9" height="8" viewBox="0 0 11 10" aria-hidden="true">
                       <path d="M5.5 0.8 10.4 9.2H0.6Z" fill="currentColor" />
                     </svg>
                     {c.available}/{c.total}
-                    <span className="sr-only">: nobody without a sleep aid</span>
+                    <span className="sr-only">: nobody without a sleeping pill</span>
                   </span>
                 ) : (
                   <span className="sg-ok">
@@ -159,5 +163,15 @@ export function SleepGrid({
 export const Moon = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
     <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor" />
+  </svg>
+)
+
+/** A capsule: explicit about what is planned, quiet in the grid. */
+export const PillIcon = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+    <g transform="rotate(-45 12 12)">
+      <rect x="3.5" y="8" width="17" height="8" rx="4" fill="none" stroke="currentColor" strokeWidth="1.9" />
+      <path d="M12 8h4.5a4 4 0 0 1 0 8H12Z" fill="currentColor" />
+    </g>
   </svg>
 )

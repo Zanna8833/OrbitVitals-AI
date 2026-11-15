@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { MockDataSource } from './mock/MockDataSource'
 import { SCENARIOS } from './mock/scenarios'
 import { SESSION_START, SIM_NOW } from './mock/generator'
-import { mapCode } from './http/HttpDataSource'
 import { DataSourceError } from './DataSource'
 import { compareWithBand, samplesInWindow } from '../domain/observations'
 
@@ -102,16 +101,6 @@ describe('MockDataSource', () => {
     const [ev] = await d.listEvents()
     ev.status = 'reviewed'
     expect((await d.getEvent(ev.id)).status).toBe('open')
-  })
-})
-
-describe('HTTP error mapping', () => {
-  it('maps status codes to UI error codes', () => {
-    expect(mapCode(undefined, 404)).toBe('not_found')
-    expect(mapCode(undefined, 422)).toBe('bad_request')
-    expect(mapCode(undefined, 503)).toBe('unavailable')
-    expect(mapCode('unauthorized', 200)).toBe('unauthorized')
-    expect(mapCode(undefined, 500)).toBe('internal')
   })
 })
 

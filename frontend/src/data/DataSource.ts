@@ -14,6 +14,9 @@ import type {
   SleepAidPlanEntry,
   TimeSeries,
 } from '../domain/types'
+import type { DeviceMeasurement } from '../domain/measurements'
+import type { Food, IntakeEntry, NutritionProfile } from '../domain/nutrition'
+import type { BackendEvaluation } from '../domain/metricCatalog'
 
 /**
  * Single seam between the UI and the data. Views only talk to this interface,
@@ -49,6 +52,22 @@ export interface DataSource {
   listSleepAidPlan(from: string, to: string): Promise<SleepAidPlanEntry[]>
   /** Add (planned = true) or remove a crew member's planned night. */
   setSleepAidPlan(crewId: string, night: string, planned: boolean): Promise<SleepAidPlanEntry[]>
+
+  /* Readings taken on board (guided device capture or typed by hand). */
+  recordMeasurements(crewId: string, readings: DeviceMeasurement[]): Promise<void>
+
+  /* Nutrition: requirements depend on the profile; intake is logged by the crew. */
+  getNutritionProfile(crewId: string): Promise<NutritionProfile>
+  /** Entries eaten in [from, to) (ISO timestamps), oldest first. */
+  listIntake(crewId: string, from: string, to: string): Promise<IntakeEntry[]>
+  addIntake(entry: IntakeEntry): Promise<IntakeEntry>
+  removeIntake(crewId: string, entryId: string): Promise<void>
+  /** Station catalog + foods created by the crew. */
+  listFoods(): Promise<Food[]>
+  saveCustomFood(food: Food): Promise<Food>
+
+  /** Evaluations computed by the backend's scientific engines (none in the demo). */
+  listEvaluations(crewId: string): Promise<BackendEvaluation[]>
 }
 
 /** Errors surfaced to the UI, aligned with the error codes in the API contract. */

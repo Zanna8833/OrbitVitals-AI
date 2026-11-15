@@ -4,8 +4,9 @@ import { href, parseRoute } from './useRoute'
 describe('parseRoute', () => {
   it('parses the two areas', () => {
     expect(parseRoute('')).toEqual({ view: 'crew', crewId: 'crew-a', page: 'home' })
-    expect(parseRoute('#/crew')).toEqual({ view: 'crew', crewId: null, page: 'home' })
+    expect(parseRoute('#/crew')).toEqual({ view: 'crew', crewId: null, page: 'crew' }) // crew overview
     expect(parseRoute(href.crew('crew-b'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'home' })
+    expect(parseRoute(href.crew('crew-b', 'nutrition'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'nutrition' })
     expect(parseRoute(href.crew('crew-b', 'health'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'health' })
     expect(parseRoute(href.crew('crew-b', 'sleep'))).toEqual({ view: 'crew', crewId: 'crew-b', page: 'sleep' })
     expect(parseRoute(href.medicalSleep())).toEqual({ view: 'medical', selection: { type: 'sleep' } })

@@ -34,23 +34,23 @@ interface DailyProfile {
 const PROFILES: Record<string, DailyProfile> = {
   'crew-a': {
     base: { resting_hr:58, sleep_duration:7.1, resting_spo2:98, resting_resp_rate:15, hrv_rmssd:46,
-      bp_systolic:115, bp_diastolic:75, body_temperature:36.6, activity_minutes:62, body_mass:74.5, sleep_efficiency:85 },
+      bp_systolic:115, bp_diastolic:75, body_temperature:36.6, activity_minutes:62, body_mass:74.5, sleep_efficiency:85, active_energy:480 },
     noise: { resting_hr:1.4, sleep_duration:0.3, resting_spo2:0.4, resting_resp_rate:0.8, hrv_rmssd:3.5,
-      bp_systolic:2.8, bp_diastolic:2, body_temperature:0.13, activity_minutes:6, body_mass:0.18, sleep_efficiency:2.5 },
+      bp_systolic:2.8, bp_diastolic:2, body_temperature:0.13, activity_minutes:6, body_mass:0.18, sleep_efficiency:2.5, active_energy:45 },
     notWorn: [],
   },
   'crew-b': {
     base: { resting_hr:62, sleep_duration:6.8, resting_spo2:97.6, resting_resp_rate:16, hrv_rmssd:41,
-      bp_systolic:119, bp_diastolic:76, body_temperature:36.7, activity_minutes:57, body_mass:68.3, sleep_efficiency:82 },
+      bp_systolic:119, bp_diastolic:76, body_temperature:36.7, activity_minutes:57, body_mass:68.3, sleep_efficiency:82, active_energy:410 },
     noise: { resting_hr:1.5, sleep_duration:0.35, resting_spo2:0.4, resting_resp_rate:0.9, hrv_rmssd:3,
-      bp_systolic:3, bp_diastolic:2.2, body_temperature:0.13, activity_minutes:7, body_mass:0.2, sleep_efficiency:3 },
+      bp_systolic:3, bp_diastolic:2.2, body_temperature:0.13, activity_minutes:7, body_mass:0.2, sleep_efficiency:3, active_energy:45 },
     notWorn: [],
   },
   'crew-c': {
     base: { resting_hr:60, sleep_duration:7.3, resting_spo2:97.8, resting_resp_rate:15, hrv_rmssd:43,
-      bp_systolic:117, bp_diastolic:74, body_temperature:36.5, activity_minutes:65, body_mass:78.2, sleep_efficiency:86 },
+      bp_systolic:117, bp_diastolic:74, body_temperature:36.5, activity_minutes:65, body_mass:78.2, sleep_efficiency:86, active_energy:520 },
     noise: { resting_hr:1.4, sleep_duration:0.3, resting_spo2:0.4, resting_resp_rate:0.9, hrv_rmssd:3.5,
-      bp_systolic:3, bp_diastolic:2, body_temperature:0.14, activity_minutes:6, body_mass:0.19, sleep_efficiency:2.5 },
+      bp_systolic:3, bp_diastolic:2, body_temperature:0.14, activity_minutes:6, body_mass:0.19, sleep_efficiency:2.5, active_energy:45 },
     notWorn: [9, 13],
   },
 }
@@ -73,6 +73,7 @@ const SOURCE: Record<DailyIndicatorId, string> = {
   activity_minutes: 'Exercise machine / wearable · synthetic minutes',
   body_mass: 'Body mass measurement device · synthetic reading',
   sleep_efficiency: 'Wrist wearable · synthetic sleep efficiency estimate; not EEG staging',
+  active_energy: 'Exercise device / wearable · synthetic active energy estimate',
 }
 
 function round(indicator: DailyIndicatorId, v: number): number {
@@ -92,7 +93,7 @@ function median(sorted: number[]): number {
 export const MIN_HALF_WIDTH: Record<DailyIndicatorId, number> = {
   resting_hr: 3, sleep_duration: 0.5, resting_spo2: 1, resting_resp_rate: 2,
   hrv_rmssd: 7, bp_systolic: 6, bp_diastolic: 5, body_temperature: 0.4,
-  activity_minutes: 16, body_mass: 0.6, sleep_efficiency: 6,
+  activity_minutes: 16, body_mass: 0.6, sleep_efficiency: 6, active_energy: 120,
 }
 
 /**
@@ -139,7 +140,7 @@ export function generateDailyIndicators(crewId: string, todayIso: string, flags:
       let value = profile.base[indicator] + profile.noise[indicator] * noise
       if (flags.reviewEvent && crewId === 'crew-a') value += DRIFT[indicator]?.[day] ?? 0
       if (indicator === 'resting_spo2' || indicator === 'sleep_efficiency') value = Math.min(100, Math.max(0, value))
-      if (indicator === 'activity_minutes') value = Math.max(0, value)
+      if (indicator === 'activity_minutes' || indicator === 'active_energy') value = Math.max(0, value)
       const quality: QualityFlag = flagDraw < 0.07 ? 'uncertain' : 'good'
       days.push({ date, missionDay: day, value: round(indicator, value), quality })
     }

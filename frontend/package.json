@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b",
-    "demo": "vite build && node tools/build-offline.cjs"
+    "demo": "vite build && node tools/build-offline.cjs",
+    "cognition": "npm --prefix ../cognition-frontend ci && npm --prefix ../cognition-frontend run build -- --base ./ --outDir ../frontend/public/cognition --emptyOutDir",
+    "build:all": "npm run cognition && npm run build"
   },
   "dependencies": {
     "react": "^19.3.1",

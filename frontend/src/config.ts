@@ -11,10 +11,38 @@ export function parseRefreshIntervalS(raw: string | undefined): number {
   return Number.isInteger(n) && n >= 0 ? n : DEFAULT_REFRESH_INTERVAL_S
 }
 
+export interface BackendCrew {
+  /** Id used inside the interface (crew-a, crew-b, crew-c). */
+  id: string
+  /** crew_member_id on the backend. */
+  backendId: string
+  displayName: string
+}
+
+/** Default: the three crews created by the team's demo seeder (python -m app.demo_seed seed). */
+export const DEFAULT_BACKEND_CREW = 'crew-a=sim-mission-v1-01:Vega,crew-b=sim-mission-v1-02:Noor,crew-c=sim-mission-v1-03:Chen'
+
+/** "crew-a=backend-id:Name,…" → mapping. Invalid parts are ignored. */
+export function parseBackendCrew(raw: string | undefined): BackendCrew[] {
+  return (raw?.trim() ? raw : DEFAULT_BACKEND_CREW)
+    .split(',')
+    .map((part) => part.trim().match(/^([\w-]+)=([^:]+)(?::(.+))?$/))
+    .filter((m): m is RegExpMatchArray => !!m)
+    .map((m) => ({ id: m[1], backendId: m[2].trim(), displayName: (m[3] ?? m[2]).trim() }))
+}
+
 export const config = {
-  /** mock (default): deterministic synthetic data · http: backend described in docs/FRONTEND_DATA_CONTRACT.md */
+  /** mock (default): deterministic synthetic data · http: the team's FastAPI backend (backend/, /api/v1) */
   dataSource: import.meta.env.VITE_DATA_SOURCE === 'http' ? ('http' as const) : ('mock' as const),
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api/v1',
   /** Seconds between automatic reloads of the data; 0 = off. */
   refreshIntervalS: parseRefreshIntervalS(import.meta.env.VITE_REFRESH_INTERVAL_S),
+  /** Which backend crew members appear as crew-a/b/c (http mode). */
+  backendCrew: parseBackendCrew(import.meta.env.VITE_BACKEND_CREW),
+  /** Optional "now" for http mode (ISO). Default: the day of the latest stored measurement. */
+  asOf: import.meta.env.VITE_AS_OF as string | undefined,
+  /** The team's cognition battery (cognition-frontend), built next to this app by `npm run cognition`. */
+  cognitionUrl: (import.meta.env.VITE_COGNITION_URL as string | undefined) ?? './cognition/index.html',
+  /** Optional mission day 1 (YYYY-MM-DD) for http mode. Default: the day of the earliest stored measurement. */
+  missionStart: import.meta.env.VITE_MISSION_START as string | undefined,
 }

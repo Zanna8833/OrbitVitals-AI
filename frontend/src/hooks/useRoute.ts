@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
  * Older links (#/surgeon, #/events/:id, #/crew/:id/health|now|measurements)
  * are still understood, so bookmarks and docs keep working.
  */
-export type CrewPage = 'home' | 'health' | 'sleep'
+export type CrewPage = 'home' | 'health' | 'sleep' | 'nutrition' | 'crew'
 
 export type Route =
   | { view: 'crew'; crewId: string | null; page: CrewPage }
@@ -22,7 +22,7 @@ export function parseRoute(hash: string): Route {
   const parts = path.split('/').filter(Boolean).map(decodeURIComponent)
   const [area, a, b] = parts
   // 'health' was the former "My health" tab: it now means the Health page. Other old tabs open the home.
-  if (area === 'crew') return { view: 'crew', crewId: a ?? null, page: b === 'health' || b === 'sleep' ? b : 'home' }
+  if (area === 'crew') return { view: 'crew', crewId: a ?? null, page: !a ? 'crew' : b === 'health' || b === 'sleep' || b === 'nutrition' ? b : 'home' }
   if (area === 'medical') {
     if (a === 'event' && b) return { view: 'medical', selection: { type: 'event', id: b } }
     if (a === 'crew' && b) return { view: 'medical', selection: { type: 'crew', id: b } }

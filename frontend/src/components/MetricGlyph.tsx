@@ -11,7 +11,7 @@ const themes: Record<MetricId, GlyphTheme> = {
   spo2: 'respiration', resting_spo2: 'respiration',
   resp_rate: 'respiration', resting_resp_rate: 'respiration',
   sleep_duration: 'rest', sleep_efficiency: 'rest',
-  activity_minutes: 'activity', motion: 'activity',
+  activity_minutes: 'activity', motion: 'activity', active_energy: 'activity',
   body_temperature: 'body', body_mass: 'body',
 }
 

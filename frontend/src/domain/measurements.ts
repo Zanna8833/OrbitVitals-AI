@@ -9,11 +9,16 @@ export interface MeasurementDevice {
   preparation: string[]
   action: string
   duration: string
+  /** Area used to group the instrument list. */
+  group: 'Heart and circulation' | 'Breathing' | 'Body' | 'Sleep' | 'Exercise'
+  /** Values captured together with the main one (e.g. diastolic with systolic). */
+  also?: DailyIndicatorId[]
 }
 
 export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   {
     indicator: 'resting_spo2',
+    group: 'Breathing',
     name: 'Oxygen saturation',
     kind: 'Finger pulse oximeter',
     expected: 'SpO₂ (%)',
@@ -22,6 +27,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   },
   {
     indicator: 'resting_hr',
+    group: 'Heart and circulation',
     name: 'Resting heart rate',
     kind: 'Chest ECG / heart-rate sensor',
     expected: 'Heart rate (bpm)',
@@ -30,6 +36,8 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   },
   {
     indicator: 'bp_systolic',
+    group: 'Heart and circulation',
+    also: ['bp_diastolic'],
     name: 'Blood pressure',
     kind: 'Digital blood pressure cuff',
     expected: 'Systolic / diastolic (mmHg)',
@@ -38,6 +46,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   },
   {
     indicator: 'body_temperature',
+    group: 'Body',
     name: 'Body temperature',
     kind: 'Digital thermometer',
     expected: 'Body temperature (°C)',
@@ -46,6 +55,7 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   },
   {
     indicator: 'body_mass',
+    group: 'Body',
     name: 'Body mass',
     kind: 'Assigned mass measurement device',
     expected: 'Mass (kg)',
@@ -54,13 +64,49 @@ export const MEASUREMENT_DEVICES: MeasurementDevice[] = [
   },
   {
     indicator: 'sleep_duration',
+    group: 'Sleep',
+    also: ['sleep_efficiency'],
     name: 'Sleep duration',
     kind: 'Wrist sleep wearable',
     expected: 'Estimated sleep (hours)',
     preparation: ['This is an import of last night’s wearable estimate, not a spot measurement.', 'Check that the wearable contains a completed night of data.', 'Review the timestamp and estimate quality before saving.'],
     action: 'Simulate wearable import', duration: 'Completed overnight recording',
   },
+  {
+    indicator: 'hrv_rmssd',
+    group: 'Heart and circulation',
+    name: 'Heart-rate variability',
+    kind: 'Resting ECG / PPG capture',
+    expected: 'RMSSD (ms)',
+    preparation: ['Sit or rest still for the duration of the capture.', 'Check that the sensor reports good contact.', 'Avoid measuring right after exercise or a meal, so readings are comparable.'],
+    action: 'Simulate HRV capture', duration: 'A few minutes at rest',
+  },
+  {
+    indicator: 'resting_resp_rate',
+    group: 'Breathing',
+    name: 'Respiratory rate',
+    kind: 'Respiration sensor (chest belt or wearable)',
+    expected: 'Breaths per minute',
+    preparation: ['Rest quietly and breathe normally.', 'Check that the sensor is in place and reporting.', 'Movement can disturb the estimate: stay still.'],
+    action: 'Simulate respiration capture', duration: 'Short resting measurement',
+  },
+  {
+    indicator: 'activity_minutes',
+    group: 'Exercise',
+    also: ['active_energy'],
+    name: 'Exercise session',
+    kind: 'Treadmill, cycle ergometer or resistive device',
+    expected: 'Duration (min) and active energy (kcal)',
+    preparation: ['Log the session after you finish it.', 'Use the duration and energy reported by the device.', 'Planned rest days are not missing data: leave them empty.'],
+    action: 'Simulate session import', duration: 'After each session',
+  },
 ]
+
+/** Order of the groups in the instrument list. */
+export const MEASUREMENT_GROUPS: MeasurementDevice['group'][] = ['Heart and circulation', 'Breathing', 'Body', 'Sleep', 'Exercise']
+
+/** Periodic examinations done with the medical team: not tracked by OrbitVitals yet. */
+export const NOT_TRACKED_EXAMS = ['ultrasound scans', 'eye and vision checks', 'blood and urine samples', 'bone and muscle assessments']
 
 /** Never imply a numerical quality score or a clinical cut-off. */
 export type DemoSignal = 'clear' | 'motion'
@@ -77,6 +123,8 @@ export interface DeviceMeasurement {
   savedAtMs: number
   signal: DemoSignal
   context: string
+  /** Typed by the crew member instead of a (simulated) device capture. */
+  manual?: boolean
 }
 
 export function measurementValue(indicator: DailyIndicatorId, daily: DailyIndicatorSeries[], index: number): number {
@@ -85,7 +133,7 @@ export function measurementValue(indicator: DailyIndicatorId, daily: DailyIndica
   const fallback: Record<DailyIndicatorId, number> = {
     resting_hr: 62, resting_spo2: 98, sleep_duration: 7.1,
     resting_resp_rate: 15, hrv_rmssd: 45, bp_systolic: 116, bp_diastolic: 76,
-    body_temperature: 36.6, activity_minutes: 60, body_mass: 74, sleep_efficiency: 85,
+    body_temperature: 36.6, activity_minutes: 60, body_mass: 74, sleep_efficiency: 85, active_energy: 450,
   }
   const value = latest?.value ?? fallback[indicator]
   const decimals = indicator === 'sleep_duration' || indicator === 'body_temperature' || indicator === 'body_mass' ? 1 : 0

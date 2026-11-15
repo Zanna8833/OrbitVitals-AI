@@ -1,3 +1,5 @@
+> **Status (15 Nov):** the interface now talks to the team's FastAPI backend (`/api/v1`, see `frontend/README.md` → *Backend integration*). The endpoints below were the frontend's original proposal; those not covered by the backend (crew directory, mission timeline, sessions, events, messages, check-ins, sleeping-pill plan) remain open proposals.
+
 # OrbitVitals AI — API contract (PROPOSAL v0.2)
 
 > **Status: frontend proposal to discuss with the backend and database colleagues. Not a final decision.**
